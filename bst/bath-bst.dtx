@@ -938,7 +938,11 @@ FUNCTION {format.date}
   extra.label *
 }
 FUNCTION {format.btitle}
-{ title "title" bibinfo.check
+{ title
+  duplicate$ empty$ 'skip$
+    { "t" change.case$ }
+  if$
+  "title" bibinfo.check
   duplicate$ empty$ 'skip$
     {
       emphasize
@@ -1285,20 +1289,31 @@ FUNCTION {article}
 FUNCTION {book}
 { output.bibitem
   author empty$
-    { format.editors "author and editor" output.check
-      editor format.key output
+    { editor empty$
+      { format.btitle "title" output.check
+        format.date "year" output.check
+        date.block
+      }
+      { format.editors "author and editor" output.check
+        editor format.key output
+        format.date "year" output.check
+        date.block
+        format.btitle "title" output.check
+        new.block
+      }
+      if$
     }
     { format.authors output.nonnull
       crossref missing$
         { "author and editor" editor either.or.check }
         'skip$
       if$
+      format.date "year" output.check
+      date.block
+      format.btitle "title" output.check
+      new.block
     }
   if$
-  format.date "year" output.check
-  date.block
-  format.btitle "title" output.check
-  new.block
   format.edition output
   crossref missing$
     { format.bvolume output
@@ -1746,18 +1761,22 @@ FUNCTION {author.sort}
 }
 FUNCTION {author.editor.sort}
 { author empty$
-    { editor empty$
-        { key empty$
-            { "to sort, need author, editor, or key in " cite$ * warning$
-              ""
-            }
-            { key sortify }
-          if$
+  { editor empty$
+    { title empty$
+      { key empty$
+        { "to sort, need author, editor, title, or key in " cite$ * warning$
+          ""
         }
-        { editor sort.format.names }
+        { key sortify }
+        if$
+      }
+      { title sort.format.title }
       if$
     }
-    { author sort.format.names }
+    { editor sort.format.names }
+    if$
+  }
+  { author sort.format.names }
   if$
 }
 FUNCTION {editor.sort}
@@ -2100,7 +2119,7 @@ Please refer to the documentation for \href{http://www.ctan.org/pkg/natbib}{\tex
 %<*driver|bib>
 @book{oed1989,
   year = {1989},
-  title = {Oxford English Dictionary},
+  title = {Oxford {English} Dictionary},
   edition = {2},
   address = {Oxford},
   publisher = {Clarendon Press}}
