@@ -19,6 +19,7 @@ ENTRY
     edition
     editor
     eid
+    englishtitle
     eprint
     howpublished
     institution
@@ -36,6 +37,7 @@ ENTRY
     title
     type
     url
+    urldate
     volume
     year
   }
@@ -632,6 +634,10 @@ FUNCTION {format.url}
   duplicate$ empty$
     { pop$ "" }
     { "\urlprefix\url{" swap$ * "}" * }
+  if$
+  urldate empty$
+    'skip$
+    { " [\urldateprefix{}" * urldate * "]" * }
   if$
 }
 
@@ -1327,6 +1333,7 @@ FUNCTION {book}
       format.book.crossref output.nonnull
     }
   if$
+  new.block
   format.url output
   new.block
   format.note output
@@ -1898,7 +1905,9 @@ FUNCTION {begin.bib}
   write$ newline$
   "\providecommand{\url}[1]{\texttt{#1}}"
   write$ newline$
-  "\providecommand{\urlprefix}{URL }"
+  "\providecommand{\urlprefix}{Available from: }"
+  write$ newline$
+  "\providecommand{\urldateprefix}{Accessed }"
   write$ newline$
   "\providecommand{\selectlanguage}[1]{\relax}"
   write$ newline$
@@ -2021,6 +2030,9 @@ Copyright (C) 2016 by University of Bath
   }
 
 \usepackage{natbib}
+\newcommand*{\urlprefix}{Available from: }
+\newcommand*{\urldateprefix}{Accessed }
+
 \usepackage{bibentry}
 \bibliographystyle{bath}
 \nobibliography*
@@ -2039,6 +2051,8 @@ To use the style, add these lines to your preamble:
 
 \begin{tcblisting}{listing only}
 \usepackage{natbib}
+\newcommand*{\urlprefix}{Available from: }
+\newcommand*{\urldateprefix}{Accessed }
 \bibliographystyle{bath}
 \end{tcblisting}
 
@@ -2123,6 +2137,23 @@ Please refer to the documentation for \href{http://www.ctan.org/pkg/natbib}{\tex
   edition = {2},
   address = {Oxford},
   publisher = {Clarendon Press}}
+%</driver|bib>
+%<*driver>
+\end{Verbatim}
+\end{bibexbox}
+
+\begin{bibexbox}{merckNDidx}
+  \emph{The Merck index online} [Online]. London: RSC Publishing. Available from: \url{http://www.rsc.org/Merck-Index} [Accessed 16/06/2016].
+  \tcblower
+\begin{Verbatim}[commentchar=\%]
+%</driver>
+%<*driver|bib>
+@book{merckNDidx,
+  title = {The {Merck} Index Online},
+  address = {London},
+  publisher = {RSC Publishing},
+  url = {http://www.rsc.org/Merck-Index},
+  urldate = {16/06/2016}}
 %</driver|bib>
 %<*driver>
 \end{Verbatim}
