@@ -805,9 +805,8 @@ FUNCTION {format.pages}
           bbl.page swap$
         }
       if$
-      tie.or.space.prefix
       "pages" bibinfo.check
-      * *
+      *
     }
   if$
 }
@@ -823,10 +822,9 @@ FUNCTION {format.journal.pages}
             'bbl.pages
             'bbl.page
           if$
-          swap$ tie.or.space.prefix
+          swap$
           "pages" bibinfo.check
           * *
-          *
         }
       if$
     }
