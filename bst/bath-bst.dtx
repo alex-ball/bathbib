@@ -901,11 +901,12 @@ FUNCTION {format.in.ed.booktitle}
           "," *
           " " *
           get.bbl.editor
-          ", " *
+          " " *
           * swap$
-          * }
+          *
+          word.in swap$ *
+        }
       if$
-      word.in swap$ *
     }
   if$
 }
