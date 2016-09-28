@@ -38,6 +38,7 @@ ENTRY
     type
     url
     urldate
+    venue
     volume
     year
   }
@@ -1150,6 +1151,7 @@ FUNCTION {inproceedings}
   new.block
   crossref missing$
     { format.in.ed.booktitle "booktitle" output.check
+      venue "venue" output.check
       new.sentence
       publisher empty$
         { format.organization.address output }
