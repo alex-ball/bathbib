@@ -886,8 +886,11 @@ FUNCTION {format.chapter.pages}
 }
 
 FUNCTION {format.booktitle}
-{
-  booktitle "booktitle" bibinfo.check
+{ booktitle
+  duplicate$ empty$ 'skip$
+    { "t" change.case$ }
+  if$
+  "booktitle" bibinfo.check
   emphasize
 }
 FUNCTION {format.in.ed.booktitle}
