@@ -1985,6 +1985,20 @@ Copyright (C) 2016 by University of Bath
 \usepackage[british]{babel}
 \usepackage[hmargin=3cm,vmargin=2.5cm]{geometry}
 
+\usepackage{iftex}
+\ifPDFTeX
+  \usepackage{CJKutf8}
+\else
+  \ifLuaTeX
+    \usepackage{luatexja-fontspec}
+    \setmainjfont{TakaoPGothic}
+  \else
+    \ifXeTeX
+    \usepackage{ctex}
+    \fi
+  \fi
+\fi
+
 \usepackage{xpatch,csquotes,xcolor,xparse,multicol,fancyvrb}
 \definecolor{Green}{rgb}{0,.5,0}
 \colorlet{ok}{Green}
@@ -2066,6 +2080,11 @@ Please refer to the documentation for \href{http://www.ctan.org/pkg/natbib}{\tex
 
 \section{Examples}
 
+The examples below are shown in three parts.
+The first, marked with \faBook, shows an extract from the Harvard (Bath) referencing style sheet.
+The second, marked with \faCog, shows the reference as formatted by Bib\TeX.
+The last shows how the reference was entered in the .bib file.
+
 \subsection{Book with author(s)}
 
 \begin{bibexbox}{rang.etal2012rdp}
@@ -2095,7 +2114,7 @@ Please refer to the documentation for \href{http://www.ctan.org/pkg/natbib}{\tex
 @book{ou1972em,
   author = {{Open University}},
   year = {1972},
-  title = {Electricity and magnetism},
+  title = {Electricity and Magnetism},
   address = {Bletchley},
   publisher = {Open University Press}}
 %</driver|bib>
@@ -2103,7 +2122,7 @@ Please refer to the documentation for \href{http://www.ctan.org/pkg/natbib}{\tex
 \end{Verbatim}
 \end{bibexbox}
 
-\section{Book with editor(s) instead of author(s)}
+\subsection{Book with editor(s) instead of author(s)}
 
 \begin{bibexbox}{rothman.etal2008me}
   Rothman, K.J., Greenland, S. and Lash, T.L., eds., 2008. \emph{Modern epidemiology}. 3rd ed. Philadelphia, Pa.: Lippincott Williams \& Wilkins.
@@ -2123,7 +2142,7 @@ Please refer to the documentation for \href{http://www.ctan.org/pkg/natbib}{\tex
 \end{Verbatim}
 \end{bibexbox}
 
-\section{Book usually known by its title}
+\subsection{Book usually known by its title}
 
 \begin{bibexbox}{oed1989}
   \emph{Oxford English dictionary}, 1989. 2nd ed. Oxford: Clarendon Press.
@@ -2159,6 +2178,163 @@ Please refer to the documentation for \href{http://www.ctan.org/pkg/natbib}{\tex
 \end{Verbatim}
 \end{bibexbox}
 
+\subsection{One chapter\slash paper from a collection in a book}
+
+Reid, D.R., 1967. Physical testing of polymer films. In: S.H. Pinner, ed. \emph{Modern packaging films}. London: Butterworths, pp.143-183.
+
+\subsection{Electronic book}
+
+Haynes, W.M., ed., 2014. \emph{CRC handbook of chemistry and physics} [Online]. 94th ed. Boca Raton, Fla.: CRC Press/Taylor and Francis. Available from: \url{http://www.hbcpnetbase.com} [Accessed 16/06/2016].
+
+\subsection{Journal article}
+
+Newman, R., 2010. Malaria control beyond 2010. \emph{Brit. Med. J.}, 341(7765), pp.157-208.
+
+\subsection{E-journal article}
+
+Williams, F., 1997. Electronic document delivery: a trial in an academic library. \emph{Ariadne} [Online], 10. Available from: http://www.ariadne.ac.uk/issue10/edd/ [Accessed 05/12/1997].
+
+\subsection{Websites}
+
+Holland, M., 2002. \emph{Guide to citing internet sources} [Online]. Poole: Bournemouth University. Available from: \url{http://www.bournemouth.ac.uk/library/using/guide_to_citing_internet_sourc.html} [Accessed 04/11/2002].
+
+Wiltshire Council, 2015. \emph{Get Wiltshire walking} [Online]. Trowbridge: Wiltshire Council. Available from: \url{http://www.wiltshire.gov.uk/leisureandrecreation/sportphysicalactivity/getwiltshirewalking.html} [Accessed 19/08/2015].
+
+\subsection{Conference paper (when proceedings have a named editor)}
+
+Crawford, G.I., 1965. Oxygen in metals. In: J.M.A. Lenihan AND S.J. Thompson, eds. \emph{Activation analysis: proceedings of a NATO Advanced Study Institute}, 2-4 August 1964 Glasgow. London: Academic Press, pp.113-118.
+
+\subsection{Conference paper (when proceedings have no named editor or are part of a major series)}
+
+Soper, D., 1972. Review of bracken control experiments with asulam. \emph{Proceedings of the 11th British Weed Control Conference}, 15-17 November 1972 Brighton. Brighton: University of Sussex, pp.24-31.
+
+\subsection{Newspaper article}
+
+Haurant, S., 2004. Britain's borrowing hits £1 trillion. \emph{The Guardian}, 29 July, p.16c.
+
+The Independent, 1992. Picking up the bills. \emph{The Independent}, 4 June, p.28a.
+
+\subsection{Thesis/dissertation}
+
+Burrell, J.G., 1973. \emph{The importance of school tours in education}. Thesis (M.A.). Queen's University, Belfast.
+
+\subsection{Report}
+
+UNESCO, 1993. \emph{General information programme and UNISIST}. Paris: UNESCO, (PGI-93/WS/22).
+
+\subsection{Standard}
+
+BS 5605:1990. \emph{Recommendations for citing and referencing published material}. BSI.
+
+\subsection{Patent}
+
+Phillipp Morris Inc., 1981. \emph{Optical perforating apparatus and system}. European patent application 0021165A1. 1981-01-07.
+
+\subsection{Map}
+
+Andrews, J. and Dury, A., 1773. \emph{Map of Wiltshire}, 1 inch to 2 miles. Devizes: Wiltshire Record Society.
+
+\subsection{Film, video or DVD}
+
+\emph{Macbeth}, 1948. Film. Directed by Orson Welles. USA: Republic Pictures.
+
+\subsection{Streamed video}
+
+Moran, C., 2016. \emph{Save Our Libraries} [Online]. Available from: \url{https://www.youtube.com/watch?v=gKTfCz4JtVE&feature=youtu.be} [Accessed 29/04/2016]
+
+\subsection{Television or radio broadcast}
+
+\emph{Rick Stein's French Odyssey: Episode 5}, 2006. TV. BBC2, 23 August. 20.30 hrs.
+
+\emph{The Archers}, 2006. Radio. BBC Radio 4, 23 August. 19.02 hrs.
+
+\subsection{Music score}
+
+Beethoven, L. Van, 1950. \emph{Symphony no.1 in C, Op.21}. Harmondsworth: Penguin.
+
+\subsection{Email discussion lists (jiscmail/listserv etc)}
+
+Clark, T., 5 July 2004. A European UK Libraries Plus? \emph{Lis-link} [Online]. Available from: \url{lis-link@jiscmail.ac.uk} [Accessed 30 July 2004].
+
+\subsection{Personal emails}
+
+Alston, S., 19/07/2004. \emph{Society of Architectural Historians of GB}. Email to K.M. Jordan.
+
+\subsection{Preprint}
+
+Shah, I. and Corrick, I. 2016. \emph{How should central banks respond to non-neutral inflation expectations?} Bath: University of Bath. OPUS [Online]. Available from: \url{http://opus.bath.ac.uk} [Accessed 04/05/2016].
+
+\subsection{Work in translation}
+
+Aristotle, 2007. \emph{Nicomachean ethics} (W.D. Ross. Trans.) South Dakota: NuVisions.
+
+\subsection{Work in the Roman alphabet}
+
+Esquivel, L., 2003. \emph{Como agua para chocolate} [Like water for chocolate]. Barcelona: Debolsillo.
+
+Thurfjell, W., 1975. Vart har våran doktor tagit vägen? [Where has our doctor gone?] \emph{Läkartidningen} 72, p.789.
+
+\subsection{Works in non-Roman alphabets}
+
+Hua, L. 華林甫, 1999.  Qingdai yilai Sanxia diqu shuihan zaihai de chubu yanjiu 清代以來三峽地區水旱災害的初步硏 [A preliminary study of floods and droughts in the Three Gorges region since the Qing dynasty], \emph{Zhongguo shehui kexue} 中國社會科學 , 1, pp.168--79.
+
+Hua, L., 1999. Qingdai yilai Sanxia diqu shuihan zaihai de chubu yanjiu [A preliminary study of floods and droughts in the Three Gorges region since the Qing dynasty], \emph{Zhongguo shehui kexue}, 1, pp.168--79.
+
+\subsection{House of Commons paper}
+
+Great Britain. Parliament. House of Commons, 2004. \emph{National Savings investment deposits: account 2002-2003}. London: National Audit Office (HC 200 3/04, 30).
+
+\subsection{House of Lords paper}
+
+Great Britain. Parliament. House of Lords. 1987. \emph{Social fund (Maternity and Funeral Expenses) Bill}. London: HMSO (HL 1986/87, (66)).
+
+\subsection{House of Commons/House of Lords bill}
+
+Great Britain. Parliament. House of Commons, 1988. \emph{Local government finance bill}. London: HMSO (Bills | 1987/88, 66).
+
+\subsection{Act of Parliament (UK Statutes) before 1963}
+
+\emph{Witchcraft Act 1735} (9 Geo.2, c.5).
+
+\subsection{Act of Parliament (UK Statues) 1963 onwards}
+
+\emph{Pensions Act 2014}, c.19. London: TSO.
+
+\subsection{Command paper}
+
+Great Britain. Ministry of Defence, 2004. \emph{Delivering security in a changing world: defence white paper}. London: TSO (Cm. 6041).
+
+\subsection{Statutory instrument}
+
+\emph{The Human Medicines Regulations 2012} [Online], No.1916, United Kingdom: HMSO. Available from: \url{http://www.legislation.gov.uk/uksi/2012/1916/pdfs/uksi_20121916_en.pdf} [Accessed 17/04/2016]
+
+\subsection{Legal case study}
+
+\emph{Seldon v Clarkson Wright \& Jakes}. [2012]. UKSC 16.
+
+\subsection{EU publication}
+
+European Commission, 2015. \emph{General report on the activities of the European Union 2014}. Luxembourg: Publications Office of the European Union.
+
+\subsection{EU regulation or directive, decision, recommendation or opinion}
+
+Directive (EU) 2015/413 of the European Parliament and of the Council of 11th March 2015 facilitating cross-border exchange of information on road-safety-related traffic offences [2015] \emph{OJ} L68/9.
+
+\subsection{Judgment of the European Court of Justice}
+
+\emph{Alessandrini Srl and others v.~Commission} (C-295/03 P) [2005] ECR I-5700.
+
+\subsection{Database}
+
+Bureau van Dijk, 2008. BT Group plc company report. \emph{FAME} [Online]. London: Bureau van Dijk. Available from: \url{http://www.portal.euromonitor.com} [Accessed 6/11/2014].
+
+\subsection{Dataset}
+
+Wilson, D., 2013. \emph{Real geometry and connectedness via triangular description: CAD example bank} [Online]. Bath: University of Bath. Available from: \url{http://doi.org/10.15125/BATH-00069} [Accessed 20/04/2016].
+
+\subsection{Computer program}
+
+@screencasto. \emph{Screencast-O-Matic} (v.2) [computer program]. \emph{https://screencast-o-matic.com/} [Accessed 16/05/2016].
 
 \bibliography{bath-bst}
 \end{document}
