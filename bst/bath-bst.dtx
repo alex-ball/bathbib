@@ -1939,7 +1939,26 @@ The last shows how the reference was entered in the .bib file.
 
 \subsection{Electronic book}
 
-Haynes, W.M., ed., 2014. \emph{CRC handbook of chemistry and physics} [Online]. 94th ed. Boca Raton, Fla.:\@ CRC Press/Taylor and Francis. Available from:\@ \url{http://www.hbcpnetbase.com} [Accessed 16/06/2016].
+\begin{bibexbox}{haynes2014crc}
+  Haynes, W.M., ed., 2014. \emph{CRC handbook of chemistry and physics} [Online]. 94th ed. Boca Raton, Fla.:\@ CRC Press/Taylor and Francis. Available from:\@ \url{http://www.hbcpnetbase.com} [Accessed 16/06/2016].
+  \tcblower
+\begin{Verbatim}[commentchar=\%]
+%</driver>
+%<*driver|bib>
+@book{haynes2014crc,
+  editor = {Haynes, W. M.},
+  year = {2014},
+  title = {{CRC} Handbook of Chemistry and Physics},
+  edition = {94},
+  address = {Boca Raton, Fla.},
+  publisher = {CRC Press/Taylor and Francis},
+  url = {http://www.hbcpnetbase.com},
+  urldate = {16/06/2016}}
+%</driver|bib>
+%<*driver>
+\end{Verbatim}
+\end{bibexbox}
+
 
 \subsection{Journal article}
 
