@@ -920,15 +920,28 @@ FUNCTION {format.thesis.type}
   if$
 }
 FUNCTION {format.tr.number}
-{ number "number" bibinfo.check
-  type duplicate$ empty$
-    { pop$ bbl.techrep }
-    'skip$
-  if$
-  "type" bibinfo.check
-  swap$ duplicate$ empty$
-    { pop$ "t" change.case$ }
-    { tie.or.space.prefix * * }
+{ type duplicate$ empty$
+    { pop$
+      number duplicate$ empty$
+        'pop$
+        { "(" swap$
+          "number" bibinfo.check
+          * ")" *
+        }
+      if$
+    }
+    { "(" swap$
+      "t" change.case$ "type" bibinfo.check
+      *
+      number duplicate$ empty$
+        'pop$
+        { tie.or.space.prefix
+          "number" bibinfo.check
+          * *
+        }
+      if$
+      ")" *
+    }
   if$
 }
 FUNCTION {format.article.crossref}
@@ -975,9 +988,11 @@ FUNCTION {format.org.or.pub}
 FUNCTION {format.publisher.address}
 { publisher "publisher" bibinfo.warn format.org.or.pub
 }
-
 FUNCTION {format.organization.address}
 { organization "organization" bibinfo.check format.org.or.pub
+}
+FUNCTION {format.institution.address}
+{ institution "institution" bibinfo.check format.org.or.pub
 }
 
 FUNCTION {article}
@@ -1283,9 +1298,13 @@ FUNCTION {techreport}
   format.btitle
   "title" output.check
   new.block
+  publisher empty$
+    { format.institution.address output }
+    { institution "institution" bibinfo.check output
+      format.publisher.address output
+    }
+  if$
   format.tr.number output.nonnull
-  institution "institution" bibinfo.warn output
-  address "address" bibinfo.check output
   new.block
   format.url output
   new.block
@@ -2026,7 +2045,7 @@ The Independent, 1992. Picking up the bills. \emph{The Independent}, 4 June, p.2
 \subsection{Report}
 
 \begin{bibexbox}{unesco1993gip}
-  UNESCO, 1993. \emph{General information programme and UNISIST}. Paris:\@ UNESCO, (PGI-93/WS/22).
+  UNESCO, 1993. \emph{General information programme and UNISIST}\@. Paris:\@ UNESCO, (PGI-93/WS/22).
   \tcblower
 \begin{Verbatim}[commentchar=\%]
 %</driver>
@@ -2083,7 +2102,7 @@ Alston, S., 19/07/2004. \emph{Society of Architectural Historians of GB}. Email 
 
 \subsection{Preprint}
 
-Shah, I. and Corrick, I. 2016. \emph{How should central banks respond to non-neutral inflation expectations?} Bath:\@ University of Bath. OPUS [Online]. Available from:\@ \url{http://opus.bath.ac.uk} [Accessed 04/05/2016].
+Shah, I. and Corrick, I. 2016. \emph{How should central banks respond to non-neutral inflation expectations?} Bath:\@ University of Bath. \emph{OPUS} [Online]. Available from:\@ \url{http://opus.bath.ac.uk} [Accessed 04/05/2016].
 
 \subsection{Work in translation}
 
