@@ -1552,11 +1552,15 @@ FUNCTION {sort.format.title}
 }
 FUNCTION {author.sort}
 { author empty$
-    { key empty$
-        { "to sort, need author or key in " cite$ * warning$
-          ""
+    { title empty$
+        { key empty$
+            { "to sort, need author, title, or key in " cite$ * warning$
+              ""
+            }
+            { key sortify }
+          if$
         }
-        { key sortify }
+        { title sort.format.title }
       if$
     }
     { author sort.format.names }
@@ -1564,31 +1568,35 @@ FUNCTION {author.sort}
 }
 FUNCTION {author.editor.sort}
 { author empty$
-  { editor empty$
-    { title empty$
-      { key empty$
-        { "to sort, need author, editor, title, or key in " cite$ * warning$
-          ""
+    { editor empty$
+        { title empty$
+            { key empty$
+                { "to sort, need author, editor, title, or key in " cite$ * warning$
+                  ""
+                }
+                { key sortify }
+              if$
+            }
+            { title sort.format.title }
+          if$
         }
-        { key sortify }
-        if$
-      }
-      { title sort.format.title }
+        { editor sort.format.names }
       if$
     }
-    { editor sort.format.names }
-    if$
-  }
-  { author sort.format.names }
+    { author sort.format.names }
   if$
 }
 FUNCTION {editor.sort}
 { editor empty$
-    { key empty$
-        { "to sort, need editor or key in " cite$ * warning$
-          ""
+    { title empty$
+        { key empty$
+            { "to sort, need editor, title, or key in " cite$ * warning$
+              ""
+            }
+            { key sortify }
+          if$
         }
-        { key sortify }
+        { title sort.format.title }
       if$
     }
     { editor sort.format.names }
