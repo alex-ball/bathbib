@@ -368,7 +368,7 @@ FUNCTION {format.names}
   numnames 'namesleft :=
     { namesleft #0 > }
     { s nameptr
-      "{vv~}{ll}{, jj}{, f{.}.}"
+      "{ll}{, jj}{, f{.}.}{~vv}"
       format.name$
       bibinfo bibinfo.check
       't :=
@@ -1505,7 +1505,7 @@ FUNCTION {sort.format.names}
   numnames 'namesleft :=
     { namesleft #0 > }
     { s nameptr
-      "{vv{ } }{ll{ }}{  f{ }}{  jj{ }}"
+      "{ll{ }}{  f{ }}{  jj{ }}"
       format.name$ 't :=
       nameptr #1 >
         {
@@ -2369,7 +2369,23 @@ You can also use \texttt{audio} or \texttt{music} as an alias for \texttt{bookle
 
 \subsection{Music score}
 
-Beethoven, L. Van, 1950. \emph{Symphony no.1 in C, Op.21}. Harmondsworth:\@ Penguin.
+\begin{bibexbox}{beethoven1950symph1}
+  Beethoven, L. van, 1950. \emph{Symphony no.1 in C, Op.21}. Harmondsworth:\@ Penguin.
+  \tcblower
+\begin{Verbatim}[commentchar=\%]
+%</driver>
+%<*driver|bib>
+@book{beethoven1950symph1,
+  author = {Ludwig van Beethoven},
+  year = {1950},
+  title = {Symphony no.1 in {C,} {Op.21}},
+  address = {Harmondsworth},
+  publisher = {Penguin}}
+%</driver|bib>
+%<*driver>
+\end{Verbatim}
+\end{bibexbox}
+
 
 
 \subsection{Email discussion lists (jiscmail/listserv etc)}
