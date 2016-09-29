@@ -1064,11 +1064,18 @@ FUNCTION {book}
 }
 FUNCTION {booklet}
 { output.bibitem
-  format.authors output
-  author format.key output
-  format.date "year" output.check
-  date.block
-  format.title "title" output.check
+  author empty$
+    { format.btitle "title" output.check
+      format.date "year" output.check
+      date.block
+    }
+    { format.authors output
+      author format.key output
+      format.date "year" output.check
+      date.block
+      format.btitle "title" output.check
+    }
+  if$
   new.block
   howpublished "howpublished" bibinfo.check output
   address "address" bibinfo.check output
@@ -1184,11 +1191,18 @@ FUNCTION {inproceedings}
 FUNCTION {conference} { inproceedings }
 FUNCTION {manual}
 { output.bibitem
-  format.authors output
-  author format.key output
-  format.date "year" output.check
-  date.block
-  format.btitle "title" output.check
+  author empty$
+    { format.btitle "title" output.check
+      format.date "year" output.check
+      date.block
+    }
+    { format.authors output
+      author format.key output
+      format.date "year" output.check
+      date.block
+      format.btitle "title" output.check
+    }
+  if$
   new.block
   format.number.series output
   organization address new.block.checkb
@@ -1208,8 +1222,7 @@ FUNCTION {mastersthesis}
   author format.key output
   format.date "year" output.check
   date.block
-  format.btitle
-  "title" output.check
+  format.btitle "title" output.check
   new.block
   bbl.mthesis format.thesis.type output.nonnull
   school "school" bibinfo.warn output
@@ -1224,11 +1237,18 @@ FUNCTION {mastersthesis}
 
 FUNCTION {misc}
 { output.bibitem
-  format.authors output
-  author format.key output
-  format.date "year" output.check
-  date.block
-  format.title output
+  author empty$
+    { format.title "title" output.check
+      format.date "year" output.check
+      date.block
+    }
+    { format.authors output
+      author format.key output
+      format.date "year" output.check
+      date.block
+      format.title "title" output.check
+    }
+  if$
   new.block
   howpublished "howpublished" bibinfo.check output
   new.block
@@ -1244,8 +1264,7 @@ FUNCTION {phdthesis}
   author format.key output
   format.date "year" output.check
   date.block
-  format.btitle
-  "title" output.check
+  format.btitle "title" output.check
   new.block
   bbl.phdthesis format.thesis.type output.nonnull
   school "school" bibinfo.warn output
@@ -1260,11 +1279,18 @@ FUNCTION {phdthesis}
 
 FUNCTION {proceedings}
 { output.bibitem
-  format.editors output
-  editor format.key output
-  format.date "year" output.check
-  date.block
-  format.btitle "title" output.check
+  editor empty$
+    { format.btitle "title" output.check
+      format.date "year" output.check
+      date.block
+    }
+    { format.editors output
+      editor format.key output
+      format.date "year" output.check
+      date.block
+      format.btitle "title" output.check
+    }
+  if$
   format.bvolume output
   format.number.series output
   new.sentence
@@ -1284,12 +1310,18 @@ FUNCTION {proceedings}
 
 FUNCTION {techreport}
 { output.bibitem
-  format.authors "author" output.check
-  author format.key output
-  format.date "year" output.check
-  date.block
-  format.btitle
-  "title" output.check
+  author empty$
+    { format.btitle "title" output.check
+      format.date "year" output.check
+      date.block
+    }
+    { format.authors output
+      author format.key output
+      format.date "year" output.check
+      date.block
+      format.btitle "title" output.check
+    }
+  if$
   new.block
   publisher empty$
     { format.institution.address output }
@@ -1308,11 +1340,18 @@ FUNCTION {techreport}
 
 FUNCTION {unpublished}
 { output.bibitem
-  format.authors "author" output.check
-  author format.key output
-  format.date "year" output.check
-  date.block
-  format.title "title" output.check
+  author empty$
+    { format.title "title" output.check
+      format.date "year" output.check
+      date.block
+    }
+    { format.authors output
+      author format.key output
+      format.date "year" output.check
+      date.block
+      format.title "title" output.check
+    }
+  if$
   new.block
   format.url output
   new.block
