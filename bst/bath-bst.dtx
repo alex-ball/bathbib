@@ -917,7 +917,8 @@ FUNCTION {format.tr.number}
 { type duplicate$ empty$
     { pop$
       number duplicate$ empty$
-        'pop$
+        { pop$ ""
+        }
         { "(" swap$
           "number" bibinfo.check
           * ")" *
@@ -1332,7 +1333,7 @@ FUNCTION {techreport}
       format.publisher.address output
     }
   if$
-  format.tr.number output.nonnull
+  format.tr.number output
   new.block
   format.note output
   new.block
