@@ -1385,6 +1385,7 @@ FUNCTION {dataset} { manual }
 FUNCTION {electronic} { manual }
 FUNCTION {online} { manual }
 FUNCTION {patent} { manual }
+FUNCTION {software} { manual }
 FUNCTION {standard} { manual }
 FUNCTION {www} { manual }
 
@@ -2607,12 +2608,29 @@ Directive (EU) 2015/413 of the European Parliament and of the Council of 11th Ma
 \end{Verbatim}
 \end{bibexbox}
 
-You can also use \texttt{dataset} as an alias for \texttt{manual}.
+You can also use \texttt{dataset} as an alternative alias for \texttt{manual}.
 
 
 \subsection{Computer program}
 
-@screencasto. \emph{Screencast-O-Matic} (v.2) [computer program]. \emph{https://screencast-o-matic.com/} [Accessed 16/05/2016].
+\begin{bibexbox}{screencasto}
+  @screencasto. \emph{Screencast-O-Matic} (v.2) [computer program]. \url{https://screencast-o-matic.com/} [Accessed 16/05/2016].
+  \tcblower
+\begin{Verbatim}[commentchar=\%]
+%</driver>
+%<*driver|bib>
+@online{screencasto,
+  author = {@screencasto},
+  title = {{Screencast-O-Matic}},
+  titleaddon = {(v.2) [computer program]},
+  url = {https://screencast-o-matic.com/},
+  urldate = {16/05/2016}}
+%</driver|bib>
+%<*driver>
+\end{Verbatim}
+\end{bibexbox}
+
+You can also use \texttt{software} as an alternative alias for \texttt{manual}.
 
 
 \bibliography{bath-bst}
