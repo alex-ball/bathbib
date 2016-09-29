@@ -1328,6 +1328,7 @@ FUNCTION {unpublished}
 
 FUNCTION {electronic} { manual }
 FUNCTION {online} { manual }
+FUNCTION {standard} { manual }
 FUNCTION {www} { manual }
 
 FUNCTION {default.type} { misc }
@@ -2174,7 +2175,22 @@ Internally these are all aliases for \texttt{manual}.
 
 \subsection{Standard}
 
-BS 5605:1990. \emph{Recommendations for citing and referencing published material}. BSI.
+\begin{bibexbox}(hacked){bs5605:1990}
+  BS 5605:1990. \emph{Recommendations for citing and referencing published material}. BSI.
+  \tcblower
+\begin{Verbatim}[commentchar=\%]
+%</driver>
+%<*driver|bib>
+@manual{bs5605:1990,
+  author = {{BS 5605:1990}},
+  title = {Recommendations for citing and referencing published material},
+  organization = {BSI}}
+%</driver|bib>
+%<*driver>
+\end{Verbatim}
+\end{bibexbox}
+
+You can also use \texttt{standard} as an alias for \texttt{manual}.
 
 \subsection{Patent}
 
