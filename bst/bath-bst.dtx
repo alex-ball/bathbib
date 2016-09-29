@@ -34,6 +34,7 @@ ENTRY
     school
     series
     title
+    titleaddon
     type
     url
     urldate
@@ -510,6 +511,12 @@ FUNCTION {format.title}
       select.language
     }
   if$
+  titleaddon
+  duplicate$ empty$ 'pop$
+    { tie.or.space.prefix
+      "titleaddon" bibinfo.check * *
+    }
+  if$
 }
 FUNCTION {format.full.names}
 {'s :=
@@ -665,6 +672,12 @@ FUNCTION {format.btitle}
     {
       emphasize
       select.language
+    }
+  if$
+  titleaddon
+  duplicate$ empty$ 'pop$
+    { tie.or.space.prefix
+      "titleaddon" bibinfo.check * *
     }
   if$
 }
@@ -1949,14 +1962,15 @@ The last shows how the reference was entered in the .bib file.
 \end{Verbatim}
 \end{bibexbox}
 
-\begin{bibexbox}(hacked){merckNDidx}
+\begin{bibexbox}{merckNDidx}
   \emph{The Merck index online} [Online]. London:\@ RSC Publishing. Available from:\@ \url{http://www.rsc.org/Merck-Index} [Accessed 16/06/2016].
   \tcblower
 \begin{Verbatim}[commentchar=\%]
 %</driver>
 %<*driver|bib>
 @book{merckNDidx,
-  title = {The {Merck} Index Online \textup{[Online]}},
+  title = {The {Merck} Index Online},
+  titleaddon = {[Online]},
   address = {London},
   publisher = {RSC Publishing},
   url = {http://www.rsc.org/Merck-Index},
@@ -1992,7 +2006,7 @@ The last shows how the reference was entered in the .bib file.
 
 \subsection{Electronic book}
 
-\begin{bibexbox}(hacked){haynes2014crc}
+\begin{bibexbox}{haynes2014crc}
   Haynes, W.M., ed.\@, 2014.\@ \emph{CRC handbook of chemistry and physics} [Online].\@ 94th ed. Boca Raton, Fla.:\@ CRC Press/Taylor and Francis. Available from:\@ \url{http://www.hbcpnetbase.com} [Accessed 16/06/2016].
   \tcblower
 \begin{Verbatim}[commentchar=\%]
@@ -2001,7 +2015,8 @@ The last shows how the reference was entered in the .bib file.
 @book{haynes2014crc,
   editor = {Haynes, W. M.},
   year = {2014},
-  title = {{CRC} Handbook of Chemistry and Physics \textup{[Online]}},
+  title = {{CRC} Handbook of Chemistry and Physics},
+  titleaddon = {[Online]},
   edition = {94},
   address = {Boca Raton, Fla.},
   publisher = {CRC Press/Taylor and Francis},
@@ -2063,7 +2078,7 @@ While it is normal when using Bib\TeX\ to use \texttt{misc} for websites,
 with this style you should use \texttt{electronic}, \texttt{online} or \texttt{www} instead.
 Internally these are all aliases for \texttt{manual}.
 
-\begin{bibexbox}(hacked){holland2002gci}
+\begin{bibexbox}{holland2002gci}
   Holland, M., 2002. \emph{Guide to citing internet sources} [Online]. Poole:\@ Bournemouth University. Available from:\@ \url{http://www.bournemouth.ac.uk/library/using/guide_to_citing_internet_sourc.html} [Accessed 04/11/2002].
   \tcblower
 \begin{Verbatim}[commentchar=\%]
@@ -2072,7 +2087,8 @@ Internally these are all aliases for \texttt{manual}.
 @online{holland2002gci,
   author = {Holland, M.},
   year = {2002},
-  title = {Guide to Citing Internet Sources \textup{[Online]}},
+  title = {Guide to Citing Internet Sources},
+  titleaddon = {[Online]},
   address = {Poole},
   organization = {Bournemouth University},
   url = {http://www.bournemouth.ac.uk/library/using/guide_to_citing_internet_sourc.html},
@@ -2082,7 +2098,7 @@ Internally these are all aliases for \texttt{manual}.
 \end{Verbatim}
 \end{bibexbox}
 
-\begin{bibexbox}(hacked){wiltshire2015gww}
+\begin{bibexbox}{wiltshire2015gww}
   Wiltshire Council, 2015. \emph{Get Wiltshire walking} [Online]. Trowbridge:\@ Wiltshire Council. Available from:\@ \url{http://www.wiltshire.gov.uk/leisureandrecreation/sportphysicalactivity/getwiltshirewalking.html} [Accessed 19/08/2015].
   \tcblower
 \begin{Verbatim}[commentchar=\%]
@@ -2091,7 +2107,8 @@ Internally these are all aliases for \texttt{manual}.
 @online{wiltshire2015gww,
   author = {{Wiltshire Council}},
   year = {2015},
-  title = {Get {Wiltshire} walking \textup{[Online]}},
+  title = {Get {Wiltshire} walking},
+  titleaddon = {[Online]},
   address = {Trowbridge},
   organization = {Wiltshire Council},
   url = {http://www.wiltshire.gov.uk/leisureandrecreation/sportphysicalactivity/getwiltshirewalking.html},
@@ -2316,7 +2333,7 @@ You can also use \texttt{movie} or \texttt{video} as an alias for \texttt{bookle
 
 \subsection{Streamed video}
 
-\begin{bibexbox}(hacked){moran2016sol}
+\begin{bibexbox}{moran2016sol}
   Moran, C., 2016. \emph{Save Our Libraries} [Online]. Available from:\@ \url{https://www.youtube.com/watch?v=gKTfCz4JtVE&feature=youtu.be} [Accessed 29/04/2016]
   \tcblower
 \begin{Verbatim}[commentchar=\%]
@@ -2325,7 +2342,8 @@ You can also use \texttt{movie} or \texttt{video} as an alias for \texttt{bookle
 @booklet{moran2016sol,
   author = {Moran, C.},
   year = {2016},
-  title = {Save Our Libraries \textup{[Online]}},
+  title = {Save Our Libraries},
+  titleaddon = {[Online]},
   url = {https://www.youtube.com/watch?v=gKTfCz4JtVE&feature=youtu.be},
   urldate = {29/04/2016}}
 %</driver|bib>
@@ -2455,7 +2473,23 @@ You can also use \texttt{audio} or \texttt{music} as an alias for \texttt{bookle
 
 \subsection{Work in translation}
 
-Aristotle, 2007. \emph{Nicomachean ethics} (W.D. Ross. Trans.) South Dakota:\@ NuVisions.
+\begin{bibexbox}{aristotle2007ne}
+  Aristotle, 2007. \emph{Nicomachean ethics} (W.D. Ross. Trans.) South Dakota:\@ NuVisions.
+  \tcblower
+\begin{Verbatim}[commentchar=\%]
+%</driver>
+%<*driver|bib>
+@book{aristotle2007ne,
+  author = {Aristotle},
+  year = {2007},
+  title = {Nicomachean Ethics},
+  titleaddon = {(W.D. Ross. Trans.)},
+  address = {South Dakota},
+  publisher = {NuVisions}}
+%</driver|bib>
+%<*driver>
+\end{Verbatim}
+\end{bibexbox}
 
 
 \subsection{Work in the Roman alphabet}
