@@ -1010,10 +1010,10 @@ FUNCTION {article}
     }
   if$
   new.block
-  format.url output
-  new.block
   format.note output
+  new.block
   format.eprint output
+  format.url output
   fin.entry
 }
 FUNCTION {book}
@@ -1056,10 +1056,10 @@ FUNCTION {book}
     }
   if$
   new.block
-  format.url output
-  new.block
   format.note output
+  new.block
   format.eprint output
+  format.url output
   fin.entry
 }
 FUNCTION {booklet}
@@ -1073,10 +1073,10 @@ FUNCTION {booklet}
   howpublished "howpublished" bibinfo.check output
   address "address" bibinfo.check output
   new.block
-  format.url output
-  new.block
   format.note output
+  new.block
   format.eprint output
+  format.url output
   fin.entry
 }
 
@@ -1113,10 +1113,10 @@ FUNCTION {inbook}
   if$
   format.edition output
   new.block
-  format.url output
-  new.block
   format.note output
+  new.block
   format.eprint output
+  format.url output
   fin.entry
 }
 
@@ -1142,10 +1142,10 @@ FUNCTION {incollection}
     }
   if$
   new.block
-  format.url output
-  new.block
   format.note output
+  new.block
   format.eprint output
+  format.url output
   fin.entry
 }
 FUNCTION {inproceedings}
@@ -1175,10 +1175,10 @@ FUNCTION {inproceedings}
     }
   if$
   new.block
-  format.url output
-  new.block
   format.note output
+  new.block
   format.eprint output
+  format.url output
   fin.entry
 }
 FUNCTION {conference} { inproceedings }
@@ -1195,10 +1195,10 @@ FUNCTION {manual}
   format.organization.address output
   format.edition output
   new.block
-  format.url output
-  new.block
   format.note output
+  new.block
   format.eprint output
+  format.url output
   fin.entry
 }
 
@@ -1215,10 +1215,10 @@ FUNCTION {mastersthesis}
   school "school" bibinfo.warn output
   address "address" bibinfo.check output
   new.block
-  format.url output
-  new.block
   format.note output
+  new.block
   format.eprint output
+  format.url output
   fin.entry
 }
 
@@ -1232,10 +1232,10 @@ FUNCTION {misc}
   new.block
   howpublished "howpublished" bibinfo.check output
   new.block
-  format.url output
-  new.block
   format.note output
+  new.block
   format.eprint output
+  format.url output
   fin.entry
 }
 FUNCTION {phdthesis}
@@ -1251,10 +1251,10 @@ FUNCTION {phdthesis}
   school "school" bibinfo.warn output
   address "address" bibinfo.check output
   new.block
-  format.url output
-  new.block
   format.note output
+  new.block
   format.eprint output
+  format.url output
   fin.entry
 }
 
@@ -1275,10 +1275,10 @@ FUNCTION {proceedings}
     }
   if$
   new.block
-  format.url output
-  new.block
   format.note output
+  new.block
   format.eprint output
+  format.url output
   fin.entry
 }
 
@@ -1299,10 +1299,10 @@ FUNCTION {techreport}
   if$
   format.tr.number output.nonnull
   new.block
-  format.url output
-  new.block
   format.note output
+  new.block
   format.eprint output
+  format.url output
   fin.entry
 }
 
