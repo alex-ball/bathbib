@@ -1198,8 +1198,7 @@ FUNCTION {manual}
   date.block
   format.btitle "title" output.check
   organization address new.block.checkb
-  organization "organization" bibinfo.check output
-  address "address" bibinfo.check output
+  format.organization.address output
   format.edition output
   new.block
   format.url output
@@ -1327,6 +1326,10 @@ FUNCTION {unpublished}
   format.eprint output
   fin.entry
 }
+
+FUNCTION {electronic} { manual }
+FUNCTION {online} { manual }
+FUNCTION {www} { manual }
 
 FUNCTION {default.type} { misc }
 READ
@@ -2005,9 +2008,47 @@ The last shows how the reference was entered in the .bib file.
 
 \subsection{Websites}
 
-Holland, M., 2002. \emph{Guide to citing internet sources} [Online]. Poole:\@ Bournemouth University. Available from:\@ \url{http://www.bournemouth.ac.uk/library/using/guide_to_citing_internet_sourc.html} [Accessed 04/11/2002].
+While it is normal when using Bib\TeX\ to use \texttt{misc} for websites,
+with this style you should use \texttt{electronic}, \texttt{online} or \texttt{www} instead.
+Internally these are all aliases for \texttt{manual}.
 
-Wiltshire Council, 2015. \emph{Get Wiltshire walking} [Online]. Trowbridge:\@ Wiltshire Council. Available from:\@ \url{http://www.wiltshire.gov.uk/leisureandrecreation/sportphysicalactivity/getwiltshirewalking.html} [Accessed 19/08/2015].
+\begin{bibexbox}{holland2002gci}
+  Holland, M., 2002. \emph{Guide to citing internet sources} [Online]. Poole:\@ Bournemouth University. Available from:\@ \url{http://www.bournemouth.ac.uk/library/using/guide_to_citing_internet_sourc.html} [Accessed 04/11/2002].
+  \tcblower
+\begin{Verbatim}[commentchar=\%]
+%</driver>
+%<*driver|bib>
+@online{holland2002gci,
+  author = {Holland, M.},
+  year = {2002},
+  title = {Guide to Citing Internet Sources \textup{[Online]}},
+  address = {Poole},
+  organization = {Bournemouth University},
+  url = {http://www.bournemouth.ac.uk/library/using/guide_to_citing_internet_sourc.html},
+  urldate = {04/11/2002}}
+%</driver|bib>
+%<*driver>
+\end{Verbatim}
+\end{bibexbox}
+
+\begin{bibexbox}{wiltshire2015gww}
+  Wiltshire Council, 2015. \emph{Get Wiltshire walking} [Online]. Trowbridge:\@ Wiltshire Council. Available from:\@ \url{http://www.wiltshire.gov.uk/leisureandrecreation/sportphysicalactivity/getwiltshirewalking.html} [Accessed 19/08/2015].
+  \tcblower
+\begin{Verbatim}[commentchar=\%]
+%</driver>
+%<*driver|bib>
+@online{wiltshire2015gww,
+  author = {{Wiltshire Council}},
+  year = {2015},
+  title = {Get Wiltshire walking \textup{[Online]}},
+  address = {Trowbridge},
+  organization = {Wiltshire Council},
+  url = {http://www.wiltshire.gov.uk/leisureandrecreation/sportphysicalactivity/getwiltshirewalking.html},
+  urldate = {19/08/2015}}
+%</driver|bib>
+%<*driver>
+\end{Verbatim}
+\end{bibexbox}
 
 \subsection{Conference paper (when proceedings have a named editor)}
 
