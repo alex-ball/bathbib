@@ -1078,7 +1078,10 @@ FUNCTION {booklet}
   if$
   new.block
   howpublished "howpublished" bibinfo.check output
-  address "address" bibinfo.check output
+  publisher empty$ 'skip$
+    { new.block}
+  if$
+  format.publisher.address output
   new.block
   format.note output
   new.block
@@ -1365,6 +1368,10 @@ FUNCTION {online} { manual }
 FUNCTION {patent} { manual }
 FUNCTION {standard} { manual }
 FUNCTION {www} { manual }
+FUNCTION {audio} { booklet }
+FUNCTION {movie} { booklet }
+FUNCTION {music} { booklet }
+FUNCTION {video} { booklet }
 
 FUNCTION {default.type} { misc }
 READ
@@ -2286,8 +2293,24 @@ You can also use \texttt{patent} as an alias for \texttt{manual}.
 
 \subsection{Film, video or DVD}
 
-\emph{Macbeth}, 1948. Film. Directed by Orson Welles. USA:\@ Republic Pictures.
+\begin{bibexbox}{macbeth1948}
+  \emph{Macbeth}, 1948. Film.\@ Directed by Orson Welles. USA:\@ Republic Pictures.
+  \tcblower
+\begin{Verbatim}[commentchar=\%]
+%</driver>
+%<*driver|bib>
+@booklet{macbeth1948,
+  year = {1948},
+  title = {Macbeth},
+  howpublished = {Film. Directed by Orson Welles},
+  address = {USA},
+  publisher = {Republic Pictures}}
+%</driver|bib>
+%<*driver>
+\end{Verbatim}
+\end{bibexbox}
 
+You can also use \texttt{movie} or \texttt{video} as an alias for \texttt{booklet}.
 
 \subsection{Streamed video}
 
