@@ -2314,14 +2314,57 @@ You can also use \texttt{movie} or \texttt{video} as an alias for \texttt{bookle
 
 \subsection{Streamed video}
 
-Moran, C., 2016. \emph{Save Our Libraries} [Online]. Available from:\@ \url{https://www.youtube.com/watch?v=gKTfCz4JtVE&feature=youtu.be} [Accessed 29/04/2016]
+\begin{bibexbox}(hacked){moran2016sol}
+  Moran, C., 2016. \emph{Save our libraries} [Online]. Available from:\@ \url{https://www.youtube.com/watch?v=gKTfCz4JtVE&feature=youtu.be} [Accessed 29/04/2016].
+  \tcblower
+\begin{Verbatim}[commentchar=\%]
+%</driver>
+%<*driver|bib>
+@booklet{moran2016sol,
+  author = {Moran, C.},
+  year = {2016},
+  title = {Save Our Libraries \textup{[Online]}},
+  url = {https://www.youtube.com/watch?v=gKTfCz4JtVE&feature=youtu.be},
+  urldate = {29/04/2016}}
+%</driver|bib>
+%<*driver>
+\end{Verbatim}
+\end{bibexbox}
 
 
 \subsection{Television or radio broadcast}
 
-\emph{Rick Stein's French Odyssey:\@ Episode 5}, 2006. TV. BBC2, 23 August. 20.30 hrs.
+\begin{bibexbox}{rsfo2006ep5}
+  \emph{Rick Stein's French Odyssey:\@ Episode 5}, 2006. TV. BBC2, 23 August.\@ 20.30 hrs.
+  \tcblower
+\begin{Verbatim}[commentchar=\%]
+%</driver>
+%<*driver|bib>
+@booklet{rsfo2006ep5,
+  year = {2006},
+  title = {Rick {Stein's} {French} {Odyssey}: Episode 5},
+  howpublished = {TV. BBC2, 23 August. 20.30 hrs}}
+%</driver|bib>
+%<*driver>
+\end{Verbatim}
+\end{bibexbox}
 
-\emph{The Archers}, 2006. Radio. BBC Radio 4, 23 August. 19.02 hrs.
+\begin{bibexbox}{archers20060823}
+  \emph{The Archers}, 2006. Radio.\@ BBC Radio 4, 23 August.\@ 19.02 hrs.
+  \tcblower
+\begin{Verbatim}[commentchar=\%]
+%</driver>
+%<*driver|bib>
+@booklet{archers20060823,
+  year = {2006},
+  title = {The {Archers}},
+  howpublished = {Radio. BBC Radio 4, 23 August. 19.02 hrs}}
+%</driver|bib>
+%<*driver>
+\end{Verbatim}
+\end{bibexbox}
+
+You can also use \texttt{audio} or \texttt{music} as an alias for \texttt{booklet}.
 
 
 \subsection{Music score}
