@@ -1029,7 +1029,6 @@ FUNCTION {book}
         format.date "year" output.check
         date.block
         format.btitle "title" output.check
-        new.block
       }
       if$
     }
@@ -1041,15 +1040,14 @@ FUNCTION {book}
       format.date "year" output.check
       date.block
       format.btitle "title" output.check
-      new.block
     }
   if$
+  format.bvolume output
+  format.number.series output
+  new.block
   format.edition output
   crossref missing$
-    { format.bvolume output
-      new.block
-      format.number.series output
-      new.sentence
+    { new.sentence
       format.publisher.address output
     }
     {
@@ -1797,6 +1795,7 @@ Copyright (C) 2016 by University of Bath
 \begin{document}
 \maketitle
 
+
 \section{Using the style}
 
 To use the style, add these lines to your preamble:
@@ -1816,12 +1815,14 @@ Remember also to specify your .bib file at the end of the document:
 
 Please refer to the documentation for \href{http://www.ctan.org/pkg/natbib}{\textsf{natbib}} for the commands available for in-text citations.
 
+
 \section{Examples}
 
 The examples below are shown in three parts.
 The first, marked with \faBook, shows an extract from the Harvard (Bath) referencing style sheet.
 The second, marked with \faCog, shows the reference as formatted by Bib\TeX.
 The last shows how the reference was entered in the .bib file.
+
 
 \subsection{Book with author(s)}
 
@@ -1860,6 +1861,7 @@ The last shows how the reference was entered in the .bib file.
 \end{Verbatim}
 \end{bibexbox}
 
+
 \subsection{Book with editor(s) instead of author(s)}
 
 \begin{bibexbox}{rothman.etal2008me}
@@ -1879,6 +1881,7 @@ The last shows how the reference was entered in the .bib file.
 %<*driver>
 \end{Verbatim}
 \end{bibexbox}
+
 
 \subsection{Book usually known by its title}
 
@@ -1916,6 +1919,7 @@ The last shows how the reference was entered in the .bib file.
 \end{Verbatim}
 \end{bibexbox}
 
+
 \subsection{One chapter\slash paper from a collection in a book}
 
 \begin{bibexbox}{reid1967ptp}
@@ -1937,6 +1941,7 @@ The last shows how the reference was entered in the .bib file.
 %<*driver>
 \end{Verbatim}
 \end{bibexbox}
+
 
 \subsection{Electronic book}
 
@@ -1981,6 +1986,7 @@ The last shows how the reference was entered in the .bib file.
 %<*driver>
 \end{Verbatim}
 \end{bibexbox}
+
 
 \subsection{E-journal article}
 
@@ -2048,6 +2054,7 @@ Internally these are all aliases for \texttt{manual}.
 \end{Verbatim}
 \end{bibexbox}
 
+
 \subsection{Conference paper (when proceedings have a named editor)}
 
 \begin{bibexbox}{crawford1965oim}
@@ -2071,6 +2078,7 @@ Internally these are all aliases for \texttt{manual}.
 \end{Verbatim}
 \end{bibexbox}
 
+
 \subsection{Conference paper (when proceedings have no named editor or are part of a major series)}
 
 \begin{bibexbox}{soper1972rbc}
@@ -2092,6 +2100,7 @@ Internally these are all aliases for \texttt{manual}.
 %<*driver>
 \end{Verbatim}
 \end{bibexbox}
+
 
 \subsection{Newspaper article}
 
@@ -2151,6 +2160,7 @@ Internally these are all aliases for \texttt{manual}.
 \end{Verbatim}
 \end{bibexbox}
 
+
 \subsection{Report}
 
 \begin{bibexbox}{unesco1993gip}
@@ -2171,6 +2181,7 @@ Internally these are all aliases for \texttt{manual}.
 \end{Verbatim}
 \end{bibexbox}
 
+
 \subsection{Standard}
 
 \begin{bibexbox}(hacked){bs5605:1990}
@@ -2189,6 +2200,7 @@ Internally these are all aliases for \texttt{manual}.
 \end{bibexbox}
 
 You can also use \texttt{standard} as an alias for \texttt{manual}.
+
 
 \subsection{Patent}
 
@@ -2211,17 +2223,37 @@ You can also use \texttt{standard} as an alias for \texttt{manual}.
 
 You can also use \texttt{patent} as an alias for \texttt{manual}.
 
+
 \subsection{Map}
 
-Andrews, J. and Dury, A., 1773. \emph{Map of Wiltshire}, 1 inch to 2 miles. Devizes:\@ Wiltshire Record Society.
+\begin{bibexbox}{andrews.dury1773wilts}
+  Andrews, J. and Dury, A., 1773. \emph{Map of Wiltshire}, 1 inch to 2 miles. Devizes:\@ Wiltshire Record Society.
+  \tcblower
+\begin{Verbatim}[commentchar=\%]
+%</driver>
+%<*driver|bib>
+@book{andrews.dury1773wilts,
+  author = {Andrews, J. and Dury, A.},
+  year = {1773},
+  title = {Map of Wiltshire},
+  series = {1 inch to 2 miles},
+  address = {Devizes},
+  publisher = {Wiltshire Record Society}}
+%</driver|bib>
+%<*driver>
+\end{Verbatim}
+\end{bibexbox}
+
 
 \subsection{Film, video or DVD}
 
 \emph{Macbeth}, 1948. Film. Directed by Orson Welles. USA:\@ Republic Pictures.
 
+
 \subsection{Streamed video}
 
 Moran, C., 2016. \emph{Save Our Libraries} [Online]. Available from:\@ \url{https://www.youtube.com/watch?v=gKTfCz4JtVE&feature=youtu.be} [Accessed 29/04/2016]
+
 
 \subsection{Television or radio broadcast}
 
@@ -2229,25 +2261,31 @@ Moran, C., 2016. \emph{Save Our Libraries} [Online]. Available from:\@ \url{http
 
 \emph{The Archers}, 2006. Radio. BBC Radio 4, 23 August. 19.02 hrs.
 
+
 \subsection{Music score}
 
 Beethoven, L. Van, 1950. \emph{Symphony no.1 in C, Op.21}. Harmondsworth:\@ Penguin.
+
 
 \subsection{Email discussion lists (jiscmail/listserv etc)}
 
 Clark, T., 5 July 2004. A European UK Libraries Plus? \emph{Lis-link} [Online]. Available from:\@ \url{lis-link@jiscmail.ac.uk} [Accessed 30 July 2004].
 
+
 \subsection{Personal emails}
 
 Alston, S., 19/07/2004. \emph{Society of Architectural Historians of GB}. Email to K.M. Jordan.
+
 
 \subsection{Preprint}
 
 Shah, I. and Corrick, I. 2016. \emph{How should central banks respond to non-neutral inflation expectations?} Bath:\@ University of Bath. \emph{OPUS} [Online]. Available from:\@ \url{http://opus.bath.ac.uk} [Accessed 04/05/2016].
 
+
 \subsection{Work in translation}
 
 Aristotle, 2007. \emph{Nicomachean ethics} (W.D. Ross. Trans.) South Dakota:\@ NuVisions.
+
 
 \subsection{Work in the Roman alphabet}
 
@@ -2255,67 +2293,83 @@ Esquivel, L., 2003. \emph{Como agua para chocolate} [Like water for chocolate]. 
 
 Thurfjell, W., 1975. Vart har våran doktor tagit vägen? [Where has our doctor gone?] \emph{Läkartidningen} 72, p.789.
 
+
 \subsection{Works in non-Roman alphabets}
 
 Hua, L. 華林甫, 1999.  Qingdai yilai Sanxia diqu shuihan zaihai de chubu yanjiu 清代以來三峽地區水旱災害的初步硏 [A preliminary study of floods and droughts in the Three Gorges region since the Qing dynasty], \emph{Zhongguo shehui kexue} 中國社會科學 , 1, pp.168--79.
 
 Hua, L., 1999. Qingdai yilai Sanxia diqu shuihan zaihai de chubu yanjiu [A preliminary study of floods and droughts in the Three Gorges region since the Qing dynasty], \emph{Zhongguo shehui kexue}, 1, pp.168--79.
 
+
 \subsection{House of Commons paper}
 
 Great Britain. Parliament. House of Commons, 2004. \emph{National Savings investment deposits:\@ account 2002-2003}. London:\@ National Audit Office (HC 200 3/04, 30).
+
 
 \subsection{House of Lords paper}
 
 Great Britain. Parliament. House of Lords. 1987. \emph{Social fund (Maternity and Funeral Expenses) Bill}. London:\@ HMSO (HL 1986/87, (66)).
 
+
 \subsection{House of Commons/House of Lords bill}
 
 Great Britain. Parliament. House of Commons, 1988. \emph{Local government finance bill}. London:\@ HMSO (Bills | 1987/88, 66).
+
 
 \subsection{Act of Parliament (UK Statutes) before 1963}
 
 \emph{Witchcraft Act 1735} (9 Geo.2, c.5).
 
+
 \subsection{Act of Parliament (UK Statues) 1963 onwards}
 
 \emph{Pensions Act 2014}, c.19. London:\@ TSO.
+
 
 \subsection{Command paper}
 
 Great Britain. Ministry of Defence, 2004. \emph{Delivering security in a changing world:\@ defence white paper}. London:\@ TSO (Cm. 6041).
 
+
 \subsection{Statutory instrument}
 
 \emph{The Human Medicines Regulations 2012} [Online], No.1916, United Kingdom:\@ HMSO. Available from:\@ \url{http://www.legislation.gov.uk/uksi/2012/1916/pdfs/uksi_20121916_en.pdf} [Accessed 17/04/2016]
+
 
 \subsection{Legal case study}
 
 \emph{Seldon v Clarkson Wright \& Jakes}. [2012]. UKSC 16.
 
+
 \subsection{EU publication}
 
 European Commission, 2015. \emph{General report on the activities of the European Union 2014}. Luxembourg:\@ Publications Office of the European Union.
+
 
 \subsection{EU regulation or directive, decision, recommendation or opinion}
 
 Directive (EU) 2015/413 of the European Parliament and of the Council of 11th March 2015 facilitating cross-border exchange of information on road-safety-related traffic offences [2015] \emph{OJ} L68/9.
 
+
 \subsection{Judgment of the European Court of Justice}
 
 \emph{Alessandrini Srl and others v.~Commission} (C-295/03 P) [2005] ECR I-5700.
+
 
 \subsection{Database}
 
 Bureau van Dijk, 2008. BT Group plc company report. \emph{FAME} [Online]. London:\@ Bureau van Dijk. Available from:\@ \url{http://www.portal.euromonitor.com} [Accessed 6/11/2014].
 
+
 \subsection{Dataset}
 
 Wilson, D., 2013. \emph{Real geometry and connectedness via triangular description:\@ CAD example bank} [Online]. Bath:\@ University of Bath. Available from:\@ \url{http://doi.org/10.15125/BATH-00069} [Accessed 20/04/2016].
 
+
 \subsection{Computer program}
 
 @screencasto. \emph{Screencast-O-Matic} (v.2) [computer program]. \emph{https://screencast-o-matic.com/} [Accessed 16/05/2016].
+
 
 \bibliography{bath-bst}
 \end{document}
