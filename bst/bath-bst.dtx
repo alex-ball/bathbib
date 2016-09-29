@@ -1905,7 +1905,7 @@ The last shows how the reference was entered in the .bib file.
 %</driver>
 %<*driver|bib>
 @book{merckNDidx,
-  title = {The {Merck} Index Online},
+  title = {The {Merck} Index Online \textup{[Online]}},
   address = {London},
   publisher = {RSC Publishing},
   url = {http://www.rsc.org/Merck-Index},
@@ -1940,7 +1940,7 @@ The last shows how the reference was entered in the .bib file.
 \subsection{Electronic book}
 
 \begin{bibexbox}{haynes2014crc}
-  Haynes, W.M., ed., 2014. \emph{CRC handbook of chemistry and physics} [Online]. 94th ed. Boca Raton, Fla.:\@ CRC Press/Taylor and Francis. Available from:\@ \url{http://www.hbcpnetbase.com} [Accessed 16/06/2016].
+  Haynes, W.M., ed.\@, 2014.\@ \emph{CRC handbook of chemistry and physics} [Online].\@ 94th ed. Boca Raton, Fla.:\@ CRC Press/Taylor and Francis. Available from:\@ \url{http://www.hbcpnetbase.com} [Accessed 16/06/2016].
   \tcblower
 \begin{Verbatim}[commentchar=\%]
 %</driver>
@@ -1948,7 +1948,7 @@ The last shows how the reference was entered in the .bib file.
 @book{haynes2014crc,
   editor = {Haynes, W. M.},
   year = {2014},
-  title = {{CRC} Handbook of Chemistry and Physics},
+  title = {{CRC} Handbook of Chemistry and Physics \textup{[Online]}},
   edition = {94},
   address = {Boca Raton, Fla.},
   publisher = {CRC Press/Taylor and Francis},
@@ -1983,7 +1983,25 @@ The last shows how the reference was entered in the .bib file.
 
 \subsection{E-journal article}
 
-Williams, F., 1997. Electronic document delivery:\@ a trial in an academic library. \emph{Ariadne} [Online], 10. Available from:\@ http://www.ariadne.ac.uk/issue10/edd/ [Accessed 05/12/1997].
+\begin{bibexbox}{williams1997edd}
+  Williams, F., 1997. Electronic document delivery:\@ a trial in an academic library. \emph{Ariadne} [Online], 10. Available from:\@ \url{http://www.ariadne.ac.uk/issue10/edd/} [Accessed 05/12/1997].
+  \tcblower
+\begin{Verbatim}[commentchar=\%]
+%</driver>
+%<*driver|bib>
+@article{williams1997edd,
+  author = {Williams, F.},
+  year = {1997},
+  title = {Electronic Document Delivery: a Trial in an Academic Library},
+  journal = {Ariadne \textup{[Online]}},
+  volume = {10},
+  url = {http://www.ariadne.ac.uk/issue10/edd/},
+  urldate = {05/12/1997}}
+%</driver|bib>
+%<*driver>
+\end{Verbatim}
+\end{bibexbox}
+
 
 \subsection{Websites}
 
