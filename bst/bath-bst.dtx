@@ -1344,7 +1344,7 @@ FUNCTION {techreport}
 FUNCTION {unpublished}
 { output.bibitem
   author empty$
-    { format.title "title" output.check
+    { format.btitle "title" output.check
       format.date "year" output.check
       date.block
     }
@@ -1352,14 +1352,14 @@ FUNCTION {unpublished}
       author format.key output
       format.date "year" output.check
       date.block
-      format.title "title" output.check
+      format.btitle "title" output.check
     }
   if$
   new.block
-  format.url output
-  new.block
   format.note "note" output.check
+  new.block
   format.eprint output
+  format.url output
   fin.entry
 }
 
@@ -2388,15 +2388,44 @@ You can also use \texttt{audio} or \texttt{music} as an alias for \texttt{bookle
 \end{bibexbox}
 
 
-
 \subsection{Email discussion lists (jiscmail/listserv etc)}
 
-Clark, T., 5 July 2004. A European UK Libraries Plus? \emph{Lis-link} [Online]. Available from:\@ \url{lis-link@jiscmail.ac.uk} [Accessed 30 July 2004].
+\begin{bibexbox}(hacked){clark2004euk}
+  Clark, T., 5 July 2004. A European UK Libraries Plus? \emph{Lis-link} [Online]. Available from:\@ \url{lis-link@jiscmail.ac.uk} [Accessed 30 July 2004].
+  \tcblower
+\begin{Verbatim}[commentchar=\%]
+%</driver>
+%<*driver|bib>
+@article{clark2004euk,
+  author = {Clark, T.},
+  year = {05/07/2004},
+  title = {A {European} {UK} {Libraries} {Plus}?},
+  journal = {Lis-link \textup{[Online]}},
+  url = {lis-link@jiscmail.ac.uk},
+  urldate = {30/07/2004}}
+%</driver|bib>
+%<*driver>
+\end{Verbatim}
+\end{bibexbox}
 
 
 \subsection{Personal emails}
 
-Alston, S., 19/07/2004. \emph{Society of Architectural Historians of GB}. Email to K.M. Jordan.
+\begin{bibexbox}(hacked){alston2004sah}
+  Alston, S., 19/07/2004. \emph{Society of Architectural Historians of GB}. Email to K.M. Jordan.
+  \tcblower
+\begin{Verbatim}[commentchar=\%]
+%</driver>
+%<*driver|bib>
+@unpublished{alston2004sah,
+  author = {Alston, S.},
+  year = {19/07/2004},
+  title = {Society of {Architectural} {Historians} of {GB}},
+  note = {Email to K.M. Jordan}}
+%</driver|bib>
+%<*driver>
+\end{Verbatim}
+\end{bibexbox}
 
 
 \subsection{Preprint}
