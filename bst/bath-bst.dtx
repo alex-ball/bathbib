@@ -693,13 +693,8 @@ FUNCTION {format.number.series}
         { series field.or.null }
         { series empty$
             { number "number" bibinfo.check }
-            { output.state mid.sentence =
-                { bbl.number }
-                { bbl.number capitalize }
-              if$
+            { series "series" bibinfo.check
               number tie.or.space.prefix "number" bibinfo.check * *
-              bbl.in space.word *
-              series "series" bibinfo.check *
             }
           if$
         }
@@ -1196,6 +1191,8 @@ FUNCTION {manual}
   format.date "year" output.check
   date.block
   format.btitle "title" output.check
+  new.block
+  format.number.series output
   organization address new.block.checkb
   format.organization.address output
   format.edition output
@@ -1328,6 +1325,7 @@ FUNCTION {unpublished}
 
 FUNCTION {electronic} { manual }
 FUNCTION {online} { manual }
+FUNCTION {patent} { manual }
 FUNCTION {standard} { manual }
 FUNCTION {www} { manual }
 
@@ -2194,7 +2192,24 @@ You can also use \texttt{standard} as an alias for \texttt{manual}.
 
 \subsection{Patent}
 
-Phillipp Morris Inc., 1981. \emph{Optical perforating apparatus and system}. European patent application 0021165A1. 1981-01-07.
+\begin{bibexbox}{pm1981opa}
+  Phillipp Morris Inc., 1981. \emph{Optical perforating apparatus and system}. European patent application 0021165A1. 1981-01-07.
+  \tcblower
+\begin{Verbatim}[commentchar=\%]
+%</driver>
+%<*driver|bib>
+@manual{pm1981opa,
+  author = {{Phillipp Morris Inc.}},
+  year = {1981},
+  title = {Optical perforating apparatus and system},
+  series = {European patent application},
+  number = {0021165A1. 1981-01-07}}
+%</driver|bib>
+%<*driver>
+\end{Verbatim}
+\end{bibexbox}
+
+You can also use \texttt{patent} as an alias for \texttt{manual}.
 
 \subsection{Map}
 
