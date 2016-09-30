@@ -1036,7 +1036,7 @@ FUNCTION {book}
     { editor empty$
       { format.btitle "title" output.check
         format.date "year" output.check
-        date.block
+        year empty$ 'skip$ { date.block } if$
       }
       { format.editors "author and editor" output.check
         editor format.key output
@@ -1081,7 +1081,7 @@ FUNCTION {booklet}
   author empty$
     { format.btitle "title" output.check
       format.date "year" output.check
-      date.block
+      year empty$ 'skip$ { date.block } if$
     }
     { format.authors output
       author format.key output
@@ -1211,7 +1211,7 @@ FUNCTION {manual}
   author empty$
     { format.btitle "title" output.check
       format.date "year" output.check
-      date.block
+      year empty$ 'skip$ { date.block } if$
     }
     { format.authors output
       author format.key output
@@ -1258,7 +1258,7 @@ FUNCTION {misc}
   author empty$
     { format.title "title" output.check
       format.date "year" output.check
-      date.block
+      year empty$ 'skip$ { date.block } if$
     }
     { format.authors output
       author format.key output
@@ -1301,7 +1301,7 @@ FUNCTION {proceedings}
   editor empty$
     { format.btitle "title" output.check
       format.date "year" output.check
-      date.block
+      year empty$ 'skip$ { date.block } if$
     }
     { format.editors output
       editor format.key output
@@ -1332,7 +1332,7 @@ FUNCTION {techreport}
   author empty$
     { format.btitle "title" output.check
       format.date "year" output.check
-      date.block
+      year empty$ 'skip$ { date.block } if$
     }
     { format.authors output
       author format.key output
@@ -1362,7 +1362,7 @@ FUNCTION {unpublished}
   author empty$
     { format.btitle "title" output.check
       format.date "year" output.check
-      date.block
+      year empty$ 'skip$ { date.block } if$
     }
     { format.authors output
       author format.key output
