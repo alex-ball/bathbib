@@ -56,4 +56,4 @@ version.
 This work is ‘maintained’ (as per LPPL maintenance status) by [Alex Ball][me].
 
 [lppl]: http://www.latex-project.org/lppl.txt "LaTeX Project Public License (LPPL)"
-[me]: http://www.bath.ac.uk/person/503123 "Alex Ball"
+[me]: https://github.bath.ac.uk/ab318/bathbib "Alex Ball"

@@ -1770,7 +1770,7 @@ Copyright (C) 2016 by University of Bath
 %</install>
 %<install>\endbatchfile
 %<*internal>
-\usedir{source/latex/\jobname}
+\usedir{source/bibtex/\jobname}
 \generate{
   \file{\jobname.ins}{\from{\jobname.dtx}{install}}
 }
@@ -1878,12 +1878,21 @@ Copyright (C) 2016 by University of Bath
 \bibliographystyle{bath}
 \nobibliography*
 
+\usepackage{readprov}
+\usepackage[british,cleanlook]{isodate}
+
 \usepackage[colorlinks,citecolor=black]{hyperref}
 
 \sloppy
 
 \title{bath-bst: Harvard referencing style as recommended by the University of Bath Library}
-\author{Maintainer: Alex Ball}
+\author{%
+  Maintainer: Alex Ball\thanks{%
+    To contact the maintainer about this package, please visit the repository
+    where the code is hosted: \url{https://github.bath.ac.uk/ab318/bathbib}.%
+  }%
+}
+\date{Package \UseVersionOf{bath-bst.dtx} -- \printdateTeX{\UseDateOf{bath-bst.dtx}}}
 
 \begin{document}
 \maketitle
@@ -3053,7 +3062,7 @@ version.
 This work is ‘maintained’ (as per LPPL maintenance status) by [Alex Ball][me].
 
 [lppl]: http://www.latex-project.org/lppl.txt "LaTeX Project Public License (LPPL)"
-[me]: http://www.bath.ac.uk/person/503123 "Alex Ball"
+[me]: https://github.bath.ac.uk/ab318/bathbib "Alex Ball"
 %</driver|readme>
 %<*driver>
 \end{markdown*}
