@@ -2,12 +2,6 @@
 %<*internal>
 \iffalse
 %</internal>
-%<*readme>
-# bath-bst: Harvard referencing style as recommended by the University of Bath Library
-
-This is the BST file for using BibTeX to format reference lists in the Harvard
-style recommended by the University of Bath Library.
-%</readme>
 %<*bst>
 ENTRY
   { address
@@ -1731,9 +1725,9 @@ FUNCTION {end.bib}
 }
 EXECUTE {end.bib}
 %</bst>
-%<*bib>
-
-%</bib>
+%<*readme>
+# bath-bst: Harvard referencing style as recommended by the University of Bath Library
+%</readme>
 %<*internal>
 \fi
 \def\nameofplainTeX{plain}
@@ -1745,6 +1739,19 @@ EXECUTE {end.bib}
 \input docstrip.tex
 \keepsilent
 \askforoverwritefalse
+
+\nopreamble\nopostamble
+
+\usedir{bibtex/bst/\jobname}
+\generate{
+  \file{bath.bst}{\from{\jobname.dtx}{bst}}
+}
+\usedir{doc/bibtex/\jobname}
+\generate{
+  \file{README.md}{\from{\jobname.dtx}{readme}}
+  \file{\jobname.bib}{\from{\jobname.dtx}{bib}}
+}
+
 \preamble
 ----------------------------------------------------------------
 bath-bst --- Harvard referencing style as recommended by the University of Bath Library
@@ -1767,16 +1774,6 @@ Copyright (C) 2016 by University of Bath
 \generate{
   \file{\jobname.ins}{\from{\jobname.dtx}{install}}
 }
-\nopreamble\nopostamble
-\usedir{bibtex/bst/\jobname}
-\generate{
-  \file{bath.bst}{\from{\jobname.dtx}{bst}}
-}
-\usedir{doc/bibtex/\jobname}
-\generate{
-  \file{README.md}{\from{\jobname.dtx}{readme}}
-  \file{\jobname.bib}{\from{\jobname.dtx}{bib}}
-}
 \ifx\fmtname\nameofplainTeX
   \expandafter\endbatchfile
 \else
@@ -1785,7 +1782,7 @@ Copyright (C) 2016 by University of Bath
 %</internal>
 %<*driver>
 \ProvidesFile{bath-bst.dtx}
-    [2016/08/19 v0.1 Harvard referencing style as recommended by the University of Bath Library]
+    [2016/09/30 v0.9 Harvard referencing style as recommended by the University of Bath Library]
 
 \documentclass[10pt,a4paper]{article}
 \usepackage[british]{babel}
@@ -1806,11 +1803,18 @@ Copyright (C) 2016 by University of Bath
 \fi
 
 \usepackage{xpatch,csquotes,xcolor,xparse,multicol,fancyvrb}
-\definecolor{Green}{rgb}{0,.5,0}
+\xdefinecolor{Green}{rgb}{0,.5,0}
+\xdefinecolor{Slate}{RGB}{80,86,94}
+\xdefinecolor{BathStone}{RGB}{213,211,185}
 \colorlet{ok}{Green}
 \colorlet{bad}{red}
 \colorlet{hacked}{orange}
 \colorlet{manual}{purple}
+
+\usepackage[tightLists=false]{markdown}
+\markdownSetup{rendererPrototypes={%
+    link = {\href{#3}{#1}}%
+}}
 
 \usepackage{fontawesome}[2015/07/07]
 \newcommand{\booksym}{\makebox[1em][c]{\faicon{book}}}
@@ -1824,15 +1828,32 @@ Copyright (C) 2016 by University of Bath
 \usepackage{tcolorbox}
 \tcbuselibrary{listings,breakable,skins,xparse}
 \lstloadlanguages{[LaTeX]TeX}
-\lstset
+\lstdefinestyle{dtxlatex}%
   { columns=fullflexible
   , basicstyle=\ttfamily
   , language={[LaTeX]TeX}
   , texcsstyle=*\color{red!75!black}
+  , moretexcs=
+    { citet
+    , citep
+    , noop
+    , urlprefix
+    , urldateprefix
+    }
   , moredelim=**[s][\color{violet}]{[}{]}
   , moredelim=**[s][\color{blue!75!black}]{\{}{\}}
   , mathescape
   , escapechar=~
+  }
+\lstset{style=dtxlatex}
+\tcbset
+  { colframe = Slate
+  , colback = BathStone!25
+  , listing options =
+    { style = tcblatex
+    , style = dtxlatex
+    , basicstyle=\ttfamily\small
+    }
   }
 \NewTColorBox{bibexbox}{D(){ok}d<>m}%
   {bicolor
@@ -1857,7 +1878,7 @@ Copyright (C) 2016 by University of Bath
 \bibliographystyle{bath}
 \nobibliography*
 
-\usepackage[colorlinks]{hyperref}
+\usepackage[colorlinks,citecolor=black]{hyperref}
 
 \sloppy
 
@@ -1867,6 +1888,56 @@ Copyright (C) 2016 by University of Bath
 \begin{document}
 \maketitle
 
+\section{Introduction}
+
+\begin{markdown*}{hybrid=true}
+%</driver>
+%<*driver|readme>
+
+This package provides a .bst file for using BibTeX to format reference lists in the
+[Harvard style][bath-harvard] recommended by the University of Bath Library.
+
+## Installation
+
+### Automated way
+
+A makefile is provided which you can use with the Make utility on UNIX-like systems:
+
+  * Running `make source` generates the derived files
+      - README.md
+      - bath.bst
+      - bath-bst.bib
+      - bath-bst.ins
+  * Running `make` generates the above files and also bath-bst.pdf.
+  * Running `make inst` installs the files in the user's TeX tree.
+    You can undo this with `make uninst`.
+  * Running `make install` installs the files in the local TeX tree.
+    You can undo this with `make uninstall`.
+
+### Manual way
+
+You only need to follow the first two steps if you have made your own changes to the .dtx file.
+The compiled files you need are included in the zip archive.
+
+ 1. Run `tex bath-bst.dtx` to generate the source files.
+ 2. Compile bath-bst.dtx with LuaLaTeX and BibTeX to generate the documentation.
+ 3. Move the files to your TeX tree as follows:
+      - `source/bibtex/bath-bst`:
+        bath-bst.dtx,
+        (bath-bst.ins)
+      - `bibtex/bst/bath-bst`:
+        bath.bst
+      - `doc/bibtex/bath-bst`:
+        bath-bst.pdf,
+        README.md
+
+ 4. You may then have to update your installation's file name database
+    before TeX and friends can see the files.
+
+[bath-harvard]: http://www.bath.ac.uk/library/infoskills/referencing-plagiarism/harvard-bath-style.html
+%</driver|readme>
+%<*driver>
+\end{markdown*}
 
 \section{Using the style}
 
@@ -2626,7 +2697,7 @@ The following example tricks Bib\TeX\ into treating the original rendering of th
 \newcommand*{\noop}[1]{}
 \end{tcblisting}
 
-For the trick to work, the argument you give to \lstinline|\noop| must be lowercase, but otherwise it can be anything you like.
+For the trick to work, the argument you give to \lstinline[style=dtxlatex]|\noop| must be lowercase, but otherwise it can be anything you like.
 
 \newcommand*{\noop}[1]{}
 \begin{bibexbox}(hacked){hua1999qys1}
@@ -2960,25 +3031,32 @@ You can also use \texttt{dataset} as an alternative alias for \texttt{manual}.
 
 You can also use \texttt{software} as an alternative alias for \texttt{manual}.
 
-
 \bibliography{bath-bst}
-\end{document}
 
+\section*{Licence}
 
-\begin{bibexbox}{}
-  
-  \tcblower
-\begin{Verbatim}[commentchar=\%]
+\begin{markdown*}{hybrid=true}
 %</driver>
-%<*driver|bib>
-@book{key,
-  author = {},
-  year = {},
-  title = {},
-  address = {},
-  publisher = {}}
-%</driver|bib>
+%<readme>
+%<readme>## Licence
+%<readme>
+%<*driver|readme>
+Copyright 2016 University of Bath.
+
+This work consists of the documented LaTeX file bath-bst.dtx and a Makefile.
+
+The text files contained in this work may be distributed and/or modified
+under the conditions of the [LaTeX Project Public License (LPPL)][lppl],
+either version 1.3c of this license or (at your option) any later
+version.
+
+This work is ‘maintained’ (as per LPPL maintenance status) by [Alex Ball][me].
+
+[lppl]: http://www.latex-project.org/lppl.txt "LaTeX Project Public License (LPPL)"
+[me]: http://www.bath.ac.uk/person/503123 "Alex Ball"
+%</driver|readme>
 %<*driver>
-\end{Verbatim}
-\end{bibexbox}
+\end{markdown*}
+
+\end{document}
 %</driver>
