@@ -1523,7 +1523,7 @@ FUNCTION {sort.format.names}
   numnames 'namesleft :=
     { namesleft #0 > }
     { s nameptr
-      "{ll{ }}{  f{ }}{  jj{ }}"
+      "{ll{ }}{  f{ }}{  jj{ }}{ vv{}}"
       format.name$ 't :=
       nameptr #1 >
         {
@@ -2506,16 +2506,95 @@ You can also use \texttt{audio} or \texttt{music} as an alias for \texttt{bookle
 
 \subsection{Non-English work in the Roman alphabet}
 
-Esquivel, L., 2003. \emph{Como agua para chocolate} [Like water for chocolate]. Barcelona:\@ Debolsillo.
+\begin{bibexbox}{esquivel2003cap}
+  Esquivel, L., 2003. \emph{Como agua para chocolate} [Like water for chocolate]. Barcelona:\@ Debolsillo.
+  \tcblower
+\begin{Verbatim}[commentchar=\%]
+%</driver>
+%<*driver|bib>
+@book{esquivel2003cap,
+  author = {Esquivel, L.},
+  year = {2003},
+  title = {Como Agua para Chocolate},
+  titleaddon = {[Like water for chocolate]},
+  address = {Barcelona},
+  publisher = {Debolsillo}}
+%</driver|bib>
+%<*driver>
+\end{Verbatim}
+\end{bibexbox}
 
-Thurfjell, W., 1975. Vart har våran doktor tagit vägen? [Where has our doctor gone?] \emph{Läkartidningen} 72, p.789.
+\begin{bibexbox}{thurfjell1975vhv}
+  Thurfjell, W., 1975. Vart har våran doktor tagit vägen? [Where has our doctor gone?] \emph{Läkartidningen} 72, p.789.
+  \tcblower
+\begin{Verbatim}[commentchar=\%]
+%</driver>
+%<*driver|bib>
+@article{thurfjell1975vhv,
+  author = {Thurfjell, W.},
+  year = {1975},
+  title = {Vart har våran doktor tagit vägen?},
+  titleaddon = {[Where has our doctor gone?]},
+  journal = {Läkartidningen},
+  volume = {72},
+  pages = {789}}
+%</driver|bib>
+%<*driver>
+\end{Verbatim}
+\end{bibexbox}
 
 
 \subsection{Non-English works in non-Roman alphabets}
 
-Hua, L. 華林甫, 1999.  Qingdai yilai Sanxia diqu shuihan zaihai de chubu yanjiu 清代以來三峽地區水旱災害的初步硏 [A preliminary study of floods and droughts in the Three Gorges region since the Qing dynasty], \emph{Zhongguo shehui kexue} 中國社會科學 , 1, pp.168--79.
+The following example tricks Bib\TeX\ into treating the original rendering of the author's name as the `von' part of a Roman-alphabet name. This requires the use of a command that simply gobbles its argument, which you have to define yourself:
 
-Hua, L., 1999. Qingdai yilai Sanxia diqu shuihan zaihai de chubu yanjiu [A preliminary study of floods and droughts in the Three Gorges region since the Qing dynasty], \emph{Zhongguo shehui kexue}, 1, pp.168--79.
+\begin{tcblisting}{listing only}
+\newcommand*{\noop}[1]{}
+\end{tcblisting}
+
+For the trick to work, the argument you give to \lstinline|\noop| must be lowercase, but otherwise it can be anything you like.
+
+\newcommand*{\noop}[1]{}
+\begin{bibexbox}(hacked){hua1999qys1}
+  Hua, L. 華林甫, 1999.  Qingdai yilai Sanxia diqu shuihan zaihai de chubu yanjiu 清代以來三峽地區水旱災害的初步硏 [A preliminary study of floods and droughts in the Three Gorges region since the Qing dynasty], \emph{Zhongguo shehui kexue} 中國社會科學 , 1, pp.168--79.
+  \tcblower
+\begin{Verbatim}[commentchar=\%]
+%</driver>
+%<*driver|bib>
+@article{hua1999qys1,
+  author = {L. \noop{h}華林甫 Hua},
+  year = {1999},
+  title = {Qingdai yilai Sanxia diqu shuihan zaihai de chubu yanjiu
+    清代以來三峽地區水旱災害的初步硏},
+  titleaddon = {[A preliminary study of floods and droughts in the Three Gorges region since
+    the Qing dynasty]},
+  journal = {Zhongguo shehui kexue \textup{中國社會科學}},
+  volume = {1},
+  pages = {168-79}}
+%</driver|bib>
+%<*driver>
+\end{Verbatim}
+\end{bibexbox}
+
+\begin{bibexbox}{hua1999qys2}
+  Hua, L., 1999. Qingdai yilai Sanxia diqu shuihan zaihai de chubu yanjiu [A preliminary study of floods and droughts in the Three Gorges region since the Qing dynasty], \emph{Zhongguo shehui kexue}, 1, pp.168--79.
+  \tcblower
+\begin{Verbatim}[commentchar=\%]
+%</driver>
+%<*driver|bib>
+@article{hua1999qys2,
+  author = {Hua, L.},
+  year = {1999},
+  title = {Qingdai yilai Sanxia diqu shuihan zaihai de chubu yanjiu},
+  titleaddon = {[A preliminary study of floods and droughts in the Three Gorges region since
+    the Qing dynasty]},
+  journal = {Zhongguo shehui kexue},
+  volume = {1},
+  pages = {168-79}}
+%</driver|bib>
+%<*driver>
+\end{Verbatim}
+\end{bibexbox}
 
 
 \subsection{House of Commons paper}
