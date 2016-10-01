@@ -1352,10 +1352,26 @@ This work is `maintained' (as per LPPL maintenance status) by [Alex Ball][me].
 %
 % \subsection{Preliminaries}
 %
-% We begin by loading the default author--year style
+% We begin by loading the default author--year style.
 %
 %    \begin{macrocode}
 \RequireBibliographyStyle{authoryear}
+\ExecuteBibliographyOptions{maxcitenames=3,maxbibnames=99,isbn=false,giveninits=true}
+%    \end{macrocode}
+%
+% We allow the bibliography look more like the Bib\TeX\ default.
+%
+%    \begin{macrocode}
+\setlength{\bibitemsep}{\baselineskip}
+\renewcommand*{\bibfont}{\normalfont\normalsize}
+%    \end{macrocode}
+%
+% Names are usually reversed. There are no spaces between initials.
+%
+%    \begin{macrocode}
+\DeclareNameAlias{author}{family-given}
+\DeclareNameAlias{editor}{family-given}
+\renewcommand*{\bibinitdelim}{}
 %    \end{macrocode}
 % \iffalse
 %</bbx>
