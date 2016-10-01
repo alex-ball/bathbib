@@ -1,13 +1,14 @@
 # biblatex-bath: Harvard referencing style as recommended by the University of Bath Library
 
-This package provides a .bst file for using BibTeX to format reference lists in the
+This package provides a biblatex style to format reference lists in the
 [Harvard style][bath-harvard] recommended by the University of Bath Library.
 
 ## Installation
 
 ### Automated way
 
-A makefile is provided which you can use with the Make utility on UNIX-like systems:
+A makefile is provided which you can use with the Make utility on
+UNIX-like systems:
 
   * Running `make source` generates the derived files
       - README.md
@@ -22,11 +23,15 @@ A makefile is provided which you can use with the Make utility on UNIX-like syst
 
 ### Manual way
 
-You only need to follow the first two steps if you have made your own changes to the .dtx file.
-The compiled files you need are included in the zip archive.
+You only need to follow the first two steps if you have made your own
+changes to the .dtx file. The compiled files you need are included in
+the zip archive.
 
  1. Run `tex biblatex-bath.dtx` to generate the source files.
- 2. Compile biblatex-bath.dtx with LuaLaTeX and BibTeX to generate the documentation.
+ 2. Compile biblatex-bath.dtx with LuaLaTeX and Biber to generate the
+    documentation. You will need, among other things, the luatexja,
+    adobemapping and ipaex packages installed; this is just for the
+    documentation, not for the biblatex style itself.
  3. Move the files to your TeX tree as follows:
       - `source/latex/biblatex-bath`:
         biblatex-bath.dtx,
