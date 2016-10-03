@@ -993,7 +993,7 @@ For the trick to work, the argument you give to \lstinline[style=dtxlatex]|\noop
 %</driver>
 %<*driver|bib>
 @article{hua1999qys1,
-  author = {L. \noop{h}華林甫 Hua},
+  author = {L. Hua},
   year = {1999},
   title = {Qingdai yilai {Sanxia} diqu shuihan zaihai de chubu yanjiu
     {清代以來三峽地區水旱災害的初步硏}},
@@ -1240,7 +1240,7 @@ For the trick to work, the argument you give to \lstinline[style=dtxlatex]|\noop
 %</driver>
 %<*driver|bib>
 @unpublished{srl.etal-v-comm2005,
-  title = {Alessandrini {Srl} and others v.~{Commission}},
+  title = {Alessandrini {Srl} and others v.\@ {Commission}},
   titleaddon = {(C-295/03 P) [2005] ECR I-5700}}
 %</driver|bib>
 %<*driver>
@@ -1355,6 +1355,7 @@ This work is `maintained' (as per LPPL maintenance status) by [Alex Ball][me].
 % We begin by loading the default author--year style.
 %
 %    \begin{macrocode}
+\RequirePackage{xpatch}
 \RequireBibliographyStyle{authoryear}
 \ExecuteBibliographyOptions{maxcitenames=3,maxbibnames=99,isbn=false,giveninits=true}
 %    \end{macrocode}
@@ -1362,9 +1363,11 @@ This work is `maintained' (as per LPPL maintenance status) by [Alex Ball][me].
 % We allow the bibliography look more like the Bib\TeX\ default.
 %
 %    \begin{macrocode}
-\setlength{\bibitemsep}{\baselineskip}
+\setlength{\bibitemsep}{1em plus 0.2em minus 0.2em}
 \renewcommand*{\bibfont}{\normalfont\normalsize}
 %    \end{macrocode}
+%
+% \subsection{Name handling}
 %
 % Names are usually reversed. There are no spaces between initials.
 %
@@ -1372,6 +1375,28 @@ This work is `maintained' (as per LPPL maintenance status) by [Alex Ball][me].
 \DeclareNameAlias{author}{family-given}
 \DeclareNameAlias{editor}{family-given}
 \renewcommand*{\bibinitdelim}{}
+%    \end{macrocode}
+%
+% \subsection{Titles}
+%
+% Most titles are set in italics, but some are set roman and unquoted.
+%
+%    \begin{macrocode}
+\DeclareFieldFormat{sentencecase}{\MakeSentenceCase*{#1}}
+\DeclareFieldFormat{title}{\mkbibemph{#1}}
+\DeclareFieldFormat
+  [article,inbook,incollection,inproceedings]%
+  {title}{#1}
+\DeclareFieldFormat
+  [patent,thesis,unpublished]%
+  {title}{\mkbibemph{#1}}
+\xpatchbibmacro{title}{\printfield[titlecase]{title}}{\printfield[sentencecase]{title}}{}{}
+\xpatchbibmacro{title}{\printfield[titlecase]{subtitle}}{\printfield[sentencecase]{subtitle}}{}{}
+\xpatchbibmacro{booktitle}{\printfield[titlecase]{title}}{\printfield[sentencecase]{title}}{}{}
+\xpatchbibmacro{booktitle}{\printfield[titlecase]{subtitle}}{\printfield[sentencecase]{subtitle}}{}{}
+\xpatchbibmacro{maintitle}{\printfield[titlecase]{title}}{\printfield[sentencecase]{title}}{}{}
+\xpatchbibmacro{maintitle}{\printfield[titlecase]{subtitle}}{\printfield[sentencecase]{subtitle}}{}{}
+\xpatchbibmacro{labeltitle}{\printfield{title}}{\usebibmacro{title}\clearfield{titleaddon}}{}{}
 %    \end{macrocode}
 % \iffalse
 %</bbx>
