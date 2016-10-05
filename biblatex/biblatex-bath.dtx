@@ -1385,7 +1385,7 @@ This work is `maintained' (as per LPPL maintenance status) by [Alex Ball][me].
 %
 %    \begin{macrocode}
 \RequireBibliographyStyle{authoryear}
-\ExecuteBibliographyOptions{maxcitenames=3,maxbibnames=99,isbn=false,giveninits=true}
+\ExecuteBibliographyOptions{maxcitenames=3,maxbibnames=9999,isbn=false,giveninits=true}
 %    \end{macrocode}
 %
 % We allow the bibliography look more like the Bib\TeX\ default.
@@ -1403,6 +1403,75 @@ This work is `maintained' (as per LPPL maintenance status) by [Alex Ball][me].
 \DeclareNameAlias{author}{family-given}
 \DeclareNameAlias{editor}{family-given}
 \renewcommand*{\bibinitdelim}{}
+\renewbibmacro*{byeditor}{%
+  \ifnameundef{editor}
+    {}
+    {\printnames[byeditor]{editor}%
+     \setunit{\addcomma\space}%
+     \usebibmacro{editorstrg}%
+     \clearname{editor}%
+     \newunit}%
+  \usebibmacro{byeditorx}}
+
+\renewbibmacro*{byeditorx}{%
+  \ifnameundef{editora}
+    {}
+    {\printnames[byeditora]{editora}%
+     \setunit{\addcomma\space}%
+     \usebibmacro{typestrg}{editora}{editor}%
+     \clearname{editora}%
+     \newunit}%
+  \ifnameundef{editorb}
+    {}
+    {\printnames[byeditorb]{editorb}%
+     \setunit{\addcomma\space}%
+     \usebibmacro{typestrg}{editorb}{editor}%
+     \clearname{editorb}%
+     \newunit}%
+  \ifnameundef{editorc}
+    {}
+    {\printnames[byeditorc]{editorc}%
+     \setunit{\addcomma\space}%
+     \usebibmacro{typestrg}{editorc}{editor}%
+     \clearname{editorc}%
+     \newunit}}
+
+\renewbibmacro*{bytranslator}{%
+  \ifnameundef{translator}
+    {}
+    {\printnames[bytranslator]{translator}%
+     \newunit
+     \bibstring{translator}%
+     \clearname{translator}}}
+
+\renewbibmacro*{byeditor+others}{%
+  \ifnameundef{editor}
+    {}
+    {\printnames[byeditor]{editor}%
+     \setunit{\addcomma\space}%
+     \usebibmacro{editorstrg}%
+     \clearname{editor}%
+     \newunit}%
+  \usebibmacro{byeditorx}%
+  \usebibmacro{bytranslator+others}}
+
+\renewbibmacro*{bytranslator+others}{%
+  \ifnameundef{translator}
+    {}
+    {\printnames[bytranslator]{translator}%
+     \newunit
+     \bibstring{translator}%
+     \clearname{translator}%
+     \newunit}%
+  \usebibmacro{withothers}}
+
+\newbibmacro*{typestrg}[2]{%
+  \iffieldundef{#1type}
+    {\bibstring{#2}}
+    {\ifbibxstring{\thefield{#1type}}
+       {\bibstring{\thefield{#1type}}}
+       {\printtext{\thefield{#1type}}}}}
+
 %    \end{macrocode}
 %
 % \subsection{Titles}
@@ -1426,6 +1495,37 @@ This work is `maintained' (as per LPPL maintenance status) by [Alex Ball][me].
 \xpatchbibmacro{maintitle}{\printfield[titlecase]{subtitle}}{\printfield[sentencecase]{subtitle}}{}{}
 \xpatchbibmacro{labeltitle}{\printfield{title}}{\usebibmacro{title}\clearfield{titleaddon}}{}{}
 %    \end{macrocode}
+%
+% \subsection{Works in collections}
+%
+% Compared with the standard styles, the main difference is that the editors
+% precede the booktitle.
+%
+%    \begin{macrocode}
+\xpatchbibdriver{incollection}{%
+  \usebibmacro{maintitle+booktitle}%
+}{%
+  \usebibmacro{byeditor}%
+  \newunit\newblock
+  \usebibmacro{maintitle+booktitle}%
+  \usebibmacro{bytranslator+others}%
+}{}{}
+\xpatchbibdriver{inproceedings}{%
+  \usebibmacro{maintitle+booktitle}%
+  \newunit\newblock
+  \usebibmacro{event+venue+date}%
+  \newunit\newblock
+  \usebibmacro{byeditor+others}%
+}{%
+  \usebibmacro{byeditor}%
+  \newunit\newblock
+  \usebibmacro{maintitle+booktitle}%
+  \usebibmacro{bytranslator+others}%
+  \newunit
+  \usebibmacro{event+venue+date}%
+}{}{}
+%    \end{macrocode}
+%
 % \iffalse
 %</bbx>
 %<*lbx>
