@@ -112,11 +112,10 @@ Copyright (C) 2016 by University of Bath
   , language={[LaTeX]TeX}
   , texcsstyle=*\color{red!75!black}
   , moretexcs=
-    { citet
-    , citep
+    { textcite
+    , autocite
     , noop
-    , urlprefix
-    , urldateprefix
+    , addbibresource
     }
   , moredelim=**[s][\color{violet}]{[}{]}
   , moredelim=**[s][\color{blue!75!black}]{\{}{\}}
@@ -140,7 +139,7 @@ Copyright (C) 2016 by University of Bath
   ,colbacklower = white
   ,fontlower = \footnotesize
   ,before upper = {\hangfrom{\booksym\space}}
-  ,after upper = {\par\hangfrom{\cogsym\space}\fullcite{#3}.}
+  ,after upper = {\par\hangfrom{\cogsym\space}\fullcite{#3}}
   ,IfNoValueTF={#2}{}%
     {overlay = {
       \node[anchor=south east,text=teal] at (frame.south east) {#2};
@@ -150,6 +149,15 @@ Copyright (C) 2016 by University of Bath
 
 \usepackage[backend=biber,hyperref=false,isbn=false,bibstyle=bath,citestyle=authoryear]{biblatex}
 \addbibresource{biblatex-bath.bib}
+\makeatletter
+\DeclareCiteCommand{\fullcite}
+  {\usebibmacro{prenote}}
+  {\usedriver
+     {\defcounter{maxnames}{\blx@maxbibnames}}
+     {\thefield{entrytype}}.}
+  {\multicitedelim}
+  {\usebibmacro{postnote}}
+\makeatother
 
 \usepackage{readprov}
 \usepackage[british,cleanlook]{isodate}
