@@ -1566,6 +1566,43 @@ This work is `maintained' (as per LPPL maintenance status) by [Alex Ball][me].
 %    \end{macrocode}
 %
 % \subsection{Articles}
+%
+% Compared with the standard styles, the main difference in the driver is the
+% omission of `in'.
+%
+%    \begin{macrocode}
+\xpatchbibdriver{article}{%
+  \usebibmacro{in:}\usebibmacro{journal+issuetitle}%
+}{%
+  \usebibmacro{journal+issuetitle}%
+}{}{}
+%    \end{macrocode}
+%
+% The journal title is followed by a comma. The issue number is separated from
+% the volume by parentheses rather than a dot.
+%
+%    \begin{macrocode}
+\renewbibmacro*{journal+issuetitle}{%
+  \usebibmacro{journal}%
+  \setunit*{\addcomma\space}%
+  \iffieldundef{series}
+    {}
+    {\newunit
+     \printfield{series}%
+     \setunit{\addcomma\space}}%
+  \usebibmacro{volume+number+eid}%
+  \setunit{\addspace}%
+  \usebibmacro{issue+date}%
+  \setunit{\addcolon\space}%
+  \usebibmacro{issue}%
+  \newunit}
+\renewbibmacro*{volume+number+eid}{%
+  \printfield{volume}%
+  \printfield[parens]{number}%
+  \setunit{\addcomma\space}%
+  \printfield{eid}}
+%    \end{macrocode}
+%
 % \subsection{Works in collections}
 %
 % Compared with the standard styles, the main difference is that the editors
