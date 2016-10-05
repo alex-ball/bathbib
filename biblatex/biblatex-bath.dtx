@@ -1487,13 +1487,51 @@ This work is `maintained' (as per LPPL maintenance status) by [Alex Ball][me].
 \DeclareFieldFormat
   [patent,thesis,unpublished]%
   {title}{\mkbibemph{#1}}
-\xpatchbibmacro{title}{\printfield[titlecase]{title}}{\printfield[sentencecase]{title}}{}{}
-\xpatchbibmacro{title}{\printfield[titlecase]{subtitle}}{\printfield[sentencecase]{subtitle}}{}{}
-\xpatchbibmacro{booktitle}{\printfield[titlecase]{title}}{\printfield[sentencecase]{title}}{}{}
-\xpatchbibmacro{booktitle}{\printfield[titlecase]{subtitle}}{\printfield[sentencecase]{subtitle}}{}{}
-\xpatchbibmacro{maintitle}{\printfield[titlecase]{title}}{\printfield[sentencecase]{title}}{}{}
-\xpatchbibmacro{maintitle}{\printfield[titlecase]{subtitle}}{\printfield[sentencecase]{subtitle}}{}{}
-\xpatchbibmacro{labeltitle}{\printfield{title}}{\usebibmacro{title}\clearfield{titleaddon}}{}{}
+\renewbibmacro*{title}{%
+  \ifboolexpr{
+    test {\iffieldundef{title}}
+    and
+    test {\iffieldundef{subtitle}}
+  }
+    {}
+    {\printtext[title]{%
+       \printfield[sentencecase]{title}%
+       \setunit{\subtitlepunct}%
+       \printfield[sentencecase]{subtitle}%
+       \setunit{\space}}}%
+  \printfield{titleaddon}}
+\renewbibmacro*{booktitle}{%
+  \ifboolexpr{
+    test {\iffieldundef{booktitle}}
+    and
+    test {\iffieldundef{booksubtitle}}
+  }
+    {}
+    {\printtext[booktitle]{%
+       \printfield[sentencecase]{booktitle}%
+       \setunit{\subtitlepunct}%
+       \printfield[sentencecase]{booksubtitle}%
+       \setunit{\space}}}%
+  \printfield{booktitleaddon}}
+\renewbibmacro*{maintitle}{%
+  \ifboolexpr{
+    test {\iffieldundef{maintitle}}
+    and
+    test {\iffieldundef{mainsubtitle}}
+  }
+    {}
+    {\printtext[maintitle]{%
+       \printfield[sentencecase]{maintitle}%
+       \setunit{\subtitlepunct}%
+       \printfield[sentencecase]{mainsubtitle}%
+       \setunit{\space}}}%
+  \printfield{maintitleaddon}}
+\renewcommand*{\subtitlepunct}{\addcolon\space}
+\xpatchbibmacro{labeltitle}{%
+  \printfield{title}%
+}{%
+  \usebibmacro{title}\setunit{\addcomma\space}\clearfield{titleaddon}%
+}{}{}
 %    \end{macrocode}
 %
 % \subsection{Works in collections}
