@@ -22,6 +22,7 @@
 \usedir{tex/latex/\jobname}
 \generate{
   \file{bath.bbx}{\from{\jobname.dtx}{bbx}}
+  \file{british-bath.lbx}{\from{\jobname.dtx}{lbx}}
 }
 \usedir{doc/latex/\jobname}
 \generate{
@@ -188,6 +189,7 @@ UNIX-like systems:
   * Running `make source` generates the derived files
       - README.md
       - bath.bbx
+      - british-bath.lbx
       - biblatex-bath.bib
       - biblatex-bath.ins
   * Running `make` generates the above files and also biblatex-bath.pdf.
@@ -212,7 +214,8 @@ the zip archive.
         biblatex-bath.dtx,
         (biblatex-bath.ins)
       - `tex/latex/biblatex-bath`:
-        bath.bst
+        bath.bbx,
+        british-bath.lbx
       - `doc/latex/biblatex-bath`:
         biblatex-bath.pdf,
         README.md
@@ -1350,12 +1353,29 @@ This work is `maintained' (as per LPPL maintenance status) by [Alex Ball][me].
 %<*bbx>
 % \fi
 %
+% \section{Implementation: bibliography style}
+%
 % \subsection{Preliminaries}
+%
+% For ease of maintenance, we will patch some definitions with \textsf{xpatch}
+% instead of writing out our own in full.
+%
+%    \begin{macrocode}
+\RequirePackage{xpatch}
+%    \end{macrocode}
+%
+% Language support may be widened in future, but for now we support the
+% following:
+%
+%    \begin{macrocode}
+\DeclareLanguageMapping{english}{british-bath}
+\DeclareLanguageMapping{british}{british-bath}
+\DeclareLanguageMapping{american}{british-bath}
+%    \end{macrocode}
 %
 % We begin by loading the default author--year style.
 %
 %    \begin{macrocode}
-\RequirePackage{xpatch}
 \RequireBibliographyStyle{authoryear}
 \ExecuteBibliographyOptions{maxcitenames=3,maxbibnames=99,isbn=false,giveninits=true}
 %    \end{macrocode}
@@ -1400,5 +1420,19 @@ This work is `maintained' (as per LPPL maintenance status) by [Alex Ball][me].
 %    \end{macrocode}
 % \iffalse
 %</bbx>
+%<*lbx>
+% \fi
+%
+% \section{Implementation: British English language file}
+%
+%    \begin{macrocode}
+\InheritBibliographyExtras{british}
+\DeclareBibliographyStrings{%
+  inherit          = {british},
+  urlseen          = {{Accessed}{Accessed}}
+}
+%    \end{macrocode}
+% \iffalse
+%</lbx>
 % \fi
 
