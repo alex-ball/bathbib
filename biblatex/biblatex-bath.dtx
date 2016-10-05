@@ -1534,6 +1534,20 @@ This work is `maintained' (as per LPPL maintenance status) by [Alex Ball][me].
 }{}{}
 %    \end{macrocode}
 %
+% \subsection{Dates}
+%
+% Dates are preceded by a comma, and are given bare rather than in parentheses.
+%
+%    \begin{macrocode}
+\xpatchbibmacro{date+extrayear}{%
+  \printtext[parens]%
+}{%
+  \setunit*{\addcomma\space}%
+  \printtext%
+}{}{}
+%    \end{macrocode}
+%
+% \subsection{Page numbers}
 % \subsection{Works in collections}
 %
 % Compared with the standard styles, the main difference is that the editors
