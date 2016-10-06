@@ -112,7 +112,8 @@ Copyright (C) 2016 by University of Bath
   , language={[LaTeX]TeX}
   , texcsstyle=*\color{red!75!black}
   , moretexcs=
-    { textcite
+    { printbibliography
+    , textcite
     , autocite
     , noop
     , addbibresource
@@ -247,7 +248,7 @@ To use the style, specify it when you load \textsf{biblatex}:
 Remember also to specify your .bib file in the preamble:
 
 \begin{tcblisting}{listing only}
-\addbibresource{file}
+\addbibresource{file.bib}
 \end{tcblisting}
 
 Use \lstinline[style=dtxlatex]|\printbibliography| to print your bibliography
