@@ -1548,6 +1548,46 @@ This work is `maintained' (as per LPPL maintenance status) by [Alex Ball][me].
 }{}{}
 %    \end{macrocode}
 %
+% \subsection{Publishers}
+%
+% We patch the secondary publication macros so they fall back to using the
+% publisher list (if provided) if the intended list is empty.
+%
+%    \begin{macrocode}
+\renewbibmacro*{institution+location+date}{%
+  \printlist{location}%
+  \iflistundef{institution}{%
+    \iflistundef{publisher}{%
+      \setunit*{\addcomma\space}%
+    }{%
+      \setunit*{\addcolon\space}%
+      \printlist{publisher}%
+    }%
+  }{%
+    \setunit*{\addcolon\space}%
+    \printlist{institution}%
+  }%
+  \setunit*{\addcomma\space}%
+  \usebibmacro{date}%
+  \newunit}
+\renewbibmacro*{organization+location+date}{%
+  \printlist{location}%
+  \iflistundef{organization}{%
+    \iflistundef{publisher}{%
+      \setunit*{\addcomma\space}%
+    }{%
+      \setunit*{\addcolon\space}%
+      \printlist{publisher}%
+    }%
+  }{%
+    \setunit*{\addcolon\space}%
+    \printlist{organization}%
+  }%
+  \setunit*{\addcomma\space}%
+  \usebibmacro{date}%
+  \newunit}
+%    \end{macrocode}
+%
 % \subsection{Page numbers}
 %
 %    \begin{macrocode}
