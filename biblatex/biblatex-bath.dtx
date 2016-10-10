@@ -1634,6 +1634,19 @@ This work is `maintained' (as per LPPL maintenance status) by [Alex Ball][me].
 }{}{}
 %    \end{macrocode}
 %
+% \subsection{Online works}
+%
+% Compared with the standard styles, the main difference is that the
+% organization's address is printed.
+%
+%    \begin{macrocode}
+\xpatchbibdriver{online}{%
+  \printlist{organization}%
+}{%
+  \usebibmacro{organization+location+date}%
+}{}{}
+%    \end{macrocode}
+%
 % \iffalse
 %</bbx>
 %<*lbx>
