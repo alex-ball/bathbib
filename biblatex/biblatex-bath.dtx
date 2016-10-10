@@ -19,11 +19,6 @@
 
 \nopreamble\nopostamble
 
-\usedir{tex/latex/\jobname}
-\generate{
-  \file{bath.bbx}{\from{\jobname.dtx}{bbx}}
-  \file{british-bath.lbx}{\from{\jobname.dtx}{lbx}}
-}
 \usedir{doc/latex/\jobname}
 \generate{
   \file{README.md}{\from{\jobname.dtx}{readme}}
@@ -45,6 +40,12 @@ See:     http://www.latex-project.org/lppl.txt
 Copyright (C) 2016 by University of Bath
 \endpostamble
 
+\usedir{tex/latex/\jobname}
+\generate{
+  \file{bath.bbx}{\from{\jobname.dtx}{bbx}}
+  \file{bath.dbx}{\from{\jobname.dtx}{dbx}}
+  \file{british-bath.lbx}{\from{\jobname.dtx}{lbx}}
+}
 %</install>
 %<install>\endbatchfile
 %<*internal>
@@ -507,7 +508,7 @@ though of course any item might need adjustment to take account of differing con
 
 \subsection{E-journal article}
 
-\begin{bibexbox}(hacked){williams1997edd}
+\begin{bibexbox}{williams1997edd}
   Williams, F., 1997. Electronic document delivery:\@ a trial in an academic library. \emph{Ariadne} [Online], 10. Available from:\@ \url{http://www.ariadne.ac.uk/issue10/edd/} [Accessed 05/12/1997].
   \tcblower
 \begin{Verbatim}[commentchar=\%]
@@ -517,7 +518,7 @@ though of course any item might need adjustment to take account of differing con
   author = {Williams, F.},
   year = {1997},
   title = {Electronic Document Delivery: a Trial in an Academic Library},
-  journal = {Ariadne \textup{[Online]}},
+  journal = {Ariadne},
   volume = {10},
   url = {http://www.ariadne.ac.uk/issue10/edd/},
   urldate = {1997-12-05}}
@@ -543,7 +544,6 @@ Internally these are all aliases for \texttt{manual}.
   author = {Holland, M.},
   year = {2002},
   title = {Guide to Citing Internet Sources},
-  titleaddon = {[Online]},
   address = {Poole},
   organization = {Bournemouth University},
   url = {http://www.bournemouth.ac.uk/library/using/guide_to_citing_internet_sourc.html},
@@ -563,7 +563,6 @@ Internally these are all aliases for \texttt{manual}.
   author = {{Wiltshire Council}},
   year = {2015},
   title = {Get {Wiltshire} walking},
-  titleaddon = {[Online]},
   address = {Trowbridge},
   organization = {Wiltshire Council},
   url = {http://www.wiltshire.gov.uk/leisureandrecreation/sportphysicalactivity/getwiltshirewalking.html},
@@ -588,7 +587,8 @@ Internally these are all aliases for \texttt{manual}.
   title = {Oxygen in Metals},
   editor = {J. M. A. Lenihan and S. J. Thompson},
   booktitle = {Activation Analysis: Proceedings of a {NATO} {Advanced} {Study} {Institute}},
-  venue = {2--4 August 1964 Glasgow},
+  eventdate = {1964-08-02/1964-08-04},
+  venue = {Glasgow},
   address = {London},
   publisher = {Academic Press},
   pages = {113-118}}
@@ -611,7 +611,8 @@ Internally these are all aliases for \texttt{manual}.
   year = {1972},
   title = {Review of Bracken Control Experiments with Asulam},
   booktitle = {Proceedings of the 11th {British} {Weed} {Control} {Conference}},
-  venue = {15--17 November 1972 Brighton},
+  eventdate = {1972-11-15/1972-11-17},
+  venue = {Brighton},
   address = {Brighton},
   publisher = {University of Sussex},
   pages = {24-31}}
@@ -623,7 +624,7 @@ Internally these are all aliases for \texttt{manual}.
 
 \subsection{Newspaper article}
 
-\begin{bibexbox}(hacked){haurant2004bbh}
+\begin{bibexbox}{haurant2004bbh}
   Haurant, S., 2004. Britain's borrowing hits £1 trillion. \emph{The Guardian}, 29 July, p.16c.
   \tcblower
 \begin{Verbatim}[commentchar=\%]
@@ -631,10 +632,9 @@ Internally these are all aliases for \texttt{manual}.
 %<*driver|bib>
 @article{haurant2004bbh,
   author = {Haurant, S.},
-  year = {2004},
+  date = {2004-07-29},
   title = {Britain's Borrowing Hits \pounds 1 Trillion},
   journal = {The Guardian},
-  volume = {29 July},
   pages = {16c}}
 %</driver|bib>
 %<*driver>
@@ -649,10 +649,9 @@ Internally these are all aliases for \texttt{manual}.
 %<*driver|bib>
 @article{independent1992pub,
   author = {{The Independent}},
-  year = {1992},
+  date = {1992-06-04},
   title = {Picking Up the Bills},
   journal = {The Independent},
-  volume = {4 June},
   pages = {28a}}
 %</driver|bib>
 %<*driver>
@@ -668,12 +667,12 @@ Internally these are all aliases for \texttt{manual}.
 \begin{Verbatim}[commentchar=\%]
 %</driver>
 %<*driver|bib>
-@mastersthesis{burrell1973ist,
+@thesis{burrell1973ist,
   author = {Burrell, J. G.},
   year = {1973},
   title = {The Importance of School Tours in Education},
   type = {Thesis ({M.A.})},
-  school = {Queen's University, Belfast}}
+  institution = {Queen's University, Belfast}}
 %</driver|bib>
 %<*driver>
 \end{Verbatim}
@@ -688,7 +687,7 @@ Internally these are all aliases for \texttt{manual}.
 \begin{Verbatim}[commentchar=\%]
 %</driver>
 %<*driver|bib>
-@techreport{unesco1993gip,
+@report{unesco1993gip,
   author = {{UNESCO}},
   year = {1993},
   title = {General Information Programme and {UNISIST}},
@@ -709,7 +708,7 @@ Internally these are all aliases for \texttt{manual}.
 \begin{Verbatim}[commentchar=\%]
 %</driver>
 %<*driver|bib>
-@manual{bs5605:1990,
+@standard{bs5605:1990,
   author = {{BS 5605:1990}},
   title = {Recommendations for citing and referencing published material},
   organization = {BSI}}
@@ -717,8 +716,6 @@ Internally these are all aliases for \texttt{manual}.
 %<*driver>
 \end{Verbatim}
 \end{bibexbox}
-
-You can also use \texttt{standard} as an alias for \texttt{manual}.
 
 
 \subsection{Patent}
@@ -729,18 +726,16 @@ You can also use \texttt{standard} as an alias for \texttt{manual}.
 \begin{Verbatim}[commentchar=\%]
 %</driver>
 %<*driver|bib>
-@manual{pm1981opa,
+@patent{pm1981opa,
   author = {{Phillipp Morris Inc.}},
   year = {1981},
   title = {Optical perforating apparatus and system},
-  series = {European patent application},
+  type = {European patent application},
   number = {0021165A1. 1981-01-07}}
 %</driver|bib>
 %<*driver>
 \end{Verbatim}
 \end{bibexbox}
-
-You can also use \texttt{patent} as an alias for \texttt{manual}.
 
 
 \subsection{Map}
@@ -772,7 +767,7 @@ You can also use \texttt{patent} as an alias for \texttt{manual}.
 \begin{Verbatim}[commentchar=\%]
 %</driver>
 %<*driver|bib>
-@booklet{macbeth1948,
+@video{macbeth1948,
   year = {1948},
   title = {Macbeth},
   howpublished = {Film. Directed by Orson Welles},
@@ -783,7 +778,7 @@ You can also use \texttt{patent} as an alias for \texttt{manual}.
 \end{Verbatim}
 \end{bibexbox}
 
-You can also use \texttt{movie} or \texttt{video} as an alias for \texttt{booklet}.
+You can also use \texttt{movie} as an alias for \texttt{video}.
 
 
 \subsection{Streamed video}
@@ -794,11 +789,10 @@ You can also use \texttt{movie} or \texttt{video} as an alias for \texttt{bookle
 \begin{Verbatim}[commentchar=\%]
 %</driver>
 %<*driver|bib>
-@booklet{moran2016sol,
+@online{moran2016sol,
   author = {Moran, C.},
   year = {2016},
   title = {Save Our Libraries},
-  titleaddon = {[Online]},
   url = {https://www.youtube.com/watch?v=gKTfCz4JtVE&feature=youtu.be},
   urldate = {2016-04-29}}
 %</driver|bib>
@@ -815,7 +809,7 @@ You can also use \texttt{movie} or \texttt{video} as an alias for \texttt{bookle
 \begin{Verbatim}[commentchar=\%]
 %</driver>
 %<*driver|bib>
-@booklet{rsfo2006ep5,
+@video{rsfo2006ep5,
   year = {2006},
   title = {Rick {Stein's} {French} {Odyssey}: Episode 5},
   howpublished = {TV. BBC2, 23 August. 20.30 hrs}}
@@ -830,7 +824,7 @@ You can also use \texttt{movie} or \texttt{video} as an alias for \texttt{bookle
 \begin{Verbatim}[commentchar=\%]
 %</driver>
 %<*driver|bib>
-@booklet{archers20060823,
+@audio{archers20060823,
   year = {2006},
   title = {The {Archers}},
   howpublished = {Radio. BBC Radio 4, 23 August. 19.02 hrs}}
@@ -839,7 +833,7 @@ You can also use \texttt{movie} or \texttt{video} as an alias for \texttt{bookle
 \end{Verbatim}
 \end{bibexbox}
 
-You can also use \texttt{audio} or \texttt{music} as an alias for \texttt{booklet}.
+You can also use \texttt{music} as an alias for \texttt{audio}.
 
 
 \subsection{Music score}
@@ -871,8 +865,9 @@ You can also use \texttt{audio} or \texttt{music} as an alias for \texttt{bookle
 %</driver>
 %<*driver|bib>
 @article{clark2004euk,
+  entrysubtype = {Electronic mailing list message},
   author = {Clark, T.},
-  year = {05/07/2004},
+  date = {2004-07-05},
   title = {A {European} {UK} {Libraries} {Plus}?},
   journal = {Lis-link \textup{[Online]}},
   url = {lis-link@jiscmail.ac.uk},
@@ -891,7 +886,7 @@ You can also use \texttt{audio} or \texttt{music} as an alias for \texttt{bookle
 \begin{Verbatim}[commentchar=\%]
 %</driver>
 %<*driver|bib>
-@unpublished{alston2004sah,
+@letter{alston2004sah,
   author = {Alston, S.},
   year = {19/07/2004},
   title = {Society of {Architectural} {Historians} of {GB}},
@@ -910,7 +905,7 @@ You can also use \texttt{audio} or \texttt{music} as an alias for \texttt{bookle
 \begin{Verbatim}[commentchar=\%]
 %</driver>
 %<*driver|bib>
-@techreport{shah.corrick2016hsc,
+@report{shah.corrick2016hsc,
   author = {Shah, I. and Corrick, I.},
   year = {2016},
   title = {How should central banks respond to non-neutral inflation expectations?},
@@ -925,7 +920,6 @@ You can also use \texttt{audio} or \texttt{music} as an alias for \texttt{bookle
 \end{bibexbox}
 
 
-
 \subsection{Work in translation}
 
 \begin{bibexbox}{aristotle2007ne}
@@ -938,7 +932,7 @@ You can also use \texttt{audio} or \texttt{music} as an alias for \texttt{bookle
   author = {Aristotle},
   year = {2007},
   title = {Nicomachean Ethics},
-  titleaddon = {(W.D. Ross. Trans.)},
+  translator = {W. D. Ross},
   address = {South Dakota},
   publisher = {NuVisions}}
 %</driver|bib>
@@ -989,15 +983,6 @@ You can also use \texttt{audio} or \texttt{music} as an alias for \texttt{bookle
 
 \subsection{Non-English works in non-Roman alphabets}
 
-The following example tricks Bib\TeX\ into treating the original rendering of the author's name as the `von' part of a Roman-alphabet name. This requires the use of a command that simply gobbles its argument, which you have to define yourself:
-
-\begin{tcblisting}{listing only}
-\newcommand*{\noop}[1]{}
-\end{tcblisting}
-
-For the trick to work, the argument you give to \lstinline[style=dtxlatex]|\noop| must be lowercase, but otherwise it can be anything you like.
-
-\newcommand*{\noop}[1]{}
 \begin{bibexbox}(hacked){hua1999qys1}
   Hua, L. 華林甫, 1999.  Qingdai yilai Sanxia diqu shuihan zaihai de chubu yanjiu 清代以來三峽地區水旱災害的初步硏 [A preliminary study of floods and droughts in the Three Gorges region since the Qing dynasty], \emph{Zhongguo shehui kexue} 中國社會科學 , 1, pp.168--79.
   \tcblower
@@ -1005,7 +990,7 @@ For the trick to work, the argument you give to \lstinline[style=dtxlatex]|\noop
 %</driver>
 %<*driver|bib>
 @article{hua1999qys1,
-  author = {L. Hua},
+  author = {given=L., family=Hua, cjk=華林甫},
   year = {1999},
   title = {Qingdai yilai {Sanxia} diqu shuihan zaihai de chubu yanjiu
     {清代以來三峽地區水旱災害的初步硏}},
@@ -1404,6 +1389,16 @@ This work is `maintained' (as per LPPL maintenance status) by [Alex Ball][me].
 \DeclareNameAlias{author}{family-given}
 \DeclareNameAlias{editor}{family-given}
 \renewcommand*{\bibinitdelim}{}
+%    \end{macrocode}
+%
+% See \url{http://tex.stackexchange.com/questions/320693/cjk-bibliography-problem-biblatex-chicago/320738#320738}
+% for a possible solution to the CJK author problem.
+%
+%
+% With collections, editors appear in natural order between `In' and the title,
+% followed by `ed.'
+%
+%    \begin{macrocode}
 \renewbibmacro*{byeditor}{%
   \ifnameundef{editor}
     {}
@@ -1761,6 +1756,16 @@ This work is `maintained' (as per LPPL maintenance status) by [Alex Ball][me].
 %
 % \iffalse
 %</bbx>
+%<*dbx>
+% \fi
+%
+% \section{Implementation: data model}
+%
+%    \begin{macrocode}
+\DeclareDatamodelConstant[type=list]{nameparts}{prefix,family,suffix,given,cjk}
+%    \end{macrocode}
+% \iffalse
+%</dbx>
 %<*lbx>
 % \fi
 %
