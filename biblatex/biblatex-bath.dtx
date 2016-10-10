@@ -1604,6 +1604,19 @@ This work is `maintained' (as per LPPL maintenance status) by [Alex Ball][me].
 \DeclareFieldFormat{url}{\bibstring{urlfrom}\addcolon\space\url{#1}}
 \DeclareFieldFormat{doi}{\bibstring{urlfrom}\addcolon\space\url{http://dx.doi.org/#1}}
 \DeclareFieldFormat{urldate}{\mkbibbrackets{\bibstring{urlseen}\space#1}}
+\renewbibmacro*{doi+eprint+url}{%
+  \iftoggle{bbx:eprint}
+    {\usebibmacro{eprint}}
+    {}%
+  \newunit\newblock
+  \iftoggle{bbx:url}
+    {\usebibmacro{url+urldate}}
+    {}}
+\renewbibmacro*{url}{%
+  \iffieldundef{doi}%
+    {\printfield{url}}%
+    {\printfield{doi}}%
+}
 %    \end{macrocode}
 %
 % \subsection{Articles}
