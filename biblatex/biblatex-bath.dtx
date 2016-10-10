@@ -1687,6 +1687,65 @@ This work is `maintained' (as per LPPL maintenance status) by [Alex Ball][me].
 }{}{}
 %    \end{macrocode}
 %
+% \subsection{Reports}
+%
+% Compared with the standard styles, the main difference is that the type and
+% number are printed in parentheses after the publisher.
+%
+%    \begin{macrocode}
+\newbibmacro{type+number}{%
+  \ifboolexpr{
+    test {\iffieldundef{type}}
+    and
+    test {\iffieldundef{number}}
+  }{}{%
+    \printtext[parens]{%
+      \printfield{type}%
+      \setunit*{\addspace}%
+      \printfield{number}%
+    }%
+  }%
+}
+\DeclareBibliographyDriver{report}{%
+  \usebibmacro{bibindex}%
+  \usebibmacro{begentry}%
+  \usebibmacro{author}%
+  \setunit{\printdelim{nametitledelim}}\newblock
+  \usebibmacro{title}%
+  \newunit
+  \printlist{language}%
+  \newunit\newblock
+  \usebibmacro{byauthor}%
+  \newunit\newblock
+  \printfield{version}%
+  \newunit
+  \printfield{note}%
+  \newunit\newblock
+  \usebibmacro{institution+location+date}%
+  \setunit{\addcomma\space}%
+  \usebibmacro{type+number}%
+  \newunit\newblock
+  \usebibmacro{chapter+pages}%
+  \newunit
+  \printfield{pagetotal}%
+  \newunit\newblock
+  \iftoggle{bbx:isbn}
+    {\printfield{isrn}}
+    {}%
+  \newunit\newblock
+  \usebibmacro{doi+eprint+url}%
+  \newunit\newblock
+  \usebibmacro{addendum+pubstate}%
+  \setunit{\bibpagerefpunct}\newblock
+  \usebibmacro{pageref}%
+  \newunit\newblock
+  \iftoggle{bbx:related}
+    {\usebibmacro{related:init}%
+     \usebibmacro{related}}
+    {}%
+  \usebibmacro{finentry}}
+%    \end{macrocode}
+%
 % \subsection{Online works}
 %
 % Compared with the standard styles, the main difference is that the
