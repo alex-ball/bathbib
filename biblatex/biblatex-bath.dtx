@@ -369,7 +369,6 @@ though of course any item might need adjustment to take account of differing con
 %<*driver|bib>
 @book{merckNDidx,
   title = {The {Merck} Index Online},
-  titleaddon = {[Online]},
   address = {London},
   publisher = {RSC Publishing},
   url = {http://www.rsc.org/Merck-Index},
@@ -435,7 +434,6 @@ though of course any item might need adjustment to take account of differing con
   editor = {Haynes, W. M.},
   year = {2014},
   title = {{CRC} Handbook of Chemistry and Physics},
-  titleaddon = {[Online]},
   edition = {94},
   address = {Boca Raton, Fla.},
   publisher = {CRC Press/Taylor and Francis},
@@ -530,10 +528,6 @@ though of course any item might need adjustment to take account of differing con
 
 
 \subsection{Websites}
-
-While it is normal when using Bib\TeX\ to use \texttt{misc} for websites,
-with this style you should use \texttt{electronic}, \texttt{online} or \texttt{www} instead.
-Internally these are all aliases for \texttt{manual}.
 
 \begin{bibexbox}{holland2002gci}
   Holland, M., 2002. \emph{Guide to citing internet sources} [Online]. Poole:\@ Bournemouth University. Available from:\@ \url{http://www.bournemouth.ac.uk/library/using/guide_to_citing_internet_sourc.html} [Accessed 04/11/2002].
@@ -870,7 +864,7 @@ You can also use \texttt{music} as an alias for \texttt{audio}.
   author = {Clark, T.},
   date = {2004-07-05},
   title = {A {European} {UK} {Libraries} {Plus}?},
-  journal = {Lis-link \textup{[Online]}},
+  journal = {Lis-link},
   url = {lis-link@jiscmail.ac.uk},
   urldate = {2004-07-30}}
 %</driver|bib>
@@ -1183,7 +1177,6 @@ faithful to the original orthography), you can specify this using
 %<*driver|bib>
 @legislation{gb.hmr2012,
   title = {The {Human} {Medicines} {Regulations} 2012},
-  titleaddon = {[Online]},
   number = {No.1916},
   address = {United Kingdom},
   publisher = {HMSO},
@@ -1239,7 +1232,7 @@ faithful to the original orthography), you can specify this using
 \begin{Verbatim}[commentchar=\%]
 %</driver>
 %<*driver|bib>
-@misc{eu.dir2015/413,
+@jurisdiction{eu.dir2015/413,
   title = {Directive ({EU}) 2015/413 of the {European} {Parliament} and of the {Council} of
     11th {March} 2015 Facilitating Cross-Border Exchange of Information on Road-Safety-Related
     Traffic Offences},
@@ -1302,7 +1295,6 @@ faithful to the original orthography), you can specify this using
   author = {Wilson, D.},
   year = {2013},
   title = {Real Geometry and Connectedness via Triangular Description: {CAD} Example Bank},
-  titleaddon = {[Online]},
   address = {Bath},
   organization = {University of Bath},
   doi = {10.15125/BATH-00069},
@@ -1392,6 +1384,12 @@ This work is `maintained' (as per LPPL maintenance status) by [Alex Ball][me].
 %    \begin{macrocode}
 \RequireBibliographyStyle{authoryear}
 \ExecuteBibliographyOptions{maxcitenames=3,maxbibnames=9999,isbn=false,giveninits=true,dashed=false}
+%    \end{macrocode}
+%
+% We provide some additional bibliography strings.
+%
+%    \begin{macrocode}
+\NewBibliographyString{online}
 %    \end{macrocode}
 %
 % We allow the bibliography look more like the Bib\TeX\ default.
@@ -1609,51 +1607,98 @@ This work is `maintained' (as per LPPL maintenance status) by [Alex Ball][me].
 \DeclareFieldFormat
   [patent,thesis,unpublished]%
   {title}{\mkbibemph{#1}}
+
+%    \end{macrocode}
+%
+% Online resources are clearly tarred and feathered with an `[Online]' label.
+% The \texttt{isonline} prints this label if the resource has a URL and does
+% nothing otherwise.
+%
+%    \begin{macrocode}
+\newbibmacro*{isonline}{%
+  \ifboolexpr{
+    test {\iffieldundef{url}}
+    and
+    test {\iffieldundef{doi}}
+  }{}{%
+    \bibstring{online}%
+  }%
+}
+
+%    \end{macrocode}
+%
+% Titles are converted to sentence case, and the \texttt{titleaddon} field
+% follows with no intervening punctuation.
+%
+%    \begin{macrocode}
 \renewbibmacro*{title}{%
   \ifboolexpr{
     test {\iffieldundef{title}}
     and
     test {\iffieldundef{subtitle}}
-  }
-    {}
-    {\printtext[title]{%
-       \printfield[sentencecase]{title}%
-       \setunit{\subtitlepunct}%
-       \printfield[sentencecase]{subtitle}%
-       \setunit{\space}}}%
-  \printfield{titleaddon}}
+  }{}{%
+    \printtext[title]{%
+      \printfield[sentencecase]{title}%
+      \setunit{\subtitlepunct}%
+      \printfield[sentencecase]{subtitle}%
+      \setunit{\space}%
+    }%
+    \printfield{titleaddon}%
+    \ifboolexpr{
+      test {\iffieldundef{journaltitle}}
+      and
+      test {\iffieldundef{booktitle}}
+      and
+      not test {\ifentrytype{software}}
+    }{%
+      \setunit*{\space}%
+      \usebibmacro{isonline}%
+    }{}%
+  }%
+}
+
 \renewbibmacro*{booktitle}{%
   \ifboolexpr{
     test {\iffieldundef{booktitle}}
     and
     test {\iffieldundef{booksubtitle}}
-  }
-    {}
-    {\printtext[booktitle]{%
-       \printfield[sentencecase]{booktitle}%
-       \setunit{\subtitlepunct}%
-       \printfield[sentencecase]{booksubtitle}%
-       \setunit{\space}}}%
-  \printfield{booktitleaddon}}
+  }{}{%
+    \printtext[booktitle]{%
+      \printfield[sentencecase]{booktitle}%
+      \setunit{\subtitlepunct}%
+      \printfield[sentencecase]{booksubtitle}%
+      \setunit{\space}%
+    }%
+    \printfield{booktitleaddon}
+    \setunit*{\space}%
+    \usebibmacro{isonline}%
+  }%
+}
+
 \renewbibmacro*{maintitle}{%
   \ifboolexpr{
     test {\iffieldundef{maintitle}}
     and
     test {\iffieldundef{mainsubtitle}}
-  }
-    {}
-    {\printtext[maintitle]{%
-       \printfield[sentencecase]{maintitle}%
-       \setunit{\subtitlepunct}%
-       \printfield[sentencecase]{mainsubtitle}%
-       \setunit{\space}}}%
-  \printfield{maintitleaddon}}
+  }{}{
+    \printtext[maintitle]{%
+      \printfield[sentencecase]{maintitle}%
+      \setunit{\subtitlepunct}%
+      \printfield[sentencecase]{mainsubtitle}%
+      \setunit{\space}%
+    }%
+    \printfield{maintitleaddon}%
+  }%
+}
+
 \renewcommand*{\subtitlepunct}{\addcolon\space}
+
 \xpatchbibmacro{labeltitle}{%
   \printfield{title}%
 }{%
   \usebibmacro{title}\setunit{\addcomma\space}\clearfield{titleaddon}%
 }{}{}
+
 %    \end{macrocode}
 %
 % \subsection{Dates}
@@ -1738,6 +1783,7 @@ This work is `maintained' (as per LPPL maintenance status) by [Alex Ball][me].
     {\printfield{url}}%
     {\printfield{doi}}%
 }
+
 %    \end{macrocode}
 %
 % \subsection{Articles}
@@ -1759,6 +1805,8 @@ This work is `maintained' (as per LPPL maintenance status) by [Alex Ball][me].
 %    \begin{macrocode}
 \renewbibmacro*{journal+issuetitle}{%
   \usebibmacro{journal}%
+  \setunit*{\space}%
+  \usebibmacro{isonline}%
   \setunit*{\addcomma\space}%
   \iffieldundef{series}
     {}
@@ -1776,6 +1824,7 @@ This work is `maintained' (as per LPPL maintenance status) by [Alex Ball][me].
   \printfield[parens]{number}%
   \setunit{\addcomma\space}%
   \printfield{eid}}
+
 %    \end{macrocode}
 %
 % \subsection{Works in collections}
@@ -1806,6 +1855,21 @@ This work is `maintained' (as per LPPL maintenance status) by [Alex Ball][me].
   \newunit
   \usebibmacro{event+venue+date}%
 }{}{}
+
+%    \end{macrocode}
+%
+% \subsection{Online works}
+%
+% Compared with the standard styles, the main difference is that the
+% organization's address is printed.
+%
+%    \begin{macrocode}
+\xpatchbibdriver{online}{%
+  \printlist{organization}%
+}{%
+  \usebibmacro{organization+location+date}%
+}{}{}
+
 %    \end{macrocode}
 %
 % \subsection{Reports}
@@ -1865,19 +1929,7 @@ This work is `maintained' (as per LPPL maintenance status) by [Alex Ball][me].
      \usebibmacro{related}}
     {}%
   \usebibmacro{finentry}}
-%    \end{macrocode}
-%
-% \subsection{Online works}
-%
-% Compared with the standard styles, the main difference is that the
-% organization's address is printed.
-%
-%    \begin{macrocode}
-\xpatchbibdriver{online}{%
-  \printlist{organization}%
-}{%
-  \usebibmacro{organization+location+date}%
-}{}{}
+
 %    \end{macrocode}
 %
 % \iffalse
@@ -1901,7 +1953,8 @@ This work is `maintained' (as per LPPL maintenance status) by [Alex Ball][me].
 \InheritBibliographyExtras{british}
 \DeclareBibliographyStrings{%
   inherit          = {british},
-  urlseen          = {{Accessed}{Accessed}}
+  urlseen          = {{Accessed}{Accessed}},
+  online           = {{[Online]}{[Online]}}
 }
 %    \end{macrocode}
 % \iffalse
