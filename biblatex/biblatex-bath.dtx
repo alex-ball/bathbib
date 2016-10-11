@@ -1727,6 +1727,30 @@ This work is `maintained' (as per LPPL maintenance status) by [Alex Ball][me].
   \field{date}
   \field{year}
 }
+
+%    \end{macrocode}
+%
+% \subsection{Events}
+%
+% Events are printed as date then venue with no intermediate punctuation.
+%
+%    \begin{macrocode}
+\renewbibmacro*{event+venue+date}{%
+  \printfield{eventtitle}%
+  \setunit*{\space}%
+  \printfield{eventtitleaddon}%
+  \ifboolexpr{
+    test {\iffieldundef{venue}}
+    and
+    test {\iffieldundef{eventyear}}
+  }
+    {}
+    {\setunit{\addcomma\space}%
+     \printeventdate
+     \setunit*{\space}%
+     \printfield{venue}%
+     \newunit}}
+
 %    \end{macrocode}
 %
 % \subsection{Publishers}
