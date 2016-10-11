@@ -1713,6 +1713,16 @@ This work is `maintained' (as per LPPL maintenance status) by [Alex Ball][me].
   \setunit*{\addcomma\space}%
   \printtext%
 }{}{}
+
+%    \end{macrocode}
+%
+% No attempt is made to recover from missing dates in the bibliography.
+%
+%    \begin{macrocode}
+\DeclareLabeldate{%
+  \field{date}
+  \field{year}
+}
 %    \end{macrocode}
 %
 % \subsection{Publishers}
@@ -2012,10 +2022,49 @@ This work is `maintained' (as per LPPL maintenance status) by [Alex Ball][me].
 %
 %    \begin{macrocode}
 \InheritBibliographyExtras{british}
+\DeclareBibliographyExtras{%
+  \protected\def\mkbibdatelong#1#2#3{%
+    \iffieldundef{#3}
+      {}
+      {\thefield{#3}%
+       \iffieldundef{#2}{}{\nobreakspace}}%
+    \iffieldundef{#2}
+      {}
+      {\mkbibmonth{\thefield{#2}}%
+       \iffieldundef{#1}{}{\space}}%
+    \iffieldbibstring{#1}
+      {\bibstring{\thefield{#1}}}
+      {\dateeraprintpre{#1}\stripzeros{\thefield{#1}}}}%
+  \protected\def\mkbibdateshort#1#2#3{%
+    \iffieldundef{#3}
+      {}
+      {\mkdayzeros{\thefield{#3}}%
+       \iffieldundef{#2}{}{/}}%
+    \iffieldundef{#2}
+      {}
+      {\mkmonthzeros{\thefield{#2}}%
+       \iffieldundef{#1}{}{/}}%
+    \iffieldbibstring{#1}
+      {\bibstring{\thefield{#1}}}
+      {\dateeraprintpre{#1}\mkyearzeros{\thefield{#1}}}}%
+  }
+
 \DeclareBibliographyStrings{%
   inherit          = {british},
   urlseen          = {{Accessed}{Accessed}},
-  online           = {{[Online]}{[Online]}}
+  online           = {{[Online]}{[Online]}},
+  january          = {{January}{January}},
+  february         = {{February}{February}},
+  march            = {{March}{March}},
+  april            = {{April}{April}},
+  may              = {{May}{May}},
+  june             = {{June}{June}},
+  july             = {{July}{July}},
+  august           = {{August}{August}},
+  september        = {{September}{September}},
+  october          = {{October}{October}},
+  november         = {{November}{November}},
+  december         = {{December}{December}}
 }
 %    \end{macrocode}
 % \iffalse
