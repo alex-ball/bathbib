@@ -43,6 +43,7 @@ Copyright (C) 2016 by University of Bath
 \usedir{tex/latex/\jobname}
 \generate{
   \file{bath.bbx}{\from{\jobname.dtx}{bbx}}
+  \file{bath.cbx}{\from{\jobname.dtx}{cbx}}
   \file{bath.dbx}{\from{\jobname.dtx}{dbx}}
   \file{british-bath.lbx}{\from{\jobname.dtx}{lbx}}
 }
@@ -149,7 +150,7 @@ Copyright (C) 2016 by University of Bath
     }
   }
 
-\usepackage[backend=biber,bibencoding=utf8,hyperref=false,isbn=false,bibstyle=bath,citestyle=authoryear]{biblatex}
+\usepackage[backend=biber,bibencoding=utf8,hyperref=false,isbn=false,style=bath]{biblatex}
 \addbibresource{biblatex-bath.bib}
 \makeatletter
 \DeclareCiteCommand{\fullcite}
@@ -1905,5 +1906,15 @@ This work is `maintained' (as per LPPL maintenance status) by [Alex Ball][me].
 %    \end{macrocode}
 % \iffalse
 %</lbx>
+%<*cbx>
+% \fi
+%
+% \section{Implementation: citation file}
+%
+%    \begin{macrocode}
+\RequireCitationStyle{authoryear}
+%    \end{macrocode}
+% \iffalse
+%</cbx>
 % \fi
 
