@@ -87,7 +87,7 @@ Copyright (C) 2016 by University of Bath
 \xdefinecolor{Slate}{RGB}{80,86,94}
 \xdefinecolor{BathStone}{RGB}{213,211,185}
 \colorlet{ok}{Green}
-\colorlet{bad}{red}
+\colorlet{todo}{red}
 \colorlet{hacked}{orange}
 \colorlet{manual}{purple}
 
@@ -636,7 +636,7 @@ though of course any item might need adjustment to take account of differing con
 \end{Verbatim}
 \end{bibexbox}
 
-\begin{bibexbox}(hacked){independent1992pub}
+\begin{bibexbox}{independent1992pub}
   The Independent, 1992. Picking up the bills. \emph{The Independent}, 4 June, p.28a.
   \tcblower
 \begin{Verbatim}[commentchar=\%]
@@ -697,14 +697,14 @@ though of course any item might need adjustment to take account of differing con
 
 \subsection{Standard}
 
-\begin{bibexbox}(hacked){bs5605:1990}
+\begin{bibexbox}(todo){bs5605:1990}
   BS 5605:1990. \emph{Recommendations for citing and referencing published material}. BSI.
   \tcblower
 \begin{Verbatim}[commentchar=\%]
 %</driver>
 %<*driver|bib>
 @standard{bs5605:1990,
-  author = {{BS 5605:1990}},
+  label = {{BS 5605:1990}},
   title = {Recommendations for citing and referencing published material},
   organization = {BSI}}
 %</driver|bib>
@@ -765,7 +765,8 @@ though of course any item might need adjustment to take account of differing con
 @video{macbeth1948,
   year = {1948},
   title = {Macbeth},
-  howpublished = {Film. Directed by Orson Welles},
+  howpublished = {Film},
+  note={Directed by Orson Welles},
   address = {USA},
   publisher = {Republic Pictures}}
 %</driver|bib>
@@ -798,31 +799,33 @@ You can also use \texttt{movie} as an alias for \texttt{video}.
 
 \subsection{Television or radio broadcast}
 
-\begin{bibexbox}{rsfo2006ep5}
+\begin{bibexbox}(todo){rsfo2006ep5}
   \emph{Rick Stein's French Odyssey:\@ Episode 5}, 2006. TV. BBC2, 23 August.\@ 20.30 hrs.
   \tcblower
 \begin{Verbatim}[commentchar=\%]
 %</driver>
 %<*driver|bib>
 @video{rsfo2006ep5,
-  year = {2006},
-  title = {Rick {Stein's} {French} {Odyssey}: Episode 5},
-  howpublished = {TV. BBC2, 23 August. 20.30 hrs}}
+  date = {2006-08-23T20:30:00},
+  title = {Rick {Stein's} {French} {Odyssey}: {Episode} 5},
+  howpublished = {TV},
+  publisher = {BBC2}}
 %</driver|bib>
 %<*driver>
 \end{Verbatim}
 \end{bibexbox}
 
-\begin{bibexbox}{archers20060823}
+\begin{bibexbox}(todo){archers20060823}
   \emph{The Archers}, 2006. Radio.\@ BBC Radio 4, 23 August.\@ 19.02 hrs.
   \tcblower
 \begin{Verbatim}[commentchar=\%]
 %</driver>
 %<*driver|bib>
 @audio{archers20060823,
-  year = {2006},
+  date = {2006-08-23T19:02:00},
   title = {The {Archers}},
-  howpublished = {Radio. BBC Radio 4, 23 August. 19.02 hrs}}
+  howpublished = {Radio},
+  publisher = {BBC Radio 4}}
 %</driver|bib>
 %<*driver>
 \end{Verbatim}
@@ -853,14 +856,13 @@ You can also use \texttt{music} as an alias for \texttt{audio}.
 
 \subsection{Email discussion lists (jiscmail/listserv etc)}
 
-\begin{bibexbox}(hacked){clark2004euk}
+\begin{bibexbox}{clark2004euk}
   Clark, T., 5 July 2004. A European UK Libraries Plus? \emph{Lis-link} [Online]. Available from:\@ \url{lis-link@jiscmail.ac.uk} [Accessed 30 July 2004].
   \tcblower
 \begin{Verbatim}[commentchar=\%]
 %</driver>
 %<*driver|bib>
 @letter{clark2004euk,
-  entrysubtype = {Electronic mailing list message},
   author = {Clark, T.},
   date = {2004-07-05},
   title = {A {European} {UK} {Libraries} {Plus}?},
@@ -877,7 +879,7 @@ change in formatting with respect to the following example.
 
 \subsection{Personal emails}
 
-\begin{bibexbox}(hacked){alston2004sah}
+\begin{bibexbox}{alston2004sah}
   Alston, S., 19/07/2004. \emph{Society of Architectural Historians of GB}. Email to K.M. Jordan.
   \tcblower
 \begin{Verbatim}[commentchar=\%]
@@ -887,7 +889,7 @@ change in formatting with respect to the following example.
   author = {Alston, S.},
   date = {2004-04-19},
   title = {Society of {Architectural} {Historians} of {GB}},
-  note = {Email to K.M. Jordan}}
+  howpublished = {Email to K.M. Jordan}}
 %</driver|bib>
 %<*driver>
 \end{Verbatim}
@@ -896,7 +898,7 @@ change in formatting with respect to the following example.
 
 \subsection{Preprint}
 
-\begin{bibexbox}{shah.corrick2016hsc}
+\begin{bibexbox}(todo){shah.corrick2016hsc}
   Shah, I. and Corrick, I. 2016. \emph{How should central banks respond to non-neutral inflation expectations?} Bath:\@ University of Bath. \emph{OPUS} [Online]. Available from:\@ \url{http://opus.bath.ac.uk} [Accessed 04/05/2016].
   \tcblower
 \begin{Verbatim}[commentchar=\%]
@@ -1193,7 +1195,7 @@ faithful to the original orthography), you can specify this using
 
 \subsection{Legal case study}
 
-\begin{bibexbox}{seldon-v-c.w.j2012}
+\begin{bibexbox}(todo){seldon-v-c.w.j2012}
   \emph{Seldon v Clarkson Wright \& Jakes}. [2012]. UKSC 16.
   \tcblower
 \begin{Verbatim}[commentchar=\%]
@@ -1229,7 +1231,7 @@ faithful to the original orthography), you can specify this using
 
 \subsection{EU regulation or directive, decision, recommendation or opinion}
 
-\begin{bibexbox}{eu.dir2015/413}
+\begin{bibexbox}(todo){eu.dir2015/413}
   Directive (EU) 2015/413 of the European Parliament and of the Council of 11th March 2015 facilitating cross-border exchange of information on road-safety-related traffic offences [2015] \emph{OJ} L68/9.
   \tcblower
 \begin{Verbatim}[commentchar=\%]
@@ -1248,7 +1250,7 @@ faithful to the original orthography), you can specify this using
 
 \subsection{Judgment of the European Court of Justice}
 
-\begin{bibexbox}{srl.etal-v-comm2005}
+\begin{bibexbox}(todo){srl.etal-v-comm2005}
   \emph{Alessandrini Srl and others v.~Commission} (C-295/03 P) [2005] ECR I-5700.
   \tcblower
 \begin{Verbatim}[commentchar=\%]
@@ -1265,7 +1267,7 @@ faithful to the original orthography), you can specify this using
 
 \subsection{Database}
 
-\begin{bibexbox}{bvd2008bt}
+\begin{bibexbox}(todo){bvd2008bt}
   Bureau van Dijk, 2008. \emph{BT Group plc company report}. \emph{FAME} [Online]. London:\@ Bureau van Dijk. Available from:\@ \url{http://www.portal.euromonitor.com} [Accessed 6/11/2014].
   \tcblower
 \begin{Verbatim}[commentchar=\%]
@@ -1307,12 +1309,12 @@ faithful to the original orthography), you can specify this using
 \end{Verbatim}
 \end{bibexbox}
 
-You can also use \texttt{dataset} as an alternative alias for \texttt{online}.
+You can also use \texttt{dataset} as an alias for \texttt{online}.
 
 
 \subsection{Computer program}
 
-\begin{bibexbox}{screencasto}
+\begin{bibexbox}(todo){screencasto}
   @screencasto. \emph{Screencast-O-Matic} (v.2) [computer program]. \url{https://screencast-o-matic.com/} [Accessed 16/05/2016].
   \tcblower
 \begin{Verbatim}[commentchar=\%]
@@ -2080,7 +2082,7 @@ This work is `maintained' (as per LPPL maintenance status) by [Alex Ball][me].
 % number are printed in parentheses after the publisher.
 %
 %    \begin{macrocode}
-\renewbibmacro{type+number}{%
+\newbibmacro{type+number}{%
   \ifboolexpr{
     test {\iffieldundef{type}}
     and
@@ -2140,19 +2142,6 @@ This work is `maintained' (as per LPPL maintenance status) by [Alex Ball][me].
 % between the publisher and the type\slash number.
 %
 %    \begin{macrocode}
-\newbibmacro{type+number}{%
-  \ifboolexpr{
-    test {\iffieldundef{type}}
-    and
-    test {\iffieldundef{number}}
-  }{}{%
-    \printtext[parens]{%
-      \printfield{type}%
-      \setunit*{\addspace}%
-      \printfield{number}%
-    }%
-  }%
-}
 \DeclareBibliographyDriver{legislation}{%
   \usebibmacro{bibindex}%
   \usebibmacro{begentry}%
@@ -2256,6 +2245,15 @@ This work is `maintained' (as per LPPL maintenance status) by [Alex Ball][me].
   \csletcs{printlabeldate}{blx@imc@printlabeldate}%
   \csletcs{printlabeldateextra}{blx@imc@printlabeldateextra}%
 }
+
+%    \end{macrocode}
+%
+% \subsection{Aliases}
+%
+% We define some handy semantic aliases.
+%
+%    \begin{macrocode}
+\DeclareBibliographyAlias{dataset}{online}
 
 %    \end{macrocode}
 %
