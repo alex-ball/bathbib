@@ -864,7 +864,7 @@ You can also use \texttt{music} as an alias for \texttt{audio}.
 \begin{Verbatim}[commentchar=\%]
 %</driver>
 %<*driver|bib>
-@article{clark2004euk,
+@letter{clark2004euk,
   entrysubtype = {Electronic mailing list message},
   author = {Clark, T.},
   date = {2004-07-05},
@@ -888,7 +888,7 @@ You can also use \texttt{music} as an alias for \texttt{audio}.
 %<*driver|bib>
 @letter{alston2004sah,
   author = {Alston, S.},
-  year = {19/07/2004},
+  date = {2004-04-19},
   title = {Society of {Architectural} {Historians} of {GB}},
   note = {Email to K.M. Jordan}}
 %</driver|bib>
@@ -1054,7 +1054,7 @@ faithful to the original orthography), you can specify this using
 \begin{Verbatim}[commentchar=\%]
 %</driver>
 %<*driver|bib>
-@techreport{gb.hc2003/04-30,
+@legislation{gb.hc2003/04-30,
   author = {{Great Britain. Parliament. House of Commons}},
   year = {2004},
   title = {National {Savings} Investment Deposits: account 2002--2003},
@@ -1076,7 +1076,7 @@ faithful to the original orthography), you can specify this using
 \begin{Verbatim}[commentchar=\%]
 %</driver>
 %<*driver|bib>
-@techreport{gb.hl1986/87-66,
+@legislation{gb.hl1986/87-66,
   author = {{Great Britain. Parliament. House of Lords}},
   year = {1987},
   title = {Social Fund ({Maternity} and {Funeral} {Expenses}) Bill},
@@ -1098,7 +1098,7 @@ faithful to the original orthography), you can specify this using
 \begin{Verbatim}[commentchar=\%]
 %</driver>
 %<*driver|bib>
-@techreport{gb.bill1987/88-66,
+@legislation{gb.bill1987/88-66,
   author = {{Great Britain. Parliament. House of Commons}},
   year = {1988},
   title = {Local Government Finance Bill},
@@ -1120,7 +1120,7 @@ faithful to the original orthography), you can specify this using
 \begin{Verbatim}[commentchar=\%]
 %</driver>
 %<*driver|bib>
-@book{gb.wa1735,
+@legislation{gb.wa1735,
   key = {Witchcraft Act 1735},
   title = {Witchcraft {Act} 1735},
   titleaddon = {(9 Geo.2, c.5)}}
@@ -1138,7 +1138,7 @@ faithful to the original orthography), you can specify this using
 \begin{Verbatim}[commentchar=\%]
 %</driver>
 %<*driver|bib>
-@book{gb.pa2014,
+@legislation{gb.pa2014,
   key = {Pensions Act 2014},
   title = {Pensions {Act} 2014},
   number = {c.19},
@@ -1158,7 +1158,7 @@ faithful to the original orthography), you can specify this using
 \begin{Verbatim}[commentchar=\%]
 %</driver>
 %<*driver|bib>
-@techreport{gb.cm6041,
+@legislation{gb.cm6041,
   author = {{Great Britain. Ministry of Defence}},
   year = {2004},
   title = {Delivering Security in a Changing World: defence White Paper},
@@ -1180,7 +1180,7 @@ faithful to the original orthography), you can specify this using
 \begin{Verbatim}[commentchar=\%]
 %</driver>
 %<*driver|bib>
-@book{gb.hmr2012,
+@legislation{gb.hmr2012,
   title = {The {Human} {Medicines} {Regulations} 2012},
   titleaddon = {[Online]},
   number = {No.1916},
@@ -1202,7 +1202,7 @@ faithful to the original orthography), you can specify this using
 \begin{Verbatim}[commentchar=\%]
 %</driver>
 %<*driver|bib>
-@unpublished{seldon-v-c.w.j2012,
+@jurisdiction{seldon-v-c.w.j2012,
   title = {Seldon v {Clarkson} {Wright} \& {Jakes}},
   note = {[2012]. UKSC 16}}
 %</driver|bib>
@@ -1219,7 +1219,7 @@ faithful to the original orthography), you can specify this using
 \begin{Verbatim}[commentchar=\%]
 %</driver>
 %<*driver|bib>
-@techreport{ec2015gra,
+@report{ec2015gra,
   author = {{European Commission}},
   year = {2015},
   title = {General Report on the Activities of the {European} {Union} 2014},
@@ -1257,7 +1257,7 @@ faithful to the original orthography), you can specify this using
 \begin{Verbatim}[commentchar=\%]
 %</driver>
 %<*driver|bib>
-@unpublished{srl.etal-v-comm2005,
+@jurisdiction{srl.etal-v-comm2005,
   title = {Alessandrini {Srl} and others v.\@ {Commission}},
   titleaddon = {(C-295/03 P) [2005] ECR I-5700}}
 %</driver|bib>
@@ -1311,7 +1311,7 @@ faithful to the original orthography), you can specify this using
 \end{Verbatim}
 \end{bibexbox}
 
-You can also use \texttt{dataset} as an alternative alias for \texttt{manual}.
+You can also use \texttt{dataset} as an alternative alias for \texttt{online}.
 
 
 \subsection{Computer program}
@@ -1322,7 +1322,7 @@ You can also use \texttt{dataset} as an alternative alias for \texttt{manual}.
 \begin{Verbatim}[commentchar=\%]
 %</driver>
 %<*driver|bib>
-@online{screencasto,
+@software{screencasto,
   author = {@screencasto},
   title = {{Screencast-O-Matic}},
   titleaddon = {(v.2) [computer program]},
@@ -1332,8 +1332,6 @@ You can also use \texttt{dataset} as an alternative alias for \texttt{manual}.
 %<*driver>
 \end{Verbatim}
 \end{bibexbox}
-
-You can also use \texttt{software} as an alternative alias for \texttt{manual}.
 
 \printbibliography
 
@@ -1400,6 +1398,7 @@ This work is `maintained' (as per LPPL maintenance status) by [Alex Ball][me].
 %    \begin{macrocode}
 \setlength{\bibitemsep}{1em plus 0.2em minus 0.2em}
 \renewcommand*{\bibfont}{\normalfont\normalsize}
+
 %    \end{macrocode}
 %
 % \subsection{Name handling}
