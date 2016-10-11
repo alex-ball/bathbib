@@ -1560,7 +1560,7 @@ This work is `maintained' (as per LPPL maintenance status) by [Alex Ball][me].
 \renewbibmacro*{bytranslator}{%
   \ifnameundef{translator}
     {}
-    {\setunit{\space}%
+    {\setunit{\addspace}%
      \printtext[parens]{%
        \printnames[bytranslator]{translator}%
        \newunit
@@ -1581,7 +1581,7 @@ This work is `maintained' (as per LPPL maintenance status) by [Alex Ball][me].
 \renewbibmacro*{bytranslator+others}{%
   \ifnameundef{translator}
     {\usebibmacro{withothers}}
-    {\setunit{\space}%
+    {\setunit{\addspace}%
      \printtext[parens]{%
        \printnames[bytranslator]{translator}%
        \newunit
@@ -1646,7 +1646,7 @@ This work is `maintained' (as per LPPL maintenance status) by [Alex Ball][me].
       \printfield[sentencecase]{title}%
       \setunit{\subtitlepunct}%
       \printfield[sentencecase]{subtitle}%
-      \setunit{\space}%
+      \setunit{\addspace}%
     }%
     \printfield{titleaddon}%
     \ifboolexpr{
@@ -1656,7 +1656,7 @@ This work is `maintained' (as per LPPL maintenance status) by [Alex Ball][me].
       and
       not test {\ifentrytype{software}}
     }{%
-      \setunit*{\space}%
+      \setunit*{\addspace}%
       \usebibmacro{isonline}%
     }{}%
   }%
@@ -1672,10 +1672,10 @@ This work is `maintained' (as per LPPL maintenance status) by [Alex Ball][me].
       \printfield[sentencecase]{booktitle}%
       \setunit{\subtitlepunct}%
       \printfield[sentencecase]{booksubtitle}%
-      \setunit{\space}%
+      \setunit{\addspace}%
     }%
     \printfield{booktitleaddon}
-    \setunit*{\space}%
+    \setunit*{\addspace}%
     \usebibmacro{isonline}%
   }%
 }
@@ -1690,7 +1690,7 @@ This work is `maintained' (as per LPPL maintenance status) by [Alex Ball][me].
       \printfield[sentencecase]{maintitle}%
       \setunit{\subtitlepunct}%
       \printfield[sentencecase]{mainsubtitle}%
-      \setunit{\space}%
+      \setunit{\addspace}%
     }%
     \printfield{maintitleaddon}%
   }%
@@ -1730,6 +1730,167 @@ This work is `maintained' (as per LPPL maintenance status) by [Alex Ball][me].
 
 %    \end{macrocode}
 %
+% We provide a new date merging option that moves the year but leaves the
+% month and day in place, and set this as the default.
+%
+%    \begin{macrocode}
+\def\bbx@opt@mergedate@year{%
+  \renewbibmacro*{date+extrayear}{%
+    \iffieldundef{labelyear}{}{%
+      \setunit*{\addcomma\space}%
+      \printtext{%
+        \printfield{labelyear}%
+        \printfield{extrayear}%
+      }%
+      \clearfield{year}\clearfield{endyear}%
+    }%
+  }%
+  \renewbibmacro*{issue+date}{%
+    \ifboolexpr{
+      test {\iffieldundef{issue}}
+      and
+      test {\iffieldundef{month}}
+    }{}{%
+      \ifboolexpr{(
+        test {\iffieldundef{volume}}
+        and
+        test {\iffieldundef{number}}
+        ) and
+        test {\iffieldundef{eid}}
+      }{%
+        \newunit
+        \printfield{issue}%
+      }{%
+        \printtext[parens]{%
+          \printfield{issue}%
+        }%
+      }
+      \setunit{\addcomma\space}%
+      \printdate
+    }%
+    \newunit
+  }%
+}
+
+\def\bbx@opt@mergedate@true{\bbx@opt@mergedate@year}
+\ExecuteBibliographyOptions{mergedate}
+
+%    \end{macrocode}
+%
+% Now we have to patch the date range formatting commands to print months and
+% days in the absence of years.
+%
+%    \begin{macrocode}
+\renewrobustcmd*{\mkdaterangetrunc}[2]{%
+  \blx@metadateinfo{#2}%
+  \iffieldundef{#2year}
+    {\iffieldundef{#2month}
+      {}
+      {\datecircaprint
+       \printtext[#2date]{%
+         \iffieldundef{#2season}
+           {\iffieldsequal{#2month}{#2endmonth}
+              {\csuse{mkbibdate#1}{}{}{#2day}}
+              {\csuse{mkbibdate#1}{}{#2month}{#2day}}}
+           {\csuse{mkbibseasondate#1}{}{#2season}}%
+         \dateuncertainprint
+         \iffieldundef{#2endmonth}
+           {}
+           {\iffieldequalstr{#2endmonth}{}
+               {\mbox{\bibdaterangesep}}
+               {\bibdaterangesep
+               \enddatecircaprint
+               \iffieldundef{#2season}
+                 {\csuse{mkbibdate#1}{}{#2endmonth}{#2endday}}
+                 {\csuse{mkbibseasondate#1}{}{#2endseason}}%
+               \enddateuncertainprint}}}}%
+    }
+    {\datecircaprint
+     \printtext[#2date]{%
+       \iffieldundef{#2season}
+         {\iffieldsequal{#2year}{#2endyear}
+            {\iffieldsequal{#2month}{#2endmonth}
+               {\csuse{mkbibdate#1}{}{}{#2day}}
+               {\csuse{mkbibdate#1}{}{#2month}{#2day}}}
+            {\csuse{mkbibdate#1}{#2year}{#2month}{#2day}%
+             \iffieldsequal{#2dateera}{#2enddateera}{}
+              {\dateeraprint{#2year}}}}
+         {\iffieldsequal{#2year}{#2endyear}
+           {\csuse{mkbibseasondate#1}{}{#2season}}
+           {\csuse{mkbibseasondate#1}{#2year}{#2season}%
+            \iffieldsequal{#2dateera}{#2enddateera}{}
+              {\dateeraprint{#2year}}}}%
+       \dateuncertainprint
+       \iffieldundef{#2endyear}
+         {}
+         {\iffieldequalstr{#2endyear}{}
+            {\mbox{\bibdaterangesep}}
+            {\bibdaterangesep
+             \enddatecircaprint
+             \iffieldundef{#2season}
+               {\csuse{mkbibdate#1}{#2endyear}{#2endmonth}{#2endday}}
+               {\csuse{mkbibseasondate#1}{#2endyear}{#2endseason}}%
+             \enddateuncertainprint
+             \dateeraprint{#2endyear}}}}}}
+
+\renewrobustcmd*{\mkdaterangetruncextra}[2]{%
+  \blx@metadateinfo{#2}%
+  \iffieldundef{#2year}
+    {\iffieldundef{#2month}
+      {}
+      {\datecircaprint
+       \printtext[#2date]{%
+         \iffieldundef{#2season}
+           {\iffieldsequal{#2month}{#2endmonth}
+             {\csuse{mkbibdate#1}{}{}{#2day}}
+             {\csuse{mkbibdate#1}{}{#2month}{#2day}}}
+           {\csuse{mkbibseasondate#1}{}{#2season}}%
+         \dateuncertainprint
+         \iffieldundef{#2endmonth}
+           {}
+           {\iffieldequalstr{#2endmonth}{}
+              {\printtext{\mbox{\bibdaterangesep}}}
+              {\printtext{%
+                 \bibdaterangesep
+                 \enddatecircaprint
+                 \iffieldundef{#2season}
+                   {\csuse{mkbibdate#1}{}{#2endmonth}{#2endday}}
+                   {\csuse{mkbibseasondate#1}{}{#2endseason}}}%
+                 \enddateuncertainprint}}}}%
+    }
+    {\datecircaprint
+     \printtext[#2date]{%
+       \iffieldundef{#2season}
+         {\iffieldsequal{#2year}{#2endyear}
+            {\iffieldsequal{#2month}{#2endmonth}
+               {\csuse{mkbibdate#1}{}{}{#2day}}
+               {\csuse{mkbibdate#1}{}{#2month}{#2day}}}
+            {\csuse{mkbibdate#1}{#2year}{#2month}{#2day}%
+             \iffieldsequal{#2dateera}{#2enddateera}{}
+               {\dateeraprint{#2year}}}}
+         {\iffieldsequal{#2year}{#2endyear}
+           {\csuse{mkbibseasondate#1}{}{#2season}}
+           {\csuse{mkbibseasondate#1}{#2year}{#2season}
+             \iffieldsequal{#2dateera}{#2enddateera}{}
+              {\dateeraprint{#2year}}}}%
+       \dateuncertainprint
+       \iffieldundef{#2endyear}
+         {\printfield{extrayear}}
+         {\iffieldequalstr{#2endyear}{}
+            {\printfield{extrayear}%
+             \printtext{\mbox{\bibdaterangesep}}}
+            {\printtext{%
+               \bibdaterangesep
+               \enddatecircaprint
+               \iffieldundef{#2season}
+                 {\csuse{mkbibdate#1}{#2endyear}{#2endmonth}{#2endday}}
+                 {\csuse{mkbibseasondate#1}{#2endyear}{#2endseason}}}%
+               \printfield{extrayear}%
+               \enddateuncertainprint
+               \dateeraprint{#2endyear}}}}}}
+
+%    \end{macrocode}
+%
 % \subsection{Events}
 %
 % Events are printed as date then venue with no intermediate punctuation.
@@ -1737,7 +1898,7 @@ This work is `maintained' (as per LPPL maintenance status) by [Alex Ball][me].
 %    \begin{macrocode}
 \renewbibmacro*{event+venue+date}{%
   \printfield{eventtitle}%
-  \setunit*{\space}%
+  \setunit*{\addspace}%
   \printfield{eventtitleaddon}%
   \ifboolexpr{
     test {\iffieldundef{venue}}
@@ -1747,7 +1908,7 @@ This work is `maintained' (as per LPPL maintenance status) by [Alex Ball][me].
     {}
     {\setunit{\addcomma\space}%
      \printeventdate
-     \setunit*{\space}%
+     \setunit*{\addspace}%
      \printfield{venue}%
      \newunit}}
 
@@ -1844,7 +2005,7 @@ This work is `maintained' (as per LPPL maintenance status) by [Alex Ball][me].
 %    \begin{macrocode}
 \renewbibmacro*{journal+issuetitle}{%
   \usebibmacro{journal}%
-  \setunit*{\space}%
+  \setunit*{\addspace}%
   \usebibmacro{isonline}%
   \setunit*{\addcomma\space}%
   \iffieldundef{series}
@@ -1917,7 +2078,7 @@ This work is `maintained' (as per LPPL maintenance status) by [Alex Ball][me].
 % number are printed in parentheses after the publisher.
 %
 %    \begin{macrocode}
-\newbibmacro{type+number}{%
+\renewbibmacro{type+number}{%
   \ifboolexpr{
     test {\iffieldundef{type}}
     and
@@ -2006,7 +2167,7 @@ This work is `maintained' (as per LPPL maintenance status) by [Alex Ball][me].
   \printfield{note}%
   \newunit\newblock
   \usebibmacro{institution+location+date}%
-  \setunit{\space}%
+  \setunit{\addspace}%
   \usebibmacro{type+number}%
   \newunit\newblock
   \usebibmacro{chapter+pages}%
