@@ -149,7 +149,7 @@ Copyright (C) 2016 by University of Bath
     }
   }
 
-\usepackage[backend=biber,hyperref=false,isbn=false,bibstyle=bath,citestyle=authoryear]{biblatex}
+\usepackage[backend=biber,bibencoding=utf8,hyperref=false,isbn=false,bibstyle=bath,citestyle=authoryear]{biblatex}
 \addbibresource{biblatex-bath.bib}
 \makeatletter
 \DeclareCiteCommand{\fullcite}
@@ -983,14 +983,14 @@ You can also use \texttt{music} as an alias for \texttt{audio}.
 
 \subsection{Non-English works in non-Roman alphabets}
 
-\begin{bibexbox}(hacked){hua1999qys1}
+\begin{bibexbox}{hua1999qys1}
   Hua, L. 華林甫, 1999.  Qingdai yilai Sanxia diqu shuihan zaihai de chubu yanjiu 清代以來三峽地區水旱災害的初步硏 [A preliminary study of floods and droughts in the Three Gorges region since the Qing dynasty], \emph{Zhongguo shehui kexue} 中國社會科學 , 1, pp.168--79.
   \tcblower
 \begin{Verbatim}[commentchar=\%]
 %</driver>
 %<*driver|bib>
 @article{hua1999qys1,
-  author = {given=L., family=Hua, cjk=華林甫},
+  author = {given=Linfu, family=Hua, cjk=華林甫},
   year = {1999},
   title = {Qingdai yilai {Sanxia} diqu shuihan zaihai de chubu yanjiu
     {清代以來三峽地區水旱災害的初步硏}},
@@ -1004,6 +1004,27 @@ You can also use \texttt{music} as an alias for \texttt{audio}.
 \end{Verbatim}
 \end{bibexbox}
 
+Although not a feature of the Bath Harvard Style, if you want to suppress the 
+punctuation between the family name and the initial (and thereby be more
+faithful to the original orthography), you can specify this using
+\textsf{biblatex}'s data annotations feature:
+
+\begin{bibexbox}{hua2001foo}
+  Hua L. 華林甫, 2001. \emph{Lorem ipsum}.
+  \tcblower
+\begin{Verbatim}[commentchar=\%]
+%</driver>
+%<*driver|bib>
+@book{hua2001foo,
+  author = {given=Linfu, family=Hua, cjk=華林甫},
+  author+an = {1=cjk},
+  year = {2001},
+  title = {Lorem ipsum}}
+%</driver|bib>
+%<*driver>
+\end{Verbatim}
+\end{bibexbox}
+
 \begin{bibexbox}{hua1999qys2}
   Hua, L., 1999. Qingdai yilai Sanxia diqu shuihan zaihai de chubu yanjiu [A preliminary study of floods and droughts in the Three Gorges region since the Qing dynasty], \emph{Zhongguo shehui kexue}, 1, pp.168--79.
   \tcblower
@@ -1011,7 +1032,7 @@ You can also use \texttt{music} as an alias for \texttt{audio}.
 %</driver>
 %<*driver|bib>
 @article{hua1999qys2,
-  author = {Hua, L.},
+  author = {Hua, Linfu},
   year = {1999},
   title = {Qingdai yilai {Sanxia} diqu shuihan zaihai de chubu yanjiu},
   titleaddon = {[A preliminary study of floods and droughts in the {Three} {Gorges} region since
@@ -1391,9 +1412,114 @@ This work is `maintained' (as per LPPL maintenance status) by [Alex Ball][me].
 \renewcommand*{\bibinitdelim}{}
 %    \end{macrocode}
 %
-% See \url{http://tex.stackexchange.com/questions/320693/cjk-bibliography-problem-biblatex-chicago/320738#320738}
-% for a possible solution to the CJK author problem.
+% The handling of CJK names is based on code supplied to TeX.sx by user Moewe in
+% answer to \href{http://tex.stackexchange.com/a/320738/16293}{question 320738}.
 %
+% The CJK part is printed after the anglicized name. If the name is also
+% annotated as `cjk' (see `Data Annotations' in the \textsf{biblatex} manual),
+% it is always printed in family-given order with no intermediate punctuation.
+%
+%    \begin{macrocode}
+\newbibmacro*{name:cjk-given-family}[3]{%
+  \ifitemannotation{cjk}{%
+    \usebibmacro{name:delim}{#2#1#3}%
+    \usebibmacro{name:hook}{#2#1#3}%
+    \mkbibnamefamily{#1}\isdot
+    \ifdefvoid{#2}{}{\bibnamedelimd\mkbibnamegiven{#2}}%
+    \ifdefvoid{#3}{}{\bibnamedelimd\mkbibnamecjk{#3}}%
+  }{%
+    \usebibmacro{name:delim}{#2#1#3}%
+    \usebibmacro{name:hook}{#2#1#3}%
+    \ifdefvoid{#2}{}{\mkbibnamegiven{#2}\isdot\bibnamedelimd}%
+    \mkbibnamefamily{#1}\isdot
+    \ifdefvoid{#3}{}{\bibnamedelimd\mkbibnamecjk{#3}}%
+  }%
+}
+\newbibmacro*{name:cjk-family-given}[3]{%
+  \ifitemannotation{cjk}{%
+    \usebibmacro{name:delim}{#2#1#3}%
+    \usebibmacro{name:hook}{#2#1#3}%
+    \mkbibnamefamily{#1}\isdot
+    \ifdefvoid{#2}{}{\bibnamedelimd\mkbibnamegiven{#2}}%
+    \ifdefvoid{#3}{}{\bibnamedelimd\mkbibnamecjk{#3}}%
+  }{%
+    \usebibmacro{name:delim}{#1}%
+    \usebibmacro{name:hook}{#1}%
+    \mkbibnamefamily{#1}\isdot
+    \ifboolexpe{%
+      test {\ifdefvoid{#2}}
+      and
+      test {\ifdefvoid{#3}}}
+      {}
+      {\revsdnamepunct}%
+    \ifdefvoid{#2}{}{\bibnamedelimd\mkbibnamegiven{#2}\isdot}%
+    \ifdefvoid{#3}{}{\bibnamedelimd\mkbibnamecjk{#3}}%
+  }%
+}
+
+\DeclareNameFormat{given-family}{%
+  \ifdefvoid{\namepartcjk}{%
+    \ifgiveninits{%
+      \usebibmacro{name:given-family}
+        {\namepartfamily}
+        {\namepartgiveni}
+        {\namepartprefix}
+        {\namepartsuffix}%
+    }{%
+      \usebibmacro{name:given-family}
+        {\namepartfamily}
+        {\namepartgiven}
+        {\namepartprefix}
+        {\namepartsuffix}%
+    }%
+  }{%
+    \ifgiveninits{%
+      \usebibmacro{name:cjk-given-family}
+        {\namepartfamily}
+        {\namepartgiveni}
+        {\namepartcjk}%
+    }{%
+      \usebibmacro{name:cjk-given-family}
+        {\namepartfamily}
+        {\namepartgiven}
+        {\namepartcjk}%
+    }%
+  }%
+  \usebibmacro{name:andothers}%
+}
+
+\DeclareNameFormat{family-given}{%
+  \ifdefvoid{\namepartcjk}{%
+    \ifgiveninits{%
+      \usebibmacro{name:family-given}
+        {\namepartfamily}
+        {\namepartgiveni}
+        {\namepartprefix}
+        {\namepartsuffix}%
+    }{%
+      \usebibmacro{name:family-given}
+        {\namepartfamily}
+        {\namepartgiven}
+        {\namepartprefix}
+        {\namepartsuffix}%
+    }%
+  }{%
+    \ifgiveninits{%
+      \usebibmacro{name:cjk-family-given}
+        {\namepartfamily}
+        {\namepartgiveni}
+        {\namepartcjk}%
+    }{%
+      \usebibmacro{name:cjk-family-given}
+        {\namepartfamily}
+        {\namepartgiven}
+        {\namepartcjk}%
+    }%
+  }
+  \usebibmacro{name:andothers}%
+}
+
+%    \end{macrocode}
 %
 % With collections, editors appear in natural order between `In' and the title,
 % followed by `ed.'
