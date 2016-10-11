@@ -19,7 +19,9 @@ $(BBX) $(NAME).bib: $(NAME).dtx
 	tex -interaction=batchmode $(NAME).dtx >/dev/null
 
 $(NAME).pdf: $(NAME).dtx $(BBX) $(NAME).bib
-	latexmk -silent -lualatex -synctex=1 -interaction=batchmode $(NAME).dtx >/dev/null
+	lualatex -interaction=batchmode $(NAME).dtx >/dev/null
+	biber $(NAME) >/dev/null
+	latexmk -silent -lualatex -interaction=batchmode $(NAME).dtx >/dev/null
 
 clean:
 	rm -f $(NAME).{aux,bbl,bcf,blg,doc,fdb_latexmk,fls,glo,gls,hd,idx,ilg,ind,listing,log,nav,out,run.xml,snm,synctex.gz,tcbtemp,toc,vrb}
