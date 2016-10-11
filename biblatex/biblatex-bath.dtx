@@ -1560,10 +1560,12 @@ This work is `maintained' (as per LPPL maintenance status) by [Alex Ball][me].
 \renewbibmacro*{bytranslator}{%
   \ifnameundef{translator}
     {}
-    {\printnames[bytranslator]{translator}%
-     \newunit
-     \bibstring{translator}%
-     \clearname{translator}}}
+    {\setunit{\space}%
+     \printtext[parens]{%
+       \printnames[bytranslator]{translator}%
+       \newunit
+       \bibstring{translator}%
+       \clearname{translator}}}}
 
 \renewbibmacro*{byeditor+others}{%
   \ifnameundef{editor}
@@ -1578,13 +1580,15 @@ This work is `maintained' (as per LPPL maintenance status) by [Alex Ball][me].
 
 \renewbibmacro*{bytranslator+others}{%
   \ifnameundef{translator}
-    {}
-    {\printnames[bytranslator]{translator}%
-     \newunit
-     \bibstring{translator}%
-     \clearname{translator}%
-     \newunit}%
-  \usebibmacro{withothers}}
+    {\usebibmacro{withothers}}
+    {\setunit{\space}%
+     \printtext[parens]{%
+       \printnames[bytranslator]{translator}%
+       \newunit
+       \bibstring{translator}%
+       \clearname{translator}%
+       \newunit
+       \usebibmacro{withothers}}}}
 
 \newbibmacro*{typestrg}[2]{%
   \iffieldundef{#1type}
