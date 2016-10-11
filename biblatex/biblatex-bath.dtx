@@ -872,6 +872,8 @@ You can also use \texttt{music} as an alias for \texttt{audio}.
 \end{Verbatim}
 \end{bibexbox}
 
+Use the \texttt{journal} field to specify the mailing list. This triggers the
+change in formatting with respect to the following example.
 
 \subsection{Personal emails}
 
@@ -2189,6 +2191,71 @@ This work is `maintained' (as per LPPL maintenance status) by [Alex Ball][me].
      \usebibmacro{related}}
     {}%
   \usebibmacro{finentry}}
+
+%    \end{macrocode}
+%
+% \subsection{Letters}
+%
+% This driver is used for emails. It is based loosely on the one for articles.
+% The particular foible with this type is that the date must be printed complete
+% at the start.
+%
+%    \begin{macrocode}
+\DeclareBibliographyDriver{letter}{%
+  \protected\def\printlabeldate{\mkdaterangeshort{label}}%
+  \protected\def\printlabeldateextra{\mkdaterangeshortextra{label}}%
+  \savebibmacro{date+extrayear}%
+  \renewbibmacro*{date+extrayear}{%
+    \iffieldundef{labelyear}{}{%
+      \setunit*{\addcomma\space}%
+      \printlabeldateextra
+      \clearfield{year}\clearfield{endyear}%
+      \clearfield{month}\clearfield{endmonth}%
+      \clearfield{day}\clearfield{endday}%
+    }%
+  }%
+  \savefieldformat[letter]{title}%
+  \iffieldundef{journaltitle}{%
+    \DeclareFieldFormat[letter]{title}{\emph{##1}}%
+  }{%
+    \DeclareFieldFormat[letter]{title}{##1}%
+  }%
+  \usebibmacro{bibindex}%
+  \usebibmacro{begentry}%
+  \usebibmacro{author/translator+others}%
+  \setunit{\printdelim{nametitledelim}}\newblock
+  \usebibmacro{title}%
+  \newunit
+  \printlist{language}%
+  \newunit\newblock
+  \usebibmacro{byauthor}%
+  \newunit\newblock
+  \usebibmacro{bytranslator+others}%
+  \newunit\newblock
+  \printfield{version}%
+  \newunit\newblock
+  \usebibmacro{journal+issuetitle}%
+  \newunit\newblock
+  \printfield{howpublished}%
+  \newunit
+  \printfield{note}%
+  \newunit\newblock
+  \usebibmacro{doi+eprint+url}%
+  \newunit\newblock
+  \usebibmacro{addendum+pubstate}%
+  \setunit{\bibpagerefpunct}\newblock
+  \usebibmacro{pageref}%
+  \newunit\newblock
+  \iftoggle{bbx:related}
+    {\usebibmacro{related:init}%
+     \usebibmacro{related}}
+    {}%
+  \usebibmacro{finentry}%
+  \restorefieldformat[letter]{title}%
+  \restorebibmacro{date+extrayear}%
+  \csletcs{printlabeldate}{blx@imc@printlabeldate}%
+  \csletcs{printlabeldateextra}{blx@imc@printlabeldateextra}%
+}
 
 %    \end{macrocode}
 %
