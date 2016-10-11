@@ -1116,9 +1116,9 @@ faithful to the original orthography), you can specify this using
 %</driver>
 %<*driver|bib>
 @legislation{gb.wa1735,
-  key = {Witchcraft Act 1735},
+  sortyear = {1735},
   title = {Witchcraft {Act} 1735},
-  titleaddon = {(9 Geo.2, c.5)}}
+  number = {9 Geo.2, c.5}}
 %</driver|bib>
 %<*driver>
 \end{Verbatim}
@@ -1127,16 +1127,16 @@ faithful to the original orthography), you can specify this using
 
 \subsection{Act of Parliament (UK Statues) 1963 onwards}
 
-\begin{bibexbox}{gb.pa2014}
+\begin{bibexbox}(hacked){gb.pa2014}
   \emph{Pensions Act 2014}, c.19. London:\@ TSO.
   \tcblower
 \begin{Verbatim}[commentchar=\%]
 %</driver>
 %<*driver|bib>
 @legislation{gb.pa2014,
-  key = {Pensions Act 2014},
+  sortyear = {2014},
   title = {Pensions {Act} 2014},
-  number = {c.19},
+  note = {c.19},
   address = {London},
   publisher = {TSO}}
 %</driver|bib>
@@ -1176,8 +1176,9 @@ faithful to the original orthography), you can specify this using
 %</driver>
 %<*driver|bib>
 @legislation{gb.hmr2012,
+  sortyear = {2012},
   title = {The {Human} {Medicines} {Regulations} 2012},
-  number = {No.1916},
+  note = {No.1916},
   address = {United Kingdom},
   publisher = {HMSO},
   url = {http://www.legislation.gov.uk/uksi/2012/1916/pdfs/uksi_20121916_en.pdf},
@@ -1908,6 +1909,66 @@ This work is `maintained' (as per LPPL maintenance status) by [Alex Ball][me].
   \newunit\newblock
   \usebibmacro{institution+location+date}%
   \setunit{\addcomma\space}%
+  \usebibmacro{type+number}%
+  \newunit\newblock
+  \usebibmacro{chapter+pages}%
+  \newunit
+  \printfield{pagetotal}%
+  \newunit\newblock
+  \iftoggle{bbx:isbn}
+    {\printfield{isrn}}
+    {}%
+  \newunit\newblock
+  \usebibmacro{doi+eprint+url}%
+  \newunit\newblock
+  \usebibmacro{addendum+pubstate}%
+  \setunit{\bibpagerefpunct}\newblock
+  \usebibmacro{pageref}%
+  \newunit\newblock
+  \iftoggle{bbx:related}
+    {\usebibmacro{related:init}%
+     \usebibmacro{related}}
+    {}%
+  \usebibmacro{finentry}}
+
+%    \end{macrocode}
+%
+% \subsection{Legislation}
+%
+% Legislation is mostly formatted like a report, except there is no comma
+% between the publisher and the type\slash number.
+%
+%    \begin{macrocode}
+\newbibmacro{type+number}{%
+  \ifboolexpr{
+    test {\iffieldundef{type}}
+    and
+    test {\iffieldundef{number}}
+  }{}{%
+    \printtext[parens]{%
+      \printfield{type}%
+      \setunit*{\addspace}%
+      \printfield{number}%
+    }%
+  }%
+}
+\DeclareBibliographyDriver{legislation}{%
+  \usebibmacro{bibindex}%
+  \usebibmacro{begentry}%
+  \usebibmacro{author}%
+  \setunit{\printdelim{nametitledelim}}\newblock
+  \usebibmacro{title}%
+  \newunit
+  \printlist{language}%
+  \newunit\newblock
+  \usebibmacro{byauthor}%
+  \newunit\newblock
+  \printfield{version}%
+  \newunit
+  \printfield{note}%
+  \newunit\newblock
+  \usebibmacro{institution+location+date}%
+  \setunit{\space}%
   \usebibmacro{type+number}%
   \newunit\newblock
   \usebibmacro{chapter+pages}%
