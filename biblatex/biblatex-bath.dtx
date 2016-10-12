@@ -779,7 +779,7 @@ Provide the \texttt{year} separately if (and only if) it does not form part of t
   year = {1948},
   title = {Macbeth},
   type = {Film},
-  note={Directed by Orson Welles},
+  note = {Directed by Orson Welles},
   address = {USA},
   publisher = {Republic Pictures}}
 %</driver|bib>
@@ -2032,8 +2032,8 @@ This work is `maintained' (as per LPPL maintenance status) by [Alex Ball][me].
 % brackets rather than parentheses.
 %
 %    \begin{macrocode}
-\DeclareFieldFormat{url}{\bibstring{urlfrom}\addcolon\space\url{#1}}
-\DeclareFieldFormat{doi}{\bibstring{urlfrom}\addcolon\space\url{http://dx.doi.org/#1}}
+\DeclareFieldFormat{url}{\bibsentence\bibstring{urlfrom}\addcolon\space\url{#1}}
+\DeclareFieldFormat{doi}{\bibsentence\bibstring{urlfrom}\addcolon\space\url{http://dx.doi.org/#1}}
 \DeclareFieldFormat{urldate}{\mkbibbrackets{\bibstring{urlseen}\space#1}}
 \renewbibmacro*{doi+eprint+url}{%
   \iftoggle{bbx:eprint}
