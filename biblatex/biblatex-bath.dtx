@@ -697,14 +697,15 @@ though of course any item might need adjustment to take account of differing con
 
 \subsection{Standard}
 
-\begin{bibexbox}(todo){bs5605:1990}
+\begin{bibexbox}{bs5605:1990}
   BS 5605:1990. \emph{Recommendations for citing and referencing published material}. BSI.
   \tcblower
 \begin{Verbatim}[commentchar=\%]
 %</driver>
 %<*driver|bib>
 @standard{bs5605:1990,
-  label = {{BS 5605:1990}},
+  label = {BS 5605:1990},
+  sortkey = {BS 5605:1990},
   title = {Recommendations for citing and referencing published material},
   organization = {BSI}}
 %</driver|bib>
@@ -712,6 +713,13 @@ though of course any item might need adjustment to take account of differing con
 \end{Verbatim}
 \end{bibexbox}
 
+Use \texttt{label} to specify the standard identifier;
+this will print it at the start of the entry and in citations.
+The \texttt{sortkey} determines where the entry will appear in the bibliography;
+you should normally repeat the identifier but you might want to adjust it, e.g.
+by adding zeroes to the start of the number to put several standards in numerical order.
+If you omit the \texttt{sortkey}, the entry will by sorted by \texttt{title}.
+Provide the \texttt{year} separately if (and only if) it does not form part of the identifier.
 
 \subsection{Patent}
 
@@ -2253,6 +2261,7 @@ This work is `maintained' (as per LPPL maintenance status) by [Alex Ball][me].
 % We define some handy semantic aliases.
 %
 %    \begin{macrocode}
+\DeclareBibliographyAlias{standard}{misc}
 \DeclareBibliographyAlias{dataset}{online}
 
 %    \end{macrocode}
