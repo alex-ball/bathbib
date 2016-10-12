@@ -157,10 +157,15 @@ Copyright (C) 2016 by University of Bath
   {\usebibmacro{prenote}}
   {\usedriver
      {\defcounter{maxnames}{\blx@maxbibnames}}
-     {\thefield{entrytype}}.}
+     {\thefield{entrytype}}}
   {\multicitedelim}
   {\usebibmacro{postnote}}
 \makeatother
+\xpretobibmacro{finentry}{%
+  \ifboolexpr{ test {\ifcitation} and not test {\iffootnote} }{%
+    \finentrypunct
+  }{}%
+}{}{}
 
 \usepackage{readprov}
 \usepackage[british,cleanlook]{isodate}
@@ -773,7 +778,7 @@ Provide the \texttt{year} separately if (and only if) it does not form part of t
 @video{macbeth1948,
   year = {1948},
   title = {Macbeth},
-  howpublished = {Film},
+  type = {Film},
   note={Directed by Orson Welles},
   address = {USA},
   publisher = {Republic Pictures}}
@@ -807,8 +812,8 @@ You can also use \texttt{movie} as an alias for \texttt{video}.
 
 \subsection{Television or radio broadcast}
 
-\begin{bibexbox}(todo){rsfo2006ep5}
-  \emph{Rick Stein's French Odyssey:\@ Episode 5}, 2006. TV. BBC2, 23 August.\@ 20.30 hrs.
+\begin{bibexbox}{rsfo2006ep5}
+  \emph{Rick Stein's French Odyssey: Episode 5}, 2006. TV. BBC2, 23 August. 20.30 hrs.
   \tcblower
 \begin{Verbatim}[commentchar=\%]
 %</driver>
@@ -816,15 +821,15 @@ You can also use \texttt{movie} as an alias for \texttt{video}.
 @video{rsfo2006ep5,
   date = {2006-08-23T20:30:00},
   title = {Rick {Stein's} {French} {Odyssey}: {Episode} 5},
-  howpublished = {TV},
+  type = {TV},
   publisher = {BBC2}}
 %</driver|bib>
 %<*driver>
 \end{Verbatim}
 \end{bibexbox}
 
-\begin{bibexbox}(todo){archers20060823}
-  \emph{The Archers}, 2006. Radio.\@ BBC Radio 4, 23 August.\@ 19.02 hrs.
+\begin{bibexbox}{archers20060823}
+  \emph{The Archers}, 2006. Radio.\@ BBC Radio 4, 23 August. 19.02 hrs.
   \tcblower
 \begin{Verbatim}[commentchar=\%]
 %</driver>
@@ -832,7 +837,7 @@ You can also use \texttt{movie} as an alias for \texttt{video}.
 @audio{archers20060823,
   date = {2006-08-23T19:02:00},
   title = {The {Archers}},
-  howpublished = {Radio},
+  type = {Radio},
   publisher = {BBC Radio 4}}
 %</driver|bib>
 %<*driver>
@@ -1403,6 +1408,7 @@ This work is `maintained' (as per LPPL maintenance status) by [Alex Ball][me].
 %
 %    \begin{macrocode}
 \NewBibliographyString{online}
+\NewBibliographyString{hours}
 %    \end{macrocode}
 %
 % We allow the bibliography look more like the Bib\TeX\ default.
@@ -1739,6 +1745,18 @@ This work is `maintained' (as per LPPL maintenance status) by [Alex Ball][me].
   \field{date}
   \field{year}
 }
+
+%    \end{macrocode}
+%
+% We allow the date macro to print the time as well.
+%
+%    \begin{macrocode}
+\renewbibmacro*{date}{%
+  \printdate
+  \setunit*{\bibdatetimesep}
+  \printtime
+}
+\DeclareFieldFormat{time}{#1~\bibstring{hours}}
 
 %    \end{macrocode}
 %
@@ -2144,6 +2162,50 @@ This work is `maintained' (as per LPPL maintenance status) by [Alex Ball][me].
 
 %    \end{macrocode}
 %
+% \subsection{Audiovisual materials}
+%
+% The \texttt{audio} and \texttt{video} drivers are based on \texttt{misc}.
+%
+%    \begin{macrocode}
+\DeclareBibliographyDriver{audio}{%
+  \usebibmacro{bibindex}%
+  \usebibmacro{begentry}%
+  \usebibmacro{author/editor+others/translator+others}%
+  \setunit{\printdelim{nametitledelim}}\newblock
+  \usebibmacro{title}%
+  \newunit
+  \printlist{language}%
+  \newunit\newblock
+  \usebibmacro{byauthor}%
+  \newunit\newblock
+  \usebibmacro{byeditor+others}%
+  \newunit\newblock
+  \printfield{howpublished}%
+  \newunit\newblock
+  \printfield{version}%
+  \newunit
+  \printfield{type}%
+  \newunit
+  \printfield{note}%
+  \newunit\newblock
+  \usebibmacro{publisher+location+date}%
+  \newunit\newblock
+  \usebibmacro{doi+eprint+url}%
+  \newunit\newblock
+  \usebibmacro{addendum+pubstate}%
+  \setunit{\bibpagerefpunct}\newblock
+  \usebibmacro{pageref}%
+  \newunit\newblock
+  \iftoggle{bbx:related}
+    {\usebibmacro{related:init}%
+     \usebibmacro{related}}
+    {}%
+  \usebibmacro{finentry}}
+\DeclareBibliographyAlias{movie}{audio}
+\DeclareBibliographyAlias{music}{audio}
+\DeclareBibliographyAlias{video}{audio}
+%    \end{macrocode}
+%
 % \subsection{Legislation}
 %
 % Legislation is mostly formatted like a report, except there is no comma
@@ -2310,24 +2372,28 @@ This work is `maintained' (as per LPPL maintenance status) by [Alex Ball][me].
     \iffieldbibstring{#1}
       {\bibstring{\thefield{#1}}}
       {\dateeraprintpre{#1}\mkyearzeros{\thefield{#1}}}}%
+  \renewrobustcmd*{\bibdatetimesep}{\addperiod\space}%
+  \renewrobustcmd*{\bibtimesep}{\addperiod}%
   }
 
-\DeclareBibliographyStrings{%
-  inherit          = {british},
-  urlseen          = {{Accessed}{Accessed}},
-  online           = {{[Online]}{[Online]}},
-  january          = {{January}{January}},
-  february         = {{February}{February}},
-  march            = {{March}{March}},
-  april            = {{April}{April}},
-  may              = {{May}{May}},
-  june             = {{June}{June}},
-  july             = {{July}{July}},
-  august           = {{August}{August}},
-  september        = {{September}{September}},
-  october          = {{October}{October}},
-  november         = {{November}{November}},
-  december         = {{December}{December}}
+\DeclareBibliographyStrings
+{inherit          = {british}
+,urlseen          = {{Accessed}{Accessed}}
+,january          = {{January}{January}}
+,february         = {{February}{February}}
+,march            = {{March}{March}}
+,april            = {{April}{April}}
+,may              = {{May}{May}}
+,june             = {{June}{June}}
+,july             = {{July}{July}}
+,august           = {{August}{August}}
+,september        = {{September}{September}}
+,october          = {{October}{October}}
+,november         = {{November}{November}}
+,december         = {{December}{December}}
+% new ones
+,online           = {{[Online]}{[Online]}}
+,hours            = {{hours}{hrs\adddot}}
 }
 %    \end{macrocode}
 % \iffalse
