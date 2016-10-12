@@ -1756,13 +1756,13 @@ This work is `maintained' (as per LPPL maintenance status) by [Alex Ball][me].
 %
 %    \begin{macrocode}
 \DeclareDelimFormat{nameyeardelim}{\addcomma\addspace}
-\DeclareDelimFormat[textcite]{nameyeardelim}{\addcomma\addspace}
+\DeclareDelimFormat[parencite]{nameyeardelim}{\addcomma\addspace}
 \DeclareDelimFormat[bib]{nameyeardelim}{\addcomma\addspace}
 \DeclareDelimFormat[biblist]{nameyeardelim}{\addcomma\addspace}
 \DeclareDelimFormat{nonameyeardelim}{%
   \ifentrytype{jurisdiction}{\addspace}{\addcomma\space}%
 }
-\DeclareDelimFormat[textcite]{nonameyeardelim}{%
+\DeclareDelimFormat[parencite]{nonameyeardelim}{%
   \ifentrytype{jurisdiction}{\addspace}{\addcomma\space}%
 }
 \DeclareDelimFormat[bib]{nonameyeardelim}{%
@@ -2288,22 +2288,20 @@ This work is `maintained' (as per LPPL maintenance status) by [Alex Ball][me].
 \DeclareBibliographyDriver{jurisdiction}{%
   \savebibmacro{title}%
   \renewbibmacro*{title}{%
-    \printtext{%
-      \ifboolexpr{
-        test {\iffieldundef{title}}
-        and
-        test {\iffieldundef{subtitle}}
-      }{}{%
-        \printtext[title]{%
-          \printfield[sentencecase]{title}%
-          \setunit{\subtitlepunct}%
-          \printfield[sentencecase]{subtitle}%
-          \setunit{\addspace}%
-        }%
-        \printfield{titleaddon}%
-        \setunit*{\addspace}%
-        \printfield{issue}%
+    \ifboolexpr{
+      test {\iffieldundef{title}}
+      and
+      test {\iffieldundef{subtitle}}
+    }{}{%
+      \printtext[title]{%
+        \printfield[sentencecase]{title}%
+        \setunit{\subtitlepunct}%
+        \printfield[sentencecase]{subtitle}%
+        \setunit{\addspace}%
       }%
+      \printfield{titleaddon}%
+      \setunit*{\addspace}%
+      \printfield{issue}%
     }%
   }%
   \usebibmacro{bibindex}%
@@ -2357,7 +2355,7 @@ This work is `maintained' (as per LPPL maintenance status) by [Alex Ball][me].
   \usebibmacro{bibindex}%
   \usebibmacro{begentry}%
   \usebibmacro{author}%
-  \setunit{\printdelim{nametitledelim}}\newblock
+  \iffieldundef{labelyear}{}{\setunit{\printdelim{nametitledelim}}\newblock}%
   \usebibmacro{title}%
   \newunit
   \printlist{language}%
