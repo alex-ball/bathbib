@@ -1208,7 +1208,7 @@ faithful to the original orthography), you can specify this using
 
 \subsection{Legal case study}
 
-\begin{bibexbox}(todo){seldon-v-c.w.j2012}
+\begin{bibexbox}{seldon-v-c.w.j2012}
   \emph{Seldon v Clarkson Wright \& Jakes}. [2012]. UKSC 16.
   \tcblower
 \begin{Verbatim}[commentchar=\%]
@@ -1246,7 +1246,7 @@ faithful to the original orthography), you can specify this using
 
 \subsection{EU regulation or directive, decision, recommendation or opinion}
 
-\begin{bibexbox}(todo){eu.dir2015/413}
+\begin{bibexbox}{eu.dir2015/413}
   Directive (EU) 2015/413 of the European Parliament and of the Council of 11th March 2015 facilitating cross-border exchange of information on road-safety-related traffic offences [2015] \emph{OJ} L68/9.
   \tcblower
 \begin{Verbatim}[commentchar=\%]
@@ -1267,7 +1267,7 @@ faithful to the original orthography), you can specify this using
 
 \subsection{Judgment of the European Court of Justice}
 
-\begin{bibexbox}(todo){srl.etal-v-comm2005}
+\begin{bibexbox}{srl.etal-v-comm2005}
   \emph{Alessandrini Srl and others v.~Commission} (C-295/03 P) [2005] ECR I-5700.
   \tcblower
 \begin{Verbatim}[commentchar=\%]
@@ -1283,6 +1283,9 @@ faithful to the original orthography), you can specify this using
 %<*driver>
 \end{Verbatim}
 \end{bibexbox}
+
+Use the \texttt{issue} field for the case number,
+and the \texttt{type} and \texttt{number} fields for the report number.
 
 
 \subsection{Database}
@@ -1663,28 +1666,32 @@ This work is `maintained' (as per LPPL maintenance status) by [Alex Ball][me].
 %
 %    \begin{macrocode}
 \renewbibmacro*{title}{%
-  \ifboolexpr{
-    test {\iffieldundef{title}}
-    and
-    test {\iffieldundef{subtitle}}
-  }{}{%
-    \printtext[title]{%
-      \printfield[sentencecase]{title}%
-      \setunit{\subtitlepunct}%
-      \printfield[sentencecase]{subtitle}%
-      \setunit{\addspace}%
-    }%
-    \printfield{titleaddon}%
+  \printtext{%
     \ifboolexpr{
-      test {\iffieldundef{journaltitle}}
+      test {\iffieldundef{title}}
       and
-      test {\iffieldundef{booktitle}}
-      and
-      not test {\ifentrytype{software}}
-    }{%
-      \setunit*{\addspace}%
-      \usebibmacro{isonline}%
-    }{}%
+      test {\iffieldundef{subtitle}}
+    }{}{%
+      \printtext[title]{%
+        \printfield[sentencecase]{title}%
+        \setunit{\subtitlepunct}%
+        \printfield[sentencecase]{subtitle}%
+        \setunit{\addspace}%
+      }%
+      \printfield{titleaddon}%
+      \ifboolexpr{
+        test {\iffieldundef{journaltitle}}
+        and
+        test {\iffieldundef{booktitle}}
+        and
+        test {\iffieldundef{library}}
+        and
+        not test {\ifentrytype{software}}
+      }{%
+        \setunit*{\addspace}%
+        \usebibmacro{isonline}%
+      }{}%
+    }%
   }%
 }
 
@@ -1729,24 +1736,6 @@ This work is `maintained' (as per LPPL maintenance status) by [Alex Ball][me].
 }{%
   \usebibmacro{title}\clearfield{titleaddon}%
 }{}{}
-\xpatchbibmacro{author}{%
-  \setunit*{\printdelim{nonameyeardelim}}%
-}{
-  \setunit{\printdelim{nonameyeardelim}}%
-}{}{}
-\xpatchbibmacro{bbx:editor}{%
-  \setunit*{\printdelim{nonameyeardelim}}%
-}{
-  \setunit{\printdelim{nonameyeardelim}}%
-}{}{}
-\xpatchbibmacro{bbx:translator}{%
-  \setunit*{\printdelim{nonameyeardelim}}%
-}{
-  \printtext{\unspace}\setunit{\printdelim{nonameyeardelim}}%
-}{}{}
-\renewcommand*{\nonameyeardelim}{%
-  \ifentrytype{jurisdiction}{\addspace}{\addcomma\space}%
-}
 
 %    \end{macrocode}
 %
@@ -1758,6 +1747,29 @@ This work is `maintained' (as per LPPL maintenance status) by [Alex Ball][me].
 \DeclareLabeldate{%
   \field{date}
   \field{year}
+}
+
+%    \end{macrocode}
+%
+% The punctuation before the label year is controlled by the following
+% commands, and should be a comma.
+%
+%    \begin{macrocode}
+\DeclareDelimFormat{nameyeardelim}{\addcomma\addspace}
+\DeclareDelimFormat[textcite]{nameyeardelim}{\addcomma\addspace}
+\DeclareDelimFormat[bib]{nameyeardelim}{\addcomma\addspace}
+\DeclareDelimFormat[biblist]{nameyeardelim}{\addcomma\addspace}
+\DeclareDelimFormat{nonameyeardelim}{%
+  \ifentrytype{jurisdiction}{\addspace}{\addcomma\space}%
+}
+\DeclareDelimFormat[textcite]{nonameyeardelim}{%
+  \ifentrytype{jurisdiction}{\addspace}{\addcomma\space}%
+}
+\DeclareDelimFormat[bib]{nonameyeardelim}{%
+  \ifentrytype{jurisdiction}{\addspace}{\addcomma\space}%
+}
+\DeclareDelimFormat[biblist]{nonameyeardelim}{%
+  \ifentrytype{jurisdiction}{\addspace}{\addcomma\space}%
 }
 
 %    \end{macrocode}
@@ -1783,7 +1795,6 @@ This work is `maintained' (as per LPPL maintenance status) by [Alex Ball][me].
 \def\bbx@opt@mergedate@year{%
   \renewbibmacro*{date+extrayear}{%
     \iffieldundef{labelyear}{}{%
-      \setunit*{\addcomma\space}%
       \printtext[date]{%
         \printfield{labelyear}%
         \printfield{extrayear}%
@@ -2258,20 +2269,22 @@ This work is `maintained' (as per LPPL maintenance status) by [Alex Ball][me].
 \DeclareBibliographyDriver{jurisdiction}{%
   \savebibmacro{title}%
   \renewbibmacro*{title}{%
-    \ifboolexpr{
-      test {\iffieldundef{title}}
-      and
-      test {\iffieldundef{subtitle}}
-    }{}{%
-      \printtext[title]{%
-        \printfield[sentencecase]{title}%
-        \setunit{\subtitlepunct}%
-        \printfield[sentencecase]{subtitle}%
-        \setunit{\addspace}%
+    \printtext{%
+      \ifboolexpr{
+        test {\iffieldundef{title}}
+        and
+        test {\iffieldundef{subtitle}}
+      }{}{%
+        \printtext[title]{%
+          \printfield[sentencecase]{title}%
+          \setunit{\subtitlepunct}%
+          \printfield[sentencecase]{subtitle}%
+          \setunit{\addspace}%
+        }%
+        \printfield{titleaddon}%
+        \setunit*{\addspace}%
+        \printfield{issue}%
       }%
-      \printfield{titleaddon}%
-      \setunit*{\addspace}%
-      \printfield{issue}%
     }%
   }%
   \usebibmacro{bibindex}%
