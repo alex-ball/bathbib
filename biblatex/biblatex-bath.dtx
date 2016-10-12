@@ -923,7 +923,7 @@ change in formatting with respect to the following example.
   title = {How should central banks respond to non-neutral inflation expectations?},
   address = {Bath},
   institution = {University of Bath},
-  note = {\emph{OPUS} [Online]},
+  library = {OPUS},
   url = {http://opus.bath.ac.uk},
   urldate = {2016-05-04}}
 %</driver|bib>
@@ -1216,7 +1216,9 @@ faithful to the original orthography), you can specify this using
 %<*driver|bib>
 @jurisdiction{seldon-v-c.w.j2012,
   title = {Seldon v {Clarkson} {Wright} \& {Jakes}},
-  note = {[2012]. UKSC 16}}
+  year = {2012},
+  type = {UKSC},
+  number = {16}}
 %</driver|bib>
 %<*driver>
 \end{Verbatim}
@@ -1254,7 +1256,9 @@ faithful to the original orthography), you can specify this using
   title = {Directive ({EU}) 2015/413 of the {European} {Parliament} and of the {Council} of
     11th {March} 2015 Facilitating Cross-Border Exchange of Information on Road-Safety-Related
     Traffic Offences},
-  titleaddon = {[2015] \emph{OJ} L68/9}}
+  year = {2015},
+  journal = {OJ},
+  number = {L68/9}}
 %</driver|bib>
 %<*driver>
 \end{Verbatim}
@@ -1271,7 +1275,10 @@ faithful to the original orthography), you can specify this using
 %<*driver|bib>
 @jurisdiction{srl.etal-v-comm2005,
   title = {Alessandrini {Srl} and others v.\@ {Commission}},
-  titleaddon = {(C-295/03 P) [2005] ECR I-5700}}
+  issue = {C-295/03 P},
+  year = {2005},
+  type = {ECR},
+  number = {I-5700}}
 %</driver|bib>
 %<*driver>
 \end{Verbatim}
@@ -1290,7 +1297,7 @@ faithful to the original orthography), you can specify this using
   author = {{Bureau van Dijk}},
   year = {2008},
   title = {{BT} {Group} PLC Company Report},
-  series = {\emph{FAME} [Online]},
+  library = {FAME},
   address = {London},
   organization = {Bureau van Dijk},
   url = {http://www.portal.euromonitor.com},
@@ -1720,24 +1727,30 @@ This work is `maintained' (as per LPPL maintenance status) by [Alex Ball][me].
 \xpatchbibmacro{labeltitle}{%
   \printfield{title}%
 }{%
-  \usebibmacro{title}\setunit{\addcomma\space}\clearfield{titleaddon}%
+  \usebibmacro{title}\clearfield{titleaddon}%
 }{}{}
+\xpatchbibmacro{author}{%
+  \setunit*{\printdelim{nonameyeardelim}}%
+}{
+  \setunit{\printdelim{nonameyeardelim}}%
+}{}{}
+\xpatchbibmacro{bbx:editor}{%
+  \setunit*{\printdelim{nonameyeardelim}}%
+}{
+  \setunit{\printdelim{nonameyeardelim}}%
+}{}{}
+\xpatchbibmacro{bbx:translator}{%
+  \setunit*{\printdelim{nonameyeardelim}}%
+}{
+  \printtext{\unspace}\setunit{\printdelim{nonameyeardelim}}%
+}{}{}
+\renewcommand*{\nonameyeardelim}{%
+  \ifentrytype{jurisdiction}{\addspace}{\addcomma\space}%
+}
 
 %    \end{macrocode}
 %
 % \subsection{Dates}
-%
-% Dates are preceded by a comma, and are given bare rather than in parentheses.
-%
-%    \begin{macrocode}
-\xpatchbibmacro{date+extrayear}{%
-  \printtext[parens]%
-}{%
-  \setunit*{\addcomma\space}%
-  \printtext%
-}{}{}
-
-%    \end{macrocode}
 %
 % No attempt is made to recover from missing dates in the bibliography.
 %
@@ -1762,14 +1775,16 @@ This work is `maintained' (as per LPPL maintenance status) by [Alex Ball][me].
 %    \end{macrocode}
 %
 % We provide a new date merging option that moves the year but leaves the
-% month and day in place, and set this as the default.
+% month and day in place, and set this as the default. Note that dates are
+% preceded by a comma, and are given bare rather than in parentheses.
 %
 %    \begin{macrocode}
+\DeclareFieldFormat{date}{#1}
 \def\bbx@opt@mergedate@year{%
   \renewbibmacro*{date+extrayear}{%
     \iffieldundef{labelyear}{}{%
       \setunit*{\addcomma\space}%
-      \printtext{%
+      \printtext[date]{%
         \printfield{labelyear}%
         \printfield{extrayear}%
       }%
@@ -2213,6 +2228,91 @@ This work is `maintained' (as per LPPL maintenance status) by [Alex Ball][me].
 \DeclareBibliographyAlias{movie}{audio}
 \DeclareBibliographyAlias{music}{audio}
 \DeclareBibliographyAlias{video}{audio}
+%    \end{macrocode}
+%
+% \subsection{Jurisdiction}
+%
+% Legal case studies, judgements and decisions are formatted a bit like reports
+% but with different punctuation.
+%
+%    \begin{macrocode}
+\DeclareFieldFormat[jurisdiction]{date}{\mkbibbrackets{#1}}
+\DeclareFieldFormat[jurisdiction]{issue}{\mkbibparens{#1}}
+\DeclareFieldFormat[jurisdiction]{title}{%
+  \iffieldundef{journaltitle}{\mkbibemph{#1}}{#1}%
+}
+\newbibmacro{jurisdiction:type+number}{%
+  \usebibmacro{journal}
+  \setunit*{\addspace}%
+  \ifboolexpr{
+    test {\iffieldundef{type}}
+    and
+    test {\iffieldundef{number}}
+  }{}{%
+    \printfield{type}%
+    \setunit*{\addspace}%
+    \printfield{number}%
+  }%
+}
+
+\DeclareBibliographyDriver{jurisdiction}{%
+  \savebibmacro{title}%
+  \renewbibmacro*{title}{%
+    \ifboolexpr{
+      test {\iffieldundef{title}}
+      and
+      test {\iffieldundef{subtitle}}
+    }{}{%
+      \printtext[title]{%
+        \printfield[sentencecase]{title}%
+        \setunit{\subtitlepunct}%
+        \printfield[sentencecase]{subtitle}%
+        \setunit{\addspace}%
+      }%
+      \printfield{titleaddon}%
+      \setunit*{\addspace}%
+      \printfield{issue}%
+    }%
+  }%
+  \usebibmacro{bibindex}%
+  \usebibmacro{begentry}%
+  \usebibmacro{author}%
+  \setunit{\printdelim{nametitledelim}}\newblock
+  \usebibmacro{title}%
+  \newunit
+  \printlist{language}%
+  \newunit\newblock
+  \usebibmacro{byauthor}%
+  \newunit\newblock
+  \printfield{version}%
+  \newunit
+  \printfield{note}%
+  \newunit\newblock
+  \usebibmacro{institution+location+date}%
+  \setunit{\addspace}%
+  \usebibmacro{jurisdiction:type+number}%
+  \newunit\newblock
+  \usebibmacro{chapter+pages}%
+  \newunit
+  \printfield{pagetotal}%
+  \newunit\newblock
+  \iftoggle{bbx:isbn}
+    {\printfield{isrn}}
+    {}%
+  \newunit\newblock
+  \usebibmacro{doi+eprint+url}%
+  \newunit\newblock
+  \usebibmacro{addendum+pubstate}%
+  \setunit{\bibpagerefpunct}\newblock
+  \usebibmacro{pageref}%
+  \newunit\newblock
+  \iftoggle{bbx:related}
+    {\usebibmacro{related:init}%
+     \usebibmacro{related}}
+    {}%
+  \usebibmacro{finentry}%
+  \restorebibmacro{title}}
+
 %    \end{macrocode}
 %
 % \subsection{Legislation}
