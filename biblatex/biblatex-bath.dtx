@@ -1327,7 +1327,7 @@ You can also use \texttt{dataset} as an alias for \texttt{online}.
 
 \subsection{Computer program}
 
-\begin{bibexbox}(todo){screencasto}
+\begin{bibexbox}{screencasto}
   @screencasto. \emph{Screencast-O-Matic} (v.2) [computer program]. \url{https://screencast-o-matic.com/} [Accessed 16/05/2016].
   \tcblower
 \begin{Verbatim}[commentchar=\%]
@@ -1336,7 +1336,8 @@ You can also use \texttt{dataset} as an alias for \texttt{online}.
 @software{screencasto,
   author = {@screencasto},
   title = {{Screencast-O-Matic}},
-  titleaddon = {(v.2) [computer program]},
+  version = {2},
+  type = {computer program},
   url = {https://screencast-o-matic.com/},
   urldate = {2016-05-16}}
 %</driver|bib>
@@ -1921,6 +1922,14 @@ This work is `maintained' (as per LPPL maintenance status) by [Alex Ball][me].
 
 %    \end{macrocode}
 %
+% \subsection{Versions}
+%
+% Versions are printed with `v.\@' in parentheses.
+%
+%    \begin{macrocode}
+\DeclareFieldFormat{version}{\mkbibparens{\bibstring{version}#1}}
+%    \end{macrocode}
+%
 % \subsection{Events}
 %
 % Events are printed as date then venue with no intermediate punctuation.
@@ -2318,6 +2327,50 @@ This work is `maintained' (as per LPPL maintenance status) by [Alex Ball][me].
 
 %    \end{macrocode}
 %
+% \subsection{Software}
+%
+% The driver for software entries is based on misc. The main difference is in
+% how the type is printed.
+%
+%    \begin{macrocode}
+\DeclareFieldFormat[software]{type}{\mkbibbrackets{#1}}
+\DeclareBibliographyDriver{software}{%
+  \usebibmacro{bibindex}%
+  \usebibmacro{begentry}%
+  \usebibmacro{author/editor+others/translator+others}%
+  \setunit{\printdelim{nametitledelim}}\newblock
+  \usebibmacro{title}%
+  \setunit{\addspace}
+  \printfield{version}%
+  \setunit{\addspace}
+  \printfield{type}%
+  \newunit
+  \printlist{language}%
+  \newunit\newblock
+  \usebibmacro{byauthor}%
+  \newunit\newblock
+  \usebibmacro{byeditor+others}%
+  \newunit\newblock
+  \printfield{howpublished}%
+  \newunit\newblock
+  \printfield{note}%
+  \newunit\newblock
+  \usebibmacro{organization+location+date}%
+  \newunit\newblock
+  \usebibmacro{doi+eprint+url}%
+  \newunit\newblock
+  \usebibmacro{addendum+pubstate}%
+  \setunit{\bibpagerefpunct}\newblock
+  \usebibmacro{pageref}%
+  \newunit\newblock
+  \iftoggle{bbx:related}
+    {\usebibmacro{related:init}%
+     \usebibmacro{related}}
+    {}%
+  \usebibmacro{finentry}}
+
+%    \end{macrocode}
+%
 % \subsection{Aliases}
 %
 % We define some handy semantic aliases.
@@ -2394,6 +2447,7 @@ This work is `maintained' (as per LPPL maintenance status) by [Alex Ball][me].
 % new ones
 ,online           = {{[Online]}{[Online]}}
 ,hours            = {{hours}{hrs\adddot}}
+,version          = {{version~}{v\adddot}}
 }
 %    \end{macrocode}
 % \iffalse
