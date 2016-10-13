@@ -46,6 +46,7 @@ Copyright (C) 2016 by University of Bath
   \file{bath.cbx}{\from{\jobname.dtx}{cbx}}
   \file{bath.dbx}{\from{\jobname.dtx}{dbx}}
   \file{british-bath.lbx}{\from{\jobname.dtx}{lbx}}
+  \file{american-bath.lbx}{\from{\jobname.dtx}{lbx-us}}
 }
 %</install>
 %<install>\endbatchfile
@@ -204,8 +205,8 @@ UNIX-like systems:
 
   * Running `make source` generates the derived files
       - README.md
-      - bath.bbx
-      - british-bath.lbx
+      - bath.bbx, bath.cbx, bath.dbx
+      - american-bath.lbx, british-bath.lbx
       - biblatex-bath.bib
       - biblatex-bath.ins
   * Running `make` generates the above files and also biblatex-bath.pdf.
@@ -231,6 +232,9 @@ the zip archive.
         (biblatex-bath.ins)
       - `tex/latex/biblatex-bath`:
         bath.bbx,
+        bath.cbx,
+        bath.dbx,
+        american-bath.lbx,
         british-bath.lbx
       - `doc/latex/biblatex-bath`:
         biblatex-bath.pdf,
@@ -1405,7 +1409,7 @@ This work is `maintained' (as per LPPL maintenance status) by [Alex Ball][me].
 %    \begin{macrocode}
 \DeclareLanguageMapping{english}{british-bath}
 \DeclareLanguageMapping{british}{british-bath}
-\DeclareLanguageMapping{american}{british-bath}
+\DeclareLanguageMapping{american}{american-bath}
 %    \end{macrocode}
 %
 % We begin by loading the default author--year style.
@@ -2528,6 +2532,11 @@ This work is `maintained' (as per LPPL maintenance status) by [Alex Ball][me].
 %
 % \section{Implementation: British English language file}
 %
+% We use the standard version with a few changes. We display the day as a
+% cardinal number instead of an ordinal. The date is separated from the time
+% by a period, not just a space, and the time separator is a period instead of a
+% colon.
+%
 %    \begin{macrocode}
 \InheritBibliographyExtras{british}
 \DeclareBibliographyExtras{%
@@ -2543,22 +2552,16 @@ This work is `maintained' (as per LPPL maintenance status) by [Alex Ball][me].
     \iffieldbibstring{#1}
       {\bibstring{\thefield{#1}}}
       {\dateeraprintpre{#1}\stripzeros{\thefield{#1}}}}%
-  \protected\def\mkbibdateshort#1#2#3{%
-    \iffieldundef{#3}
-      {}
-      {\mkdayzeros{\thefield{#3}}%
-       \iffieldundef{#2}{}{/}}%
-    \iffieldundef{#2}
-      {}
-      {\mkmonthzeros{\thefield{#2}}%
-       \iffieldundef{#1}{}{/}}%
-    \iffieldbibstring{#1}
-      {\bibstring{\thefield{#1}}}
-      {\dateeraprintpre{#1}\mkyearzeros{\thefield{#1}}}}%
   \renewrobustcmd*{\bibdatetimesep}{\addperiod\space}%
   \renewrobustcmd*{\bibtimesep}{\addperiod}%
   }
 
+%    \end{macrocode}
+%
+% The strings are mostly the same except for the following changes. Note that
+% month names are never abbreviated.
+%
+%    \begin{macrocode}
 \DeclareBibliographyStrings
 {inherit          = {british}
 ,urlseen          = {{Accessed}{Accessed}}
@@ -2574,7 +2577,11 @@ This work is `maintained' (as per LPPL maintenance status) by [Alex Ball][me].
 ,october          = {{October}{October}}
 ,november         = {{November}{November}}
 ,december         = {{December}{December}}
-% new ones
+%    \end{macrocode}
+%
+% These are the new strings we define in this style.
+%
+%    \begin{macrocode}
 ,online           = {{[Online]}{[Online]}}
 ,hours            = {{hours}{hrs\adddot}}
 ,version          = {{version~}{v\adddot}}
@@ -2582,6 +2589,53 @@ This work is `maintained' (as per LPPL maintenance status) by [Alex Ball][me].
 %    \end{macrocode}
 % \iffalse
 %</lbx>
+%<*lbx-us>
+% \fi
+%
+% \section{Implementation: American English language file}
+%
+% We use the standard version with a few changes. The date is separated from the
+% time by a period, not just a space.
+%
+%    \begin{macrocode}
+\InheritBibliographyExtras{american}
+\DeclareBibliographyExtras{%
+  \renewrobustcmd*{\bibdatetimesep}{\addperiod\space}%
+  }
+
+%    \end{macrocode}
+%
+% The strings are mostly the same except for the following changes. Note that
+% month names are never abbreviated.
+%
+%    \begin{macrocode}
+\DeclareBibliographyStrings
+{inherit          = {american}
+,urlseen          = {{Accessed}{Accessed}}
+,january          = {{January}{January}}
+,february         = {{February}{February}}
+,march            = {{March}{March}}
+,april            = {{April}{April}}
+,may              = {{May}{May}}
+,june             = {{June}{June}}
+,july             = {{July}{July}}
+,august           = {{August}{August}}
+,september        = {{September}{September}}
+,october          = {{October}{October}}
+,november         = {{November}{November}}
+,december         = {{December}{December}}
+%    \end{macrocode}
+%
+% These are the new strings we define in this style.
+%
+%    \begin{macrocode}
+,online           = {{[Online]}{[Online]}}
+,hours            = {{hours}{hrs\adddot}}
+,version          = {{version~}{v\adddot}}
+}
+%    \end{macrocode}
+% \iffalse
+%</lbx-us>
 %<*cbx>
 % \fi
 %

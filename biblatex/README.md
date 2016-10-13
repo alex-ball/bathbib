@@ -12,8 +12,8 @@ UNIX-like systems:
 
   * Running `make source` generates the derived files
       - README.md
-      - bath.bbx
-      - british-bath.lbx
+      - bath.bbx, bath.cbx, bath.dbx
+      - american-bath.lbx, british-bath.lbx
       - biblatex-bath.bib
       - biblatex-bath.ins
   * Running `make` generates the above files and also biblatex-bath.pdf.
@@ -39,6 +39,9 @@ the zip archive.
         (biblatex-bath.ins)
       - `tex/latex/biblatex-bath`:
         bath.bbx,
+        bath.cbx,
+        bath.dbx,
+        american-bath.lbx,
         british-bath.lbx
       - `doc/latex/biblatex-bath`:
         biblatex-bath.pdf,

@@ -10,15 +10,15 @@ UTREE = $(shell kpsewhich --var-value TEXMFHOME)
 
 .PHONY: source clean distclean inst install uninst uninstall zip ctan
 
-all:	$(NAME).pdf $(STYLE).bbx $(STYLE).cbx $(STYLE).dbx british-$(STYLE).lbx clean
+all:	$(NAME).pdf clean
 	@exit 0
 
-source:	$(STYLE).bbx $(STYLE).cbx $(STYLE).dbx british-$(STYLE).lbx $(NAME).bib
-
-$(STYLE).bbx $(STYLE).cbx $(STYLE).dbx british-$(STYLE).lbx $(NAME).bib: $(NAME).dtx
+source:	$(NAME).dtx
 	tex -interaction=batchmode $(NAME).dtx >/dev/null
 
-$(NAME).pdf: $(NAME).dtx $(STYLE).bbx $(STYLE).cbx $(STYLE).dbx british-$(STYLE).lbx $(NAME).bib
+$(STYLE).bbx $(STYLE).cbx $(STYLE).dbx american-$(STYLE).lbx british-$(STYLE).lbx $(NAME).bib: source
+
+$(NAME).pdf: source
 	lualatex -interaction=batchmode $(NAME).dtx >/dev/null
 	biber $(NAME) >/dev/null
 	latexmk -silent -lualatex -interaction=batchmode $(NAME).dtx >/dev/null
@@ -28,14 +28,14 @@ clean:
 	rm -rf _markdown_$(NAME)
 
 distclean: clean
-	rm -f $(NAME).{pdf,bib,ins} $(STYLE).{b,c,d}bx british-$(STYLE).lbx
+	rm -f $(NAME).{pdf,bib,ins} $(STYLE).{b,c,d}bx {american,british}-$(STYLE).lbx
 
 
 inst: all
 	mkdir -p $(UTREE)/{source,tex,doc}/latex/$(NAME)
 	cp $(NAME).dtx $(NAME).ins $(UTREE)/source/latex/$(NAME)
 	cp $(NAME).{bib,pdf} $(UTREE)/doc/latex/$(NAME)
-	cp $(STYLE).{b,c,d}bx british-$(STYLE).lbx $(UTREE)/tex/latex/$(NAME)
+	cp $(STYLE).{b,c,d}bx {american,british}-$(STYLE).lbx $(UTREE)/tex/latex/$(NAME)
 	mktexlsr
 
 uninst:
@@ -46,7 +46,7 @@ install: all
 	sudo mkdir -p $(LOCAL)/{source,tex,doc}/latex/$(NAME)
 	sudo cp $(NAME).dtx $(NAME).ins $(LOCAL)/source/latex/$(NAME)
 	sudo cp $(NAME).{bib,pdf} $(LOCAL)/doc/latex/$(NAME)
-	sudo cp $(STYLE).{b,c,d}bx british-$(STYLE).lbx $(LOCAL)/tex/latex/$(NAME)
+	sudo cp $(STYLE).{b,c,d}bx {american,british}-$(STYLE).lbx $(LOCAL)/tex/latex/$(NAME)
 	mktexlsr
 
 uninstall:
@@ -55,7 +55,7 @@ uninstall:
 
 zip: all
 	mkdir $(TDIR)
-	cp $(NAME).{dtx,bib,pdf} $(STYLE).{b,c,d}bx british-$(STYLE).lbx README.md Makefile $(TDIR)
+	cp $(NAME).{dtx,bib,pdf} $(STYLE).{b,c,d}bx {american,british}-$(STYLE).lbx README.md Makefile $(TDIR)
 	cd $(TEMP); zip -Drq $(PWD)/$(NAME)-$(VERS).zip $(NAME)
 
 ctan: all
