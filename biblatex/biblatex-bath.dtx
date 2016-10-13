@@ -2111,6 +2111,70 @@ This work is `maintained' (as per LPPL maintenance status) by [Alex Ball][me].
 
 %    \end{macrocode}
 %
+% \subsection{Books}
+%
+% Compared with the standard styles, the main difference is that the series is
+% separated by a comma rather than a period.
+%
+%    \begin{macrocode}
+\xpatchbibdriver{book}{%
+  \newunit\newblock
+  \usebibmacro{series+number}%
+}{%
+  \setunit{\addcomma\space}%
+  \usebibmacro{series+number}%
+}{}{}
+
+\xpatchbibdriver{collection}{%
+  \newunit\newblock
+  \usebibmacro{series+number}%
+}{%
+  \setunit{\addcomma\space}%
+  \usebibmacro{series+number}%
+}{}{}
+
+\xpatchbibdriver{inbook}{%
+  \newunit\newblock
+  \usebibmacro{series+number}%
+}{%
+  \setunit{\addcomma\space}%
+  \usebibmacro{series+number}%
+}{}{}
+
+\xpatchbibdriver{incollection}{%
+  \newunit\newblock
+  \usebibmacro{series+number}%
+}{%
+  \setunit{\addcomma\space}%
+  \usebibmacro{series+number}%
+}{}{}
+
+\xpatchbibdriver{inproceedings}{%
+  \newunit\newblock
+  \usebibmacro{series+number}%
+}{%
+  \setunit{\addcomma\space}%
+  \usebibmacro{series+number}%
+}{}{}
+
+\xpatchbibdriver{manual}{%
+  \newunit\newblock
+  \usebibmacro{series+number}%
+}{%
+  \setunit{\addcomma\space}%
+  \usebibmacro{series+number}%
+}{}{}
+
+\xpatchbibdriver{proceedings}{%
+  \newunit\newblock
+  \usebibmacro{series+number}%
+}{%
+  \setunit{\addcomma\space}%
+  \usebibmacro{series+number}%
+}{}{}
+
+%    \end{macrocode}
+%
 % \subsection{Works in collections}
 %
 % Compared with the standard styles, the main difference is that the editors
