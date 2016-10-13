@@ -401,7 +401,8 @@ though of course any item might need adjustment to take account of differing con
   year = {1965},
   title = {How Humanists use a Library},
   editor = {C. F. J. Overhage and J. R. Harman},
-  booktitle = {Intrex: report on a planning conference and information transfer experiments},
+  booktitle = {Intrex},
+  booksubtitle = {Report on a Planning Conference and Information Transfer Experiments},
   address = {Cambridge, Mass.},
   publisher = {MIT Press},
   pages = {41-87}}
@@ -525,7 +526,8 @@ though of course any item might need adjustment to take account of differing con
 @article{williams1997edd,
   author = {Williams, F.},
   year = {1997},
-  title = {Electronic Document Delivery: a Trial in an Academic Library},
+  title = {Electronic Document Delivery},
+  subtitle = {A Trial in an Academic Library},
   journal = {Ariadne},
   volume = {10},
   url = {http://www.ariadne.ac.uk/issue10/edd/},
@@ -590,7 +592,8 @@ though of course any item might need adjustment to take account of differing con
   year = {1965},
   title = {Oxygen in Metals},
   editor = {J. M. A. Lenihan and S. J. Thompson},
-  booktitle = {Activation Analysis: Proceedings of a {NATO} {Advanced} {Study} {Institute}},
+  booktitle = {Activation Analysis},
+  booksubtitle = {Proceedings of a {NATO} {Advanced} {Study} {Institute}},
   eventdate = {1964-08-02/1964-08-04},
   venue = {Glasgow},
   address = {London},
@@ -824,7 +827,8 @@ You can also use \texttt{movie} as an alias for \texttt{video}.
 %<*driver|bib>
 @video{rsfo2006ep5,
   date = {2006-08-23T20:30:00},
-  title = {Rick {Stein's} {French} {Odyssey}: {Episode} 5},
+  title = {Rick {Stein's} {French} {Odyssey}},
+  subtitle = {{Episode} 5},
   type = {TV},
   publisher = {BBC2}}
 %</driver|bib>
@@ -1073,7 +1077,8 @@ faithful to the original orthography), you can specify this using
 @legislation{gb.hc2003/04-30,
   author = {{Great Britain. Parliament. House of Commons}},
   year = {2004},
-  title = {National {Savings} Investment Deposits: account 2002--2003},
+  title = {National {Savings} Investment Deposits},
+  subtitle = {Account 2002--2003},
   address = {London},
   publisher = {National Audit Office},
   type = {{HC}},
@@ -1177,7 +1182,8 @@ faithful to the original orthography), you can specify this using
 @legislation{gb.cm6041,
   author = {{Great Britain. Ministry of Defence}},
   year = {2004},
-  title = {Delivering Security in a Changing World: defence White Paper},
+  title = {Delivering Security in a Changing World},
+  subtitle = {Defence White Paper},
   address = {London},
   publisher = {TSO},
   type = {{Cm.}},
@@ -1329,7 +1335,8 @@ and the \texttt{type} and \texttt{number} fields for the report number.
 @online{wilson2013rgc,
   author = {Wilson, D.},
   year = {2013},
-  title = {Real Geometry and Connectedness via Triangular Description: {CAD} Example Bank},
+  title = {Real Geometry and Connectedness via Triangular Description},
+  subtitle = {{CAD} Example Bank},
   address = {Bath},
   organization = {University of Bath},
   doi = {10.15125/BATH-00069},
@@ -1641,6 +1648,7 @@ This work is `maintained' (as per LPPL maintenance status) by [Alex Ball][me].
 %
 %    \begin{macrocode}
 \DeclareFieldFormat{sentencecase}{\MakeSentenceCase*{#1}}
+\DeclareFieldFormat{midsentencecase}{\MakeSentenceCase*{{}#1}}
 \DeclareFieldFormat{title}{\mkbibemph{#1}}
 \DeclareFieldFormat
   [article,inbook,incollection,inproceedings]%
@@ -1682,7 +1690,7 @@ This work is `maintained' (as per LPPL maintenance status) by [Alex Ball][me].
       \printtext[title]{%
         \printfield[sentencecase]{title}%
         \setunit{\subtitlepunct}%
-        \printfield[sentencecase]{subtitle}%
+        \printfield[midsentencecase]{subtitle}%
         \setunit{\addspace}%
       }%
       \printfield{titleaddon}%
@@ -1711,7 +1719,7 @@ This work is `maintained' (as per LPPL maintenance status) by [Alex Ball][me].
     \printtext[booktitle]{%
       \printfield[sentencecase]{booktitle}%
       \setunit{\subtitlepunct}%
-      \printfield[sentencecase]{booksubtitle}%
+      \printfield[midsentencecase]{booksubtitle}%
       \setunit{\addspace}%
     }%
     \printfield{booktitleaddon}
@@ -1729,7 +1737,7 @@ This work is `maintained' (as per LPPL maintenance status) by [Alex Ball][me].
     \printtext[maintitle]{%
       \printfield[sentencecase]{maintitle}%
       \setunit{\subtitlepunct}%
-      \printfield[sentencecase]{mainsubtitle}%
+      \printfield[midsentencecase]{mainsubtitle}%
       \setunit{\addspace}%
     }%
     \printfield{maintitleaddon}%
