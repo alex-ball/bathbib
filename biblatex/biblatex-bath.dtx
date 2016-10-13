@@ -63,7 +63,7 @@ Copyright (C) 2016 by University of Bath
 %</internal>
 %<*driver>
 \ProvidesFile{biblatex-bath.dtx}
-    [2016/09/30 v0.1 Harvard referencing style as recommended by the University of Bath Library]
+    [2016/10/13 v0.9 Harvard referencing style as recommended by the University of Bath Library]
 
 \documentclass[10pt,a4paper]{article}
 \usepackage[british]{babel}
@@ -253,7 +253,7 @@ the zip archive.
 To use the style, specify it when you load \textsf{biblatex}:
 
 \begin{tcblisting}{listing only}
-\usepackage[bibstyle=bath,citestyle=authoryear]{biblatex}
+\usepackage[style=bath]{biblatex}
 \end{tcblisting}
 
 Remember also to specify your .bib file in the preamble:
@@ -446,7 +446,7 @@ though of course any item might need adjustment to take account of differing con
   title = {{CRC} Handbook of Chemistry and Physics},
   edition = {94},
   address = {Boca Raton, Fla.},
-  publisher = {CRC Press/Taylor and Francis},
+  publisher = {CRC Press/{Taylor and Francis}},
   url = {http://www.hbcpnetbase.com},
   urldate = {2016-06-16}}
 %</driver|bib>
@@ -805,7 +805,7 @@ You can also use \texttt{movie} as an alias for \texttt{video}.
 \begin{Verbatim}[commentchar=\%]
 %</driver>
 %<*driver|bib>
-@online{moran2016sol,
+@video{moran2016sol,
   author = {Moran, C.},
   year = {2016},
   title = {Save Our Libraries},
@@ -835,6 +835,8 @@ You can also use \texttt{movie} as an alias for \texttt{video}.
 %<*driver>
 \end{Verbatim}
 \end{bibexbox}
+
+Use \texttt{type} for the medium and \texttt{publisher} for the channel.
 
 \begin{bibexbox}{archers20060823}
   \emph{The Archers}, 2006. Radio.\@ BBC Radio 4, 23 August. 19.02 hrs.
@@ -908,7 +910,7 @@ change in formatting with respect to the following example.
 %<*driver|bib>
 @letter{alston2004sah,
   author = {Alston, S.},
-  date = {2004-04-19},
+  date = {2004-07-19},
   title = {Society of {Architectural} {Historians} of {GB}},
   howpublished = {Email to K.M. Jordan}}
 %</driver|bib>
@@ -939,6 +941,7 @@ change in formatting with respect to the following example.
 \end{Verbatim}
 \end{bibexbox}
 
+Use \texttt{library} to specify the name of the preprint repository.
 
 \subsection{Work in translation}
 
@@ -1170,6 +1173,9 @@ faithful to the original orthography), you can specify this using
 \end{Verbatim}
 \end{bibexbox}
 
+Use \texttt{note} for identifiers that should appear directly after the title
+and without parentheses.
+
 
 \subsection{Command paper}
 
@@ -1196,7 +1202,7 @@ faithful to the original orthography), you can specify this using
 
 \subsection{Statutory instrument}
 
-\begin{bibexbox}{gb.hmr2012}
+\begin{bibexbox}(hacked){gb.hmr2012}
   \emph{The Human Medicines Regulations 2012} [Online], No.1916, United Kingdom:\@ HMSO. Available from:\@ \url{http://www.legislation.gov.uk/uksi/2012/1916/pdfs/uksi_20121916_en.pdf} [Accessed 17/04/2016]
   \tcblower
 \begin{Verbatim}[commentchar=\%]
@@ -1254,6 +1260,7 @@ faithful to the original orthography), you can specify this using
 \end{Verbatim}
 \end{bibexbox}
 
+
 \subsection{EU regulation or directive, decision, recommendation or opinion}
 
 \begin{bibexbox}{eu.dir2015/413}
@@ -1275,6 +1282,7 @@ faithful to the original orthography), you can specify this using
 \end{Verbatim}
 \end{bibexbox}
 
+Note the use of \texttt{journal} here (\emph{OJ} = \emph{Official Journal}) instead of \texttt{type}.
 The \texttt{shorttitle} will be used in citations instead of the full title.
 
 
