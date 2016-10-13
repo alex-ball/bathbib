@@ -1764,16 +1764,32 @@ This work is `maintained' (as per LPPL maintenance status) by [Alex Ball][me].
 \DeclareDelimFormat[bib]{nameyeardelim}{\addcomma\addspace}
 \DeclareDelimFormat[biblist]{nameyeardelim}{\addcomma\addspace}
 \DeclareDelimFormat{nonameyeardelim}{%
-  \ifentrytype{jurisdiction}{\addspace}{\addcomma\space}%
+  \ifboolexpr{
+    test {\ifentrytype{jurisdiction}}
+    or
+    test {\ifentrytype{legislation}}
+  }{\addspace}{\addcomma\space}%
 }
 \DeclareDelimFormat[parencite]{nonameyeardelim}{%
-  \ifentrytype{jurisdiction}{\addspace}{\addcomma\space}%
+  \ifboolexpr{
+    test {\ifentrytype{jurisdiction}}
+    or
+    test {\ifentrytype{legislation}}
+  }{\addspace}{\addcomma\space}%
 }
 \DeclareDelimFormat[bib]{nonameyeardelim}{%
-  \ifentrytype{jurisdiction}{\addspace}{\addcomma\space}%
+  \ifboolexpr{
+    test {\ifentrytype{jurisdiction}}
+    or
+    test {\ifentrytype{legislation}}
+  }{\addspace}{\addcomma\space}%
 }
 \DeclareDelimFormat[biblist]{nonameyeardelim}{%
-  \ifentrytype{jurisdiction}{\addspace}{\addcomma\space}%
+  \ifboolexpr{
+    test {\ifentrytype{jurisdiction}}
+    or
+    test {\ifentrytype{legislation}}
+  }{\addspace}{\addcomma\space}%
 }
 
 %    \end{macrocode}
