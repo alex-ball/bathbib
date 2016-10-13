@@ -2118,20 +2118,27 @@ This work is `maintained' (as per LPPL maintenance status) by [Alex Ball][me].
 %
 %    \begin{macrocode}
 \xpatchbibdriver{incollection}{%
+  \usebibmacro{in:}%
   \usebibmacro{maintitle+booktitle}%
+  \newunit\newblock
+  \usebibmacro{byeditor+others}%
 }{%
+  \ifnameundef{editor}{}{\usebibmacro{in:}}%
   \usebibmacro{byeditor}%
   \newunit\newblock
   \usebibmacro{maintitle+booktitle}%
   \usebibmacro{bytranslator+others}%
 }{}{}
+
 \xpatchbibdriver{inproceedings}{%
+  \usebibmacro{in:}%
   \usebibmacro{maintitle+booktitle}%
   \newunit\newblock
   \usebibmacro{event+venue+date}%
   \newunit\newblock
   \usebibmacro{byeditor+others}%
 }{%
+  \ifnameundef{editor}{}{\usebibmacro{in:}}%
   \usebibmacro{byeditor}%
   \newunit\newblock
   \usebibmacro{maintitle+booktitle}%
