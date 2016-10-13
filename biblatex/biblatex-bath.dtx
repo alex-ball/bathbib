@@ -2403,6 +2403,7 @@ This work is `maintained' (as per LPPL maintenance status) by [Alex Ball][me].
 % at the start.
 %
 %    \begin{macrocode}
+\DeclareFieldFormat[letter]{title}{\iffieldundef{journaltitle}{\emph{#1}}{#1}}
 \DeclareBibliographyDriver{letter}{%
   \protected\def\printlabeldate{\mkdaterangeshort{label}}%
   \protected\def\printlabeldateextra{\mkdaterangeshortextra{label}}%
@@ -2415,12 +2416,6 @@ This work is `maintained' (as per LPPL maintenance status) by [Alex Ball][me].
       \clearfield{month}\clearfield{endmonth}%
       \clearfield{day}\clearfield{endday}%
     }%
-  }%
-  \savefieldformat[letter]{title}%
-  \iffieldundef{journaltitle}{%
-    \DeclareFieldFormat[letter]{title}{\emph{##1}}%
-  }{%
-    \DeclareFieldFormat[letter]{title}{##1}%
   }%
   \usebibmacro{bibindex}%
   \usebibmacro{begentry}%
@@ -2453,7 +2448,6 @@ This work is `maintained' (as per LPPL maintenance status) by [Alex Ball][me].
      \usebibmacro{related}}
     {}%
   \usebibmacro{finentry}%
-  \restorefieldformat[letter]{title}%
   \restorebibmacro{date+extrayear}%
   \csletcs{printlabeldate}{blx@imc@printlabeldate}%
   \csletcs{printlabeldateextra}{blx@imc@printlabeldateextra}%
