@@ -1794,7 +1794,7 @@ Copyright (C) 2016 by University of Bath
 \else
   \ifLuaTeX
     \usepackage{luatexja-fontspec}
-    \setmainjfont{TakaoPGothic}
+    \setmainjfont{IPAexGothic}
   \else
     \ifXeTeX
     \usepackage{ctex}
@@ -1903,9 +1903,9 @@ Copyright (C) 2016 by University of Bath
 %</driver>
 %<*driver|readme>
 
-This package provides a .bst file for using BibTeX to format reference
-lists in the [Harvard style][bath-harvard] recommended by the University
-of Bath Library.
+This package provides a [BibTeX] style to format reference lists in the
+[Harvard style][bath-harvard] recommended by the University of Bath Library.
+It should be used in conjunction with [natbib] for citations.
 
 ## Installation
 
@@ -1932,9 +1932,9 @@ changes to the .dtx file. The compiled files you need are included in
 the zip archive.
 
  1. Run `tex bath-bst.dtx` to generate the source files.
- 2. Compile bath-bst.dtx with LuaLaTeX and BibTeX to generate the
-    documentation. You will need, among other things, the luatexja,
-    adobemapping and ipaex packages installed; this is just for the
+ 2. Compile bath-bst.dtx with [LuaLaTeX] and BibTeX to generate the
+    documentation. You will need, among other things, the [luatexja],
+    [adobemapping] and [ipaex] packages installed; this is just for the
     documentation, not for the BibTeX style itself.
  3. Move the files to your TeX tree as follows:
       - `source/bibtex/bath-bst`:
@@ -1950,6 +1950,12 @@ the zip archive.
     before TeX and friends can see the files.
 
 [bath-harvard]: http://www.bath.ac.uk/library/infoskills/referencing-plagiarism/harvard-bath-style.html
+[BibTeX]: http://ctan.org/pkg/bibtex
+[natbib]: http://www.ctan.org/pkg/natbib
+[LuaLaTeX]: http://ctan.org/pkg/lualatex-doc
+[luatexja]: http://ctan.org/pkg/luatexja
+[adobemapping]: http://ctan.org/pkg/adobemapping
+[ipaex]: http://ctan.org/pkg/ipaex
 %</driver|readme>
 %<*driver>
 \end{markdown*}
@@ -1995,8 +2001,11 @@ Some examples are highlighted in
 \tcbox[colframe=hacked,colback=hacked!5!white,nobeforeafter,size=fbox,tcbox raise base]{orange}.
 This indicates that some fields have been `abused' to achieve the right effect;
 in other words, they contain information that does not conform with their intended use.
+Some others make use of the \texttt{note} and \texttt{titleaddon} fields to achieve
+the right effect, where other styles might need the information placed differently.
 Particular care should be taken with such items when switching between different styles,
 though of course any item might need adjustment to take account of differing conventions.
+
 
 \subsection{Book with author(s)}
 

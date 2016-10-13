@@ -1,6 +1,6 @@
 # biblatex-bath: Harvard referencing style as recommended by the University of Bath Library
 
-This package provides a biblatex style to format reference lists in the
+This package provides a [biblatex] style to format reference lists in the
 [Harvard style][bath-harvard] recommended by the University of Bath Library.
 
 ## Installation
@@ -29,9 +29,9 @@ changes to the .dtx file. The compiled files you need are included in
 the zip archive.
 
  1. Run `tex biblatex-bath.dtx` to generate the source files.
- 2. Compile biblatex-bath.dtx with LuaLaTeX and Biber to generate the
-    documentation. You will need, among other things, the luatexja,
-    adobemapping and ipaex packages installed; this is just for the
+ 2. Compile biblatex-bath.dtx with [LuaLaTeX] and [Biber] to generate the
+    documentation. You will need, among other things, the [luatexja],
+    [adobemapping] and [ipaex] packages installed; this is just for the
     documentation, not for the biblatex style itself.
  3. Move the files to your TeX tree as follows:
       - `source/latex/biblatex-bath`:
@@ -51,6 +51,12 @@ the zip archive.
     before TeX and friends can see the files.
 
 [bath-harvard]: http://www.bath.ac.uk/library/infoskills/referencing-plagiarism/harvard-bath-style.html
+[biblatex]: http://ctan.org/pkg/biblatex
+[LuaLaTeX]: http://ctan.org/pkg/lualatex-doc
+[Biber]: http://ctan.org/pkg/biber
+[luatexja]: http://ctan.org/pkg/luatexja
+[adobemapping]: http://ctan.org/pkg/adobemapping
+[ipaex]: http://ctan.org/pkg/ipaex
 
 ## Licence
 

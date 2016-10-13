@@ -1,8 +1,8 @@
 # bath-bst: Harvard referencing style as recommended by the University of Bath Library
 
-This package provides a .bst file for using BibTeX to format reference
-lists in the [Harvard style][bath-harvard] recommended by the University
-of Bath Library.
+This package provides a [BibTeX] style to format reference lists in the
+[Harvard style][bath-harvard] recommended by the University of Bath Library.
+It should be used in conjunction with [natbib] for citations.
 
 ## Installation
 
@@ -29,9 +29,9 @@ changes to the .dtx file. The compiled files you need are included in
 the zip archive.
 
  1. Run `tex bath-bst.dtx` to generate the source files.
- 2. Compile bath-bst.dtx with LuaLaTeX and BibTeX to generate the
-    documentation. You will need, among other things, the luatexja,
-    adobemapping and ipaex packages installed; this is just for the
+ 2. Compile bath-bst.dtx with [LuaLaTeX] and BibTeX to generate the
+    documentation. You will need, among other things, the [luatexja],
+    [adobemapping] and [ipaex] packages installed; this is just for the
     documentation, not for the BibTeX style itself.
  3. Move the files to your TeX tree as follows:
       - `source/bibtex/bath-bst`:
@@ -47,6 +47,12 @@ the zip archive.
     before TeX and friends can see the files.
 
 [bath-harvard]: http://www.bath.ac.uk/library/infoskills/referencing-plagiarism/harvard-bath-style.html
+[BibTeX]: http://ctan.org/pkg/bibtex
+[natbib]: http://www.ctan.org/pkg/natbib
+[LuaLaTeX]: http://ctan.org/pkg/lualatex-doc
+[luatexja]: http://ctan.org/pkg/luatexja
+[adobemapping]: http://ctan.org/pkg/adobemapping
+[ipaex]: http://ctan.org/pkg/ipaex
 
 ## Licence
 
