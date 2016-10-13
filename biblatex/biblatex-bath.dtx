@@ -1260,6 +1260,7 @@ faithful to the original orthography), you can specify this using
   title = {Directive ({EU}) 2015/413 of the {European} {Parliament} and of the {Council} of
     11th {March} 2015 Facilitating Cross-Border Exchange of Information on Road-Safety-Related
     Traffic Offences},
+  shorttitle = {Directive ({EU}) 2015/413},
   year = {2015},
   journal = {OJ},
   number = {L68/9}}
@@ -1267,6 +1268,8 @@ faithful to the original orthography), you can specify this using
 %<*driver>
 \end{Verbatim}
 \end{bibexbox}
+
+The \texttt{shorttitle} will be used in citations instead of the full title.
 
 
 \subsection{Judgment of the European Court of Justice}
@@ -1735,11 +1738,14 @@ This work is `maintained' (as per LPPL maintenance status) by [Alex Ball][me].
 
 \renewcommand*{\subtitlepunct}{\addcolon\space}
 
-\xpatchbibmacro{labeltitle}{%
-  \printfield{title}%
-}{%
-  \usebibmacro{title}\clearfield{titleaddon}%
-}{}{}
+\renewbibmacro*{labeltitle}{%
+  \iffieldundef{label}{%
+    \usebibmacro{title}%
+    \clearfield{title}\clearfield{subtitle}\clearfield{titleaddon}%
+  }{%
+    \printfield{label}%
+  }%
+}
 
 %    \end{macrocode}
 %
