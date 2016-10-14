@@ -69,6 +69,8 @@ Copyright (C) 2016 by University of Bath
 \usepackage[british]{babel}
 \usepackage[hmargin=3cm,vmargin=2.5cm]{geometry}
 
+% For typesetting the CJK example
+
 \usepackage{iftex}
 \ifPDFTeX
   \usepackage{CJKutf8}
@@ -82,6 +84,8 @@ Copyright (C) 2016 by University of Bath
     \fi
   \fi
 \fi
+
+% For typesetting the examples
 
 \usepackage{xpatch,csquotes,xcolor,xparse,multicol,fancyvrb}
 \xdefinecolor{Green}{rgb}{0,.5,0}
@@ -124,7 +128,6 @@ Copyright (C) 2016 by University of Bath
   , moredelim=**[s][\color{violet}]{[}{]}
   , moredelim=**[s][\color{blue!75!black}]{\{}{\}}
   , mathescape
-  , escapechar=~
   }
 \lstset{style=dtxlatex}
 \tcbset
@@ -168,6 +171,80 @@ Copyright (C) 2016 by University of Bath
   }{}%
 }{}{}
 
+% For typesetting the implementation
+\let\origmaketitle=\maketitle
+\usepackage{doc}
+\makeatletter
+\newwrite\ydocwrite
+\def\ydocfname{\jobname.listing}
+\def\ydoc@catcodes{%
+  \let\do\@makeother
+  \dospecials
+  \catcode`\\=\active
+  \catcode`\^^M=\active
+  \catcode`\ =\active
+}
+\def\macrocode{%
+  \begingroup
+  \ydoc@catcodes
+  \macro@code
+}
+\def\endmacrocode{}
+\begingroup
+\endlinechar\m@ne
+\@firstofone{%
+\catcode`\|=0\relax
+\catcode`\(=1\relax
+\catcode`\)=2\relax
+\catcode`\*=14\relax
+\catcode`\{=12\relax
+\catcode`\}=12\relax
+\catcode`\ =12\relax
+\catcode`\%=12\relax
+\catcode`\\=\active
+\catcode`\^^M=\active
+\catcode`\ =\active
+}*
+|gdef|macro@code#1^^M%    \end{macrocode}(*
+|endgroup|expandafter|macro@@code|expandafter(|ydoc@removeline#1|noexpand|lastlinemacro)*
+)*
+|gdef|ydoc@removeline#1^^M(|noexpand|firstlinemacro)*
+|gdef|ydoc@defspecialmacros(*
+|def^^M(|noexpand|newlinemacro)*
+|def (|noexpand|spacemacro)*
+|def\(|noexpand|bslashmacro)*
+)*
+|gdef|ydoc@defrevspecialmacros(*
+|def|newlinemacro(|noexpand^^M)*
+|def|spacemacro(|noexpand )*
+|def|bslashmacro(|noexpand\)*
+)*
+|endgroup
+\def\macro@@code#1{%
+  {\ydoc@defspecialmacros
+  \xdef\themacrocode{#1}}%
+  \PrintMacroCode
+  \end{macrocode}%
+}
+\def\PrintMacroCode{%
+  \begingroup
+  \let\firstlinemacro\empty
+  \let\lastlinemacro\empty
+  \def\newlinemacro{^^J}%
+  \let\bslashmacro\bslash
+  \let\spacemacro\space
+  \immediate\openout\ydocwrite=\ydocfname\relax
+  \immediate\write\ydocwrite{\themacrocode}%
+  \immediate\closeout\ydocwrite
+  \let\input\@input
+  \tcbinputlisting{enhanced,breakable,size=small,listing only,listing file=\ydocfname}%
+  \endgroup
+}
+\makeatother
+\let\maketitle=\origmaketitle
+
+% Documentation
+
 \usepackage{readprov}
 \usepackage[british,cleanlook]{isodate}
 
@@ -182,7 +259,7 @@ Copyright (C) 2016 by University of Bath
     where the code is hosted: \url{https://github.bath.ac.uk/ab318/bathbib}.%
   }%
 }
-\date{Package \UseVersionOf{biblatex-bath.dtx} -- \printdateTeX{\UseDateOf{biblatex-bath.dtx}}}
+\date{Package \UseVersionOf{biblatex-bath.dtx} --\printdateTeX{\UseDateOf{biblatex-bath.dtx}}}
 
 \begin{document}
 \maketitle
@@ -276,7 +353,7 @@ To make a citation in the text, use the key that corresponds to the entry in you
 \begin{tcblisting}{}
 While collections can be supplemented by other means \autocite{williams1997edd},
 the absence of an invisible collection amongst historians is noted by
-\textcite[p.556]{stieg1981inh}. It may be, as \textcite{burchard1965hhl} points
+\textcite[556]{stieg1981inh}. It may be, as \textcite{burchard1965hhl} points
 out, that they have no assistants or are reluctant to delegate\dots
 \end{tcblisting}
 
@@ -1410,13 +1487,29 @@ This work is `maintained' (as per LPPL maintenance status) by [Alex Ball][me].
 %<*driver>
 \end{markdown*}
 
+\newpage
+\lstset
+  { aboveskip=0pt
+  , belowskip=0pt
+  , numbers=left
+  , numberstyle=\color{gray}\footnotesize\itshape
+  , firstnumber=last
+  , basicstyle=\footnotesize\ttfamily
+  , breaklines=true
+  }%
+\MakeShortVerb{\|}%
+\DocInput{\jobname.dtx}
+
 \end{document}
 %</driver>
+% \fi
 % \iffalse
 %<*bbx>
 % \fi
 %
 % \section{Implementation: bibliography style}
+%
+% \setcounter{lstnumber}{16}
 %
 % \subsection{Preliminaries}
 %
@@ -2621,7 +2714,6 @@ This work is `maintained' (as per LPPL maintenance status) by [Alex Ball][me].
 %    \begin{macrocode}
 \DeclareBibliographyAlias{standard}{misc}
 \DeclareBibliographyAlias{dataset}{online}
-
 %    \end{macrocode}
 %
 % \iffalse
@@ -2631,6 +2723,8 @@ This work is `maintained' (as per LPPL maintenance status) by [Alex Ball][me].
 %
 % \section{Implementation: data model}
 %
+% \setcounter{lstnumber}{16}
+%
 %    \begin{macrocode}
 \DeclareDatamodelConstant[type=list]{nameparts}{prefix,family,suffix,given,cjk}
 %    \end{macrocode}
@@ -2639,7 +2733,9 @@ This work is `maintained' (as per LPPL maintenance status) by [Alex Ball][me].
 %<*lbx>
 % \fi
 %
-% \section{Implementation: British English language file}
+% \section{Implementation: British English language localization}
+%
+% \setcounter{lstnumber}{16}
 %
 % We use the standard version with a few changes. We display the day as a
 % cardinal number instead of an ordinal. The date is separated from the time
@@ -2701,7 +2797,9 @@ This work is `maintained' (as per LPPL maintenance status) by [Alex Ball][me].
 %<*lbx-us>
 % \fi
 %
-% \section{Implementation: American English language file}
+% \section{Implementation: American English language localization}
+%
+% \setcounter{lstnumber}{16}
 %
 % We use the standard version with a few changes. The date is separated from the
 % time by a period, not just a space.
@@ -2748,7 +2846,11 @@ This work is `maintained' (as per LPPL maintenance status) by [Alex Ball][me].
 %<*cbx>
 % \fi
 %
-% \section{Implementation: citation file}
+% \section{Implementation: citation style}
+%
+% \setcounter{lstnumber}{16}
+%
+% This style is currently a simple alias for the standard author--year style.
 %
 %    \begin{macrocode}
 \RequireCitationStyle{authoryear}
