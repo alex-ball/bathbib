@@ -154,25 +154,7 @@ Copyright (C) 2016 by University of Bath
     }
   }
 
-\usepackage[backend=biber,bibencoding=utf8,hyperref=false,isbn=false,style=bath]{biblatex}
-\addbibresource{biblatex-bath.bib}
-\makeatletter
-\DeclareCiteCommand{\fullcite}
-  {\usebibmacro{prenote}}
-  {\usedriver
-     {\defcounter{maxnames}{\blx@maxbibnames}}
-     {\thefield{entrytype}}}
-  {\multicitedelim}
-  {\usebibmacro{postnote}}
-\makeatother
-\xpretobibmacro{finentry}{%
-  \ifboolexpr{ test {\ifcitation} and not test {\iffootnote} }{%
-    \finentrypunct
-  }{}%
-}{}{}
-
 % For typesetting the implementation
-\let\origmaketitle=\maketitle
 \usepackage{doc}
 \makeatletter
 \newwrite\ydocwrite
@@ -241,9 +223,25 @@ Copyright (C) 2016 by University of Bath
   \endgroup
 }
 \makeatother
-\let\maketitle=\origmaketitle
 
 % Documentation
+
+\usepackage[backend=biber,bibencoding=utf8,hyperref=false,isbn=false,style=bath]{biblatex}
+\addbibresource{biblatex-bath.bib}
+\makeatletter
+\DeclareCiteCommand{\fullcite}
+  {\usebibmacro{prenote}}
+  {\usedriver
+     {\defcounter{maxnames}{\blx@maxbibnames}}
+     {\thefield{entrytype}}}
+  {\multicitedelim}
+  {\usebibmacro{postnote}}
+\makeatother
+\xpretobibmacro{finentry}{%
+  \ifboolexpr{ test {\ifcitation} and not test {\iffootnote} }{%
+    \finentrypunct
+  }{}%
+}{}{}
 
 \usepackage{readprov}
 \usepackage[british,cleanlook]{isodate}
@@ -1494,7 +1492,7 @@ This work is `maintained' (as per LPPL maintenance status) by [Alex Ball][me].
   , numbers=left
   , numberstyle=\color{gray}\footnotesize\itshape
   , firstnumber=last
-  , basicstyle=\footnotesize\ttfamily
+  , basicstyle=\ttfamily\footnotesize
   , breaklines=true
   }%
 \MakeShortVerb{\|}%
@@ -1502,8 +1500,6 @@ This work is `maintained' (as per LPPL maintenance status) by [Alex Ball][me].
 
 \end{document}
 %</driver>
-% \fi
-% \iffalse
 %<*bbx>
 % \fi
 %
