@@ -21,10 +21,6 @@
 
 \nopreamble\nopostamble
 
-\usedir{bibtex/bst/\jobname}
-\generate{
-  \file{bath.bst}{\from{\jobname.dtx}{bst}}
-}
 \usedir{doc/bibtex/\jobname}
 \generate{
   \file{README.md}{\from{\jobname.dtx}{readme}}
@@ -46,6 +42,10 @@ See:     http://www.latex-project.org/lppl.txt
 Copyright (C) 2016 by University of Bath
 \endpostamble
 
+\usedir{bibtex/bst/\jobname}
+\generate{
+  \file{bath.bst}{\from{\jobname.dtx}{bst}}
+}
 %</install>
 %<install>\endbatchfile
 %<*internal>
@@ -112,7 +112,7 @@ Copyright (C) 2016 by University of Bath
 \tcbuselibrary{listings,breakable,skins,xparse}
 \lstdefinelanguage{bafll}%
   { alsoletter={.}
-  , morekeywords=[1]%
+  , morekeywords=[2]%
     { add.period$
     , call.type$
     , change.case$
@@ -146,7 +146,7 @@ Copyright (C) 2016 by University of Bath
     , width$
     , write$
     }
-  , morekeywords=[2]%
+  , morekeywords=[3]%
     { ENTRY
     , INTEGERS
     , STRINGS
@@ -158,7 +158,8 @@ Copyright (C) 2016 by University of Bath
     , SORT
     , REVERSE
     }
-  , otherkeywords=
+  , morekeywords=[1]{}
+  , otherkeywords=%
     { +
     , -
     , >
@@ -192,8 +193,9 @@ Copyright (C) 2016 by University of Bath
   { columns=fullflexible
   , basicstyle=\ttfamily
   , language=bafll
-  , keywordstyle=[1]\color{red!75!black}
-  , keywordstyle=[2]\color{green!50!black}
+  , keywordstyle=[1]\color{orange!75!black}
+  , keywordstyle=[2]\color{red!75!black}
+  , keywordstyle=[3]\color{green!50!black}
   , commentstyle=\color{gray}\itshape
   , stringstyle=\color{violet}
   , mathescape=false
@@ -1538,7 +1540,7 @@ This work is ‘maintained’ (as per LPPL maintenance status) by [Alex Ball][me
 %
 % \section{Implementation}
 %
-% \setcounter{lstnumber}{1}
+% \setcounter{lstnumber}{16}
 %
 % \subsection{Preliminaries}
 %
@@ -3235,7 +3237,8 @@ FUNCTION {editor.sort}
 %    \end{macrocode}
 %
 % The \texttt{presort} function applies the above functions to a given entry to
-% generate its sort key and save it to the \texttt{sort.key\$} variable.
+% generate its sort key and save it to the \lstinline[style=dtxbst]!sort.key$!
+% variable.
 %
 %    \begin{macrocode}
 FUNCTION {presort}
