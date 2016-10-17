@@ -1827,12 +1827,74 @@ Copyright (C) 2016 by University of Bath
 
 \usepackage{tcolorbox}
 \tcbuselibrary{listings,breakable,skins,xparse}
-\lstloadlanguages{[LaTeX]TeX}
+\lstdefinelanguage{bafll}%
+  { alsoletter={.}
+  , morekeywords=[1]%
+    { add.period$
+    , call.type$
+    , change.case$
+    , chr.to.int$
+    , cite$
+    , duplicate$
+    , empty$
+    , format.name$
+    , global.max$
+    , if$
+    , int.to.chr$
+    , int.to.str$
+    , missing$
+    , newline$
+    , num.names$
+    , pop$
+    , preamble$
+    , purify$
+    , quote$
+    , skip$
+    , sort.key$
+    , stack$
+    , substring$
+    , swap$
+    , text.length$
+    , text.prefix$
+    , top$
+    , type$
+    , warning$
+    , while$
+    , width$
+    , write$
+    }
+  , morekeywords=[2]%
+    { ENTRY
+    , INTEGERS
+    , STRINGS
+    , MACRO
+    , FUNCTION
+    , READ
+    , EXECUTE
+    , ITERATE
+    , SORT
+    , REVERSE
+    }
+  , otherkeywords=
+    { +
+    , -
+    , >
+    , <
+    , =
+    , *
+    , :=
+    }
+  , sensitive=true
+  , morestring=[b]"
+  , morecomment=[l]\%
+  }[keywords,strings,comments]
+\lstloadlanguages{[LaTeX]TeX,bafll}
 \lstdefinestyle{dtxlatex}%
   { columns=fullflexible
   , basicstyle=\ttfamily
   , language={[LaTeX]TeX}
   , texcsstyle=*\color{red!75!black}
+  , commentstyle=\color{gray}\itshape
   , moretexcs=
     { citet
     , citep
@@ -1842,8 +1904,17 @@ Copyright (C) 2016 by University of Bath
     }
   , moredelim=**[s][\color{violet}]{[}{]}
   , moredelim=**[s][\color{blue!75!black}]{\{}{\}}
-  , mathescape
-  , escapechar=~
+  }
+\lstdefinestyle{dtxbst}%
+  { columns=fullflexible
+  , basicstyle=\ttfamily
+  , language=bafll
+  , keywordstyle=[1]\color{red!75!black}
+  , keywordstyle=[2]\color{green!50!black}
+  , commentstyle=\color{gray}\itshape
+  , stringstyle=\color{violet}
+  , mathescape=false
+  , showstringspaces=false
   }
 \lstset{style=dtxlatex}
 \tcbset
@@ -1869,6 +1940,78 @@ Copyright (C) 2016 by University of Bath
       }
     }
   }
+
+% For typesetting the implementation
+\usepackage{doc}
+\makeatletter
+\newwrite\ydocwrite
+\def\ydocfname{\jobname.listing}
+\def\ydoc@catcodes{%
+  \let\do\@makeother
+  \dospecials
+  \catcode`\\=\active
+  \catcode`\^^M=\active
+  \catcode`\ =\active
+}
+\def\macrocode{%
+  \begingroup
+  \ydoc@catcodes
+  \macro@code
+}
+\def\endmacrocode{}
+\begingroup
+\endlinechar\m@ne
+\@firstofone{%
+\catcode`\|=0\relax
+\catcode`\(=1\relax
+\catcode`\)=2\relax
+\catcode`\*=14\relax
+\catcode`\{=12\relax
+\catcode`\}=12\relax
+\catcode`\ =12\relax
+\catcode`\%=12\relax
+\catcode`\\=\active
+\catcode`\^^M=\active
+\catcode`\ =\active
+}*
+|gdef|macro@code#1^^M%    \end{macrocode}(*
+|endgroup|expandafter|macro@@code|expandafter(|ydoc@removeline#1|noexpand|lastlinemacro)*
+)*
+|gdef|ydoc@removeline#1^^M(|noexpand|firstlinemacro)*
+|gdef|ydoc@defspecialmacros(*
+|def^^M(|noexpand|newlinemacro)*
+|def (|noexpand|spacemacro)*
+|def\(|noexpand|bslashmacro)*
+)*
+|gdef|ydoc@defrevspecialmacros(*
+|def|newlinemacro(|noexpand^^M)*
+|def|spacemacro(|noexpand )*
+|def|bslashmacro(|noexpand\)*
+)*
+|endgroup
+\def\macro@@code#1{%
+  {\ydoc@defspecialmacros
+  \xdef\themacrocode{#1}}%
+  \PrintMacroCode
+  \end{macrocode}%
+}
+\def\PrintMacroCode{%
+  \begingroup
+  \let\firstlinemacro\empty
+  \let\lastlinemacro\empty
+  \def\newlinemacro{^^J}%
+  \let\bslashmacro\bslash
+  \let\spacemacro\space
+  \immediate\openout\ydocwrite=\ydocfname\relax
+  \immediate\write\ydocwrite{\themacrocode}%
+  \immediate\closeout\ydocwrite
+  \let\input\@input
+  \tcbinputlisting{enhanced,breakable,size=small,listing only,listing file=\ydocfname}%
+  \endgroup
+}
+\makeatother
+
+% Documentation
 
 \usepackage{natbib}
 \newcommand*{\urlprefix}{Available from: }
@@ -3082,5 +3225,24 @@ This work is ‘maintained’ (as per LPPL maintenance status) by [Alex Ball][me
 %<*driver>
 \end{markdown*}
 
+\newpage
+\lstset
+  { style=dtxbst
+  , aboveskip=0pt
+  , belowskip=0pt
+  , numbers=left
+  , numberstyle=\color{gray}\footnotesize\itshape
+  , firstnumber=last
+  , basicstyle=\ttfamily\footnotesize
+  , breaklines=true
+  }%
+\tcbset
+  { listing options =
+    { style = tcblatex
+    , style = dtxbst
+    , basicstyle=\ttfamily\footnotesize
+    }
+  }%
+\MakeShortVerb{\|}%
 \end{document}
 %</driver>
