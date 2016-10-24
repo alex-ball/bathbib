@@ -63,7 +63,7 @@ Copyright (C) 2016 by University of Bath
 %</internal>
 %<*driver>
 \ProvidesFile{biblatex-bath.dtx}
-    [2016/10/13 v0.9 Harvard referencing style as recommended by the University of Bath Library]
+    [2016/10/24 v1.0 Harvard referencing style as recommended by the University of Bath Library]
 
 \documentclass[10pt,a4paper]{article}
 \usepackage[british]{babel}
@@ -1305,7 +1305,7 @@ and without parentheses.
 
 \subsection{Legal case study}
 
-\begin{bibexbox}{seldon-v-c.w.j2012}
+\begin{bibexbox}(hacked){seldon-v-c.w.j2012}
   \emph{Seldon v Clarkson Wright \& Jakes}. [2012]. UKSC 16.
   \tcblower
 \begin{Verbatim}[commentchar=\%]
@@ -1313,7 +1313,9 @@ and without parentheses.
 %<*driver|bib>
 @jurisdiction{seldon-v-c.w.j2012,
   title = {Seldon v {Clarkson} {Wright} \& {Jakes}},
+  titleaddon = {\unspace\printtext{\addperiod}},
   year = {2012},
+  note = {\unspace\printtext{\addperiod}},
   type = {UKSC},
   number = {16}}
 %</driver|bib>
@@ -1321,6 +1323,9 @@ and without parentheses.
 \end{Verbatim}
 \end{bibexbox}
 
+In this example, the \texttt{titleaddon} and \texttt{note} fields have been used
+to add full stops that would otherwise be missing from the interior of the formatted reference.
+Do exercise caution when using such fixes, as they are especially harmful to the portability of the entry.
 
 \subsection{EU publication}
 
@@ -1412,6 +1417,9 @@ and the \texttt{type} and \texttt{number} fields for the report number.
 \end{Verbatim}
 \end{bibexbox}
 
+Use the \texttt{title} field for the entry title,
+and the \texttt{library} field for the name of the database itself.
+
 
 \subsection{Dataset}
 
@@ -1458,6 +1466,7 @@ You can also use \texttt{dataset} as an alias for \texttt{online}.
 \end{Verbatim}
 \end{bibexbox}
 
+\newpage
 \printbibliography
 
 \section*{Licence}
