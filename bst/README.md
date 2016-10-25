@@ -28,7 +28,7 @@ You only need to follow the first two steps if you have made your own
 changes to the .dtx file. The compiled files you need are included in
 the zip archive.
 
- 1. Run `tex bath-bst.dtx` to generate the source files.
+ 1. Run `luatex bath-bst.dtx` to generate the source files.
  2. Compile bath-bst.dtx with [LuaLaTeX] and BibTeX to generate the
     documentation. You will need, among other things, the [luatexja],
     [adobemapping] and [ipaex] packages installed; this is just for the

@@ -16,7 +16,7 @@ all:	$(NAME).pdf $(BST) clean
 source:	$(BST) $(NAME).bib
 
 $(BST) $(NAME).bib: $(NAME).dtx
-	tex -interaction=batchmode $(NAME).dtx >/dev/null
+	luatex -interaction=batchmode $(NAME).dtx >/dev/null
 
 $(NAME).pdf: $(NAME).dtx $(BST) $(NAME).bib
 	latexmk -silent -lualatex -synctex=1 -interaction=batchmode $(NAME).dtx >/dev/null

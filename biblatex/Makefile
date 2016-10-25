@@ -14,13 +14,11 @@ all:	$(NAME).pdf clean
 	@exit 0
 
 source:	$(NAME).dtx
-	tex -interaction=batchmode $(NAME).dtx >/dev/null
+	luatex -interaction=batchmode $(NAME).dtx >/dev/null
 
 $(STYLE).bbx $(STYLE).cbx $(STYLE).dbx american-$(STYLE).lbx british-$(STYLE).lbx $(NAME).bib: source
 
 $(NAME).pdf: source
-	lualatex -interaction=batchmode $(NAME).dtx >/dev/null
-	biber $(NAME) >/dev/null
 	latexmk -silent -lualatex -interaction=batchmode $(NAME).dtx >/dev/null
 
 clean:
