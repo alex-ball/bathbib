@@ -93,6 +93,9 @@ Copyright (C) 2016 by University of Bath
 \colorlet{bad}{red}
 \colorlet{hacked}{orange}
 \colorlet{manual}{purple}
+\RecustomVerbatimEnvironment
+  {Verbatim}{Verbatim}
+  {commentchar=\%}
 
 \usepackage[tightLists=false]{markdown}
 \markdownSetup{rendererPrototypes={%
@@ -440,7 +443,7 @@ though of course any item might need adjustment to take account of differing con
 \begin{bibexbox}{rang.etal2012rdp}
   Rang, H.P., Dale, M.M. Ritter, J.M., Flower, R.J. and Henderson, G., 2012. \emph{Rang and Dale's pharmacology}. 7th ed. Edinburgh:\@ Elsevier Churchill Livingstone.
   \tcblower
-\begin{Verbatim}[commentchar=\%]
+\begin{Verbatim}
 %</driver>
 %<*driver|bib>
 @book{rang.etal2012rdp,
@@ -458,7 +461,7 @@ though of course any item might need adjustment to take account of differing con
 \begin{bibexbox}{ou1972em}
   Open University, 1972. \emph{Electricity and magnetism}. Bletchley:\@ Open University Press.
   \tcblower
-\begin{Verbatim}[commentchar=\%]
+\begin{Verbatim}
 %</driver>
 %<*driver|bib>
 @book{ou1972em,
@@ -478,7 +481,7 @@ though of course any item might need adjustment to take account of differing con
 \begin{bibexbox}{rothman.etal2008me}
   Rothman, K.J., Greenland, S. and Lash, T.L., eds., 2008. \emph{Modern epidemiology}. 3rd ed. Philadelphia, Pa.:\@ Lippincott Williams \& Wilkins.
   \tcblower
-\begin{Verbatim}[commentchar=\%]
+\begin{Verbatim}
 %</driver>
 %<*driver|bib>
 @book{rothman.etal2008me,
@@ -499,7 +502,7 @@ though of course any item might need adjustment to take account of differing con
 \begin{bibexbox}{oed1989}
   \emph{Oxford English dictionary}, 1989. 2nd ed. Oxford:\@ Clarendon Press.
   \tcblower
-\begin{Verbatim}[commentchar=\%]
+\begin{Verbatim}
 %</driver>
 %<*driver|bib>
 @book{oed1989,
@@ -516,7 +519,7 @@ though of course any item might need adjustment to take account of differing con
 \begin{bibexbox}{merckNDidx}
   \emph{The Merck index online} [Online]. London:\@ RSC Publishing. Available from:\@ \url{http://www.rsc.org/Merck-Index} [Accessed 16/06/2016].
   \tcblower
-\begin{Verbatim}[commentchar=\%]
+\begin{Verbatim}
 %</driver>
 %<*driver|bib>
 @book{merckNDidx,
@@ -537,7 +540,7 @@ though of course any item might need adjustment to take account of differing con
 \begin{bibexbox}{burchard1965hhl}
   Burchard, J.E., 1965. How humanists use a library. In: C.F.J. Overhage and J.R. Harman, eds. \emph{Intrex: report on a planning conference and information transfer experiments}. Cambridge, Mass.: MIT Press, pp.41--87.
   \tcblower
-\begin{Verbatim}[commentchar=\%]
+\begin{Verbatim}
 %</driver>
 %<*driver|bib>
 @incollection{burchard1965hhl,
@@ -557,7 +560,7 @@ though of course any item might need adjustment to take account of differing con
 \begin{bibexbox}{reid1967ptp}
   Reid, D.R., 1967.\@ Physical testing of polymer films.\@ In:\@ S.H. Pinner, ed.\@ \emph{Modern packaging films}. London:\@ Butterworths, pp.143--183.
   \tcblower
-\begin{Verbatim}[commentchar=\%]
+\begin{Verbatim}
 %</driver>
 %<*driver|bib>
 @incollection{reid1967ptp,
@@ -580,7 +583,7 @@ though of course any item might need adjustment to take account of differing con
 \begin{bibexbox}{haynes2014crc}
   Haynes, W.M., ed.\@, 2014.\@ \emph{CRC handbook of chemistry and physics} [Online].\@ 94th ed. Boca Raton, Fla.:\@ CRC Press/Taylor and Francis. Available from:\@ \url{http://www.hbcpnetbase.com} [Accessed 16/06/2016].
   \tcblower
-\begin{Verbatim}[commentchar=\%]
+\begin{Verbatim}
 %</driver>
 %<*driver|bib>
 @book{haynes2014crc,
@@ -604,7 +607,7 @@ though of course any item might need adjustment to take account of differing con
 \begin{bibexbox}{stieg1981cer}
   Stieg, M.F., 1981a. Continuing education and the reference librarian in the academic and research library. \emph{Library Journal}, 105(22), pp.2547--2551.
   \tcblower
-\begin{Verbatim}[commentchar=\%]
+\begin{Verbatim}
 %</driver>
 %<*driver|bib>
 @article{stieg1981cer,
@@ -623,7 +626,7 @@ though of course any item might need adjustment to take account of differing con
 \begin{bibexbox}{stieg1981inh}
   Stieg, M.F., 1981b. The information needs of historians. \emph{College and research libraries}, 42(6), pp.549--560.
   \tcblower
-\begin{Verbatim}[commentchar=\%]
+\begin{Verbatim}
 %</driver>
 %<*driver|bib>
 @article{stieg1981inh,
@@ -642,7 +645,7 @@ though of course any item might need adjustment to take account of differing con
 \begin{bibexbox}{newman2010mcb}
   Newman, R., 2010. Malaria control beyond 2010. \emph{Brit.\@ Med.\@ J.}, 341(7765), pp.157--208.
   \tcblower
-\begin{Verbatim}[commentchar=\%]
+\begin{Verbatim}
 %</driver>
 %<*driver|bib>
 @article{newman2010mcb,
@@ -664,7 +667,7 @@ though of course any item might need adjustment to take account of differing con
 \begin{bibexbox}(hacked){williams1997edd}
   Williams, F., 1997. Electronic document delivery:\@ a trial in an academic library. \emph{Ariadne} [Online], 10. Available from:\@ \url{http://www.ariadne.ac.uk/issue10/edd/} [Accessed 05/12/1997].
   \tcblower
-\begin{Verbatim}[commentchar=\%]
+\begin{Verbatim}
 %</driver>
 %<*driver|bib>
 @article{williams1997edd,
@@ -690,7 +693,7 @@ Internally these are all aliases for \texttt{manual}.
 \begin{bibexbox}{holland2002gci}
   Holland, M., 2002. \emph{Guide to citing internet sources} [Online]. Poole:\@ Bournemouth University. Available from:\@ \url{http://www.bournemouth.ac.uk/library/using/guide_to_citing_internet_sourc.html} [Accessed 04/11/2002].
   \tcblower
-\begin{Verbatim}[commentchar=\%]
+\begin{Verbatim}
 %</driver>
 %<*driver|bib>
 @online{holland2002gci,
@@ -710,7 +713,7 @@ Internally these are all aliases for \texttt{manual}.
 \begin{bibexbox}{wiltshire2015gww}
   Wiltshire Council, 2015. \emph{Get Wiltshire walking} [Online]. Trowbridge:\@ Wiltshire Council. Available from:\@ \url{http://www.wiltshire.gov.uk/leisureandrecreation/sportphysicalactivity/getwiltshirewalking.html} [Accessed 19/08/2015].
   \tcblower
-\begin{Verbatim}[commentchar=\%]
+\begin{Verbatim}
 %</driver>
 %<*driver|bib>
 @online{wiltshire2015gww,
@@ -733,7 +736,7 @@ Internally these are all aliases for \texttt{manual}.
 \begin{bibexbox}{crawford1965oim}
   Crawford, G.I., 1965. Oxygen in metals. In:\@ J.M.A. Lenihan AND S.J. Thompson, eds. \emph{Activation analysis:\@ proceedings of a NATO Advanced Study Institute}, 2--4 August 1964 Glasgow. London:\@ Academic Press, pp.113--118.
   \tcblower
-\begin{Verbatim}[commentchar=\%]
+\begin{Verbatim}
 %</driver>
 %<*driver|bib>
 @inproceedings{crawford1965oim,
@@ -757,7 +760,7 @@ Internally these are all aliases for \texttt{manual}.
 \begin{bibexbox}{soper1972rbc}
   Soper, D., 1972. Review of bracken control experiments with asulam. \emph{Proceedings of the 11th British Weed Control Conference}, 15--17 November 1972 Brighton. Brighton:\@ University of Sussex, pp.24--31.
   \tcblower
-\begin{Verbatim}[commentchar=\%]
+\begin{Verbatim}
 %</driver>
 %<*driver|bib>
 @inproceedings{soper1972rbc,
@@ -780,7 +783,7 @@ Internally these are all aliases for \texttt{manual}.
 \begin{bibexbox}(hacked){haurant2004bbh}
   Haurant, S., 2004. Britain's borrowing hits £1 trillion. \emph{The Guardian}, 29 July, p.16c.
   \tcblower
-\begin{Verbatim}[commentchar=\%]
+\begin{Verbatim}
 %</driver>
 %<*driver|bib>
 @article{haurant2004bbh,
@@ -798,7 +801,7 @@ Internally these are all aliases for \texttt{manual}.
 \begin{bibexbox}(hacked){independent1992pub}
   The Independent, 1992. Picking up the bills. \emph{The Independent}, 4 June, p.28a.
   \tcblower
-\begin{Verbatim}[commentchar=\%]
+\begin{Verbatim}
 %</driver>
 %<*driver|bib>
 @article{independent1992pub,
@@ -819,7 +822,7 @@ Internally these are all aliases for \texttt{manual}.
 \begin{bibexbox}{burrell1973ist}
   Burrell, J.G., 1973. \emph{The importance of school tours in education}. Thesis (M.A.). Queen's University, Belfast.
   \tcblower
-\begin{Verbatim}[commentchar=\%]
+\begin{Verbatim}
 %</driver>
 %<*driver|bib>
 @mastersthesis{burrell1973ist,
@@ -839,7 +842,7 @@ Internally these are all aliases for \texttt{manual}.
 \begin{bibexbox}{unesco1993gip}
   UNESCO, 1993. \emph{General information programme and UNISIST}\@. Paris:\@ UNESCO, (PGI-93/WS/22).
   \tcblower
-\begin{Verbatim}[commentchar=\%]
+\begin{Verbatim}
 %</driver>
 %<*driver|bib>
 @techreport{unesco1993gip,
@@ -860,7 +863,7 @@ Internally these are all aliases for \texttt{manual}.
 \begin{bibexbox}(hacked){bs5605:1990}
   BS 5605:1990. \emph{Recommendations for citing and referencing published material}. BSI.
   \tcblower
-\begin{Verbatim}[commentchar=\%]
+\begin{Verbatim}
 %</driver>
 %<*driver|bib>
 @manual{bs5605:1990,
@@ -880,7 +883,7 @@ You can also use \texttt{standard} as an alias for \texttt{manual}.
 \begin{bibexbox}{pm1981opa}
   Phillipp Morris Inc., 1981. \emph{Optical perforating apparatus and system}. European patent application 0021165A1. 1981-01-07.
   \tcblower
-\begin{Verbatim}[commentchar=\%]
+\begin{Verbatim}
 %</driver>
 %<*driver|bib>
 @manual{pm1981opa,
@@ -902,7 +905,7 @@ You can also use \texttt{patent} as an alias for \texttt{manual}.
 \begin{bibexbox}{andrews.dury1773wilts}
   Andrews, J. and Dury, A., 1773. \emph{Map of Wiltshire}, 1 inch to 2 miles. Devizes:\@ Wiltshire Record Society.
   \tcblower
-\begin{Verbatim}[commentchar=\%]
+\begin{Verbatim}
 %</driver>
 %<*driver|bib>
 @book{andrews.dury1773wilts,
@@ -923,7 +926,7 @@ You can also use \texttt{patent} as an alias for \texttt{manual}.
 \begin{bibexbox}{macbeth1948}
   \emph{Macbeth}, 1948. Film.\@ Directed by Orson Welles. USA:\@ Republic Pictures.
   \tcblower
-\begin{Verbatim}[commentchar=\%]
+\begin{Verbatim}
 %</driver>
 %<*driver|bib>
 @booklet{macbeth1948,
@@ -945,7 +948,7 @@ You can also use \texttt{movie} or \texttt{video} as an alias for \texttt{bookle
 \begin{bibexbox}{moran2016sol}
   Moran, C., 2016. \emph{Save Our Libraries} [Online]. Available from:\@ \url{https://www.youtube.com/watch?v=gKTfCz4JtVE&feature=youtu.be} [Accessed 29/04/2016]
   \tcblower
-\begin{Verbatim}[commentchar=\%]
+\begin{Verbatim}
 %</driver>
 %<*driver|bib>
 @online{moran2016sol,
@@ -966,7 +969,7 @@ You can also use \texttt{movie} or \texttt{video} as an alias for \texttt{bookle
 \begin{bibexbox}{rsfo2006ep5}
   \emph{Rick Stein's French Odyssey:\@ Episode 5}, 2006. TV. BBC2, 23 August.\@ 20.30 hrs.
   \tcblower
-\begin{Verbatim}[commentchar=\%]
+\begin{Verbatim}
 %</driver>
 %<*driver|bib>
 @booklet{rsfo2006ep5,
@@ -981,7 +984,7 @@ You can also use \texttt{movie} or \texttt{video} as an alias for \texttt{bookle
 \begin{bibexbox}{archers20060823}
   \emph{The Archers}, 2006. Radio.\@ BBC Radio 4, 23 August.\@ 19.02 hrs.
   \tcblower
-\begin{Verbatim}[commentchar=\%]
+\begin{Verbatim}
 %</driver>
 %<*driver|bib>
 @booklet{archers20060823,
@@ -1001,7 +1004,7 @@ You can also use \texttt{audio} or \texttt{music} as an alias for \texttt{bookle
 \begin{bibexbox}{beethoven1950symph1}
   Beethoven, L. Van, 1950. \emph{Symphony no.1 in C, Op.21}. Harmondsworth:\@ Penguin.
   \tcblower
-\begin{Verbatim}[commentchar=\%]
+\begin{Verbatim}
 %</driver>
 %<*driver|bib>
 @book{beethoven1950symph1,
@@ -1021,7 +1024,7 @@ You can also use \texttt{audio} or \texttt{music} as an alias for \texttt{bookle
 \begin{bibexbox}(hacked){clark2004euk}
   Clark, T., 5 July 2004. A European UK Libraries Plus? \emph{Lis-link} [Online]. Available from:\@ \url{lis-link@jiscmail.ac.uk} [Accessed 30 July 2004].
   \tcblower
-\begin{Verbatim}[commentchar=\%]
+\begin{Verbatim}
 %</driver>
 %<*driver|bib>
 @article{clark2004euk,
@@ -1042,7 +1045,7 @@ You can also use \texttt{audio} or \texttt{music} as an alias for \texttt{bookle
 \begin{bibexbox}(hacked){alston2004sah}
   Alston, S., 19/07/2004. \emph{Society of Architectural Historians of GB}. Email to K.M. Jordan.
   \tcblower
-\begin{Verbatim}[commentchar=\%]
+\begin{Verbatim}
 %</driver>
 %<*driver|bib>
 @unpublished{alston2004sah,
@@ -1061,7 +1064,7 @@ You can also use \texttt{audio} or \texttt{music} as an alias for \texttt{bookle
 \begin{bibexbox}{shah.corrick2016hsc}
   Shah, I. and Corrick, I. 2016. \emph{How should central banks respond to non-neutral inflation expectations?} Bath:\@ University of Bath. \emph{OPUS} [Online]. Available from:\@ \url{http://opus.bath.ac.uk} [Accessed 04/05/2016].
   \tcblower
-\begin{Verbatim}[commentchar=\%]
+\begin{Verbatim}
 %</driver>
 %<*driver|bib>
 @techreport{shah.corrick2016hsc,
@@ -1085,7 +1088,7 @@ You can also use \texttt{audio} or \texttt{music} as an alias for \texttt{bookle
 \begin{bibexbox}{aristotle2007ne}
   Aristotle, 2007. \emph{Nicomachean ethics} (W.D. Ross. Trans.) South Dakota:\@ NuVisions.
   \tcblower
-\begin{Verbatim}[commentchar=\%]
+\begin{Verbatim}
 %</driver>
 %<*driver|bib>
 @book{aristotle2007ne,
@@ -1106,7 +1109,7 @@ You can also use \texttt{audio} or \texttt{music} as an alias for \texttt{bookle
 \begin{bibexbox}{esquivel2003cap}
   Esquivel, L., 2003. \emph{Como agua para chocolate} [Like water for chocolate]. Barcelona:\@ Debolsillo.
   \tcblower
-\begin{Verbatim}[commentchar=\%]
+\begin{Verbatim}
 %</driver>
 %<*driver|bib>
 @book{esquivel2003cap,
@@ -1124,7 +1127,7 @@ You can also use \texttt{audio} or \texttt{music} as an alias for \texttt{bookle
 \begin{bibexbox}{thurfjell1975vhv}
   Thurfjell, W., 1975. Vart har våran doktor tagit vägen? [Where has our doctor gone?] \emph{Läkartidningen} 72, p.789.
   \tcblower
-\begin{Verbatim}[commentchar=\%]
+\begin{Verbatim}
 %</driver>
 %<*driver|bib>
 @article{thurfjell1975vhv,
@@ -1155,7 +1158,7 @@ For the trick to work, the argument you give to \lstinline[style=dtxlatex]|\noop
 \begin{bibexbox}(hacked){hua1999qys1}
   Hua, L. 華林甫, 1999.  Qingdai yilai Sanxia diqu shuihan zaihai de chubu yanjiu 清代以來三峽地區水旱災害的初步硏 [A preliminary study of floods and droughts in the Three Gorges region since the Qing dynasty], \emph{Zhongguo shehui kexue} 中國社會科學 , 1, pp.168--79.
   \tcblower
-\begin{Verbatim}[commentchar=\%]
+\begin{Verbatim}
 %</driver>
 %<*driver|bib>
 @article{hua1999qys1,
@@ -1178,7 +1181,7 @@ If the name is due to appear initial first (e.g.\ after `In:'), you can append t
 \begin{bibexbox}{hua1999qys2}
   Hua, L., 1999. Qingdai yilai Sanxia diqu shuihan zaihai de chubu yanjiu [A preliminary study of floods and droughts in the Three Gorges region since the Qing dynasty], \emph{Zhongguo shehui kexue}, 1, pp.168--79.
   \tcblower
-\begin{Verbatim}[commentchar=\%]
+\begin{Verbatim}
 %</driver>
 %<*driver|bib>
 @article{hua1999qys2,
@@ -1201,7 +1204,7 @@ If the name is due to appear initial first (e.g.\ after `In:'), you can append t
 \begin{bibexbox}{gb.hc2003/04-30}
   Great Britain. Parliament. House of Commons, 2004. \emph{National Savings investment deposits:\@ account 2002--2003}. London:\@ National Audit Office (HC 200 3/04, 30).
   \tcblower
-\begin{Verbatim}[commentchar=\%]
+\begin{Verbatim}
 %</driver>
 %<*driver|bib>
 @techreport{gb.hc2003/04-30,
@@ -1223,7 +1226,7 @@ If the name is due to appear initial first (e.g.\ after `In:'), you can append t
 \begin{bibexbox}{gb.hl1986/87-66}
   Great Britain. Parliament. House of Lords. 1987. \emph{Social fund (Maternity and Funeral Expenses) Bill}. London:\@ HMSO (HL 1986/87, (66)).
   \tcblower
-\begin{Verbatim}[commentchar=\%]
+\begin{Verbatim}
 %</driver>
 %<*driver|bib>
 @techreport{gb.hl1986/87-66,
@@ -1245,7 +1248,7 @@ If the name is due to appear initial first (e.g.\ after `In:'), you can append t
 \begin{bibexbox}{gb.bill1987/88-66}
   Great Britain. Parliament. House of Commons, 1988. \emph{Local government finance bill}. London:\@ HMSO (Bills | 1987/88, 66).
   \tcblower
-\begin{Verbatim}[commentchar=\%]
+\begin{Verbatim}
 %</driver>
 %<*driver|bib>
 @techreport{gb.bill1987/88-66,
@@ -1267,7 +1270,7 @@ If the name is due to appear initial first (e.g.\ after `In:'), you can append t
 \begin{bibexbox}{gb.wa1735}
   \emph{Witchcraft Act 1735} (9 Geo.2, c.5).
   \tcblower
-\begin{Verbatim}[commentchar=\%]
+\begin{Verbatim}
 %</driver>
 %<*driver|bib>
 @book{gb.wa1735,
@@ -1285,7 +1288,7 @@ If the name is due to appear initial first (e.g.\ after `In:'), you can append t
 \begin{bibexbox}{gb.pa2014}
   \emph{Pensions Act 2014}, c.19. London:\@ TSO.
   \tcblower
-\begin{Verbatim}[commentchar=\%]
+\begin{Verbatim}
 %</driver>
 %<*driver|bib>
 @book{gb.pa2014,
@@ -1305,7 +1308,7 @@ If the name is due to appear initial first (e.g.\ after `In:'), you can append t
 \begin{bibexbox}{gb.cm6041}
   Great Britain. Ministry of Defence, 2004. \emph{Delivering security in a changing world:\@ defence white paper}. London:\@ TSO (Cm. 6041).
   \tcblower
-\begin{Verbatim}[commentchar=\%]
+\begin{Verbatim}
 %</driver>
 %<*driver|bib>
 @techreport{gb.cm6041,
@@ -1327,7 +1330,7 @@ If the name is due to appear initial first (e.g.\ after `In:'), you can append t
 \begin{bibexbox}{gb.hmr2012}
   \emph{The Human Medicines Regulations 2012} [Online], No.1916, United Kingdom:\@ HMSO. Available from:\@ \url{http://www.legislation.gov.uk/uksi/2012/1916/pdfs/uksi_20121916_en.pdf} [Accessed 17/04/2016]
   \tcblower
-\begin{Verbatim}[commentchar=\%]
+\begin{Verbatim}
 %</driver>
 %<*driver|bib>
 @book{gb.hmr2012,
@@ -1349,7 +1352,7 @@ If the name is due to appear initial first (e.g.\ after `In:'), you can append t
 \begin{bibexbox}{seldon-v-c.w.j2012}
   \emph{Seldon v Clarkson Wright \& Jakes}. [2012]. UKSC 16.
   \tcblower
-\begin{Verbatim}[commentchar=\%]
+\begin{Verbatim}
 %</driver>
 %<*driver|bib>
 @unpublished{seldon-v-c.w.j2012,
@@ -1366,7 +1369,7 @@ If the name is due to appear initial first (e.g.\ after `In:'), you can append t
 \begin{bibexbox}{ec2015gra}
   European Commission, 2015. \emph{General report on the activities of the European Union 2014}. Luxembourg:\@ Publications Office of the European Union.
   \tcblower
-\begin{Verbatim}[commentchar=\%]
+\begin{Verbatim}
 %</driver>
 %<*driver|bib>
 @techreport{ec2015gra,
@@ -1385,7 +1388,7 @@ If the name is due to appear initial first (e.g.\ after `In:'), you can append t
 \begin{bibexbox}{eu.dir2015/413}
   Directive (EU) 2015/413 of the European Parliament and of the Council of 11th March 2015 facilitating cross-border exchange of information on road-safety-related traffic offences [2015] \emph{OJ} L68/9.
   \tcblower
-\begin{Verbatim}[commentchar=\%]
+\begin{Verbatim}
 %</driver>
 %<*driver|bib>
 @misc{eu.dir2015/413,
@@ -1404,7 +1407,7 @@ If the name is due to appear initial first (e.g.\ after `In:'), you can append t
 \begin{bibexbox}{srl.etal-v-comm2005}
   \emph{Alessandrini Srl and others v.~Commission} (C-295/03 P) [2005] ECR I-5700.
   \tcblower
-\begin{Verbatim}[commentchar=\%]
+\begin{Verbatim}
 %</driver>
 %<*driver|bib>
 @unpublished{srl.etal-v-comm2005,
@@ -1421,7 +1424,7 @@ If the name is due to appear initial first (e.g.\ after `In:'), you can append t
 \begin{bibexbox}{bvd2008bt}
   Bureau van Dijk, 2008. \emph{BT Group plc company report}. \emph{FAME} [Online]. London:\@ Bureau van Dijk. Available from:\@ \url{http://www.portal.euromonitor.com} [Accessed 6/11/2014].
   \tcblower
-\begin{Verbatim}[commentchar=\%]
+\begin{Verbatim}
 %</driver>
 %<*driver|bib>
 @online{bvd2008bt,
@@ -1444,7 +1447,7 @@ If the name is due to appear initial first (e.g.\ after `In:'), you can append t
 \begin{bibexbox}{wilson2013rgc}
   Wilson, D., 2013. \emph{Real geometry and connectedness via triangular description:\@ CAD example bank} [Online]. Bath:\@ University of Bath. Available from:\@ \url{http://doi.org/10.15125/BATH-00069} [Accessed 20/04/2016].
   \tcblower
-\begin{Verbatim}[commentchar=\%]
+\begin{Verbatim}
 %</driver>
 %<*driver|bib>
 @online{wilson2013rgc,
@@ -1469,7 +1472,7 @@ You can also use \texttt{dataset} as an alternative alias for \texttt{manual}.
 \begin{bibexbox}{screencasto}
   @screencasto. \emph{Screencast-O-Matic} (v.2) [computer program]. \url{https://screencast-o-matic.com/} [Accessed 16/05/2016].
   \tcblower
-\begin{Verbatim}[commentchar=\%]
+\begin{Verbatim}
 %</driver>
 %<*driver|bib>
 @online{screencasto,
@@ -1484,6 +1487,21 @@ You can also use \texttt{dataset} as an alternative alias for \texttt{manual}.
 \end{bibexbox}
 
 You can also use \texttt{software} as an alternative alias for \texttt{manual}.
+
+
+% \subsection{Images}
+% 
+% These examples are taken from the Library guide
+% \href{http://www.bath.ac.uk/library/pass.bho/images-referencing.pdf}{\emph{Referencing images}}.
+% 
+%   NASA, 2015, \emph{NASA Astronaut Tim Kopra on Dec.\@ 21 Spacewalk}. Washington: NASA. Available from: \url{http://www.nasa.gov/image-feature/nasa-astronaut-tim-kopra-on-dec-21-spacewalk} [Accessed 7 January 2015].
+% 
+%   Iliff, D., 2006. \emph{Royal Crescent in Bath, England - July 2006}, San Francisco: Wikimedia Foundation. Available from: \url{https://commons.wikimedia.org/wiki/File:Royal_Crescent_in_Bath,_England_-_July_2006.jpg} [Accessed 7 January 2016].
+% 
+%   University of Bath, 2015. \emph{What is engineering?} Available from: \url{https://www.youtube.com/watch?v=NoyZarq-Zbo} [Accessed 12 January 2016].
+% 
+%   Anon., 1946. \emph{Prototype electric bicycle displayed at the 'Britain Can Make It' exhibition organised by the Council of Industrial Design and held at the Victoria and Albert Museum, London, 1946. Designed by B. G. Bowden} [photograph]. At: London. Design Council Slide Collection.
+
 
 \bibliography{bath-bst}
 
