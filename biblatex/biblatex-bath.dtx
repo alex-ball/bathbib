@@ -812,7 +812,7 @@ though of course any item might need adjustment to take account of differing con
 Use \texttt{label} to specify the standard identifier;
 this will print it at the start of the entry and in citations.
 The \texttt{sortkey} determines where the entry will appear in the bibliography;
-you should normally repeat the identifier but you might want to adjust it, e.g.
+you should normally repeat the identifier but you might want to adjust it, e.g.\@
 by adding zeroes to the start of the number to put several standards in numerical order.
 If you omit the \texttt{sortkey}, the entry will by sorted by \texttt{title}.
 Provide the \texttt{year} separately if (and only if) it does not form part of the identifier.
@@ -1305,6 +1305,9 @@ and without parentheses.
 \end{Verbatim}
 \end{bibexbox}
 
+Use \texttt{note} for identifiers that should appear directly after the title
+and without parentheses.
+
 
 \subsection{Legal case study}
 
@@ -1328,7 +1331,20 @@ and without parentheses.
 
 In this example, the \texttt{titleaddon} and \texttt{note} fields have been used
 to add full stops that would otherwise be missing from the interior of the formatted reference.
-Do exercise caution when using such fixes, as they are especially harmful to the portability of the entry.
+This is not especially recommended, as it can easily trip you up if you switch to a different style
+(or, perhaps, update this one). Since legal references tend to enforce their own conventions
+no matter what the rest of the reference list is doing, you may prefer to format them more-or-less by hand:
+
+\begin{tcolorbox}%
+  [ colframe = Slate
+  , colback = white
+  , fontupper = \footnotesize
+  ]
+\begin{Verbatim}
+  title = {Seldon v {Clarkson} {Wright} \& {Jakes}},
+  note = {[2012]. UKSC 16}
+\end{Verbatim}
+\end{tcolorbox}
 
 \subsection{EU publication}
 
@@ -1470,7 +1486,7 @@ You can also use \texttt{dataset} as an alias for \texttt{online}.
 \end{bibexbox}
 
 
-\subsection{Images}
+\subsection{Image}
 
 These examples are taken from the Library guide
 \href{http://www.bath.ac.uk/library/pass.bho/images-referencing.pdf}{\emph{Referencing images}}.
@@ -1542,10 +1558,9 @@ record the source of the image.
 @image{anon1946peb,
   author = {Anon\adddot},
   year = {1946},
-  title = {Prototype electric bicycle displayed at the \enquote{Britain
-    Can Make It} exhibition organised by the {Council} of {Industrial}
-    {Design} and held at the {Victoria} and {Albert} {Museum}, {London},
-    1946. {Designed} by {B.~G.} {Bowden}},
+  title = {Prototype electric bicycle displayed at the \enquote{Britain Can Make It} exhibition
+    organised by the {Council} of {Industrial} {Design} and held at the {Victoria} and {Albert}
+    {Museum}, {London}, 1946. {Designed} by {B.~G.} {Bowden}},
   titleaddon = {[photograph]},
   location = {London},
   library = {Design Council Slide Collection}}
