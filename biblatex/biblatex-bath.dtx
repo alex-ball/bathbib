@@ -148,7 +148,7 @@ Copyright (C) 2016 by University of Bath
   ,colback = #1!5!white
   ,colbacklower = white
   ,fontlower = \footnotesize
-  ,before upper = {\hangfrom{\booksym\space}}
+  ,before upper = {\hangfrom{\booksym\space}\biburlsetup}
   ,after upper = {\par\hangfrom{\cogsym\space}\fullcite{#3}}
   ,IfNoValueTF={#2}{}%
     {overlay = {
@@ -1470,21 +1470,95 @@ You can also use \texttt{dataset} as an alias for \texttt{online}.
 \end{bibexbox}
 
 
-% \subsection{Images}
-% 
-% These examples are taken from the Library guide
-% \href{http://www.bath.ac.uk/library/pass.bho/images-referencing.pdf}{\emph{Referencing images}}.
-% 
-%   NASA, 2015, \emph{NASA Astronaut Tim Kopra on Dec.\@ 21 Spacewalk}. Washington: NASA. Available from: \url{http://www.nasa.gov/image-feature/nasa-astronaut-tim-kopra-on-dec-21-spacewalk} [Accessed 7 January 2015].
-% 
-%   Iliff, D., 2006. \emph{Royal Crescent in Bath, England - July 2006}, San Francisco: Wikimedia Foundation. Available from: \url{https://commons.wikimedia.org/wiki/File:Royal_Crescent_in_Bath,_England_-_July_2006.jpg} [Accessed 7 January 2016].
-% 
-%   University of Bath, 2015. \emph{What is engineering?} Available from: \url{https://www.youtube.com/watch?v=NoyZarq-Zbo} [Accessed 12 January 2016].
-% 
-%   Anon., 1946. \emph{Prototype electric bicycle displayed at the 'Britain Can Make It' exhibition organised by the Council of Industrial Design and held at the Victoria and Albert Museum, London, 1946. Designed by B. G. Bowden} [photograph]. At: London. Design Council Slide Collection.
+\subsection{Images}
 
+These examples are taken from the Library guide
+\href{http://www.bath.ac.uk/library/pass.bho/images-referencing.pdf}{\emph{Referencing images}}.
 
-\newpage
+\begin{bibexbox}{nasa2015nat}
+   NASA, 2015, \emph{NASA Astronaut Tim Kopra on Dec.\@ 21 Spacewalk}. Washington: NASA. Available from: \url{http://www.nasa.gov/image-feature/nasa-astronaut-tim-kopra-on-dec-21-spacewalk} [Accessed 7 January 2015].
+  \tcblower
+\begin{Verbatim}
+%</driver>
+%<*driver|bib>
+@image{nasa2015nat,
+  author = {{NASA}},
+  year = {2015},
+  title = {{NASA} Astronaut {Tim} {Kopra} on {Dec.\@} 21 Spacewalk},
+  location = {Washington},
+  publisher = {NASA},
+  url = {http://www.nasa.gov/image-feature/nasa-astronaut-tim-kopra-on-dec-21-spacewalk},
+  urldate = {2015-01-07}}
+%</driver|bib>
+%<*driver>
+\end{Verbatim}
+\end{bibexbox}
+
+You can use either the \texttt{publisher} or the \texttt{organization} field to
+record the source of the image.
+
+\begin{bibexbox}{iliff2006rcb}
+   Iliff, D., 2006. \emph{Royal Crescent in Bath, England - July 2006}, San Francisco: Wikimedia Foundation. Available from: \url{https://commons.wikimedia.org/wiki/File:Royal_Crescent_in_Bath,_England_-_July_2006.jpg} [Accessed 7 January 2016].
+  \tcblower
+\begin{Verbatim}
+%</driver>
+%<*driver|bib>
+@image{iliff2006rcb,
+  author = {D. Iliff},
+  year = {2006},
+  title = {{Royal} {Crescent} in {Bath,} {England} - {July} 2006},
+  location = {San Francisco},
+  organization = {Wikimedia Foundation},
+  url = {https://commons.wikimedia.org/wiki/File:Royal_Crescent_in_Bath,_England_-_July_2006.jpg},
+  urldate = {2015-01-07}}
+%</driver|bib>
+%<*driver>
+\end{Verbatim}
+\end{bibexbox}
+
+\begin{bibexbox}{uob2015wie}
+   University of Bath, 2015. \emph{What is engineering?} Available from: \url{https://www.youtube.com/watch?v=NoyZarq-Zbo} [Accessed 12 January 2016].
+  \tcblower
+\begin{Verbatim}
+%</driver>
+%<*driver|bib>
+@video{uob2015wie,
+  author = {{University of Bath}},
+  year = {2015},
+  title = {What is Engineering?},
+  url = {https://www.youtube.com/watch?v=NoyZarq-Zbo},
+  urldate = {2016-01-12}}
+%</driver|bib>
+%<*driver>
+\end{Verbatim}
+\end{bibexbox}
+
+\begin{bibexbox}{anon1946peb}
+  Anon., 1946. \emph{Prototype electric bicycle displayed at the \enquote{Britain Can Make It} exhibition organised by the Council of Industrial Design and held at the Victoria and Albert Museum, London, 1946. Designed by B.~G. Bowden} [photograph]. At: London. Design Council Slide Collection.
+  \tcblower
+\begin{Verbatim}
+%</driver>
+%<*driver|bib>
+@image{anon1946peb,
+  author = {Anon\adddot},
+  year = {1946},
+  title = {Prototype electric bicycle displayed at the \enquote{Britain
+    Can Make It} exhibition organised by the {Council} of {Industrial}
+    {Design} and held at the {Victoria} and {Albert} {Museum}, {London},
+    1946. {Designed} by {B.~G.} {Bowden}},
+  titleaddon = {[photograph]},
+  location = {London},
+  library = {Design Council Slide Collection}}
+%</driver|bib>
+%<*driver>
+\end{Verbatim}
+\end{bibexbox}
+
+Use the \texttt{library} field to record the archive and register number.
+If you also wish to provide the name of the organisation that published the image,
+use the \texttt{publisher} field if the location you provide relates to the publisher,
+but the \texttt{organization} field if the location relates to the archive.
+
 \printbibliography
 
 \section*{Licence}
@@ -1562,8 +1636,7 @@ This work is `maintained' (as per LPPL maintenance status) by [Alex Ball][me].
 % We provide some additional bibliography strings.
 %
 %    \begin{macrocode}
-\NewBibliographyString{online}
-\NewBibliographyString{hours}
+\NewBibliographyString{online,hours,at}
 %    \end{macrocode}
 %
 % We allow the bibliography look more like the Bib\TeX\ default.
@@ -2145,38 +2218,38 @@ This work is `maintained' (as per LPPL maintenance status) by [Alex Ball][me].
 %
 % \subsection{Publishers}
 %
-% We patch the secondary publication macros so they fall back to using the
-% publisher list (if provided) if the intended list is empty.
+% We patch the secondary publication macros so they will use the
+% publisher list instead, if provided.
 %
 %    \begin{macrocode}
 \renewbibmacro*{institution+location+date}{%
   \printlist{location}%
-  \iflistundef{institution}{%
-    \iflistundef{publisher}{%
+  \iflistundef{publisher}{%
+    \iflistundef{institution}{%
       \setunit*{\addcomma\space}%
     }{%
       \setunit*{\addcolon\space}%
-      \printlist{publisher}%
+      \printlist{institution}%
     }%
   }{%
     \setunit*{\addcolon\space}%
-    \printlist{institution}%
+    \printlist{publisher}%
   }%
   \setunit*{\addcomma\space}%
   \usebibmacro{date}%
   \newunit}
 \renewbibmacro*{organization+location+date}{%
   \printlist{location}%
-  \iflistundef{organization}{%
-    \iflistundef{publisher}{%
+  \iflistundef{publisher}{%
+    \iflistundef{organization}{%
       \setunit*{\addcomma\space}%
     }{%
       \setunit*{\addcolon\space}%
-      \printlist{publisher}%
+      \printlist{organization}%
     }%
   }{%
     \setunit*{\addcolon\space}%
-    \printlist{organization}%
+    \printlist{publisher}%
   }%
   \setunit*{\addcomma\space}%
   \usebibmacro{date}%
@@ -2730,6 +2803,82 @@ This work is `maintained' (as per LPPL maintenance status) by [Alex Ball][me].
 
 %    \end{macrocode}
 %
+% \subsection{Images}
+%
+% The driver for image is based on misc. The main difference is the
+% support for the \texttt{library} field.
+%
+%    \begin{macrocode}
+\DeclareFieldFormat[image]{library}{#1}
+\DeclareBibliographyDriver{image}{%
+  \usebibmacro{bibindex}%
+  \usebibmacro{begentry}%
+  \usebibmacro{author/editor+others/translator+others}%
+  \setunit{\printdelim{nametitledelim}}\newblock
+  \usebibmacro{title}%
+  \newunit
+  \printlist{language}%
+  \newunit\newblock
+  \usebibmacro{byauthor}%
+  \newunit\newblock
+  \usebibmacro{byeditor+others}%
+  \newunit\newblock
+  \printfield{howpublished}%
+  \newunit\newblock
+  \printfield{type}%
+  \newunit
+  \printfield{version}%
+  \newunit
+  \printfield{note}%
+  \newunit\newblock
+  \usebibmacro{organization+location+date+library}%
+  \newunit\newblock
+  \usebibmacro{doi+eprint+url}%
+  \newunit\newblock
+  \usebibmacro{addendum+pubstate}%
+  \setunit{\bibpagerefpunct}\newblock
+  \usebibmacro{pageref}%
+  \newunit\newblock
+  \iftoggle{bbx:related}
+    {\usebibmacro{related:init}%
+     \usebibmacro{related}}
+    {}%
+  \usebibmacro{finentry}}
+%    \end{macrocode}
+%
+% The following code works slightly differently
+%
+%    \begin{macrocode}
+\newbibmacro*{organization+location+date+library}{%
+  \ifboolexpr{
+    test {\iffieldundef{library}}
+    or
+    not test {\iflistundef{publisher}}
+  }{%
+    \printlist{location}%
+    \setunit*{\addcolon\space}%
+    \clearfield{location}%
+  }{}%
+  \iflistundef{publisher}{%
+    \printlist{organization}%
+  }{%
+    \printlist{publisher}%
+  }%
+  \setunit{\addcomma\space}%
+  \usebibmacro{date}%
+  \newunit
+  \iffieldundef{library}{}{%
+    \bibsentence
+    \bibstring{at}%
+    \setunit{\addcolon\space}%
+    \printlist{location}%
+    \setunit*{\addperiod\space}
+    \printfield{library}%
+  }%
+}
+
+%    \end{macrocode}
+%
 % \subsection{Aliases}
 %
 % We define some handy semantic aliases.
@@ -2793,6 +2942,7 @@ This work is `maintained' (as per LPPL maintenance status) by [Alex Ball][me].
 \DeclareBibliographyStrings
 {inherit          = {british}
 ,urlseen          = {{Accessed}{Accessed}}
+,version          = {{version~}{v\adddot}}
 ,january          = {{January}{January}}
 ,february         = {{February}{February}}
 ,march            = {{March}{March}}
@@ -2812,7 +2962,7 @@ This work is `maintained' (as per LPPL maintenance status) by [Alex Ball][me].
 %    \begin{macrocode}
 ,online           = {{[Online]}{[Online]}}
 ,hours            = {{hours}{hrs\adddot}}
-,version          = {{version~}{v\adddot}}
+,at               = {{at}{at}}
 }
 %    \end{macrocode}
 % \iffalse
@@ -2842,6 +2992,7 @@ This work is `maintained' (as per LPPL maintenance status) by [Alex Ball][me].
 \DeclareBibliographyStrings
 {inherit          = {american}
 ,urlseen          = {{Accessed}{Accessed}}
+,version          = {{version~}{v\adddot}}
 ,january          = {{January}{January}}
 ,february         = {{February}{February}}
 ,march            = {{March}{March}}
@@ -2861,7 +3012,7 @@ This work is `maintained' (as per LPPL maintenance status) by [Alex Ball][me].
 %    \begin{macrocode}
 ,online           = {{[Online]}{[Online]}}
 ,hours            = {{hours}{hrs\adddot}}
-,version          = {{version~}{v\adddot}}
+,at               = {{at}{at}}
 }
 %    \end{macrocode}
 % \iffalse

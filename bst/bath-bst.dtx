@@ -313,6 +313,16 @@ Copyright (C) 2016 by University of Bath
 \usepackage[british,cleanlook]{isodate}
 
 \usepackage[colorlinks,citecolor=black]{hyperref}
+\makeatletter
+\Urlmuskip=0mu plus 3mu\relax
+\mathchardef\UrlBigBreakPenalty=100\relax
+\mathchardef\UrlBreakPenalty=200\relax
+\def\UrlBigBreaks{\do\:\do\-}%
+\def\UrlBreaks{%
+  \do\.\do\@\do\/\do\\\do\!\do\_\do\|\do\;\do\>\do\]\do\)\do\}%
+  \do\,\do\?\do\'\do\+\do\=\do\#\do\$\do\&\do\*\do\^\do\"}%
+\let\do=\noexpand
+\makeatother
 
 \sloppy
 
@@ -1489,18 +1499,85 @@ You can also use \texttt{dataset} as an alternative alias for \texttt{manual}.
 You can also use \texttt{software} as an alternative alias for \texttt{manual}.
 
 
-% \subsection{Images}
-% 
-% These examples are taken from the Library guide
-% \href{http://www.bath.ac.uk/library/pass.bho/images-referencing.pdf}{\emph{Referencing images}}.
-% 
-%   NASA, 2015, \emph{NASA Astronaut Tim Kopra on Dec.\@ 21 Spacewalk}. Washington: NASA. Available from: \url{http://www.nasa.gov/image-feature/nasa-astronaut-tim-kopra-on-dec-21-spacewalk} [Accessed 7 January 2015].
-% 
-%   Iliff, D., 2006. \emph{Royal Crescent in Bath, England - July 2006}, San Francisco: Wikimedia Foundation. Available from: \url{https://commons.wikimedia.org/wiki/File:Royal_Crescent_in_Bath,_England_-_July_2006.jpg} [Accessed 7 January 2016].
-% 
-%   University of Bath, 2015. \emph{What is engineering?} Available from: \url{https://www.youtube.com/watch?v=NoyZarq-Zbo} [Accessed 12 January 2016].
-% 
-%   Anon., 1946. \emph{Prototype electric bicycle displayed at the 'Britain Can Make It' exhibition organised by the Council of Industrial Design and held at the Victoria and Albert Museum, London, 1946. Designed by B. G. Bowden} [photograph]. At: London. Design Council Slide Collection.
+\subsection{Images}
+
+These examples are taken from the Library guide
+\href{http://www.bath.ac.uk/library/pass.bho/images-referencing.pdf}{\emph{Referencing images}}.
+
+\begin{bibexbox}{nasa2015nat}
+   NASA, 2015, \emph{NASA Astronaut Tim Kopra on Dec.\@ 21 Spacewalk}. Washington:\@ NASA. Available from:\@ \url{http://www.nasa.gov/image-feature/nasa-astronaut-tim-kopra-on-dec-21-spacewalk} [Accessed 7 January 2015].
+  \tcblower
+\begin{Verbatim}
+%</driver>
+%<*driver|bib>
+@online{nasa2015nat,
+  author = {{NASA}},
+  year = {2015},
+  title = {{NASA} Astronaut {Tim} {Kopra} on {Dec.\@} 21 Spacewalk},
+  address = {Washington},
+  organization = {NASA},
+  url = {http://www.nasa.gov/image-feature/nasa-astronaut-tim-kopra-on-dec-21-spacewalk},
+  urldate = {2015-01-07}}
+%</driver|bib>
+%<*driver>
+\end{Verbatim}
+\end{bibexbox}
+
+\begin{bibexbox}{iliff2006rcb}
+   Iliff, D., 2006. \emph{Royal Crescent in Bath, England - July 2006}, San Francisco: Wikimedia Foundation. Available from: \url{https://commons.wikimedia.org/wiki/File:Royal_Crescent_in_Bath,_England_-_July_2006.jpg} [Accessed 7 January 2016].
+  \tcblower
+\begin{Verbatim}
+%</driver>
+%<*driver|bib>
+@online{iliff2006rcb,
+  author = {D. Iliff},
+  year = {2006},
+  title = {{Royal} {Crescent} in {Bath,} {England} - {July} 2006},
+  address = {San Francisco},
+  organization = {Wikimedia Foundation},
+  url = {https://commons.wikimedia.org/wiki/File:Royal_Crescent_in_Bath,_England_-_July_2006.jpg},
+  urldate = {2015-01-07}}
+%</driver|bib>
+%<*driver>
+\end{Verbatim}
+\end{bibexbox}
+
+\begin{bibexbox}{uob2015wie}
+   University of Bath, 2015. \emph{What is engineering?} Available from: \url{https://www.youtube.com/watch?v=NoyZarq-Zbo} [Accessed 12 January 2016].
+  \tcblower
+\begin{Verbatim}
+%</driver>
+%<*driver|bib>
+@online{uob2015wie,
+  author = {{University of Bath}},
+  year = {2015},
+  title = {What is Engineering?},
+  url = {https://www.youtube.com/watch?v=NoyZarq-Zbo},
+  urldate = {2016-01-12}}
+%</driver|bib>
+%<*driver>
+\end{Verbatim}
+\end{bibexbox}
+
+\begin{bibexbox}{anon1946peb}
+  Anon., 1946. \emph{Prototype electric bicycle displayed at the \enquote{Britain Can Make It} exhibition organised by the Council of Industrial Design and held at the Victoria and Albert Museum, London, 1946. Designed by B.~G. Bowden} [photograph]. At:\@ London.\@ Design Council Slide Collection.
+  \tcblower
+\begin{Verbatim}
+%</driver>
+%<*driver|bib>
+@unpublished{anon1946peb,
+  author = {Anon.},
+  year = {1946},
+  title = {Prototype electric bicycle displayed at the \enquote{Britain
+    Can Make It} exhibition organised by the {Council} of {Industrial}
+    {Design} and held at the {Victoria} and {Albert} {Museum}, {London},
+    1946. {Designed} by {B.~G.} {Bowden}},
+  titleaddon = {[photograph]},
+  note = {At: London. Design Council Slide Collection}}
+%</driver|bib>
+%<*driver>
+\end{Verbatim}
+\end{bibexbox}
 
 
 \bibliography{bath-bst}
