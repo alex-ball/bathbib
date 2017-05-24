@@ -115,6 +115,8 @@ Copyright (C) 2016 by University of Bath
 
 \usepackage{tcolorbox}
 \tcbuselibrary{listings,breakable,skins,xparse}
+\colorlet{Option}{violet}
+\newcommand*{\key}[1]{\textcolor{Option}{\ttfamily #1}}
 \lstloadlanguages{[LaTeX]TeX}
 \lstdefinestyle{dtxlatex}%
   { columns=fullflexible
@@ -1264,7 +1266,7 @@ and without parentheses.
 \subsection{Command paper}
 
 \begin{bibexbox}{gb.cm6041}
-  Great Britain. Ministry of Defence, 2004. \emph{Delivering security in a changing world:\@ defence white paper}. London:\@ TSO (Cm. 6041).
+  Great Britain. Ministry of Defence, 2004. \emph{Delivering security in a changing world:\@ defence white paper}. London:\@ TSO (Cm.\@ 6041).
   \tcblower
 \begin{Verbatim}
 %</driver>
@@ -1276,8 +1278,7 @@ and without parentheses.
   subtitle = {Defence White Paper},
   address = {London},
   publisher = {TSO},
-  type = {{Cm.}},
-  number = {6041}}
+  number = {Cm.\@ 6041}}
 %</driver|bib>
 %<*driver>
 \end{Verbatim}
@@ -1332,18 +1333,52 @@ and without parentheses.
 In this example, the \texttt{titleaddon} and \texttt{note} fields have been used
 to add full stops that would otherwise be missing from the interior of the formatted reference.
 This is not especially recommended, as it can easily trip you up if you switch to a different style
-(or, perhaps, update this one). Since legal references tend to enforce their own conventions
-no matter what the rest of the reference list is doing, you may prefer to format them more-or-less by hand:
+(or, perhaps, update this one). 
+
+Generally speaking, the year should by in square brackets if it is essential to the citation
+(unless it is a Scottish case, in which case it is printed bare), and in parentheses if it is
+not. By default, the style assumes the year is essential if and only if a volume number is
+\emph{not} provided; to override this, you can use the \key{year-essential} option:
 
 \begin{tcolorbox}%
   [ colframe = Slate
   , colback = white
   , fontupper = \footnotesize
   ]
-\begin{Verbatim}
+  \begin{Verbatim}
+  options = {year-essential=true},
+  \end{Verbatim}
+\end{tcolorbox}
+
+To use Scottish style for a case, you can either use the \key{scottish-style} option or
+the keyword \texttt{sc}:
+
+\begin{tcolorbox}%
+  [ colframe = Slate
+  , colback = white
+  , fontupper = \footnotesize
+  ]
+  \begin{Verbatim}
+  options = {scottish-style},
+  keywords = {sc},
+  \end{Verbatim}
+\end{tcolorbox}
+
+This should cover most cases, but legal references tend to enforce their own conventions
+no matter what the rest of the reference list is doing,
+and it is out of scope for this style to cater for every variation.
+Therefore if you need a different format (e.g.\@ for an American case),
+you may prefer to format the reference more-or-less by hand:
+
+\begin{tcolorbox}%
+  [ colframe = Slate
+  , colback = white
+  , fontupper = \footnotesize
+  ]
+  \begin{Verbatim}
   title = {Seldon v {Clarkson} {Wright} \& {Jakes}},
   note = {[2012]. UKSC 16}
-\end{Verbatim}
+  \end{Verbatim}
 \end{tcolorbox}
 
 \subsection{EU publication}
@@ -2588,8 +2623,35 @@ This work is `maintained' (as per LPPL maintenance status) by [Alex Ball][me].
 % Legal case studies, judgements and decisions are formatted a bit like reports
 % but with different punctuation.
 %
+% The year is printed in square brackets, unless the case is Scottish, in which
+% case the year is printed bare, or a volume number is present, in which case the
+% year is printed in parentheses. We provide a \key{year-essential} option for
+% forcing the brackets/parentheses choice, and \key{scottish-style} for activating
+% Scottish style.
+%
 %    \begin{macrocode}
-\DeclareFieldFormat[jurisdiction]{date}{\mkbibbrackets{#1}}
+\newtoggle{bbx:scotstyle}
+\DeclareEntryOption{scottish-style}[true]{%
+  \settoggle{bbx:scotstyle}{#1}}
+\newboolean{bbx@year-essential}\setboolean{bbx@year-essential}{false}
+\DeclareEntryOption{year-essential}[true]{%
+  \setboolean{bbx@year-essential}{#1}}
+\DeclareFieldFormat[jurisdiction]{date}{%
+  \ifboolexpr{
+    test {\iffieldundef{volume}}
+    or
+    bool {bbx@year-essential}
+  }{%
+    \ifboolexpr{
+      test {\ifkeyword{sc}}
+      or
+      test {\iftoggle{bbx:scotstyle}}
+    }{%
+      \addcomma\space #1%
+    }{%
+      \mkbibbrackets{#1}}%
+  }{%
+    \mkbibparens{#1}}}
 \DeclareFieldFormat[jurisdiction]{issue}{\mkbibparens{#1}}
 \DeclareFieldFormat[jurisdiction]{title}{%
   \iffieldundef{journaltitle}{\mkbibemph{#1}}{#1}%
@@ -2602,6 +2664,8 @@ This work is `maintained' (as per LPPL maintenance status) by [Alex Ball][me].
     and
     test {\iffieldundef{number}}
   }{}{%
+    \printfield{volume}%
+    \setunit*{\addspace}%
     \printfield{type}%
     \setunit*{\addspace}%
     \printfield{number}%
