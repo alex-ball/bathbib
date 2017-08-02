@@ -6,6 +6,12 @@ It should be used in conjunction with [natbib] for citations.
 
 ## Installation
 
+You can use this style simply by copying the `bath.bst` file into your working
+directory, that is, the directory holding the main `.tex` file for your
+document. If you want the style to be available for all your documents without
+having to copy it over each time, you can install it using the instructions
+below.
+
 ### Automated way
 
 A makefile is provided which you can use with the Make utility on
@@ -29,11 +35,25 @@ changes to the .dtx file. The compiled files you need are included in
 the zip archive.
 
  1. Run `luatex bath-bst.dtx` to generate the source files.
+
  2. Compile bath-bst.dtx with [LuaLaTeX] and BibTeX to generate the
     documentation. You will need, among other things, the [luatexja],
     [adobemapping] and [ipaex] packages installed; this is just for the
     documentation, not for the BibTeX style itself.
- 3. Move the files to your TeX tree as follows:
+
+ 3. If you are using TeX Live, find your home TeX tree using the following
+    command at the command prompt/terminal:
+
+    ```
+    kpsewhich -var-value=TEXMFHOME
+    ```
+
+    If you are using MikTeX, consult the MikTeX manual entry for [integrating
+    local additions](http://docs.miktex.org/manual/localadditions.html). You
+    can use one of the roots (TeX trees) already defined – preferably one of
+    the User roots – or set up a new one.
+
+ 4. Move the files to your TeX tree as follows:
       - `source/bibtex/bath-bst`:
         bath-bst.dtx,
         (bath-bst.ins)
@@ -43,7 +63,7 @@ the zip archive.
         bath-bst.pdf,
         README.md
 
- 4. You may then have to update your installation's file name database
+ 5. You may then have to update your installation's file name database
     before TeX and friends can see the files.
 
 [bath-harvard]: http://www.bath.ac.uk/library/infoskills/referencing-plagiarism/harvard-bath-style.html

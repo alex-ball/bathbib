@@ -5,6 +5,12 @@ This package provides a [biblatex] style to format reference lists in the
 
 ## Installation
 
+You can use this style simply by copying all the `.bbx`, `.cbx`, `.dbx` and
+`.lbx` files into your working directory, that is, the directory holding the
+main `.tex` file for your document. If you want the style to be available for
+all your documents without having to copy the files over each time, you can
+install them using the instructions below.
+
 ### Automated way
 
 A makefile is provided which you can use with the Make utility on
@@ -29,11 +35,25 @@ changes to the .dtx file. The compiled files you need are included in
 the zip archive.
 
  1. Run `luatex biblatex-bath.dtx` to generate the source files.
+
  2. Compile biblatex-bath.dtx with [LuaLaTeX] and [Biber] to generate the
     documentation. You will need, among other things, the [luatexja],
     [adobemapping] and [ipaex] packages installed; this is just for the
     documentation, not for the biblatex style itself.
- 3. Move the files to your TeX tree as follows:
+
+ 3. If you are using TeX Live, find your home TeX tree using the following
+    command at the command prompt/terminal:
+
+    ```
+    kpsewhich -var-value=TEXMFHOME
+    ```
+
+    If you are using MikTeX, consult the MikTeX manual entry for [integrating
+    local additions](http://docs.miktex.org/manual/localadditions.html). You
+    can use one of the roots (TeX trees) already defined – preferably one of
+    the User roots – or set up a new one.
+
+ 4. Move the files to your TeX tree as follows:
       - `source/latex/biblatex-bath`:
         biblatex-bath.dtx,
         (biblatex-bath.ins)
@@ -47,7 +67,7 @@ the zip archive.
         biblatex-bath.pdf,
         README.md
 
- 4. You may then have to update your installation's file name database
+ 5. You may then have to update your installation's file name database
     before TeX and friends can see the files.
 
 [bath-harvard]: http://www.bath.ac.uk/library/infoskills/referencing-plagiarism/harvard-bath-style.html
