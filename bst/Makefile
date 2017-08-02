@@ -23,6 +23,7 @@ $(NAME).pdf: $(NAME).dtx $(BST) $(NAME).bib
 
 clean:
 	rm -f $(NAME).{aux,bbl,bcf,blg,doc,fdb_latexmk,fls,glo,gls,hd,idx,ilg,ind,listing,log,nav,out,run.xml,snm,synctex.gz,tcbtemp,toc,vrb}
+	rm -f $(NAME).markdown.in
 	rm -rf _markdown_$(NAME)
 
 distclean: clean
