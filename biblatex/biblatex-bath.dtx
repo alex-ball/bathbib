@@ -87,6 +87,9 @@ Copyright (C) 2016 by University of Bath
 
 % For typesetting the examples
 
+\newcounter{example}
+\newcommand{\eg}[1]{\protect\hfill\normalfont\textit{#1}}
+
 \usepackage{xpatch,csquotes,xcolor,xparse,multicol,fancyvrb}
 \xdefinecolor{Green}{rgb}{0,.5,0}
 \xdefinecolor{Slate}{RGB}{80,86,94}
@@ -398,10 +401,13 @@ in other words, they contain information that would normally be entered in anoth
 Particular care should be taken with such items when switching between different styles,
 though of course any item might need adjustment to take account of differing conventions.
 
-\subsection{Book with author(s)}
+
+\subsection{Books and book chapters}
+
+\subsubsection*{Book with author(s) \eg{HBS 1}}
 
 \begin{bibexbox}{rang.etal2012rdp}
-  Rang, H.P., Dale, M.M. Ritter, J.M., Flower, R.J. and Henderson, G., 2012. \emph{Rang and Dale's pharmacology}. 7th ed. Edinburgh:\@ Elsevier Churchill Livingstone.
+  Rang, H.P., Dale, M.M., Ritter, J.M., Flower, R.J. and Henderson, G., 2012. \emph{Rang and Dale's pharmacology}. 7th ed. Edinburgh:\@ Elsevier Churchill Livingstone.
   \tcblower
 \begin{Verbatim}
 %</driver>
@@ -436,7 +442,7 @@ though of course any item might need adjustment to take account of differing con
 \end{bibexbox}
 
 
-\subsection{Book with editor(s) instead of author(s)}
+\subsubsection*{Book with editor(s) instead of author(s) \eg{HBS 4}}
 
 \begin{bibexbox}{rothman.etal2008me}
   Rothman, K.J., Greenland, S. and Lash, T.L., eds., 2008. \emph{Modern epidemiology}. 3rd ed. Philadelphia, Pa.:\@ Lippincott Williams \& Wilkins.
@@ -457,7 +463,7 @@ though of course any item might need adjustment to take account of differing con
 \end{bibexbox}
 
 
-\subsection{Book usually known by its title}
+\subsubsection*{Book usually known by title rather than author \eg{HBS 5}}
 
 \begin{bibexbox}{oed1989}
   \emph{Oxford English dictionary}, 1989. 2nd ed. Oxford:\@ Clarendon Press.
@@ -466,8 +472,8 @@ though of course any item might need adjustment to take account of differing con
 %</driver>
 %<*driver|bib>
 @book{oed1989,
-  year = {1989},
   title = {Oxford {English} Dictionary},
+  year = {1989},
   edition = {2},
   address = {Oxford},
   publisher = {Clarendon Press}}
@@ -477,7 +483,7 @@ though of course any item might need adjustment to take account of differing con
 \end{bibexbox}
 
 \begin{bibexbox}{merckNDidx}
-  \emph{The Merck index online} [Online]. London:\@ RSC Publishing. Available from:\@ \url{http://www.rsc.org/Merck-Index} [Accessed 16/06/2016].
+  \emph{The Merck index online} [Online]. London:\@ RSC Publishing. Available from:\@ \url{http://www.rsc.org/Merck-Index} [Accessed 16 June 2016].
   \tcblower
 \begin{Verbatim}
 %</driver>
@@ -494,7 +500,48 @@ though of course any item might need adjustment to take account of differing con
 \end{bibexbox}
 
 
-\subsection{One chapter\slash paper from a collection in a book}
+\subsubsection*{Electronic book \eg{HBS 3}}
+
+\begin{bibexbox}{haynes2014crc}
+  Haynes, W.M., ed.\@, 2014.\@ \emph{CRC handbook of chemistry and physics} [Online].\@ 94th ed. Boca Raton, Fla.:\@ CRC Press/Taylor and Francis. Available from:\@ \url{http://www.hbcpnetbase.com} [Accessed 16 June 2016].
+  \tcblower
+\begin{Verbatim}
+%</driver>
+%<*driver|bib>
+  @book{haynes2014crc,
+  editor = {Haynes, W. M.},
+  year = {2014},
+  title = {{CRC} Handbook of Chemistry and Physics},
+  edition = {94},
+  address = {Boca Raton, Fla.},
+  publisher = {CRC Press/{Taylor and Francis}},
+  url = {http://www.hbcpnetbase.com},
+  urldate = {2016-06-16}}
+%</driver|bib>
+%<*driver>
+\end{Verbatim}
+\end{bibexbox}
+
+\begin{bibexbox}{hodds2016re}
+  Hodds, J., 2016. Referencing ebooks [Kindle version 4.18]. Bath:\@ University of Bath.
+  \tcblower
+\begin{Verbatim}
+%</driver>
+%<*driver|bib>
+  @book{hodds2016re,
+  editor = {Hodds, J.},
+  year = {2016},
+  title = {Referencing ebooks},
+  titleaddon = {Kindle version 4.18},
+  address = {Bath},
+  publisher = {University of Bath}}
+%</driver|bib>
+%<*driver>
+\end{Verbatim}
+\end{bibexbox}
+
+
+\subsubsection*{One chapter\slash paper from a collection (by different authors) in an edited book \eg{ref.\@ list, HBS 2}}
 
 \begin{bibexbox}{burchard1965hhl}
   Burchard, J.E., 1965. How humanists use a library. In: C.F.J. Overhage and J.R. Harman, eds. \emph{Intrex: report on a planning conference and information transfer experiments}. Cambridge, Mass.: MIT Press, pp.41--87.
@@ -518,7 +565,7 @@ though of course any item might need adjustment to take account of differing con
 \end{bibexbox}
 
 \begin{bibexbox}{reid1967ptp}
-  Reid, D.R., 1967.\@ Physical testing of polymer films.\@ In:\@ S.H. Pinner, ed.\@ \emph{Modern packaging films}. London:\@ Butterworths, pp.143--183.
+  Reid, D.R., 1967. Physical testing of polymer films. In: S.H. Pinner, ed.\@ \emph{Modern packaging films}. London:\@ Butterworths, pp.143--183.
   \tcblower
 \begin{Verbatim}
 %</driver>
@@ -538,30 +585,9 @@ though of course any item might need adjustment to take account of differing con
 \end{bibexbox}
 
 
-\subsection{Electronic book}
+\subsection{Articles and periodicals}
 
-\begin{bibexbox}{haynes2014crc}
-  Haynes, W.M., ed.\@, 2014.\@ \emph{CRC handbook of chemistry and physics} [Online].\@ 94th ed. Boca Raton, Fla.:\@ CRC Press/Taylor and Francis. Available from:\@ \url{http://www.hbcpnetbase.com} [Accessed 16/06/2016].
-  \tcblower
-\begin{Verbatim}
-%</driver>
-%<*driver|bib>
-@book{haynes2014crc,
-  editor = {Haynes, W. M.},
-  year = {2014},
-  title = {{CRC} Handbook of Chemistry and Physics},
-  edition = {94},
-  address = {Boca Raton, Fla.},
-  publisher = {CRC Press/{Taylor and Francis}},
-  url = {http://www.hbcpnetbase.com},
-  urldate = {2016-06-16}}
-%</driver|bib>
-%<*driver>
-\end{Verbatim}
-\end{bibexbox}
-
-
-\subsection{Journal article}
+\subsubsection*{Journal article \eg{ref.\@ list, HBS 6}}
 
 \begin{bibexbox}{stieg1981cer}
   Stieg, M.F., 1981a. Continuing education and the reference librarian in the academic and research library. \emph{Library Journal}, 105(22), pp.2547--2551.
@@ -621,10 +647,10 @@ though of course any item might need adjustment to take account of differing con
 \end{bibexbox}
 
 
-\subsection{E-journal article}
+\subsubsection*{Electronic journal article \eg{HBS 7}}
 
 \begin{bibexbox}{williams1997edd}
-  Williams, F., 1997. Electronic document delivery:\@ a trial in an academic library. \emph{Ariadne} [Online], 10. Available from:\@ \url{http://www.ariadne.ac.uk/issue10/edd/} [Accessed 05/12/1997].
+  Williams, F., 1997. Electronic document delivery:\@ a trial in an academic library. \emph{Ariadne} [Online], 10. Available from:\@ \url{http://www.ariadne.ac.uk/issue10/edd/} [Accessed 05 December 1997].
   \tcblower
 \begin{Verbatim}
 %</driver>
@@ -644,51 +670,74 @@ though of course any item might need adjustment to take account of differing con
 \end{bibexbox}
 
 
-\subsection{Websites}
+\subsubsection*{Preprint in a digital repository \eg{HBS 8}}
 
-\begin{bibexbox}{holland2002gci}
-  Holland, M., 2002. \emph{Guide to citing internet sources} [Online]. Poole:\@ Bournemouth University. Available from:\@ \url{http://www.bournemouth.ac.uk/library/using/guide_to_citing_internet_sourc.html} [Accessed 04/11/2002].
+\begin{bibexbox}{shah.corrick2016hsc}
+  Shah, I. and Corrick, I. 2016. \emph{How should central banks respond to non-neutral inflation expectations?} Bath:\@ University of Bath. \emph{OPUS} [Online]. Available from:\@ \url{http://opus.bath.ac.uk} [Accessed 04 May 2016].
   \tcblower
 \begin{Verbatim}
 %</driver>
 %<*driver|bib>
-@online{holland2002gci,
-  author = {Holland, M.},
-  year = {2002},
-  title = {Guide to Citing Internet Sources},
-  address = {Poole},
-  organization = {Bournemouth University},
-  url = {http://www.bournemouth.ac.uk/library/using/guide_to_citing_internet_sourc.html},
-  urldate = {2002-11-04}}
+  @report{shah.corrick2016hsc,
+  author = {Shah, I. and Corrick, I.},
+  year = {2016},
+  title = {How should central banks respond to non-neutral inflation expectations?},
+  address = {Bath},
+  institution = {University of Bath},
+  library = {OPUS},
+  url = {http://opus.bath.ac.uk},
+  urldate = {2016-05-04}}
 %</driver|bib>
 %<*driver>
 \end{Verbatim}
 \end{bibexbox}
 
-\begin{bibexbox}{wiltshire2015gww}
-  Wiltshire Council, 2015. \emph{Get Wiltshire walking} [Online]. Trowbridge:\@ Wiltshire Council. Available from:\@ \url{http://www.wiltshire.gov.uk/leisureandrecreation/sportphysicalactivity/getwiltshirewalking.html} [Accessed 19/08/2015].
+Use \texttt{library} to specify the name of the preprint repository.
+
+
+\subsubsection*{Newspaper article \eg{HBS 12}}
+
+\begin{bibexbox}{haurant2004bbh}
+  Haurant, S., 2004. Britain's borrowing hits £1 trillion. \emph{The Guardian}, 29 July, p.16c.
   \tcblower
 \begin{Verbatim}
 %</driver>
 %<*driver|bib>
-@online{wiltshire2015gww,
-  author = {{Wiltshire Council}},
-  year = {2015},
-  title = {Get {Wiltshire} walking},
-  address = {Trowbridge},
-  organization = {Wiltshire Council},
-  url = {http://www.wiltshire.gov.uk/leisureandrecreation/sportphysicalactivity/getwiltshirewalking.html},
-  urldate = {2015-08-19}}
+  @article{haurant2004bbh,
+  author = {Haurant, S.},
+  date = {2004-07-29},
+  title = {Britain's Borrowing Hits \pounds 1 Trillion},
+  journal = {The Guardian},
+  pages = {16c}}
+%</driver|bib>
+%<*driver>
+\end{Verbatim}
+\end{bibexbox}
+
+\begin{bibexbox}{independent1992pub}
+  The Independent, 1992. Picking up the bills. \emph{The Independent}, 4 June, p.28a.
+  \tcblower
+\begin{Verbatim}
+%</driver>
+%<*driver|bib>
+  @article{independent1992pub,
+  author = {{The Independent}},
+  date = {1992-06-04},
+  title = {Picking Up the Bills},
+  journal = {The Independent},
+  pages = {28a}}
 %</driver|bib>
 %<*driver>
 \end{Verbatim}
 \end{bibexbox}
 
 
-\subsection{Conference paper (when proceedings have a named editor)}
+\section{Conference papers}
+
+\subsubsection*{Conference paper (when proceedings have a named editor) \eg{HBS 10}}
 
 \begin{bibexbox}{crawford1965oim}
-  Crawford, G.I., 1965. Oxygen in metals. In:\@ J.M.A. Lenihan AND S.J. Thompson, eds. \emph{Activation analysis:\@ proceedings of a NATO Advanced Study Institute}, 2--4 August 1964 Glasgow. London:\@ Academic Press, pp.113--118.
+  Crawford, G.I., 1965. Oxygen in metals. In:\@ J.M.A. Lenihan and S.J. Thompson, eds. \emph{Activation analysis:\@ proceedings of a NATO Advanced Study Institute}, 2--4 August 1964 Glasgow. London:\@ Academic Press, pp.113--118.
   \tcblower
 \begin{Verbatim}
 %</driver>
@@ -711,7 +760,7 @@ though of course any item might need adjustment to take account of differing con
 \end{bibexbox}
 
 
-\subsection{Conference paper (when proceedings have no named editor or are part of a major series)}
+\subsubsection*{Conference paper (when proceedings have no named editor or are part of a major series) \eg{HBS 11}}
 
 \begin{bibexbox}{soper1972rbc}
   Soper, D., 1972. Review of bracken control experiments with asulam. \emph{Proceedings of the 11th British Weed Control Conference}, 15--17 November 1972 Brighton. Brighton:\@ University of Sussex, pp.24--31.
@@ -735,44 +784,9 @@ though of course any item might need adjustment to take account of differing con
 \end{bibexbox}
 
 
-\subsection{Newspaper article}
+\subsection{Grey literature}
 
-\begin{bibexbox}{haurant2004bbh}
-  Haurant, S., 2004. Britain's borrowing hits £1 trillion. \emph{The Guardian}, 29 July, p.16c.
-  \tcblower
-\begin{Verbatim}
-%</driver>
-%<*driver|bib>
-@article{haurant2004bbh,
-  author = {Haurant, S.},
-  date = {2004-07-29},
-  title = {Britain's Borrowing Hits \pounds 1 Trillion},
-  journal = {The Guardian},
-  pages = {16c}}
-%</driver|bib>
-%<*driver>
-\end{Verbatim}
-\end{bibexbox}
-
-\begin{bibexbox}{independent1992pub}
-  The Independent, 1992. Picking up the bills. \emph{The Independent}, 4 June, p.28a.
-  \tcblower
-\begin{Verbatim}
-%</driver>
-%<*driver|bib>
-@article{independent1992pub,
-  author = {{The Independent}},
-  date = {1992-06-04},
-  title = {Picking Up the Bills},
-  journal = {The Independent},
-  pages = {28a}}
-%</driver|bib>
-%<*driver>
-\end{Verbatim}
-\end{bibexbox}
-
-
-\subsection{Thesis/dissertation}
+\subsubsection*{Thesis/dissertation \eg{HBS 13}}
 
 \begin{bibexbox}{burrell1973ist}
   Burrell, J.G., 1973. \emph{The importance of school tours in education}. Thesis (M.A.). Queen's University, Belfast.
@@ -792,7 +806,7 @@ though of course any item might need adjustment to take account of differing con
 \end{bibexbox}
 
 
-\subsection{Report}
+\subsubsection*{Report \eg{HBS 14}}
 
 \begin{bibexbox}{unesco1993gip}
   UNESCO, 1993. \emph{General information programme and UNISIST}\@. Paris:\@ UNESCO, (PGI-93/WS/22).
@@ -813,7 +827,7 @@ though of course any item might need adjustment to take account of differing con
 \end{bibexbox}
 
 
-\subsection{Standard}
+\subsubsection*{Standard \eg{HBS 15}}
 
 \begin{bibexbox}{bs5605:1990}
   BS 5605:1990. \emph{Recommendations for citing and referencing published material}. BSI.
@@ -839,7 +853,8 @@ by adding zeroes to the start of the number to put several standards in numerica
 If you omit the \texttt{sortkey}, the entry will by sorted by \texttt{title}.
 Provide the \texttt{year} separately if (and only if) it does not form part of the identifier.
 
-\subsection{Patent}
+
+\subsubsection*{Patent \eg{HBS }}
 
 \begin{bibexbox}{pm1981opa}
   Phillipp Morris Inc., 1981. \emph{Optical perforating apparatus and system}. European patent application 0021165A1. 1981-01-07.
@@ -859,689 +874,9 @@ Provide the \texttt{year} separately if (and only if) it does not form part of t
 \end{bibexbox}
 
 
-\subsection{Map}
+\subsection{Audiovisual materials}
 
-\begin{bibexbox}{andrews.dury1773wilts}
-  Andrews, J. and Dury, A., 1773. \emph{Map of Wiltshire}, 1 inch to 2 miles. Devizes:\@ Wiltshire Record Society.
-  \tcblower
-\begin{Verbatim}
-%</driver>
-%<*driver|bib>
-@book{andrews.dury1773wilts,
-  author = {Andrews, J. and Dury, A.},
-  year = {1773},
-  title = {Map of {Wiltshire}},
-  series = {1 inch to 2 miles},
-  address = {Devizes},
-  publisher = {Wiltshire Record Society}}
-%</driver|bib>
-%<*driver>
-\end{Verbatim}
-\end{bibexbox}
-
-
-\subsection{Film, video or DVD}
-
-\begin{bibexbox}{macbeth1948}
-  \emph{Macbeth}, 1948. Film.\@ Directed by Orson Welles. USA:\@ Republic Pictures.
-  \tcblower
-\begin{Verbatim}
-%</driver>
-%<*driver|bib>
-@video{macbeth1948,
-  year = {1948},
-  title = {Macbeth},
-  type = {Film},
-  note = {Directed by Orson Welles},
-  address = {USA},
-  publisher = {Republic Pictures}}
-%</driver|bib>
-%<*driver>
-\end{Verbatim}
-\end{bibexbox}
-
-You can also use \texttt{movie} as an alias for \texttt{video}.
-
-
-\subsection{Streamed video}
-
-\begin{bibexbox}{moran2016sol}
-  Moran, C., 2016. \emph{Save Our Libraries} [Online]. Available from:\@ \url{https://www.youtube.com/watch?v=gKTfCz4JtVE&feature=youtu.be} [Accessed 29/04/2016]
-  \tcblower
-\begin{Verbatim}
-%</driver>
-%<*driver|bib>
-@video{moran2016sol,
-  author = {Moran, C.},
-  year = {2016},
-  title = {Save Our Libraries},
-  url = {https://www.youtube.com/watch?v=gKTfCz4JtVE&feature=youtu.be},
-  urldate = {2016-04-29}}
-%</driver|bib>
-%<*driver>
-\end{Verbatim}
-\end{bibexbox}
-
-
-\subsection{Television or radio broadcast}
-
-\begin{bibexbox}{rsfo2006ep5}
-  \emph{Rick Stein's French Odyssey: Episode 5}, 2006. TV. BBC2, 23 August. 20.30 hrs.
-  \tcblower
-\begin{Verbatim}
-%</driver>
-%<*driver|bib>
-@video{rsfo2006ep5,
-  date = {2006-08-23T20:30:00},
-  title = {Rick {Stein's} {French} {Odyssey}},
-  subtitle = {{Episode} 5},
-  type = {TV},
-  publisher = {BBC2}}
-%</driver|bib>
-%<*driver>
-\end{Verbatim}
-\end{bibexbox}
-
-Use \texttt{type} for the medium and \texttt{publisher} for the channel.
-
-\begin{bibexbox}{archers20060823}
-  \emph{The Archers}, 2006. Radio.\@ BBC Radio 4, 23 August. 19.02 hrs.
-  \tcblower
-\begin{Verbatim}
-%</driver>
-%<*driver|bib>
-@audio{archers20060823,
-  date = {2006-08-23T19:02:00},
-  title = {The {Archers}},
-  type = {Radio},
-  publisher = {BBC Radio 4}}
-%</driver|bib>
-%<*driver>
-\end{Verbatim}
-\end{bibexbox}
-
-You can also use \texttt{music} as an alias for \texttt{audio}.
-
-
-\subsection{Music score}
-
-\begin{bibexbox}{beethoven1950symph1}
-  Beethoven, L. Van, 1950. \emph{Symphony no.1 in C, Op.21}. Harmondsworth:\@ Penguin.
-  \tcblower
-\begin{Verbatim}
-%</driver>
-%<*driver|bib>
-@book{beethoven1950symph1,
-  author = {Ludwig van Beethoven},
-  year = {1950},
-  title = {Symphony no.1 in {C,} {Op.21}},
-  address = {Harmondsworth},
-  publisher = {Penguin}}
-%</driver|bib>
-%<*driver>
-\end{Verbatim}
-\end{bibexbox}
-
-
-\subsection{Email discussion lists (jiscmail/listserv etc)}
-
-\begin{bibexbox}{clark2004euk}
-  Clark, T., 5 July 2004. A European UK Libraries Plus? \emph{Lis-link} [Online]. Available from:\@ \url{lis-link@jiscmail.ac.uk} [Accessed 30 July 2004].
-  \tcblower
-\begin{Verbatim}
-%</driver>
-%<*driver|bib>
-@letter{clark2004euk,
-  author = {Clark, T.},
-  date = {2004-07-05},
-  title = {A {European} {UK} {Libraries} {Plus}?},
-  journal = {Lis-link},
-  url = {lis-link@jiscmail.ac.uk},
-  urldate = {2004-07-30}}
-%</driver|bib>
-%<*driver>
-\end{Verbatim}
-\end{bibexbox}
-
-Use the \texttt{journal} field to specify the mailing list. This triggers the
-change in formatting with respect to the following example.
-
-\subsection{Personal emails}
-
-\begin{bibexbox}{alston2004sah}
-  Alston, S., 19/07/2004. \emph{Society of Architectural Historians of GB}. Email to K.M. Jordan.
-  \tcblower
-\begin{Verbatim}
-%</driver>
-%<*driver|bib>
-@letter{alston2004sah,
-  author = {Alston, S.},
-  date = {2004-07-19},
-  title = {Society of {Architectural} {Historians} of {GB}},
-  howpublished = {Email to K.M. Jordan}}
-%</driver|bib>
-%<*driver>
-\end{Verbatim}
-\end{bibexbox}
-
-
-\subsection{Preprint}
-
-\begin{bibexbox}{shah.corrick2016hsc}
-  Shah, I. and Corrick, I. 2016. \emph{How should central banks respond to non-neutral inflation expectations?} Bath:\@ University of Bath. \emph{OPUS} [Online]. Available from:\@ \url{http://opus.bath.ac.uk} [Accessed 04/05/2016].
-  \tcblower
-\begin{Verbatim}
-%</driver>
-%<*driver|bib>
-@report{shah.corrick2016hsc,
-  author = {Shah, I. and Corrick, I.},
-  year = {2016},
-  title = {How should central banks respond to non-neutral inflation expectations?},
-  address = {Bath},
-  institution = {University of Bath},
-  library = {OPUS},
-  url = {http://opus.bath.ac.uk},
-  urldate = {2016-05-04}}
-%</driver|bib>
-%<*driver>
-\end{Verbatim}
-\end{bibexbox}
-
-Use \texttt{library} to specify the name of the preprint repository.
-
-\subsection{Work in translation}
-
-\begin{bibexbox}{aristotle2007ne}
-  Aristotle, 2007. \emph{Nicomachean ethics} (W.D. Ross. Trans.) South Dakota:\@ NuVisions.
-  \tcblower
-\begin{Verbatim}
-%</driver>
-%<*driver|bib>
-@book{aristotle2007ne,
-  author = {Aristotle},
-  year = {2007},
-  title = {Nicomachean Ethics},
-  translator = {W. D. Ross},
-  address = {South Dakota},
-  publisher = {NuVisions}}
-%</driver|bib>
-%<*driver>
-\end{Verbatim}
-\end{bibexbox}
-
-
-\subsection{Non-English work in the Roman alphabet}
-
-\begin{bibexbox}{esquivel2003cap}
-  Esquivel, L., 2003. \emph{Como agua para chocolate} [Like water for chocolate]. Barcelona:\@ Debolsillo.
-  \tcblower
-\begin{Verbatim}
-%</driver>
-%<*driver|bib>
-@book{esquivel2003cap,
-  author = {Esquivel, L.},
-  year = {2003},
-  title = {Como Agua para Chocolate},
-  titleaddon = {[Like water for chocolate]},
-  address = {Barcelona},
-  publisher = {Debolsillo}}
-%</driver|bib>
-%<*driver>
-\end{Verbatim}
-\end{bibexbox}
-
-\begin{bibexbox}{thurfjell1975vhv}
-  Thurfjell, W., 1975. Vart har våran doktor tagit vägen? [Where has our doctor gone?] \emph{Läkartidningen} 72, p.789.
-  \tcblower
-\begin{Verbatim}
-%</driver>
-%<*driver|bib>
-@article{thurfjell1975vhv,
-  author = {Thurfjell, W.},
-  year = {1975},
-  title = {Vart har våran doktor tagit vägen?},
-  titleaddon = {[Where has our doctor gone?]},
-  journal = {Läkartidningen},
-  volume = {72},
-  pages = {789}}
-%</driver|bib>
-%<*driver>
-\end{Verbatim}
-\end{bibexbox}
-
-
-\subsection{Non-English works in non-Roman alphabets}
-
-\begin{bibexbox}{hua1999qys1}
-  Hua, L. 華林甫, 1999.  Qingdai yilai Sanxia diqu shuihan zaihai de chubu yanjiu 清代以來三峽地區水旱災害的初步硏 [A preliminary study of floods and droughts in the Three Gorges region since the Qing dynasty], \emph{Zhongguo shehui kexue} 中國社會科學 , 1, pp.168--79.
-  \tcblower
-\begin{Verbatim}
-%</driver>
-%<*driver|bib>
-@article{hua1999qys1,
-  author = {given=Linfu, family=Hua, cjk=華林甫},
-  year = {1999},
-  title = {Qingdai yilai {Sanxia} diqu shuihan zaihai de chubu yanjiu
-    {清代以來三峽地區水旱災害的初步硏}},
-  titleaddon = {[A preliminary study of floods and droughts in the {Three} {Gorges} region since
-    the {Qing} dynasty]},
-  journal = {Zhongguo shehui kexue \textup{中國社會科學}},
-  volume = {1},
-  pages = {168-79}}
-%</driver|bib>
-%<*driver>
-\end{Verbatim}
-\end{bibexbox}
-
-\begin{bibexbox}{hua1999qys2}
-  Hua, L., 1999. Qingdai yilai Sanxia diqu shuihan zaihai de chubu yanjiu [A preliminary study of floods and droughts in the Three Gorges region since the Qing dynasty], \emph{Zhongguo shehui kexue}, 1, pp.168--79.
-  \tcblower
-\begin{Verbatim}
-%</driver>
-%<*driver|bib>
-@article{hua1999qys2,
-  author = {Hua, Linfu},
-  year = {1999},
-  title = {Qingdai yilai {Sanxia} diqu shuihan zaihai de chubu yanjiu},
-  titleaddon = {[A preliminary study of floods and droughts in the {Three} {Gorges} region since
-    the {Qing} dynasty]},
-  journal = {Zhongguo shehui kexue},
-  volume = {1},
-  pages = {168-79}}
-%</driver|bib>
-%<*driver>
-\end{Verbatim}
-\end{bibexbox}
-
-Although not a feature of the Bath Harvard Style, if you want to suppress the 
-punctuation between the family name and the initial (and thereby be more
-faithful to the original orthography), you can specify this using
-\textsf{biblatex}'s data annotations feature:
-
-\begin{bibexbox}{hua2001foo}
-  Hua L. 華林甫, 2001. \emph{Lorem ipsum}.
-  \tcblower
-\begin{Verbatim}
-%</driver>
-%<*driver|bib>
-@book{hua2001foo,
-  author = {given=Linfu, family=Hua, cjk=華林甫},
-  author+an = {1=cjk},
-  year = {2001},
-  title = {Lorem ipsum}}
-%</driver|bib>
-%<*driver>
-\end{Verbatim}
-\end{bibexbox}
-
-
-\subsection{House of Commons paper}
-
-\begin{bibexbox}{gb.hc2003/04-30}
-  Great Britain. Parliament. House of Commons, 2004. \emph{National Savings investment deposits:\@ account 2002--2003}. London:\@ National Audit Office (HC 200 3/04, 30).
-  \tcblower
-\begin{Verbatim}
-%</driver>
-%<*driver|bib>
-@legislation{gb.hc2003/04-30,
-  author = {{Great Britain. Parliament. House of Commons}},
-  year = {2004},
-  title = {National {Savings} Investment Deposits},
-  subtitle = {Account 2002--2003},
-  address = {London},
-  publisher = {National Audit Office},
-  type = {{HC}},
-  number = {2003/04, 30}}
-%</driver|bib>
-%<*driver>
-\end{Verbatim}
-\end{bibexbox}
-
-
-\subsection{House of Lords paper}
-
-\begin{bibexbox}{gb.hl1986/87-66}
-  Great Britain. Parliament. House of Lords. 1987. \emph{Social fund (Maternity and Funeral Expenses) Bill}. London:\@ HMSO (HL 1986/87, (66)).
-  \tcblower
-\begin{Verbatim}
-%</driver>
-%<*driver|bib>
-@legislation{gb.hl1986/87-66,
-  author = {{Great Britain. Parliament. House of Lords}},
-  year = {1987},
-  title = {Social Fund ({Maternity} and {Funeral} {Expenses}) Bill},
-  address = {London},
-  publisher = {HMSO},
-  type = {{HL}},
-  number = {1986/87, (66)}}
-%</driver|bib>
-%<*driver>
-\end{Verbatim}
-\end{bibexbox}
-
-
-\subsection{House of Commons/House of Lords bill}
-
-\begin{bibexbox}{gb.bill1987/88-66}
-  Great Britain. Parliament. House of Commons, 1988. \emph{Local government finance bill}. London:\@ HMSO (Bills | 1987/88, 66).
-  \tcblower
-\begin{Verbatim}
-%</driver>
-%<*driver|bib>
-@legislation{gb.bill1987/88-66,
-  author = {{Great Britain. Parliament. House of Commons}},
-  year = {1988},
-  title = {Local Government Finance Bill},
-  address = {London},
-  publisher = {HMSO},
-  type = {{Bills |}},
-  number = {1987/88, 66}}
-%</driver|bib>
-%<*driver>
-\end{Verbatim}
-\end{bibexbox}
-
-
-\subsection{Act of Parliament (UK Statutes) before 1963}
-
-\begin{bibexbox}{gb.wa1735}
-  \emph{Witchcraft Act 1735} (9 Geo.2, c.5).
-  \tcblower
-\begin{Verbatim}
-%</driver>
-%<*driver|bib>
-@legislation{gb.wa1735,
-  sortyear = {1735},
-  title = {Witchcraft {Act} 1735},
-  number = {9 Geo.2, c.5}}
-%</driver|bib>
-%<*driver>
-\end{Verbatim}
-\end{bibexbox}
-
-
-\subsection{Act of Parliament (UK Statues) 1963 onwards}
-
-\begin{bibexbox}(hacked){gb.pa2014}
-  \emph{Pensions Act 2014}, c.19. London:\@ TSO.
-  \tcblower
-\begin{Verbatim}
-%</driver>
-%<*driver|bib>
-@legislation{gb.pa2014,
-  sortyear = {2014},
-  title = {Pensions {Act} 2014},
-  note = {c.19},
-  address = {London},
-  publisher = {TSO}}
-%</driver|bib>
-%<*driver>
-\end{Verbatim}
-\end{bibexbox}
-
-Use \texttt{note} for identifiers that should appear directly after the title
-and without parentheses.
-
-
-\subsection{Command paper}
-
-\begin{bibexbox}{gb.cm6041}
-  Great Britain. Ministry of Defence, 2004. \emph{Delivering security in a changing world:\@ defence white paper}. London:\@ TSO (Cm.\@ 6041).
-  \tcblower
-\begin{Verbatim}
-%</driver>
-%<*driver|bib>
-@legislation{gb.cm6041,
-  author = {{Great Britain. Ministry of Defence}},
-  year = {2004},
-  title = {Delivering Security in a Changing World},
-  subtitle = {Defence White Paper},
-  address = {London},
-  publisher = {TSO},
-  number = {Cm.\@ 6041}}
-%</driver|bib>
-%<*driver>
-\end{Verbatim}
-\end{bibexbox}
-
-
-\subsection{Statutory instrument}
-
-\begin{bibexbox}(hacked){gb.hmr2012}
-  \emph{The Human Medicines Regulations 2012} [Online], No.1916, United Kingdom:\@ HMSO. Available from:\@ \url{http://www.legislation.gov.uk/uksi/2012/1916/pdfs/uksi_20121916_en.pdf} [Accessed 17/04/2016]
-  \tcblower
-\begin{Verbatim}
-%</driver>
-%<*driver|bib>
-@legislation{gb.hmr2012,
-  sortyear = {2012},
-  title = {The {Human} {Medicines} {Regulations} 2012},
-  note = {No.1916},
-  address = {United Kingdom},
-  publisher = {HMSO},
-  url = {http://www.legislation.gov.uk/uksi/2012/1916/pdfs/uksi_20121916_en.pdf},
-  urldate = {2016-04-17}}
-%</driver|bib>
-%<*driver>
-\end{Verbatim}
-\end{bibexbox}
-
-Use \texttt{note} for identifiers that should appear directly after the title
-and without parentheses.
-
-
-\subsection{Legal case study}
-
-\begin{bibexbox}(hacked){seldon-v-c.w.j2012}
-  \emph{Seldon v Clarkson Wright \& Jakes}. [2012]. UKSC 16.
-  \tcblower
-\begin{Verbatim}
-%</driver>
-%<*driver|bib>
-@jurisdiction{seldon-v-c.w.j2012,
-  title = {Seldon v {Clarkson} {Wright} \& {Jakes}},
-  titleaddon = {\unspace\printtext{\addperiod}},
-  year = {2012},
-  note = {\unspace\printtext{\addperiod}},
-  type = {UKSC},
-  number = {16}}
-%</driver|bib>
-%<*driver>
-\end{Verbatim}
-\end{bibexbox}
-
-In this example, the \texttt{titleaddon} and \texttt{note} fields have been used
-to add full stops that would otherwise be missing from the interior of the formatted reference.
-This is not especially recommended, as it can easily trip you up if you switch to a different style
-(or, perhaps, update this one). 
-
-Generally speaking, the year should by in square brackets if it is essential to the citation
-(unless it is a Scottish case, in which case it is printed bare), and in parentheses if it is
-not. By default, the style assumes the year is essential if and only if a volume number is
-\emph{not} provided; to override this, you can use the \key{year-essential} option:
-
-\begin{tcolorbox}%
-  [ colframe = Slate
-  , colback = white
-  , fontupper = \footnotesize
-  ]
-  \begin{Verbatim}
-  options = {year-essential=true},
-  \end{Verbatim}
-\end{tcolorbox}
-
-To use Scottish style for a case, you can either use the \key{scottish-style} option or
-the keyword \texttt{sc}:
-
-\begin{tcolorbox}%
-  [ colframe = Slate
-  , colback = white
-  , fontupper = \footnotesize
-  ]
-  \begin{Verbatim}
-  options = {scottish-style},
-  keywords = {sc},
-  \end{Verbatim}
-\end{tcolorbox}
-
-This should cover most cases, but legal references tend to enforce their own conventions
-no matter what the rest of the reference list is doing,
-and it is out of scope for this style to cater for every variation.
-Therefore if you need a different format (e.g.\@ for an American case),
-you may prefer to format the reference more-or-less by hand:
-
-\begin{tcolorbox}%
-  [ colframe = Slate
-  , colback = white
-  , fontupper = \footnotesize
-  ]
-  \begin{Verbatim}
-  title = {Seldon v {Clarkson} {Wright} \& {Jakes}},
-  note = {[2012]. UKSC 16}
-  \end{Verbatim}
-\end{tcolorbox}
-
-\subsection{EU publication}
-
-\begin{bibexbox}{ec2015gra}
-  European Commission, 2015. \emph{General report on the activities of the European Union 2014}. Luxembourg:\@ Publications Office of the European Union.
-  \tcblower
-\begin{Verbatim}
-%</driver>
-%<*driver|bib>
-@report{ec2015gra,
-  author = {{European Commission}},
-  year = {2015},
-  title = {General Report on the Activities of the {European} {Union} 2014},
-  address = {Luxembourg},
-  publisher = {Publications Office of the European Union}}
-%</driver|bib>
-%<*driver>
-\end{Verbatim}
-\end{bibexbox}
-
-
-\subsection{EU regulation or directive, decision, recommendation or opinion}
-
-\begin{bibexbox}{eu.dir2015/413}
-  Directive (EU) 2015/413 of the European Parliament and of the Council of 11th March 2015 facilitating cross-border exchange of information on road-safety-related traffic offences [2015] \emph{OJ} L68/9.
-  \tcblower
-\begin{Verbatim}
-%</driver>
-%<*driver|bib>
-@jurisdiction{eu.dir2015/413,
-  title = {Directive ({EU}) 2015/413 of the {European} {Parliament} and of the {Council} of
-    11th {March} 2015 Facilitating Cross-Border Exchange of Information on Road-Safety-Related
-    Traffic Offences},
-  shorttitle = {Directive ({EU}) 2015/413},
-  year = {2015},
-  journal = {OJ},
-  number = {L68/9}}
-%</driver|bib>
-%<*driver>
-\end{Verbatim}
-\end{bibexbox}
-
-Note the use of \texttt{journal} here (\emph{OJ} = \emph{Official Journal}) instead of \texttt{type}.
-The \texttt{shorttitle} will be used in citations instead of the full title.
-
-
-\subsection{Judgment of the European Court of Justice}
-
-\begin{bibexbox}{srl.etal-v-comm2005}
-  \emph{Alessandrini Srl and others v.~Commission} (C-295/03 P) [2005] ECR I-5700.
-  \tcblower
-\begin{Verbatim}
-%</driver>
-%<*driver|bib>
-@jurisdiction{srl.etal-v-comm2005,
-  title = {Alessandrini {Srl} and others v.\@ {Commission}},
-  issue = {C-295/03 P},
-  year = {2005},
-  type = {ECR},
-  number = {I-5700}}
-%</driver|bib>
-%<*driver>
-\end{Verbatim}
-\end{bibexbox}
-
-Use the \texttt{issue} field for the case number,
-and the \texttt{type} and \texttt{number} fields for the report number.
-
-
-\subsection{Database}
-
-\begin{bibexbox}{bvd2008bt}
-  Bureau van Dijk, 2008. \emph{BT Group plc company report}. \emph{FAME} [Online]. London: Bureau van Dijk. Available from: \url{http://www.portal.euromonitor.com} [Accessed 6/11/2014].
-  \tcblower
-\begin{Verbatim}
-%</driver>
-%<*driver|bib>
-@online{bvd2008bt,
-  author = {{Bureau van Dijk}},
-  year = {2008},
-  title = {{BT} {Group} PLC Company Report},
-  library = {FAME},
-  address = {London},
-  organization = {Bureau van Dijk},
-  url = {http://www.portal.euromonitor.com},
-  urldate = {2014-11-06}}
-%</driver|bib>
-%<*driver>
-\end{Verbatim}
-\end{bibexbox}
-
-Use the \texttt{title} field for the entry title,
-and the \texttt{library} field for the name of the database itself.
-
-
-\subsection{Dataset}
-
-\begin{bibexbox}{wilson2013rgc}
-  Wilson, D., 2013. \emph{Real geometry and connectedness via triangular description:\@ CAD example bank} [Online]. Bath:\@ University of Bath. Available from:\@ \url{http://doi.org/10.15125/BATH-00069} [Accessed 20/04/2016].
-  \tcblower
-\begin{Verbatim}
-%</driver>
-%<*driver|bib>
-@online{wilson2013rgc,
-  author = {Wilson, D.},
-  year = {2013},
-  title = {Real Geometry and Connectedness via Triangular Description},
-  subtitle = {{CAD} Example Bank},
-  address = {Bath},
-  organization = {University of Bath},
-  doi = {10.15125/BATH-00069},
-  urldate = {2016-04-20}}
-%</driver|bib>
-%<*driver>
-\end{Verbatim}
-\end{bibexbox}
-
-You can also use \texttt{dataset} as an alias for \texttt{online}.
-
-
-\subsection{Computer program}
-
-\begin{bibexbox}{screencasto}
-  @screencasto. \emph{Screencast-O-Matic} (v.2) [computer program]. \url{https://screencast-o-matic.com/} [Accessed 16/05/2016].
-  \tcblower
-\begin{Verbatim}
-%</driver>
-%<*driver|bib>
-@software{screencasto,
-  author = {@screencasto},
-  title = {{Screencast-O-Matic}},
-  version = {2},
-  type = {computer program},
-  url = {https://screencast-o-matic.com/},
-  urldate = {2016-05-16}}
-%</driver|bib>
-%<*driver>
-\end{Verbatim}
-\end{bibexbox}
-
-
-\subsection{Image}
+\subsubsection*{Image \eg{HBS 17}}
 
 These examples are taken from the Library guide
 \href{http://www.bath.ac.uk/library/pass.bho/images-referencing.pdf}{\emph{Referencing images}}.
@@ -1628,6 +963,712 @@ Use the \texttt{library} field to record the archive and register number.
 If you also wish to provide the name of the organisation that published the image,
 use the \texttt{publisher} field if the location you provide relates to the publisher,
 but the \texttt{organization} field if the location relates to the archive.
+
+
+\subsubsection*{Map \eg{HBS 18}}
+
+\begin{bibexbox}{andrews.dury1773wilts}
+  Andrews, J. and Dury, A., 1773. \emph{Map of Wiltshire}, 1 inch to 2 miles. Devizes:\@ Wiltshire Record Society.
+  \tcblower
+\begin{Verbatim}
+%</driver>
+%<*driver|bib>
+@book{andrews.dury1773wilts,
+  author = {Andrews, J. and Dury, A.},
+  year = {1773},
+  title = {Map of {Wiltshire}},
+  series = {1 inch to 2 miles},
+  address = {Devizes},
+  publisher = {Wiltshire Record Society}}
+%</driver|bib>
+%<*driver>
+\end{Verbatim}
+\end{bibexbox}
+
+
+\subsubsection*{Film, video or DVD \eg{HBS 19}}
+
+\begin{bibexbox}{macbeth1948}
+  \emph{Macbeth}, 1948. Film.\@ Directed by Orson Welles. USA:\@ Republic Pictures.
+  \tcblower
+\begin{Verbatim}
+%</driver>
+%<*driver|bib>
+@video{macbeth1948,
+  year = {1948},
+  title = {Macbeth},
+  type = {Film},
+  note = {Directed by Orson Welles},
+  address = {USA},
+  publisher = {Republic Pictures}}
+%</driver|bib>
+%<*driver>
+\end{Verbatim}
+\end{bibexbox}
+
+You can also use \texttt{movie} as an alias for \texttt{video}.
+
+
+\subsubsection*{Streamed video (YouTube, TED Talks, etc.) \eg{HBS 20}}
+
+\begin{bibexbox}{moran2016sol}
+  Moran, C., 2016. \emph{Save Our Libraries} [Online]. Available from:\@ \url{https://www.youtube.com/watch?v=gKTfCz4JtVE&feature=youtu.be} [Accessed 29 April 2016]
+  \tcblower
+\begin{Verbatim}
+%</driver>
+%<*driver|bib>
+@video{moran2016sol,
+  author = {Moran, C.},
+  year = {2016},
+  title = {Save Our Libraries},
+  url = {https://www.youtube.com/watch?v=gKTfCz4JtVE&feature=youtu.be},
+  urldate = {2016-04-29}}
+%</driver|bib>
+%<*driver>
+\end{Verbatim}
+\end{bibexbox}
+
+
+\subsubsection*{Television or radio broadcast \eg{HBS 21}}
+
+\begin{bibexbox}{rsfo2006ep5}
+  \emph{Rick Stein's French Odyssey: Episode 5}, 2006. TV. BBC2, 23 August. 20.30 hrs.
+  \tcblower
+\begin{Verbatim}
+%</driver>
+%<*driver|bib>
+@video{rsfo2006ep5,
+  date = {2006-08-23T20:30:00},
+  title = {Rick {Stein's} {French} {Odyssey}},
+  subtitle = {{Episode} 5},
+  type = {TV},
+  publisher = {BBC2}}
+%</driver|bib>
+%<*driver>
+\end{Verbatim}
+\end{bibexbox}
+
+Use \texttt{type} for the medium and \texttt{publisher} for the channel.
+
+\begin{bibexbox}{archers20060823}
+  \emph{The Archers}, 2006. Radio.\@ BBC Radio 4, 23 August. 19.02 hrs.
+  \tcblower
+\begin{Verbatim}
+%</driver>
+%<*driver|bib>
+@audio{archers20060823,
+  date = {2006-08-23T19:02:00},
+  title = {The {Archers}},
+  type = {Radio},
+  publisher = {BBC Radio 4}}
+%</driver|bib>
+%<*driver>
+\end{Verbatim}
+\end{bibexbox}
+
+You can also use \texttt{music} as an alias for \texttt{audio}.
+
+
+\subsubsection*{Music score \eg{HBS 22}}
+
+\begin{bibexbox}{beethoven1950symph1}
+  Beethoven, L. Van, 1950. \emph{Symphony no.1 in C, Op.21}. Harmondsworth:\@ Penguin.
+  \tcblower
+\begin{Verbatim}
+%</driver>
+%<*driver|bib>
+@book{beethoven1950symph1,
+  author = {Ludwig van Beethoven},
+  year = {1950},
+  title = {Symphony no.1 in {C,} {Op.21}},
+  address = {Harmondsworth},
+  publisher = {Penguin}}
+%</driver|bib>
+%<*driver>
+\end{Verbatim}
+\end{bibexbox}
+
+
+\subsection{Online resources}
+
+\subsubsection*{Website\slash webpage \eg{HBS 9}}
+
+\begin{bibexbox}{holland2002gci}
+  Holland, M., 2002. \emph{Guide to citing internet sources} [Online]. Poole:\@ Bournemouth University. Available from:\@ \url{http://www.bournemouth.ac.uk/library/using/guide_to_citing_internet_sourc.html} [Accessed 04 November 2002].
+  \tcblower
+\begin{Verbatim}
+%</driver>
+%<*driver|bib>
+@online{holland2002gci,
+  author = {Holland, M.},
+  year = {2002},
+  title = {Guide to Citing Internet Sources},
+  address = {Poole},
+  organization = {Bournemouth University},
+  url = {http://www.bournemouth.ac.uk/library/using/guide_to_citing_internet_sourc.html},
+  urldate = {2002-11-04}}
+%</driver|bib>
+%<*driver>
+\end{Verbatim}
+\end{bibexbox}
+
+\begin{bibexbox}{wiltshire2015gww}
+  Wiltshire Council, 2015. \emph{Get Wiltshire walking} [Online]. Trowbridge:\@ Wiltshire Council. Available from:\@ \url{http://www.wiltshire.gov.uk/leisureandrecreation/sportphysicalactivity/getwiltshirewalking.html} [Accessed 19 August 2015].
+  \tcblower
+\begin{Verbatim}
+%</driver>
+%<*driver|bib>
+@online{wiltshire2015gww,
+  author = {{Wiltshire Council}},
+  year = {2015},
+  title = {Get {Wiltshire} walking},
+  address = {Trowbridge},
+  organization = {Wiltshire Council},
+  url = {http://www.wiltshire.gov.uk/leisureandrecreation/sportphysicalactivity/getwiltshirewalking.html},
+  urldate = {2015-08-19}}
+%</driver|bib>
+%<*driver>
+\end{Verbatim}
+\end{bibexbox}
+
+
+\subsubsection*{Email discussion lists (jiscmail\slash listserv etc.) \eg{HBS 23}}
+
+\begin{bibexbox}{clark2004euk}
+  Clark, T., 5 July 2004. A European UK Libraries Plus? \emph{Lis-link} [Online]. Available from:\@ \url{lis-link@jiscmail.ac.uk} [Accessed 30 July 2004].
+  \tcblower
+\begin{Verbatim}
+%</driver>
+%<*driver|bib>
+@letter{clark2004euk,
+  author = {Clark, T.},
+  date = {2004-07-05},
+  title = {A {European} {UK} {Libraries} {Plus}?},
+  journal = {Lis-link},
+  url = {lis-link@jiscmail.ac.uk},
+  urldate = {2004-07-30}}
+%</driver|bib>
+%<*driver>
+\end{Verbatim}
+\end{bibexbox}
+
+Use the \texttt{journal} field to specify the mailing list. This triggers the
+change in formatting with respect to the following example.
+
+
+\subsubsection*{Personal emails \eg{HBS 24}}
+
+\begin{bibexbox}{alston2004sah}
+  Alston, S., 19/07/2004. \emph{Society of Architectural Historians of GB}. Email to K.M. Jordan.
+  \tcblower
+\begin{Verbatim}
+%</driver>
+%<*driver|bib>
+@letter{alston2004sah,
+  author = {Alston, S.},
+  date = {2004-07-19},
+  title = {Society of {Architectural} {Historians} of {GB}},
+  howpublished = {Email to K.M. Jordan}}
+%</driver|bib>
+%<*driver>
+\end{Verbatim}
+\end{bibexbox}
+
+\subsection{Works in languages other than English}
+
+\subsubsection*{Work in translation \eg{HBS 26}}
+
+\begin{bibexbox}{aristotle2007ne}
+  Aristotle, 2007. \emph{Nicomachean ethics} (W.D. Ross. Trans.) South Dakota:\@ NuVisions.
+  \tcblower
+\begin{Verbatim}
+%</driver>
+%<*driver|bib>
+@book{aristotle2007ne,
+  author = {Aristotle},
+  year = {2007},
+  title = {Nicomachean Ethics},
+  translator = {W. D. Ross},
+  address = {South Dakota},
+  publisher = {NuVisions}}
+%</driver|bib>
+%<*driver>
+\end{Verbatim}
+\end{bibexbox}
+
+
+\subsubsection*{Work in the Roman alphabet \eg{HBS 27}}
+
+\begin{bibexbox}{esquivel2003cap}
+  Esquivel, L., 2003. \emph{Como agua para chocolate} [Like water for chocolate]. Barcelona:\@ Debolsillo.
+  \tcblower
+\begin{Verbatim}
+%</driver>
+%<*driver|bib>
+@book{esquivel2003cap,
+  author = {Esquivel, L.},
+  year = {2003},
+  title = {Como Agua para Chocolate},
+  titleaddon = {[Like water for chocolate]},
+  address = {Barcelona},
+  publisher = {Debolsillo}}
+%</driver|bib>
+%<*driver>
+\end{Verbatim}
+\end{bibexbox}
+
+\begin{bibexbox}{thurfjell1975vhv}
+  Thurfjell, W., 1975. Vart har våran doktor tagit vägen? [Where has our doctor gone?] \emph{Läkartidningen} 72, p.789.
+  \tcblower
+\begin{Verbatim}
+%</driver>
+%<*driver|bib>
+@article{thurfjell1975vhv,
+  author = {Thurfjell, W.},
+  year = {1975},
+  title = {Vart har våran doktor tagit vägen?},
+  titleaddon = {[Where has our doctor gone?]},
+  journal = {Läkartidningen},
+  volume = {72},
+  pages = {789}}
+%</driver|bib>
+%<*driver>
+\end{Verbatim}
+\end{bibexbox}
+
+
+\subsubsection*{Work in a non-Roman alphabet \eg{HBS 28}}
+
+\begin{bibexbox}{hua1999qys1}
+  Hua, L. 華林甫, 1999.  Qingdai yilai Sanxia diqu shuihan zaihai de chubu yanjiu 清代以來三峽地區水旱災害的初步硏 [A preliminary study of floods and droughts in the Three Gorges region since the Qing dynasty], \emph{Zhongguo shehui kexue} 中國社會科學 , 1, pp.168--79.
+  \tcblower
+\begin{Verbatim}
+%</driver>
+%<*driver|bib>
+@article{hua1999qys1,
+  author = {given=Linfu, family=Hua, cjk=華林甫},
+  year = {1999},
+  title = {Qingdai yilai {Sanxia} diqu shuihan zaihai de chubu yanjiu
+    {清代以來三峽地區水旱災害的初步硏}},
+  titleaddon = {[A preliminary study of floods and droughts in the {Three} {Gorges} region since
+    the {Qing} dynasty]},
+  journal = {Zhongguo shehui kexue \textup{中國社會科學}},
+  volume = {1},
+  pages = {168-79}}
+%</driver|bib>
+%<*driver>
+\end{Verbatim}
+\end{bibexbox}
+
+\begin{bibexbox}{hua1999qys2}
+  Hua, L., 1999. Qingdai yilai Sanxia diqu shuihan zaihai de chubu yanjiu [A preliminary study of floods and droughts in the Three Gorges region since the Qing dynasty], \emph{Zhongguo shehui kexue}, 1, pp.168--79.
+  \tcblower
+\begin{Verbatim}
+%</driver>
+%<*driver|bib>
+@article{hua1999qys2,
+  author = {Hua, Linfu},
+  year = {1999},
+  title = {Qingdai yilai {Sanxia} diqu shuihan zaihai de chubu yanjiu},
+  titleaddon = {[A preliminary study of floods and droughts in the {Three} {Gorges} region since
+    the {Qing} dynasty]},
+  journal = {Zhongguo shehui kexue},
+  volume = {1},
+  pages = {168-79}}
+%</driver|bib>
+%<*driver>
+\end{Verbatim}
+\end{bibexbox}
+
+Although not a feature of the Bath Harvard Style, if you want to suppress the 
+punctuation between the family name and the initial (and thereby be more
+faithful to the original orthography), you can specify this using
+\textsf{biblatex}'s data annotations feature:
+
+\begin{bibexbox}{hua2001foo}
+  Hua L. 華林甫, 2001. \emph{Lorem ipsum}.
+  \tcblower
+\begin{Verbatim}
+%</driver>
+%<*driver|bib>
+@book{hua2001foo,
+  author = {given=Linfu, family=Hua, cjk=華林甫},
+  author+an = {1=cjk},
+  year = {2001},
+  title = {Lorem ipsum}}
+%</driver|bib>
+%<*driver>
+\end{Verbatim}
+\end{bibexbox}
+
+
+\subsection{Legal references}
+
+\subsubsection*{House of Commons paper \eg{HBS }}
+
+\begin{bibexbox}{gb.hc2003/04-30}
+  Great Britain. Parliament. House of Commons, 2004. \emph{National Savings investment deposits:\@ account 2002--2003}. London:\@ National Audit Office (HC 200 3/04, 30).
+  \tcblower
+\begin{Verbatim}
+%</driver>
+%<*driver|bib>
+@legislation{gb.hc2003/04-30,
+  author = {{Great Britain. Parliament. House of Commons}},
+  year = {2004},
+  title = {National {Savings} Investment Deposits},
+  subtitle = {Account 2002--2003},
+  address = {London},
+  publisher = {National Audit Office},
+  type = {{HC}},
+  number = {2003/04, 30}}
+%</driver|bib>
+%<*driver>
+\end{Verbatim}
+\end{bibexbox}
+
+
+\subsubsection*{House of Lords paper \eg{HBS }}
+
+\begin{bibexbox}{gb.hl1986/87-66}
+  Great Britain. Parliament. House of Lords. 1987. \emph{Social fund (Maternity and Funeral Expenses) Bill}. London:\@ HMSO (HL 1986/87, (66)).
+  \tcblower
+\begin{Verbatim}
+%</driver>
+%<*driver|bib>
+@legislation{gb.hl1986/87-66,
+  author = {{Great Britain. Parliament. House of Lords}},
+  year = {1987},
+  title = {Social Fund ({Maternity} and {Funeral} {Expenses}) Bill},
+  address = {London},
+  publisher = {HMSO},
+  type = {{HL}},
+  number = {1986/87, (66)}}
+%</driver|bib>
+%<*driver>
+\end{Verbatim}
+\end{bibexbox}
+
+
+\subsubsection*{House of Commons/House of Lords bill \eg{HBS }}
+
+\begin{bibexbox}{gb.bill1987/88-66}
+  Great Britain. Parliament. House of Commons, 1988. \emph{Local government finance bill}. London:\@ HMSO (Bills | 1987/88, 66).
+  \tcblower
+\begin{Verbatim}
+%</driver>
+%<*driver|bib>
+@legislation{gb.bill1987/88-66,
+  author = {{Great Britain. Parliament. House of Commons}},
+  year = {1988},
+  title = {Local Government Finance Bill},
+  address = {London},
+  publisher = {HMSO},
+  type = {{Bills |}},
+  number = {1987/88, 66}}
+%</driver|bib>
+%<*driver>
+\end{Verbatim}
+\end{bibexbox}
+
+
+\subsubsection*{Act of Parliament (UK Statutes) before 1963 \eg{HBS }}
+
+\begin{bibexbox}{gb.wa1735}
+  \emph{Witchcraft Act 1735} (9 Geo.2, c.5).
+  \tcblower
+\begin{Verbatim}
+%</driver>
+%<*driver|bib>
+@legislation{gb.wa1735,
+  sortyear = {1735},
+  title = {Witchcraft {Act} 1735},
+  number = {9 Geo.2, c.5}}
+%</driver|bib>
+%<*driver>
+\end{Verbatim}
+\end{bibexbox}
+
+
+\subsubsection*{Act of Parliament (UK Statues) 1963 onwards \eg{HBS }}
+
+\begin{bibexbox}(hacked){gb.pa2014}
+  \emph{Pensions Act 2014}, c.19. London:\@ TSO.
+  \tcblower
+\begin{Verbatim}
+%</driver>
+%<*driver|bib>
+@legislation{gb.pa2014,
+  sortyear = {2014},
+  title = {Pensions {Act} 2014},
+  note = {c.19},
+  address = {London},
+  publisher = {TSO}}
+%</driver|bib>
+%<*driver>
+\end{Verbatim}
+\end{bibexbox}
+
+Use \texttt{note} for identifiers that should appear directly after the title
+and without parentheses.
+
+
+\subsubsection*{Command paper \eg{HBS }}
+
+\begin{bibexbox}{gb.cm6041}
+  Great Britain. Ministry of Defence, 2004. \emph{Delivering security in a changing world:\@ defence white paper}. London:\@ TSO (Cm.\@ 6041).
+  \tcblower
+\begin{Verbatim}
+%</driver>
+%<*driver|bib>
+@legislation{gb.cm6041,
+  author = {{Great Britain. Ministry of Defence}},
+  year = {2004},
+  title = {Delivering Security in a Changing World},
+  subtitle = {Defence White Paper},
+  address = {London},
+  publisher = {TSO},
+  number = {Cm.\@ 6041}}
+%</driver|bib>
+%<*driver>
+\end{Verbatim}
+\end{bibexbox}
+
+
+\subsubsection*{Statutory instrument \eg{HBS }}
+
+\begin{bibexbox}(hacked){gb.hmr2012}
+  \emph{The Human Medicines Regulations 2012} [Online], No.1916, United Kingdom:\@ HMSO. Available from:\@ \url{http://www.legislation.gov.uk/uksi/2012/1916/pdfs/uksi_20121916_en.pdf} [Accessed 17/04/2016]
+  \tcblower
+\begin{Verbatim}
+%</driver>
+%<*driver|bib>
+@legislation{gb.hmr2012,
+  sortyear = {2012},
+  title = {The {Human} {Medicines} {Regulations} 2012},
+  note = {No.1916},
+  address = {United Kingdom},
+  publisher = {HMSO},
+  url = {http://www.legislation.gov.uk/uksi/2012/1916/pdfs/uksi_20121916_en.pdf},
+  urldate = {2016-04-17}}
+%</driver|bib>
+%<*driver>
+\end{Verbatim}
+\end{bibexbox}
+
+Use \texttt{note} for identifiers that should appear directly after the title
+and without parentheses.
+
+
+\subsubsection*{Legal case study \eg{HBS }}
+
+\begin{bibexbox}(hacked){seldon-v-c.w.j2012}
+  \emph{Seldon v Clarkson Wright \& Jakes}. [2012]. UKSC 16.
+  \tcblower
+\begin{Verbatim}
+%</driver>
+%<*driver|bib>
+@jurisdiction{seldon-v-c.w.j2012,
+  title = {Seldon v {Clarkson} {Wright} \& {Jakes}},
+  titleaddon = {\unspace\printtext{\addperiod}},
+  year = {2012},
+  note = {\unspace\printtext{\addperiod}},
+  type = {UKSC},
+  number = {16}}
+%</driver|bib>
+%<*driver>
+\end{Verbatim}
+\end{bibexbox}
+
+In this example, the \texttt{titleaddon} and \texttt{note} fields have been used
+to add full stops that would otherwise be missing from the interior of the formatted reference.
+This is not especially recommended, as it can easily trip you up if you switch to a different style
+(or, perhaps, update this one). 
+
+Generally speaking, the year should by in square brackets if it is essential to the citation
+(unless it is a Scottish case, in which case it is printed bare), and in parentheses if it is
+not. By default, the style assumes the year is essential if and only if a volume number is
+\emph{not} provided; to override this, you can use the \key{year-essential} option:
+
+\begin{tcolorbox}%
+  [ colframe = Slate
+  , colback = white
+  , fontupper = \footnotesize
+  ]
+  \begin{Verbatim}
+  options = {year-essential=true},
+  \end{Verbatim}
+\end{tcolorbox}
+
+To use Scottish style for a case, you can either use the \key{scottish-style} option or
+the keyword \texttt{sc}:
+
+\begin{tcolorbox}%
+  [ colframe = Slate
+  , colback = white
+  , fontupper = \footnotesize
+  ]
+  \begin{Verbatim}
+  options = {scottish-style},
+  keywords = {sc},
+  \end{Verbatim}
+\end{tcolorbox}
+
+This should cover most cases, but legal references tend to enforce their own conventions
+no matter what the rest of the reference list is doing,
+and it is out of scope for this style to cater for every variation.
+Therefore if you need a different format (e.g.\@ for an American case),
+you may prefer to format the reference more-or-less by hand:
+
+\begin{tcolorbox}%
+  [ colframe = Slate
+  , colback = white
+  , fontupper = \footnotesize
+  ]
+  \begin{Verbatim}
+  title = {Seldon v {Clarkson} {Wright} \& {Jakes}},
+  note = {[2012]. UKSC 16}
+  \end{Verbatim}
+\end{tcolorbox}
+
+\subsubsection*{EU publication \eg{HBS }}
+
+\begin{bibexbox}{ec2015gra}
+  European Commission, 2015. \emph{General report on the activities of the European Union 2014}. Luxembourg:\@ Publications Office of the European Union.
+  \tcblower
+\begin{Verbatim}
+%</driver>
+%<*driver|bib>
+@report{ec2015gra,
+  author = {{European Commission}},
+  year = {2015},
+  title = {General Report on the Activities of the {European} {Union} 2014},
+  address = {Luxembourg},
+  publisher = {Publications Office of the European Union}}
+%</driver|bib>
+%<*driver>
+\end{Verbatim}
+\end{bibexbox}
+
+
+\subsubsection*{EU regulation or directive, decision, recommendation or opinion \eg{HBS }}
+
+\begin{bibexbox}{eu.dir2015/413}
+  Directive (EU) 2015/413 of the European Parliament and of the Council of 11th March 2015 facilitating cross-border exchange of information on road-safety-related traffic offences [2015] \emph{OJ} L68/9.
+  \tcblower
+\begin{Verbatim}
+%</driver>
+%<*driver|bib>
+@jurisdiction{eu.dir2015/413,
+  title = {Directive ({EU}) 2015/413 of the {European} {Parliament} and of the {Council} of
+    11th {March} 2015 Facilitating Cross-Border Exchange of Information on Road-Safety-Related
+    Traffic Offences},
+  shorttitle = {Directive ({EU}) 2015/413},
+  year = {2015},
+  journal = {OJ},
+  number = {L68/9}}
+%</driver|bib>
+%<*driver>
+\end{Verbatim}
+\end{bibexbox}
+
+Note the use of \texttt{journal} here (\emph{OJ} = \emph{Official Journal}) instead of \texttt{type}.
+The \texttt{shorttitle} will be used in citations instead of the full title.
+
+
+\subsubsection*{Judgment of the European Court of Justice \eg{HBS }}
+
+\begin{bibexbox}{srl.etal-v-comm2005}
+  \emph{Alessandrini Srl and others v.~Commission} (C-295/03 P) [2005] ECR I-5700.
+  \tcblower
+\begin{Verbatim}
+%</driver>
+%<*driver|bib>
+@jurisdiction{srl.etal-v-comm2005,
+  title = {Alessandrini {Srl} and others v.\@ {Commission}},
+  issue = {C-295/03 P},
+  year = {2005},
+  type = {ECR},
+  number = {I-5700}}
+%</driver|bib>
+%<*driver>
+\end{Verbatim}
+\end{bibexbox}
+
+Use the \texttt{issue} field for the case number,
+and the \texttt{type} and \texttt{number} fields for the report number.
+
+
+\subsubsection*{Database \eg{HBS }}
+
+\begin{bibexbox}{bvd2008bt}
+  Bureau van Dijk, 2008. \emph{BT Group plc company report}. \emph{FAME} [Online]. London: Bureau van Dijk. Available from: \url{http://www.portal.euromonitor.com} [Accessed 6/11/2014].
+  \tcblower
+\begin{Verbatim}
+%</driver>
+%<*driver|bib>
+@online{bvd2008bt,
+  author = {{Bureau van Dijk}},
+  year = {2008},
+  title = {{BT} {Group} PLC Company Report},
+  library = {FAME},
+  address = {London},
+  organization = {Bureau van Dijk},
+  url = {http://www.portal.euromonitor.com},
+  urldate = {2014-11-06}}
+%</driver|bib>
+%<*driver>
+\end{Verbatim}
+\end{bibexbox}
+
+Use the \texttt{title} field for the entry title,
+and the \texttt{library} field for the name of the database itself.
+
+
+\subsubsection*{Dataset \eg{HBS }}
+
+\begin{bibexbox}{wilson2013rgc}
+  Wilson, D., 2013. \emph{Real geometry and connectedness via triangular description:\@ CAD example bank} [Online]. Bath:\@ University of Bath. Available from:\@ \url{http://doi.org/10.15125/BATH-00069} [Accessed 20/04/2016].
+  \tcblower
+\begin{Verbatim}
+%</driver>
+%<*driver|bib>
+@online{wilson2013rgc,
+  author = {Wilson, D.},
+  year = {2013},
+  title = {Real Geometry and Connectedness via Triangular Description},
+  subtitle = {{CAD} Example Bank},
+  address = {Bath},
+  organization = {University of Bath},
+  doi = {10.15125/BATH-00069},
+  urldate = {2016-04-20}}
+%</driver|bib>
+%<*driver>
+\end{Verbatim}
+\end{bibexbox}
+
+You can also use \texttt{dataset} as an alias for \texttt{online}.
+
+
+\subsubsection*{Computer program \eg{HBS }}
+
+\begin{bibexbox}{screencasto}
+  @screencasto. \emph{Screencast-O-Matic} (v.2) [computer program]. \url{https://screencast-o-matic.com/} [Accessed 16/05/2016].
+  \tcblower
+\begin{Verbatim}
+%</driver>
+%<*driver|bib>
+@software{screencasto,
+  author = {@screencasto},
+  title = {{Screencast-O-Matic}},
+  version = {2},
+  type = {computer program},
+  url = {https://screencast-o-matic.com/},
+  urldate = {2016-05-16}}
+%</driver|bib>
+%<*driver>
+\end{Verbatim}
+\end{bibexbox}
+
 
 \printbibliography
 
