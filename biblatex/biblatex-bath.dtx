@@ -542,7 +542,7 @@ though of course any item might need adjustment to take account of differing con
 \end{bibexbox}
 
 \begin{bibexbox}<HBS 3>{hodds2016re}
-  Hodds, J., 2016. Referencing ebooks [Kindle version 4.18]. Bath:\@ University of Bath.
+  Hodds, J., 2016. \emph{Referencing ebooks} [Kindle version 4.18]. Bath:\@ University of Bath.
   \tcblower
 \begin{Verbatim}
 %</driver>
@@ -953,7 +953,7 @@ record the source of the image.
   title = {Prototype electric bicycle displayed at the \enquote{Britain Can Make It} exhibition
     organised by the {Council} of {Industrial} {Design} and held at the {Victoria} and {Albert}
     {Museum}, {London}, 1946. {Designed} by {B.~G.} {Bowden}},
-  titleaddon = {[photograph]},
+  titleaddon = {photograph},
   location = {London},
   library = {Design Council Slide Collection}}
 %</driver|bib>
@@ -1301,7 +1301,7 @@ You can also use \texttt{dataset} as an alias for \texttt{online}.
   author = {Esquivel, L.},
   year = {2003},
   title = {Como Agua para Chocolate},
-  titleaddon = {[Like water for chocolate]},
+  titleaddon = {Like water for chocolate},
   address = {Barcelona},
   publisher = {Debolsillo}}
 %</driver|bib>
@@ -1319,7 +1319,7 @@ You can also use \texttt{dataset} as an alias for \texttt{online}.
   author = {Thurfjell, W.},
   year = {1975},
   title = {Vart har våran doktor tagit vägen?},
-  titleaddon = {[Where has our doctor gone?]},
+  titleaddon = {Where has our doctor gone?},
   journal = {Läkartidningen},
   volume = {72},
   pages = {789}}
@@ -1342,8 +1342,8 @@ You can also use \texttt{dataset} as an alias for \texttt{online}.
   year = {1999},
   title = {Qingdai yilai {Sanxia} diqu shuihan zaihai de chubu yanjiu
     {清代以來三峽地區水旱災害的初步硏}},
-  titleaddon = {[A preliminary study of floods and droughts in the {Three} {Gorges} region since
-    the {Qing} dynasty]},
+  titleaddon = {A preliminary study of floods and droughts in the {Three} {Gorges} region since
+    the {Qing} dynasty},
   journal = {Zhongguo shehui kexue \textup{中國社會科學}},
   volume = {1},
   pages = {168-79}}
@@ -1362,8 +1362,8 @@ You can also use \texttt{dataset} as an alias for \texttt{online}.
   author = {Hua, Linfu},
   year = {1999},
   title = {Qingdai yilai {Sanxia} diqu shuihan zaihai de chubu yanjiu},
-  titleaddon = {[A preliminary study of floods and droughts in the {Three} {Gorges} region since
-    the {Qing} dynasty]},
+  titleaddon = {A preliminary study of floods and droughts in the {Three} {Gorges} region since
+    the {Qing} dynasty},
   journal = {Zhongguo shehui kexue},
   volume = {1},
   pages = {168-79}}
@@ -2043,14 +2043,31 @@ This work is `maintained' (as per LPPL maintenance status) by [Alex Ball][me].
     and
     test {\iffieldundef{doi}}
   }{}{%
-    \bibstring{online}%
+    \bibstring[\mkbibbrackets]{online}%
   }%
 }
 
 %    \end{macrocode}
 %
-% Titles are converted to sentence case, and the \texttt{titleaddon} field
-% follows with no intervening punctuation.
+% The |titleaddon| field follows the title after a space and wrapped in
+% brackets. Version 1 of this style encouraged people to supply the brackets
+% manually, so we strip them off if they have been supplied.
+%
+%    \begin{macrocode}
+\DeclareFieldFormat{titleaddon}{\mkbibbrackets{%
+  \IfBeginWith{#1}{[}{%
+    \IfEndWith{#1}{]}{%
+      \StrBetween{#1}{[}{]}%
+    }{#1}%
+  }{#1}%
+}}
+
+%    \end{macrocode}
+%
+% We need to supply a new |title| macro. The standard version hard-codes the
+% case used (we use sentence case, not title case) and puts default unit
+% punctuation between the |title| and |titleaddon| fields. We also need to add
+% conditional code for printing the automatic `[Online]' label.
 %
 %    \begin{macrocode}
 \renewbibmacro*{title}{%
@@ -2083,6 +2100,11 @@ This work is `maintained' (as per LPPL maintenance status) by [Alex Ball][me].
   }%
 }
 
+%    \end{macrocode}
+%
+% Similar changes are needed for the |booktitle| and |maintitle| macros.
+%
+%    \begin{macrocode}
 \renewbibmacro*{booktitle}{%
   \ifboolexpr{
     test {\iffieldundef{booktitle}}
@@ -2117,8 +2139,21 @@ This work is `maintained' (as per LPPL maintenance status) by [Alex Ball][me].
   }%
 }
 
+%    \end{macrocode}
+%
+% Subtitles are set off with a colon
+%
+%    \begin{macrocode}
 \renewcommand*{\subtitlepunct}{\addcolon\space}
 
+%    \end{macrocode}
+%
+% In the standard author--year styles, if a title is promoted to the head of
+% a reference (due to missing authors/editors) the subtitle and titleaddon
+% fields are discarded. By using the complete |title| macro instead, we keep
+% them in.
+%
+%    \begin{macrocode}
 \renewbibmacro*{labeltitle}{%
   \iffieldundef{label}{%
     \usebibmacro{title}%
@@ -3158,7 +3193,7 @@ This work is `maintained' (as per LPPL maintenance status) by [Alex Ball][me].
 % These are the new strings we define in this style.
 %
 %    \begin{macrocode}
-,online           = {{[Online]}{[Online]}}
+,online           = {{Online}{Online}}
 ,hours            = {{hours}{hrs\adddot}}
 ,at               = {{at}{at}}
 }
@@ -3208,7 +3243,7 @@ This work is `maintained' (as per LPPL maintenance status) by [Alex Ball][me].
 % These are the new strings we define in this style.
 %
 %    \begin{macrocode}
-,online           = {{[Online]}{[Online]}}
+,online           = {{Online}{Online}}
 ,hours            = {{hours}{hrs\adddot}}
 ,at               = {{at}{at}}
 }
