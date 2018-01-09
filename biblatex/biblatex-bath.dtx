@@ -3206,10 +3206,19 @@ This work is `maintained' (as per LPPL maintenance status) by [Alex Ball][me].
 %
 % \setcounter{lstnumber}{16}
 %
-% This style is currently a simple alias for the standard author--year style.
+% The standard |authoryear-comp| style is a close match for what we need.
 %
 %    \begin{macrocode}
-\RequireCitationStyle{authoryear}
+\RequireCitationStyle{authoryear-comp}
+%    \end{macrocode}
+%
+% This sets \key{uniquename} to |full|, but that conflicts with
+% \key{giveninits} set by the bibliography style, so we set it to |init|
+% instead. If left alone, \textsf{biblatex} would do this anyway, but if we do
+% it explicitly, we avoid the warning message.
+%
+%    \begin{macrocode}
+\ExecuteBibliographyOptions{uniquename=init}
 %    \end{macrocode}
 % \iffalse
 %</cbx>
