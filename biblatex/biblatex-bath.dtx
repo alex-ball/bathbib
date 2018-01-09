@@ -132,6 +132,8 @@ Copyright (C) 2016 by University of Bath
     , autocite
     , noop
     , addbibresource
+    , assignrefcontextentries
+    , newrefcontext
     }
   , moredelim=**[s][\color{violet}]{[}{]}
   , moredelim=**[s][\color{blue!75!black}]{\{}{\}}
@@ -234,8 +236,9 @@ Copyright (C) 2016 by University of Bath
 
 % Documentation
 
-\usepackage[backend=biber,bibencoding=utf8,hyperref=false,isbn=false,style=bath]{biblatex}
+\usepackage[backend=biber,bibencoding=utf8,hyperref=false,isbn=false,style=bath,sorting=ynt]{biblatex}
 \addbibresource{biblatex-bath.bib}
+\assignrefcontextentries[]{*}
 \makeatletter
 \DeclareCiteCommand{\fullcite}
   {\usebibmacro{prenote}}
@@ -359,10 +362,14 @@ the zip archive.
 
 \section{Using the style}
 
-To use the style, specify it when you load \textsf{biblatex}:
+To use the style, specify it when you load \textsf{biblatex}. To get the sorting
+order of your \emph{citations} right, specify the \texttt{ynt} sorting scheme.
+To avoid possible inconsistencies (e.g.\@ in how disambiguation letters are
+assigned), force all entries to use the global reference context:
 
 \begin{tcblisting}{listing only}
-\usepackage[style=bath]{biblatex}
+\usepackage[style=bath,sorting=ynt]{biblatex}
+\assignrefcontextentries[]{*}
 \end{tcblisting}
 
 Remember also to specify your .bib file in the preamble:
@@ -371,8 +378,17 @@ Remember also to specify your .bib file in the preamble:
 \addbibresource{file.bib}
 \end{tcblisting}
 
-Use \lstinline[style=dtxlatex]|\printbibliography| to print your bibliography
-towards the end of your document.
+To get the sorting order of your \emph{references} right, create a new reference
+context just before you print your bibliography, using the \texttt{nyt} sorting
+scheme:
+
+\begin{tcblisting}{listing only}
+\newrefcontext[sorting=nyt]
+\printbibliography
+\end{tcblisting}
+
+If you forget these extra steps, the \texttt{nyt} sorting scheme will be used
+throughout.
 
 To make a citation in the text, use the key that corresponds to the entry in your .bib file:
 
@@ -382,7 +398,7 @@ the absence of an invisible collection amongst historians is noted by
 \textcite[556]{stieg1981inh}. It may be, as \textcite{burchard1965hhl} points
 out, that they have no assistants or are reluctant to delegate, or it may be
 down to economic factors \autocite{adams2009tc1, adams2014tc2, adams2017tc3,
-williams1997edd}\dots
+moran2016sol}\dots
 \end{tcblisting}
 
 Please refer to the documentation for \href{http://www.ctan.org/pkg/biblatex}{\textsf{biblatex}}
@@ -1692,6 +1708,7 @@ Use the \texttt{issue} field for the case number,
 and the \texttt{type} and \texttt{number} fields for the report number.
 
 
+\newrefcontext[sorting=nyt]
 \printbibliography[heading=bibnumbered]
 
 \section{Licence}
@@ -3219,6 +3236,13 @@ This work is `maintained' (as per LPPL maintenance status) by [Alex Ball][me].
 %
 %    \begin{macrocode}
 \ExecuteBibliographyOptions{uniquename=init}
+%    \end{macrocode}
+%
+% Compressed citations are delimited with a semicolon, just like
+% non-compressed citations.
+%
+%    \begin{macrocode}
+\renewcommand*{\compcitedelim}{\addsemicolon\space}
 %    \end{macrocode}
 % \iffalse
 %</cbx>
