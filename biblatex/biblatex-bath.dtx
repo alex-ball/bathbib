@@ -1787,13 +1787,11 @@ This work is `maintained' (as per LPPL maintenance status) by [Alex Ball][me].
 \RequirePackage{xpatch}
 %    \end{macrocode}
 %
-% Language support may be widened in future, but for now we support the
-% following:
+% Language support may be widened in future, but for now we support British and
+% American English. Adapted language files have the following suffix:
 %
 %    \begin{macrocode}
-\DeclareLanguageMapping{english}{british-bath}
-\DeclareLanguageMapping{british}{british-bath}
-\DeclareLanguageMapping{american}{american-bath}
+\DeclareLanguageMappingSuffix{-bath}
 %    \end{macrocode}
 %
 % We begin by loading the default author--year style.
