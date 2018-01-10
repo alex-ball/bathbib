@@ -863,6 +863,7 @@ for the work and provide preprint details using the \texttt{eprinttype},
 @standard{bs5605:1990,
   label = {BS 5605:1990},
   sortkey = {BS 5605:1990},
+  sortyear = {1990},
   title = {Recommendations for citing and referencing published material},
   organization = {BSI}}
 %</driver|bib>
@@ -876,7 +877,12 @@ The \texttt{sortkey} determines where the entry will appear in the bibliography;
 you should normally repeat the identifier but you might want to adjust it, e.g.\@
 by adding zeroes to the start of the number to put several standards in numerical order.
 If you omit the \texttt{sortkey}, the entry will by sorted by \texttt{title}.
+
 Provide the \texttt{year} separately if (and only if) it does not form part of the identifier.
+To suppress the printing of `n.d.\@', set the \texttt{sortyear}; this will have
+the added bonus of making sure it sorts properly within a citation of multiple
+sources. (What actually happens is that a Boolean entry option \key{nonodate} is
+added automatically; you can set it true or false manually if you need to).
 
 
 \subsubsection*{Patent}
@@ -1429,6 +1435,10 @@ faithful to the original orthography), you can specify this using
 \end{Verbatim}
 \end{bibexbox}
 
+To suppress the printing of `n.d.\@', set the \texttt{sortyear}; this will have
+the added bonus of making sure it sorts properly within a citation of multiple
+sources. (What actually happens is that a Boolean entry option \key{nonodate} is
+added automatically; you can set it true or false manually if you need to).
 
 \subsubsection*{Act of Parliament (UK Statues) 1963 onwards}
 
@@ -2181,12 +2191,38 @@ This work is `maintained' (as per LPPL maintenance status) by [Alex Ball][me].
 %
 % \subsection{Dates}
 %
-% No attempt is made to recover from missing dates in the bibliography.
+% If the main publication date is missing, we fall back immediately to ‘n.d.\@’
+% rather than use URL date or anything like that. However, for some resources
+% (ISO standards, Acts of Parliament), the date is part of the label and should
+% not be repeated, so we declare an option for removing the ‘n.d.’ Unless
+% already set, the option is inserted if |sortyear| is used.
 %
 %    \begin{macrocode}
 \DeclareLabeldate{%
   \field{date}
   \field{year}
+  \literal{nodate}
+}
+\newtoggle{bbx:nonodate}
+\DeclareBibliographyOption[boolean]{nonodate}[true]{%
+  \settoggle{bbx:nonodate}{#1}}
+\DeclareTypeOption[boolean]{nonodate}[true]{%
+  \settoggle{bbx:nonodate}{#1}}
+\DeclareEntryOption[boolean]{nonodate}[true]{%
+  \settoggle{bbx:nonodate}{#1}}
+\DeclareStyleSourcemap{
+  \maps[datatype=bibtex]{
+    \map[overwrite=true]{
+      \step[notmatch=\regexp{nonodate}, fieldsource=options, final]
+      \step[fieldsource=sortyear, final]
+      \step[fieldset=options, append, fieldvalue={,nonodate}]
+    }
+    \map[overwrite=true]{
+      \step[notfield=options, final]
+      \step[fieldsource=sortyear, final]
+      \step[fieldset=options, fieldvalue={nonodate}]
+    }
+  }
 }
 
 %    \end{macrocode}
@@ -2195,10 +2231,10 @@ This work is `maintained' (as per LPPL maintenance status) by [Alex Ball][me].
 % commands, and should be a comma.
 %
 %    \begin{macrocode}
-\DeclareDelimFormat{nameyeardelim}{\addcomma\addspace}
-\DeclareDelimFormat[parencite]{nameyeardelim}{\addcomma\addspace}
-\DeclareDelimFormat[bib]{nameyeardelim}{\addcomma\addspace}
-\DeclareDelimFormat[biblist]{nameyeardelim}{\addcomma\addspace}
+\DeclareDelimFormat{nameyeardelim}{\addcomma\space}
+\DeclareDelimFormat[parencite]{nameyeardelim}{\addcomma\space}
+\DeclareDelimFormat[bib]{nameyeardelim}{\addcomma\space}
+\DeclareDelimFormat[biblist]{nameyeardelim}{\addcomma\space}
 \DeclareDelimFormat{nonameyeardelim}{%
   \ifboolexpr{
     test {\ifentrytype{jurisdiction}}
@@ -2267,13 +2303,31 @@ This work is `maintained' (as per LPPL maintenance status) by [Alex Ball][me].
 %
 % We define a configurable field format for date labels to replace the
 % hard-coded parentheses in the options from the standard author--year style.
+% We also amend the logic for printing the label date so the |nonodate| option
+% is respected.
 %
 %    \begin{macrocode}
 \DeclareFieldFormat{datelabel}{#1}
 \xpatchcmd{\bbx@opt@mergedate@maximum}{%
+  \iffieldundef{labelyear}%
+}{%
+  \ifboolexpr{
+    togl {bbx:nonodate}
+    and
+    not test {\iflabeldateisdate}}%
+}{}{}
+\xpatchcmd{\bbx@opt@mergedate@maximum}{%
   \printtext[parens]%
 }{%
   \printtext[datelabel]%
+}{}{}
+\xpatchcmd{\bbx@opt@mergedate@compact}{%
+  \iffieldundef{labelyear}%
+}{%
+  \ifboolexpr{
+    togl {bbx:nonodate}
+    and
+    not test {\iflabeldateisdate}}%
 }{}{}
 \xpatchcmd{\bbx@opt@mergedate@compact}{%
   \printtext[parens]%
@@ -2281,14 +2335,38 @@ This work is `maintained' (as per LPPL maintenance status) by [Alex Ball][me].
   \printtext[datelabel]%
 }{}{}
 \xpatchcmd{\bbx@opt@mergedate@basic}{%
+  \iffieldundef{labelyear}%
+}{%
+  \ifboolexpr{
+    togl {bbx:nonodate}
+    and
+    not test {\iflabeldateisdate}}%
+}{}{}
+\xpatchcmd{\bbx@opt@mergedate@basic}{%
   \printtext[parens]%
 }{%
   \printtext[datelabel]%
 }{}{}
 \xpatchcmd{\bbx@opt@mergedate@minimum}{%
+  \iffieldundef{labelyear}%
+}{%
+  \ifboolexpr{
+    togl {bbx:nonodate}
+    and
+    not test {\iflabeldateisdate}}%
+}{}{}
+\xpatchcmd{\bbx@opt@mergedate@minimum}{%
   \printtext[parens]%
 }{%
   \printtext[datelabel]%
+}{}{}
+\xpatchcmd{\bbx@opt@mergedate@false}{%
+  \iffieldundef{labelyear}%
+}{%
+  \ifboolexpr{
+    togl {bbx:nonodate}
+    and
+    not test {\iflabeldateisdate}}%
 }{}{}
 \xpatchcmd{\bbx@opt@mergedate@false}{%
   \printtext[parens]%
@@ -2308,6 +2386,8 @@ This work is `maintained' (as per LPPL maintenance status) by [Alex Ball][me].
   \renewbibmacro*{date+extradate}{%
     \iffieldundef{labelyear}{}{%
       \ifboolexpr{
+        togl {bbx:nonodate}
+        and
         not test {\iflabeldateisdate}
       }{}{%
         \printtext[datelabel]{\printlabeldateextra}%
@@ -2839,21 +2919,21 @@ This work is `maintained' (as per LPPL maintenance status) by [Alex Ball][me].
 %
 %    \begin{macrocode}
 \newtoggle{bbx:scotstyle}
-\DeclareEntryOption{scottish-style}[true]{%
+\DeclareEntryOption[boolean]{scottish-style}[true]{%
   \settoggle{bbx:scotstyle}{#1}}
-\newboolean{bbx@year-essential}\setboolean{bbx@year-essential}{false}
-\DeclareEntryOption{year-essential}[true]{%
-  \setboolean{bbx@year-essential}{#1}}
+\newtoggle{bbx:year-essential}
+\DeclareEntryOption[boolean]{year-essential}[true]{%
+  \settoggle{bbx:year-essential}{#1}}
 \DeclareFieldFormat[jurisdiction]{datelabel}{%
   \ifboolexpr{
     test {\iffieldundef{volume}}
     or
-    bool {bbx@year-essential}
+    togl {bbx:year-essential}
   }{%
     \ifboolexpr{
       test {\ifkeyword{sc}}
       or
-      test {\iftoggle{bbx:scotstyle}}
+      togl {bbx:scotstyle}
     }{%
       \addcomma\space #1%
     }{%
@@ -2943,14 +3023,19 @@ This work is `maintained' (as per LPPL maintenance status) by [Alex Ball][me].
 % \subsection{Legislation}
 %
 % Legislation is mostly formatted like a report, except there is no comma
-% between the publisher and the type\slash number.
+% between the publisher and the type\slash number (and no |nametitledelim| if
+% there is no |date+extradate|).
 %
 %    \begin{macrocode}
 \DeclareBibliographyDriver{legislation}{%
   \usebibmacro{bibindex}%
   \usebibmacro{begentry}%
   \usebibmacro{author}%
-  \iffieldundef{labelyear}{}{\setunit{\printdelim{nametitledelim}}\newblock}%
+  \ifboolexpr{
+    togl {bbx:nonodate}
+    and
+    not test {\iflabeldateisdate}
+  }{}{\setunit{\printdelim{nametitledelim}}\newblock}%
   \usebibmacro{title}%
   \newunit
   \printlist{language}%
@@ -3317,6 +3402,20 @@ This work is `maintained' (as per LPPL maintenance status) by [Alex Ball][me].
 %
 %    \begin{macrocode}
 \renewcommand*{\compcitedelim}{\addsemicolon\space}
+%    \end{macrocode}
+%
+% We need to suppress the display of `n.d.' in citations if the \key{nonodate}
+% toggle is true.
+%
+%    \begin{macrocode}
+\xpatchbibmacro{cite:labeldate+extradate}{%
+  \iffieldundef{labelyear}%
+}{%
+  \ifboolexpr{
+    togl {bbx:nonodate}
+    and
+    not test {\iflabeldateisdate}}%
+}{}{}
 %    \end{macrocode}
 % \iffalse
 %</cbx>
