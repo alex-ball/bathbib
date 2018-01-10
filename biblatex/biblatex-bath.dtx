@@ -502,7 +502,7 @@ though of course any item might need adjustment to take account of differing con
 \end{bibexbox}
 
 \begin{bibexbox}<HBS 5>{merckNDidx}
-  \emph{The Merck index online} [Online]. London:\@ RSC Publishing. Available from:\@ \url{http://www.rsc.org/Merck-Index} [Accessed 16 June 2016].
+  \emph{The Merck index online}, n.d.\@ [Online]. London:\@ RSC Publishing. Available from:\@ \url{http://www.rsc.org/Merck-Index} [Accessed 16 June 2016].
   \tcblower
 \begin{Verbatim}
 %</driver>
@@ -522,7 +522,7 @@ though of course any item might need adjustment to take account of differing con
 \subsubsection*{Electronic book}
 
 \begin{bibexbox}<HBS 3>{haynes2014crc}
-  Haynes, W.M., ed.\@, 2014.\@ \emph{CRC handbook of chemistry and physics} [Online].\@ 94th ed. Boca Raton, Fla.:\@ CRC Press/Taylor and Francis. Available from:\@ \url{http://www.hbcpnetbase.com} [Accessed 16 June 2016].
+  Haynes, W.M., ed.\@, 2014. \emph{CRC handbook of chemistry and physics} [Online]. 94th ed. Boca Raton, Fla.:\@ CRC Press/Taylor and Francis. Available from:\@ \url{http://www.hbcpnetbase.com} [Accessed 16 June 2016].
   \tcblower
 \begin{Verbatim}
 %</driver>
@@ -711,7 +711,13 @@ though of course any item might need adjustment to take account of differing con
 \end{Verbatim}
 \end{bibexbox}
 
-Use \texttt{library} to specify the name of the preprint repository.
+The Harvard (Bath) style treats preprints as grey literature, and so the
+\texttt{report} entry type is the best match semantically. Use \texttt{library}
+to specify the name of the preprint repository.
+
+In standard \textsf{biblatex}, you would typically use the natural entry type
+for the work and provide preprint details using the \texttt{eprinttype},
+\texttt{eprintclass} and \texttt{eprint} fields.
 
 
 \subsubsection*{Newspaper article}
@@ -975,7 +981,7 @@ but the \texttt{organization} field if the location relates to the archive.
 \begin{Verbatim}
 %</driver>
 %<*driver|bib>
-@book{andrews.dury1773wilts,
+@manual{andrews.dury1773wilts,
   author = {Andrews, J. and Dury, A.},
   year = {1773},
   title = {Map of {Wiltshire}},
@@ -987,6 +993,7 @@ but the \texttt{organization} field if the location relates to the archive.
 \end{Verbatim}
 \end{bibexbox}
 
+The \texttt{book} entry type would also work for this reference.
 
 \subsubsection*{Film, video or DVD}
 
@@ -1091,7 +1098,7 @@ You can also use \texttt{music} as an alias for \texttt{audio}.
 \subsubsection*{Music score}
 
 \begin{bibexbox}<HBS 22>{beethoven1950symph1}
-  Beethoven, L. Van, 1950. \emph{Symphony no.1 in C, Op.21}. Harmondsworth:\@ Penguin.
+  Beethoven, L. van, 1950. \emph{Symphony no.1 in C, Op.21}. Harmondsworth:\@ Penguin.
   \tcblower
 \begin{Verbatim}
 %</driver>
@@ -1248,7 +1255,7 @@ You can also use \texttt{dataset} as an alias for \texttt{online}.
 \subsubsection*{Computer program}
 
 \begin{bibexbox}<HBS 42>{screencasto}
-  @screencasto. \emph{Screencast-O-Matic} (v.2) [computer program]. \url{https://screencast-o-matic.com/} [Accessed 16 May 2016].
+  @screencasto, n.d.\@ \emph{Screencast-O-Matic} (v.2) [computer program]. Available from: \url{https://screencast-o-matic.com/} [Accessed 16 May 2016].
   \tcblower
 \begin{Verbatim}
 %</driver>
@@ -1309,6 +1316,8 @@ You can also use \texttt{dataset} as an alias for \texttt{online}.
 \end{Verbatim}
 \end{bibexbox}
 
+Use the \texttt{titleaddon} field to supply the English translation of the title.
+
 \begin{bibexbox}<HBS 27>{thurfjell1975vhv}
   Thurfjell, W., 1975. Vart har våran doktor tagit vägen? [Where has our doctor gone?] \emph{Läkartidningen} 72, p.789.
   \tcblower
@@ -1352,6 +1361,11 @@ You can also use \texttt{dataset} as an alias for \texttt{online}.
 \end{Verbatim}
 \end{bibexbox}
 
+To supply a transliterated version of an author name, specify the name using the
+name parts \texttt{family}, \texttt{given} and \texttt{cjk}. Please note that if
+you do supply a \texttt{cjk} component, any \texttt{prefix} or \texttt{suffix}
+component you may supply will be ignored.
+
 \begin{bibexbox}<HBS 28>{hua1999qys2}
   Hua, L., 1999. Qingdai yilai Sanxia diqu shuihan zaihai de chubu yanjiu [A preliminary study of floods and droughts in the Three Gorges region since the Qing dynasty], \emph{Zhongguo shehui kexue}, 1, pp.168--79.
   \tcblower
@@ -1372,10 +1386,10 @@ You can also use \texttt{dataset} as an alias for \texttt{online}.
 \end{Verbatim}
 \end{bibexbox}
 
-Although not a feature of the Bath Harvard Style, if you want to suppress the 
+Although not a feature of the Harvard (Bath) Style, if you want to suppress the 
 punctuation between the family name and the initial (and thereby be more
 faithful to the original orthography), you can specify this using
-\textsf{biblatex}'s data annotations feature:
+\textsf{biblatex}'s data annotations feature, using the keyword \texttt{cjk}:
 
 \begin{bibexbox}{hua2001foo}
   Hua L. 華林甫, 2001. \emph{Lorem ipsum}.
@@ -1638,7 +1652,7 @@ to add full stops that would otherwise be missing from the interior of the forma
 This is not especially recommended, as it can easily trip you up if you switch to a different style
 (or, perhaps, update this one). 
 
-Generally speaking, the year should by in square brackets if it is essential to the citation
+Generally speaking, the year should be in square brackets if it is essential to the citation
 (unless it is a Scottish case, in which case it is printed bare), and in parentheses if it is
 not. By default, the style assumes the year is essential if and only if a volume number is
 \emph{not} provided; to override this, you can use the \key{year-essential} option:
