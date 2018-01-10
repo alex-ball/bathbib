@@ -2216,22 +2216,6 @@ This work is `maintained' (as per LPPL maintenance status) by [Alex Ball][me].
 
 %    \end{macrocode}
 %
-% We provide tests similar to |\labeldateisdate| to tell if the |labeldate|
-% is (\emph{a}) any type of date, and (\emph{b}) neither a date nor |pubstate|.
-%
-%    \begin{macrocode}
-\def\iflabeldateisanydate{%
-  \ifboolexpr{%
-    togl {blx@labeldateparts}
-    and not test {\iffieldundef{labeldatesource}}
-    and not test {\iffieldundef{\thefield{labeldatesource}year}}}}
-\def\iflabeldateispubstate{%
-  \ifboolexpr{%
-    not test {\iffieldundef{labeldatesource}}
-    and test {\iffieldequalstr{labeldatesource}{pubstate}}}}
-
-%    \end{macrocode}
-%
 % We allow the date macro to print the time as well.
 %
 %    \begin{macrocode}
@@ -2248,17 +2232,75 @@ This work is `maintained' (as per LPPL maintenance status) by [Alex Ball][me].
 % month and day in place, and set this as the default. Note that dates are
 % preceded by a comma, and are given bare rather than in parentheses.
 %
+% We start by patching the error message of the existing option code, then
+% add a per-type version of the option.
+%
+%    \begin{macrocode}
+\xpatchcmd{\KV@blx@opt@pre@mergedate}{%
+  'true' (=compact)%
+}{%
+  'year', 'true' (=year)%
+}{}{}
+\DeclareTypeOption[boolean]{mergedate}[true]{%
+  \ifcsdef{bbx@opt@mergedate@#1}{%
+    \csuse{bbx@opt@mergedate@#1}%
+  }{%
+    \PackageError{biblatex}
+       {Invalid option 'mergedate=#1'}
+       {Valid values are 'maximum', 'compact', 'basic', 'minimum',\MessageBreak
+        'year', 'true' (=year), and 'false'.}}}
+%    \end{macrocode}
+%
+% We define a configurable field format for date labels to replace the
+% hard-coded parentheses in the options from the standard author--year style.
+%
 %    \begin{macrocode}
 \DeclareFieldFormat{datelabel}{#1}
+\xpatchcmd{\bbx@opt@mergedate@maximum}{%
+  \printtext[parens]%
+}{%
+  \printtext[datelabel]%
+}{}{}
+\xpatchcmd{\bbx@opt@mergedate@compact}{%
+  \printtext[parens]%
+}{%
+  \printtext[datelabel]%
+}{}{}
+\xpatchcmd{\bbx@opt@mergedate@basic}{%
+  \printtext[parens]%
+}{%
+  \printtext[datelabel]%
+}{}{}
+\xpatchcmd{\bbx@opt@mergedate@minimum}{%
+  \printtext[parens]%
+}{%
+  \printtext[datelabel]%
+}{}{}
+\xpatchcmd{\bbx@opt@mergedate@false}{%
+  \printtext[parens]%
+}{%
+  \printtext[datelabel]%
+}{}{}
+
+%    \end{macrocode}
+%
+% Lastly, here is our new (default) option, which always merges the year, and
+% only the year, with the label date. Other date and time componenents are
+% displayed later in the reference. Therefore we clear the year from the date
+% used for the label, but leave the month and day alone.
+%
+%    \begin{macrocode}
 \def\bbx@opt@mergedate@year{%
   \renewbibmacro*{date+extradate}{%
     \iffieldundef{labelyear}{}{%
-      \printtext[datelabel]{\printlabeldateextra}%
-      \iflabeldateisanydate{%
-        \clearfield{\thefield{labeldatesource}year}%
-      }{%
-        \iflabeldateispubstate{}{\clearfield{\thefield{labeldatesource}}}%
-      }}}
+      \ifboolexpr{
+        not test {\iflabeldateisdate}
+      }{}{%
+        \printtext[datelabel]{\printlabeldateextra}%
+      }%
+      \iflabeldateisdate{%
+        \clearfield{year}%
+      }{}}}
   \renewbibmacro*{issue+date}{%
     \ifboolexpr{
       test {\iffieldundef{issue}}
@@ -2939,21 +2981,8 @@ This work is `maintained' (as per LPPL maintenance status) by [Alex Ball][me].
 %
 %    \begin{macrocode}
 \DeclareFieldFormat[letter]{title}{\iffieldundef{journaltitle}{\emph{#1}}{#1}}
+\ExecuteBibliographyOptions[letter]{mergedate=maximum}
 \DeclareBibliographyDriver{letter}{%
-  \protected\def\printlabeldate{\mkdaterangecomp{label}}%
-  \protected\def\printlabeldateextra{\mkdaterangecompextra{label}}%
-  \savebibmacro{date+extradate}%
-  \renewbibmacro*{date+extradate}{%
-    \iffieldundef{labelyear}{}{%
-      \printtext[datelabel]{\printlabeldateextra}%
-      \iflabeldateisanydate{%
-        \clearfield{\thefield{labeldatesource}year}%
-        \clearfield{\thefield{labeldatesource}season}%
-        \clearfield{\thefield{labeldatesource}month}%
-        \clearfield{\thefield{labeldatesource}day}%
-      }{%
-        \iflabeldateispubstate{}{\clearfield{\thefield{labeldatesource}}}%
-      }}}%
   \usebibmacro{bibindex}%
   \usebibmacro{begentry}%
   \usebibmacro{author/translator+others}%
@@ -2985,9 +3014,6 @@ This work is `maintained' (as per LPPL maintenance status) by [Alex Ball][me].
      \usebibmacro{related}}
     {}%
   \usebibmacro{finentry}%
-  \restorebibmacro{date+extradate}%
-  \csletcs{printlabeldate}{blx@imc@printlabeldate}%
-  \csletcs{printlabeldateextra}{blx@imc@printlabeldateextra}%
 }
 
 %    \end{macrocode}
