@@ -2057,17 +2057,21 @@ This work is `maintained' (as per LPPL maintenance status) by [Alex Ball][me].
 %    \end{macrocode}
 %
 % Online resources are clearly tarred and feathered with an `[Online]' label.
-% The \texttt{isonline} prints this label if the resource has a URL and does
-% nothing otherwise.
+% The \texttt{isonline} macro prints this label if the resource has a URL and
+% does nothing otherwise. We add a safeguard to stop it being used repeatedly.
 %
 %    \begin{macrocode}
+\newtoggle{bbx:onlineshown}
 \newbibmacro*{isonline}{%
   \ifboolexpr{
     test {\iffieldundef{url}}
     and
     test {\iffieldundef{doi}}
+    and
+    not togl {bbx:onlineshown}
   }{}{%
     \bibstring[\mkbibbrackets]{online}%
+    \settoggle{bbx:onlineshown}{true}
   }%
 }
 
@@ -2173,19 +2177,52 @@ This work is `maintained' (as per LPPL maintenance status) by [Alex Ball][me].
 %    \end{macrocode}
 %
 % In the standard author--year styles, if a title is promoted to the head of
-% a reference (due to missing authors/editors) the subtitle and titleaddon
-% fields are discarded. By using the complete |title| macro instead, we keep
-% them in.
+% a reference (due to missing authors/editors), the subtitle and titleaddon
+% fields are discarded. We want to show the subtitle directly after the title,
+% and show titleaddon after the |date+extradate| macro.
 %
 %    \begin{macrocode}
+\newtoggle{bbx:labelistitle}
 \renewbibmacro*{labeltitle}{%
   \iffieldundef{label}{%
-    \usebibmacro{title}%
-    \clearfield{title}\clearfield{subtitle}\clearfield{titleaddon}%
+    \ifboolexpr{
+      test {\iffieldundef{title}}
+      and
+      test {\iffieldundef{subtitle}}
+    }{}{%
+      \printtext[title]{%
+        \printfield[sentencecase]{title}%
+        \setunit{\subtitlepunct}%
+        \printfield[midsentencecase]{subtitle}}%
+      \clearfield{title}\clearfield{subtitle}%
+      \settoggle{bbx:labelistitle}{true}}%
   }{%
     \printfield{label}%
   }%
 }
+\DeclareDelimFormat{yearlabeltitleaddondelim}{\addspace}
+\newbibmacro*{labeltitleaddon}{%
+  \iftoggle{bbx:labelistitle}{%
+    \setunit{\printdelim{yearlabeltitleaddondelim}}%
+    \printfield{titleaddon}%
+    \clearfield{titleaddon}%
+    \ifboolexpr{
+      test {\iffieldundef{journaltitle}}
+      and
+      test {\iffieldundef{booktitle}}
+      and
+      test {\iffieldundef{library}}
+      and
+      not test {\ifentrytype{software}}
+    }{%
+      \setunit*{\addspace}%
+      \usebibmacro{isonline}%
+    }{}%
+  }{}%
+}
+\xapptobibmacro{author}{\usebibmacro{labeltitleaddon}}{}{}
+\xapptobibmacro{bbx:editor}{\usebibmacro{labeltitleaddon}}{}{}
+\xapptobibmacro{bbx:translator}{\usebibmacro{labeltitleaddon}}{}{}
 
 %    \end{macrocode}
 %
