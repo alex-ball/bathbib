@@ -398,7 +398,7 @@ the absence of an invisible collection amongst historians is noted by
 \textcite[556]{stieg1981inh}. It may be, as \textcite{burchard1965hhl} points
 out, that they have no assistants or are reluctant to delegate, or it may be
 down to economic factors \autocite{adams2009tc1, adams2014tc2, adams2017tc3,
-moran2016sol}\dots
+gb.pa2014}\dots
 \end{tcblisting}
 
 Please refer to the documentation for \href{http://www.ctan.org/pkg/biblatex}{\textsf{biblatex}}
@@ -413,12 +413,12 @@ The second, marked with \faCog, shows the reference as formatted by \textsf{bibl
 The last shows how the reference was entered in the .bib file.
 The bottom right corner shows the source of the example: ‘HBS’ indicates the ‘Specific examples’ section of the Guide (followed by the number of the example); ‘ref.\@ list’ indicates the ‘How to organise a reference list’ section of the Guide; ‘RI’ indicates \emph{Referencing images}.
 
-Some examples are highlighted in
-\tcbox[colframe=hacked,colback=hacked!5!white,nobeforeafter,size=fbox,tcbox raise base]{orange}.
-This indicates that some fields have been `abused' to achieve the right effect;
-in other words, they contain information that would normally be entered in another field.
-Particular care should be taken with such items when switching between different styles,
-though of course any item might need adjustment to take account of differing conventions.
+% Some examples are highlighted in
+% \tcbox[colframe=hacked,colback=hacked!5!white,nobeforeafter,size=fbox,tcbox raise base]{orange}.
+% This indicates that some fields have been `abused' to achieve the right effect;
+% in other words, they contain information that would normally be entered in another field.
+% Particular care should be taken with such items when switching between different styles,
+% though of course any item might need adjustment to take account of differing conventions.
 
 
 \subsection{Books and book chapters}
@@ -1284,7 +1284,7 @@ You can also use \texttt{dataset} as an alias for \texttt{online}.
 \subsubsection*{Work in translation}
 
 \begin{bibexbox}<HBS 26>{aristotle2007ne}
-  Aristotle, 2007. \emph{Nicomachean ethics} (W.D. Ross. Trans.) South Dakota:\@ NuVisions.
+  Aristotle, 2007. \emph{Nicomachean ethics} (W.D. Ross. Trans.). South Dakota:\@ NuVisions.
   \tcblower
 \begin{Verbatim}
 %</driver>
@@ -1420,21 +1420,6 @@ faithful to the original orthography), you can specify this using
 
 \subsubsection*{Act of Parliament (UK Statutes) before 1963}
 
-\begin{bibexbox}<HBS 32>{gb.wa1734}
-  \emph{Witchcraft Act 1735} (9 Geo.2, c.5).
-  \tcblower
-\begin{Verbatim}
-%</driver>
-%<*driver|bib>
-@legislation{gb.wa1734,
-  title = {Witchcraft {Act} 1734},
-  sortyear = {1734},
-  number = {9 Geo.2, c.5}}
-%</driver|bib>
-%<*driver>
-\end{Verbatim}
-\end{bibexbox}
-
 \begin{bibexbox}<HBS 32>{gb.wa1735}
   \emph{Witchcraft Act 1735} (9 Geo.2, c.5).
   \tcblower
@@ -1451,31 +1436,8 @@ faithful to the original orthography), you can specify this using
 \end{Verbatim}
 \end{bibexbox}
 
-Since the date forms part of the title, don't repeat it in \texttt{year} or \texttt{date};
-put it in \texttt{sortyear} instead. This will make sure it is still positioned
-correctly within a citation of multiple sources.
-If you are using Biber, it will also stop an erroneous `n.d.\@' being printed;
-otherwise you will need to do this manually by setting the (Boolean) entry option \key{nonodate}.
 
-
-\subsubsection*{Act of Parliament (UK Statues) 1963 onwards}
-
-\begin{bibexbox}(hacked)<HBS 33>{gb.pa2013}
-  \emph{Pensions Act 2014}, c.19. London:\@ TSO.
-  \tcblower
-\begin{Verbatim}
-%</driver>
-%<*driver|bib>
-@legislation{gb.pa2013,
-  title = {Pensions {Act} 2013},
-  sortyear = {2013},
-  note = {c.19},
-  address = {London},
-  publisher = {TSO}}
-%</driver|bib>
-%<*driver>
-\end{Verbatim}
-\end{bibexbox}
+\subsubsection*{Act of Parliament (UK Statutes) 1963 onwards}
 
 \begin{bibexbox}<HBS 33>{gb.pa2014}
   \emph{Pensions Act 2014}, c.19. London:\@ TSO.
@@ -1499,25 +1461,6 @@ and without parentheses.
 
 
 \subsubsection*{House of Commons/House of Lords bill}
-
-\begin{bibexbox}<HBS 31>{gb.bill1986/88-66}
-  Great Britain. Parliament. House of Commons, 1988. \emph{Local government finance bill}. London:\@ HMSO (Bills | 1987/88, 66).
-  \tcblower
-\begin{Verbatim}
-%</driver>
-%<*driver|bib>
-@legislation{gb.bill1986/88-66,
-  author = {{Great Britain. Parliament. House of Commons}},
-  year = {1986},
-  title = {Local Government Finance Bill},
-  address = {London},
-  publisher = {HMSO},
-  type = {{Bills |}},
-  number = {1987/88, 66}}
-%</driver|bib>
-%<*driver>
-\end{Verbatim}
-\end{bibexbox}
 
 \begin{bibexbox}<HBS 31>{gb.bill1987/88-66}
   Great Britain. Parliament. House of Commons, 1988. \emph{Local government finance bill}. London:\@ HMSO (Bills | 1987/88, 66).
@@ -1543,25 +1486,6 @@ and without parentheses.
 
 \subsubsection*{Statutory instrument}
 
-\begin{bibexbox}(hacked)<HBS 35>{gb.hmr2011}
-  \emph{The Human Medicines Regulations 2012} [Online], No.1916, United Kingdom:\@ HMSO. Available from:\@ \url{http://www.legislation.gov.uk/uksi/2012/1916/pdfs/uksi_20121916_en.pdf} [Accessed 17 April 2016].
-  \tcblower
-\begin{Verbatim}
-%</driver>
-%<*driver|bib>
-@legislation{gb.hmr2011,
-  sortyear = {2011},
-  title = {The {Human} {Medicines} {Regulations} 2011},
-  note = {No.1916},
-  address = {United Kingdom},
-  publisher = {HMSO},
-  url = {http://www.legislation.gov.uk/uksi/2012/1916/pdfs/uksi_20121916_en.pdf},
-  urldate = {2016-04-17}}
-%</driver|bib>
-%<*driver>
-\end{Verbatim}
-\end{bibexbox}
-
 \begin{bibexbox}<HBS 35>{gb.hmr2012}
   \emph{The Human Medicines Regulations 2012} [Online], No.1916, United Kingdom:\@ HMSO. Available from:\@ \url{http://www.legislation.gov.uk/uksi/2012/1916/pdfs/uksi_20121916_en.pdf} [Accessed 17 April 2016].
   \tcblower
@@ -1582,32 +1506,13 @@ and without parentheses.
 \end{Verbatim}
 \end{bibexbox}
 
+Use the \texttt{entrysubtype} `secondary' to put the number in the right place.
 
 % Parliamentary reports
 
 \subsubsection*{House of Commons paper}
 
 Use this form for reports of House of Commons select committees.
-
-\begin{bibexbox}<HBS 29>{gb.hc2002/04-30}
-  Great Britain. Parliament. House of Commons, 2004. \emph{National Savings investment deposits:\@ account 2002--2003}. London:\@ National Audit Office (HC 2003/04, 30).
-  \tcblower
-\begin{Verbatim}
-%</driver>
-%<*driver|bib>
-@legislation{gb.hc2002/04-30,
-  author = {{Great Britain. Parliament. House of Commons}},
-  year = {2003},
-  title = {National {Savings} Investment Deposits},
-  subtitle = {Account 2002--2003},
-  address = {London},
-  publisher = {National Audit Office},
-  type = {HC},
-  number = {2003/04, 30}}
-%</driver|bib>
-%<*driver>
-\end{Verbatim}
-\end{bibexbox}
 
 \begin{bibexbox}<HBS 29>{gb.hc2003/04-30}
   Great Britain. Parliament. House of Commons, 2004. \emph{National Savings investment deposits:\@ account 2002--2003}. London:\@ National Audit Office (HC 2003/04, 30).
@@ -1634,27 +1539,8 @@ Use this form for reports of House of Commons select committees.
 
 Use this form for reports of House of Lords select committees.
 
-\begin{bibexbox}<HBS 30>{gb.hl1985/87-66}
-  Great Britain. Parliament. House of Lords. 1987. \emph{Social fund (Maternity and Funeral Expenses) Bill}. London:\@ HMSO (HL 1986/87, (66)).
-  \tcblower
-\begin{Verbatim}
-%</driver>
-%<*driver|bib>
-@legislation{gb.hl1985/87-66,
-  author = {{Great Britain. Parliament. House of Lords}},
-  year = {1986},
-  title = {Social Fund ({Maternity} and {Funeral} {Expenses}) {Bill}},
-  address = {London},
-  publisher = {HMSO},
-  type = {{HL}},
-  number = {1986/87, (66)}}
-%</driver|bib>
-%<*driver>
-\end{Verbatim}
-\end{bibexbox}
-
 \begin{bibexbox}<HBS 30>{gb.hl1986/87-66}
-  Great Britain. Parliament. House of Lords. 1987. \emph{Social fund (Maternity and Funeral Expenses) Bill}. London:\@ HMSO (HL 1986/87, (66)).
+  Great Britain. Parliament. House of Lords, 1987. \emph{Social fund (Maternity and Funeral Expenses) Bill}. London:\@ HMSO (HL 1986/87, (66)).
   \tcblower
 \begin{Verbatim}
 %</driver>
@@ -1672,27 +1558,10 @@ Use this form for reports of House of Lords select committees.
 \end{Verbatim}
 \end{bibexbox}
 
+For joint committees, you will have to hack this slightly, putting the session
+years in \texttt{series} and the HL and HC numbers in \texttt{number}.
 
 \subsubsection*{Command paper}
-
-\begin{bibexbox}<HBS 34>{gb.cm6040}
-  Great Britain. Ministry of Defence, 2004. \emph{Delivering security in a changing world:\@ defence white paper}. London:\@ TSO (Cm.\@ 6041).
-  \tcblower
-\begin{Verbatim}
-%</driver>
-%<*driver|bib>
-@legislation{gb.cm6040,
-  author = {{Great Britain. Ministry of Defence}},
-  year = {2003},
-  title = {Delivering Security in a Changing World},
-  subtitle = {Defence White Paper},
-  address = {London},
-  publisher = {TSO},
-  number = {Cm.\@ 6041}}
-%</driver|bib>
-%<*driver>
-\end{Verbatim}
-\end{bibexbox}
 
 \begin{bibexbox}<HBS 34>{gb.cm6041}
   Great Britain. Ministry of Defence, 2004. \emph{Delivering security in a changing world:\@ defence white paper}. London:\@ TSO (Cm.\@ 6041).
@@ -1721,25 +1590,6 @@ Use this form for reports of House of Lords select committees.
 
 \subsubsection*{EU regulation or directive, decision, recommendation or opinion}
 
-\begin{bibexbox}<HBS 38>{eu.dir2014/413}
-  Directive (EU) 2015/413 of the European Parliament and of the Council of 11th March 2015 facilitating cross-border exchange of information on road-safety-related traffic offences [2015] \emph{OJ} L68/9.
-  \tcblower
-\begin{Verbatim}
-%</driver>
-%<*driver|bib>
-@jurisdiction{eu.dir2014/413,
-  title = {Directive ({EU}) 2015/413 of the {European} {Parliament} and of the {Council} of
-    11th {March} 2015 Facilitating Cross-Border Exchange of Information on Road-Safety-Related
-    Traffic Offences},
-  shorttitle = {Directive ({EU}) 2015/413},
-  year = {2014},
-  journal = {OJ},
-  number = {L68/9}}
-%</driver|bib>
-%<*driver>
-\end{Verbatim}
-\end{bibexbox}
-
 \begin{bibexbox}<HBS 38>{eu.dir2015/413}
   Directive (EU) 2015/413 of the European Parliament and of the Council of 11th March 2015 facilitating cross-border exchange of information on road-safety-related traffic offences [2015] \emph{OJ} L68/9.
   \tcblower
@@ -1761,7 +1611,6 @@ Use this form for reports of House of Lords select committees.
 \end{Verbatim}
 \end{bibexbox}
 
-Note the use of \texttt{journal} here (\emph{OJ} = \emph{Official Journal}) instead of \texttt{type}.
 The \texttt{shorttitle} will be used in citations instead of the full title.
 
 
@@ -1807,11 +1656,6 @@ The \texttt{shorttitle} will be used in citations instead of the full title.
 \end{Verbatim}
 \end{bibexbox}
 
-In this example, the \texttt{titleaddon} and \texttt{note} fields have been used
-to add full stops that would otherwise be missing from the interior of the formatted reference.
-This is not especially recommended, as it can easily trip you up if you switch to a different style
-(or, perhaps, update this one). 
-
 Generally speaking, the year should be in square brackets if it is essential to the citation
 (unless it is a Scottish case, in which case it is printed bare), and in parentheses if it is
 not. By default, the style assumes the year is essential if and only if a volume number is
@@ -1854,29 +1698,13 @@ you may prefer to format the reference more-or-less by hand:
   ]
   \begin{Verbatim}
   title = {Seldon v {Clarkson} {Wright} \& {Jakes}},
+  sortyear = {2012},
   note = {[2012]. UKSC 16}
   \end{Verbatim}
 \end{tcolorbox}
 
 
 \subsubsection*{Judgment of the European Court of Justice}
-
-\begin{bibexbox}{srl.etal-v-comm2004}
-  \emph{Alessandrini Srl and others v.~Commission} (C-295/03 P) [2005] ECR I-5700.
-  \tcblower
-\begin{Verbatim}
-%</driver>
-%<*driver|bib>
-@jurisdiction{srl.etal-v-comm2004,
-  title = {Alessandrini {Srl} and others v.\@ {Commission}},
-  issue = {C-295/03 P},
-  year = {2004},
-  type = {ECR},
-  number = {I-5700}}
-%</driver|bib>
-%<*driver>
-\end{Verbatim}
-\end{bibexbox}
 
 \begin{bibexbox}<HBS 39>{srl.etal-v-comm2005}
   \emph{Alessandrini Srl and others v.~Commission} (C-295/03 P) [2005] ECR I-5700.
@@ -1896,9 +1724,10 @@ you may prefer to format the reference more-or-less by hand:
 \end{Verbatim}
 \end{bibexbox}
 
-Use the \texttt{issue} field for the case number,
-and the \texttt{type} and \texttt{number} fields for the report number.
-
+Use the \texttt{number} field for the case number.
+For Commission Decisions, use the \texttt{userb} field for the Commission case number,
+\texttt{number} for the formal decision number, and give `Commission' as the
+\texttt{institution}.
 
 \newrefcontext[sorting=nyt]
 \printbibliography[heading=bibnumbered]
@@ -2413,6 +2242,14 @@ This work is `maintained' (as per LPPL maintenance status) by [Alex Ball][me].
   \settoggle{bbx:nonodate}{#1}}
 \DeclareEntryOption[boolean]{nonodate}[true]{%
   \settoggle{bbx:nonodate}{#1}}
+%    \end{macrocode}
+%
+% Unless already set, the \key{nonodate} option is inserted if |sortyear| is
+% used. We accomplish this with source maps; the first one works where options
+% (not including |nonodate|) have been set, the second where no options have
+% been set.
+%
+%    \begin{macrocode}
 \DeclareStyleSourcemap{
   \maps[datatype=bibtex]{
     \map[overwrite=true]{
