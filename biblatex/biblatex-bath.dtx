@@ -2177,7 +2177,7 @@ This work is `maintained' (as per LPPL maintenance status) by [Alex Ball][me].
 % and show titleaddon after the |date+extradate| macro.
 %
 %    \begin{macrocode}
-\newtoggle{bbx:labelistitle}
+\providetoggle{bbx:labelistitle}
 \renewbibmacro*{labeltitle}{%
   \iffieldundef{label}{%
     \ifboolexpr{
@@ -3648,6 +3648,18 @@ This work is `maintained' (as per LPPL maintenance status) by [Alex Ball][me].
     togl {bbx:nonodate}
     and
     not test {\iflabeldateisdate}}%
+}{}{}
+%    \end{macrocode}
+%
+% We activate the label-is-title toggle if the |labeltitle| is printed.
+%
+%    \begin{macrocode}
+\providetoggle{bbx:labelistitle}
+\xpatchbibmacro{cite:label}{%
+  \printtext[bibhyperref]{\printfield[citetitle]{labeltitle}}%
+}{%
+  \printtext[bibhyperref]{\printfield[citetitle]{labeltitle}}%
+  \toggletrue{bbx:labelistitle}%
 }{}{}
 %    \end{macrocode}
 % \iffalse

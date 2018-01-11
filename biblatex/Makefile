@@ -20,6 +20,7 @@ $(STYLE).bbx $(STYLE).cbx $(STYLE).dbx american-$(STYLE).lbx british-$(STYLE).lb
 
 $(NAME).pdf: source
 	latexmk -silent -lualatex -interaction=batchmode $(NAME).dtx >/dev/null
+	@echo "Compilation complete."
 
 clean:
 	rm -f $(NAME).{aux,bbl,bcf,blg,doc,fdb_latexmk,fls,glo,gls,hd,idx,ilg,ind,listing,log,nav,out,run.xml,snm,synctex.gz,tcbtemp,toc,vrb}
