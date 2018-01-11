@@ -1544,7 +1544,7 @@ and without parentheses.
 \subsubsection*{Statutory instrument}
 
 \begin{bibexbox}(hacked)<HBS 35>{gb.hmr2011}
-  \emph{The Human Medicines Regulations 2012} [Online], No.1916, United Kingdom:\@ HMSO. Available from:\@ \url{http://www.legislation.gov.uk/uksi/2012/1916/pdfs/uksi_20121916_en.pdf} [Accessed 17 April 2016]
+  \emph{The Human Medicines Regulations 2012} [Online], No.1916, United Kingdom:\@ HMSO. Available from:\@ \url{http://www.legislation.gov.uk/uksi/2012/1916/pdfs/uksi_20121916_en.pdf} [Accessed 17 April 2016].
   \tcblower
 \begin{Verbatim}
 %</driver>
@@ -1563,14 +1563,15 @@ and without parentheses.
 \end{bibexbox}
 
 \begin{bibexbox}(hacked)<HBS 35>{gb.hmr2012}
-  \emph{The Human Medicines Regulations 2012} [Online], No.1916, United Kingdom:\@ HMSO. Available from:\@ \url{http://www.legislation.gov.uk/uksi/2012/1916/pdfs/uksi_20121916_en.pdf} [Accessed 17 April 2016]
+  \emph{The Human Medicines Regulations 2012} [Online], No.1916, United Kingdom:\@ HMSO. Available from:\@ \url{http://www.legislation.gov.uk/uksi/2012/1916/pdfs/uksi_20121916_en.pdf} [Accessed 17 April 2016].
   \tcblower
 \begin{Verbatim}
 %</driver>
 %<*driver|bib>
 @legislation{gb.hmr2012,
-  year = {2012},
+  entrysubtype = {secondary},
   title = {The {Human} {Medicines} {Regulations}},
+  year = {2012},
   number = {No.1916},
   address = {United Kingdom},
   publisher = {HMSO},
@@ -1645,7 +1646,7 @@ Use this form for reports of House of Lords select committees.
 @legislation{gb.hl1985/87-66,
   author = {{Great Britain. Parliament. House of Lords}},
   year = {1986},
-  title = {Social Fund ({Maternity} and {Funeral} {Expenses}) Bill},
+  title = {Social Fund ({Maternity} and {Funeral} {Expenses}) {Bill}},
   address = {London},
   publisher = {HMSO},
   type = {{HL}},
@@ -2001,7 +2002,7 @@ This work is `maintained' (as per LPPL maintenance status) by [Alex Ball][me].
 % We provide some additional bibliography strings.
 %
 %    \begin{macrocode}
-\NewBibliographyString{online,hours,at}
+\NewBibliographyString{online,hours,at,legalchapter}
 %    \end{macrocode}
 %
 % We allow the bibliography look more like the Bib\TeX\ default.
@@ -2242,9 +2243,7 @@ This work is `maintained' (as per LPPL maintenance status) by [Alex Ball][me].
     not togl {bbx:onlineshown}
   }{}{%
     \bibstring[\mkbibbrackets]{online}%
-    \settoggle{bbx:onlineshown}{true}
-  }%
-}
+    \toggletrue{bbx:onlineshown}}}
 
 %    \end{macrocode}
 %
@@ -2366,7 +2365,7 @@ This work is `maintained' (as per LPPL maintenance status) by [Alex Ball][me].
         \setunit{\subtitlepunct}%
         \printfield[midsentencecase]{subtitle}}%
       \clearfield{title}\clearfield{subtitle}%
-      \settoggle{bbx:labelistitle}{true}}%
+      \toggletrue{bbx:labelistitle}}%
   }{%
     \printfield{label}%
   }%
@@ -3028,19 +3027,13 @@ This work is `maintained' (as per LPPL maintenance status) by [Alex Ball][me].
     \printtext[parens]{%
       \printfield{series}%
       \IfStrEqCase{\thefield{series}}{%
-        {C}{\setunit*{\adddot\space}}%
-        {Cd}{\setunit*{\adddot\space}}%
-        {Cmd}{\setunit*{\adddot\space}}%
-        {Cmnd}{\setunit*{\adddot\space}}%
-        {Cm}{\printunit*{\adddot\space}\wlog{Command Paper Found!}}%
+        {C}{\printunit*{\adddot\space}}%
+        {Cd}{\printunit*{\adddot\space}}%
+        {Cmd}{\printunit*{\adddot\space}}%
+        {Cmnd}{\printunit*{\adddot\space}}%
+        {Cm}{\printunit*{\adddot\space}}%
       }{%
-        \IfBeginWith{\thefield{series}}{HC}{%
-          \setunit*{\addcomma\space}%
-        }{%
-          \IfBeginWith{\thefield{series}}{HL}{%
-            \setunit*{\addcomma\space}%
-          }{%
-            \setunit*{\addspace}}}}%
+        \setunit*{\addcomma\space}}%
       \printfield{type}%
       \setunit*{\addspace}%
       \IfBeginWith{\thefield{series}}{HL}{%
@@ -3174,11 +3167,17 @@ This work is `maintained' (as per LPPL maintenance status) by [Alex Ball][me].
   }{%
     \mkbibparens{#1}}}
 \DeclareFieldFormat[jurisdiction]{issue}{\mkbibparens{#1}}
-\DeclareFieldFormat[jurisdiction]{title}{%
-  \iffieldundef{journaltitle}{\mkbibemph{#1}}{#1}%
-}
+
+\newtoggle{bbx:eustyle}
+\newbibmacro*{eucheck}{%
+  \IfBeginWith{\thefield{journaltitle}}{OJ}{%
+    \toggletrue{bbx:eustyle}%
+  }{}}
+\DeclareFieldFormat[jurisdiction,legislation]{title}{%
+  \iftoggle{bbx:eustyle}{#1}{\mkbibemph{#1}}}
+
 \newbibmacro{jurisdiction:type+number}{%
-  \usebibmacro{journal}
+  \usebibmacro{journal}%
   \setunit*{\addspace}%
   \ifboolexpr{
     test {\iffieldundef{type}}
@@ -3199,11 +3198,12 @@ This work is `maintained' (as per LPPL maintenance status) by [Alex Ball][me].
   }{}{}%
   \usebibmacro{bibindex}%
   \usebibmacro{begentry}%
+  \usebibmacro{eucheck}%
   \usebibmacro{author}%
   \iftoggle{bbx:labelistitle}{%
     \setunit{\addspace}%
   }{%
-    \setunit{\printdelim{nametitledelim}}\newblock}
+    \setunit{\printdelim{nametitledelim}}\newblock}%
   \usebibmacro{title}%
   \newunit
   \printlist{language}%
@@ -3248,25 +3248,42 @@ This work is `maintained' (as per LPPL maintenance status) by [Alex Ball][me].
 % there is no |date+extradate|).
 %
 %    \begin{macrocode}
-\newbibmacro{type+number}{%
-  \ifboolexpr{
-    test {\iffieldundef{type}}
-    and
-    test {\iffieldundef{number}}
-  }{}{%
-    \printtext[parens]{%
-      \printfield{type}%
-      \setunit*{\addspace}%
-      \printfield{number}}}}
+\DeclareFieldFormat[legislation]{datelabel}{%
+  \iftoggle{bbx:eustyle}{%
+    \mkbibbrackets{#1}%
+  }{%
+    \iftoggle{bbx:labelistitle}{\mkbibemph{#1}}{#1}}}
+\DeclareFieldFormat[legislation]{chapter}{\biblcsstring{legalchapter}#1}
+\newbibmacro*{series+chapter}{%
+  \iffieldundef{chapter}{}{%
+    \iffieldundef{series}{%
+      \printfield{chapter}%
+    }{%
+      \printtext[parens]{%
+        \printfield{series}%
+        \setunit{\addcomma\space}%
+        \printfield{chapter}}}%
+    \clearfield{series}}}
+
+\DeclareFieldFormat[jurisdiction,legislation]{pages}{#1}
+\DeclareFieldFormat[legislation]{volume}{#1}
+\newbibmacro{eu:journal+series+volume+pages}{%
+  \printfield{journaltitle}%
+  \setunit{\addspace}%
+  \printfield{series}%
+  \clearfield{series}%
+  \printfield{volume}%
+  \setunit*{\printtext{/}}%
+  \printfield{pages}%
+}
 
 \DeclareBibliographyDriver{legislation}{%
   \usebibmacro{bibindex}%
   \usebibmacro{begentry}%
+  \usebibmacro{eucheck}%
   \usebibmacro{author}%
   \ifboolexpr{
-    togl {bbx:nonodate}
-    and
-    not test {\iflabeldateisdate}
+    togl {bbx:labelistitle}
   }{}{\setunit{\printdelim{nametitledelim}}\newblock}%
   \usebibmacro{title}%
   \newunit
@@ -3275,15 +3292,29 @@ This work is `maintained' (as per LPPL maintenance status) by [Alex Ball][me].
   \usebibmacro{byauthor}%
   \newunit\newblock
   \printfield{version}%
-  \setunit{\addcomma\space}%
+  \iffieldequalstr{entrysubtype}{secondary}{%
+    \setunit{\addcomma\space}%
+    \printfield{number}%
+    \clearfield{number}%
+    \printunit{\addcomma\space}%
+  }{%
+    \setunit{\addcomma\space}%
+  }%
   \printfield{note}%
+  \iffieldundef{series}{%
+    \setunit{\addcomma\space}%
+  }{%
+    \setunit{\addspace}}%
+  \iftoggle{bbx:eustyle}{%
+    \usebibmacro{eu:journal+series+volume+pages}%
+  }{%
+    \usebibmacro{series+chapter}%
+  }
   \newunit\newblock
   \usebibmacro{institution+location+date}%
   \setunit{\addspace}%
-  \usebibmacro{type+number}%
+  \usebibmacro{series+type+number}%
   \newunit\newblock
-  \usebibmacro{chapter+pages}%
-  \newunit
   \printfield{pagetotal}%
   \newunit\newblock
   \iftoggle{bbx:isbn}
@@ -3553,6 +3584,7 @@ This work is `maintained' (as per LPPL maintenance status) by [Alex Ball][me].
 ,online           = {{Online}{Online}}
 ,hours            = {{hours}{hrs\adddot}}
 ,at               = {{at}{at}}
+,legalchapter     = {{chapter}{c\adddot}}
 }
 %    \end{macrocode}
 % \iffalse
@@ -3603,6 +3635,7 @@ This work is `maintained' (as per LPPL maintenance status) by [Alex Ball][me].
 ,online           = {{Online}{Online}}
 ,hours            = {{hours}{hrs\adddot}}
 ,at               = {{at}{at}}
+,legalchapter     = {{chapter}{c\adddot}}
 }
 %    \end{macrocode}
 % \iffalse
