@@ -2431,41 +2431,73 @@ This work is `maintained' (as per LPPL maintenance status) by [Alex Ball][me].
 %    \end{macrocode}
 %
 % The punctuation before the label year is controlled by the following
-% commands, and should be a comma.
+% commands, and should be a comma. The exceptions to this are |legislation|
+% entries, where there should just be a space, and English/Welsh legal case
+% reports, where there should be a period.
 %
 %    \begin{macrocode}
 \DeclareDelimFormat{nameyeardelim}{\addcomma\space}
-\DeclareDelimFormat[parencite]{nameyeardelim}{\addcomma\space}
-\DeclareDelimFormat[bib]{nameyeardelim}{\addcomma\space}
-\DeclareDelimFormat[biblist]{nameyeardelim}{\addcomma\space}
-\DeclareDelimFormat{nonameyeardelim}{%
-  \ifboolexpr{
-    test {\ifentrytype{jurisdiction}}
-    or
-    test {\ifentrytype{legislation}}
-  }{\addspace}{\addcomma\space}%
-}
+\DeclareDelimFormat[parencite,bib,biblist]{nameyeardelim}{\addcomma\space}
+\newcommand{\dononameyeardelim}{%
+  \ifentrytype{legislation}{%
+    \addspace
+  }{%
+    \ifentrytype{jurisdiction}{%
+      \ifboolexpr{
+        togl {bbx:eu-oj}
+        or
+        test {\iffieldequalstr{journaltitle}{ECR}}
+        or
+        test {\iffieldequalstr{type}{ECR}}
+      }{%
+        \addspace
+      }{%
+        \ifboolexpr{
+          test {\ifkeyword{sc}}
+          or
+          togl {bbx:scotstyle}
+        }{%
+          \addcomma\space
+        }{%
+          \addperiod\space}}%
+    }{%
+      \addcomma\space}}}
+\DeclareDelimFormat{nonameyeardelim}{\dononameyeardelim}
+\DeclareDelimFormat[bib,biblist]{nonameyeardelim}{\dononameyeardelim}
 \DeclareDelimFormat[parencite]{nonameyeardelim}{%
   \ifboolexpr{
     test {\ifentrytype{jurisdiction}}
     or
     test {\ifentrytype{legislation}}
-  }{\addspace}{\addcomma\space}%
-}
-\DeclareDelimFormat[bib]{nonameyeardelim}{%
+  }{\addspace}{\addcomma\space}}
+
+%    \end{macrocode}
+%
+% The punctuation after the label year is controlled by the following
+% commands, and should be a comma. The exceptions to this are |legislation|
+% and |jurisdiction| entries, where there should just be a space if the label
+% is the title.
+%
+%    \begin{macrocode}
+\DeclareDelimFormat{nametitledelim}{%
   \ifboolexpr{
-    test {\ifentrytype{jurisdiction}}
-    or
-    test {\ifentrytype{legislation}}
-  }{\addspace}{\addcomma\space}%
-}
-\DeclareDelimFormat[biblist]{nonameyeardelim}{%
+    (
+      test {\ifentrytype{jurisdiction}}
+      or
+      test {\ifentrytype{legislation}}
+    ) and
+    togl {bbx:labelistitle}
+  }{\addspace}{\addcomma\space}}
+\DeclareDelimFormat[bib,biblist]{nametitledelim}{%
   \ifboolexpr{
-    test {\ifentrytype{jurisdiction}}
-    or
-    test {\ifentrytype{legislation}}
-  }{\addspace}{\addcomma\space}%
-}
+    (
+      test {\ifentrytype{jurisdiction}}
+      or
+      test {\ifentrytype{legislation}}
+    ) and
+    togl {bbx:labelistitle}
+  }{\addspace}{\labelnamepunct}}
+
 
 %    \end{macrocode}
 %
@@ -3178,7 +3210,7 @@ This work is `maintained' (as per LPPL maintenance status) by [Alex Ball][me].
       or
       togl {bbx:scotstyle}
     }{%
-      \addcomma\space #1%
+      #1%
     }{%
       \mkbibbrackets{#1}}%
   }{%
@@ -3192,26 +3224,28 @@ This work is `maintained' (as per LPPL maintenance status) by [Alex Ball][me].
 % To maintain backwards compatibility, we rely on a `trick' that case numbers
 % are usually only present in EU cases where a page number is always provided.
 % (And we support the \textsf{oscola} semantics for numbering European
-% Commission cases.)
+% Commission cases.) We have to be a bit careful to ensure the last print
+% command prints something otherwise |(no)nameyeardelim| will not be triggered.
 %
 %    \begin{macrocode}
 \DeclareFieldFormat[jurisdiction]{issue}{\mkbibparens{#1}}
 \newbibmacro*{casenumber}{%
-  \ifboolexpr{
-    test {\iffieldundef{issue}}
-    and
-    not test {\iffieldundef{pages}}
-  }{%
-    \iffieldundef{userb}{%
-      \printfield[parens]{number}%
-      \clearfield{number}%
-    }{%
-      \printfield[parens]{userb}%
-      \setunit{\addspace}%
-      \printfield{type}%
-      \setunit*{\addspace}%
-      \printfield{number}%
-      \clearfield{type}\clearfield{number}}%
+  \iffieldundef{issue}{%
+    \ifboolexpr{
+      test {\iffieldundef{pages}}
+      or
+      test {\iffieldundef{number}}
+    }{}{%
+      \iffieldundef{userb}{%
+        \printfield[parens]{number}%
+        \clearfield{number}%
+      }{%
+        \printfield[parens]{userb}%
+        \setunit{\addspace}%
+        \printfield{type}%
+        \setunit*{\addspace}%
+        \printfield{number}%
+        \clearfield{type}\clearfield{number}}}%
   }{%
     \printfield{issue}}}
 %    \end{macrocode}
@@ -3314,10 +3348,7 @@ This work is `maintained' (as per LPPL maintenance status) by [Alex Ball][me].
   \usebibmacro{begentry}%
   \usebibmacro{eucheck}%
   \usebibmacro{author}%
-  \iftoggle{bbx:labelistitle}{%
-    \setunit{\addspace}%
-  }{%
-    \setunit{\printdelim{nametitledelim}}\newblock}%
+  \setunit{\printdelim{nametitledelim}}\newblock
   \usebibmacro{title}%
   \newunit
   \printlist{language}%
@@ -3364,7 +3395,9 @@ This work is `maintained' (as per LPPL maintenance status) by [Alex Ball][me].
   \iftoggle{bbx:eu-oj}{%
     \mkbibbrackets{#1}%
   }{%
-    \iftoggle{bbx:labelistitle}{\mkbibemph{#1}}{#1}}}
+    #1}}
+\DeclareFieldFormat[legislation]{labeldate}{%
+  \iftoggle{bbx:labelistitle}{\mkbibemph{#1}}{#1}}
 \DeclareFieldFormat[legislation]{chapter}{\biblcsstring{legalchapter}#1}
 \newbibmacro*{series+chapter}{%
   \iffieldundef{chapter}{}{%
@@ -3382,9 +3415,7 @@ This work is `maintained' (as per LPPL maintenance status) by [Alex Ball][me].
   \usebibmacro{begentry}%
   \usebibmacro{eucheck}%
   \usebibmacro{author}%
-  \ifboolexpr{
-    togl {bbx:labelistitle}
-  }{}{\setunit{\printdelim{nametitledelim}}\newblock}%
+  \setunit{\printdelim{nametitledelim}}\newblock
   \usebibmacro{title}%
   \newunit
   \printlist{language}%
