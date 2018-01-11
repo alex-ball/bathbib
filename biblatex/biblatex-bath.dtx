@@ -1477,7 +1477,7 @@ otherwise you will need to do this manually by setting the (Boolean) entry optio
 \end{Verbatim}
 \end{bibexbox}
 
-\begin{bibexbox}(hacked)<HBS 33>{gb.pa2014}
+\begin{bibexbox}<HBS 33>{gb.pa2014}
   \emph{Pensions Act 2014}, c.19. London:\@ TSO.
   \tcblower
 \begin{Verbatim}
@@ -1562,7 +1562,7 @@ and without parentheses.
 \end{Verbatim}
 \end{bibexbox}
 
-\begin{bibexbox}(hacked)<HBS 35>{gb.hmr2012}
+\begin{bibexbox}<HBS 35>{gb.hmr2012}
   \emph{The Human Medicines Regulations 2012} [Online], No.1916, United Kingdom:\@ HMSO. Available from:\@ \url{http://www.legislation.gov.uk/uksi/2012/1916/pdfs/uksi_20121916_en.pdf} [Accessed 17 April 2016].
   \tcblower
 \begin{Verbatim}
@@ -1581,9 +1581,6 @@ and without parentheses.
 %<*driver>
 \end{Verbatim}
 \end{bibexbox}
-
-Use \texttt{note} for identifiers that should appear directly after the title
-and without parentheses.
 
 
 % Parliamentary reports
@@ -1794,7 +1791,7 @@ The \texttt{shorttitle} will be used in citations instead of the full title.
 
 \subsubsection*{Legal case study}
 
-\begin{bibexbox}(hacked)<HBS 36>{seldon-v-c.w.j2012}
+\begin{bibexbox}<HBS 36>{seldon-v-c.w.j2012}
   \emph{Seldon v Clarkson Wright \& Jakes}. [2012]. UKSC 16.
   \tcblower
 \begin{Verbatim}
@@ -1803,7 +1800,6 @@ The \texttt{shorttitle} will be used in citations instead of the full title.
 @jurisdiction{seldon-v-c.w.j2012,
   title = {Seldon v {Clarkson} {Wright} \& {Jakes}},
   year = {2012},
-  volume = {99},
   journal = {UKSC},
   pages = {16}}
 %</driver|bib>
@@ -3134,14 +3130,31 @@ This work is `maintained' (as per LPPL maintenance status) by [Alex Ball][me].
 %
 % \subsection{Case reports}
 %
-% Legal case studies, judgements and decisions are formatted a bit like reports
-% but with different punctuation.
+% We provide a test to see if a work was published in the Official Journal of
+% the EU; if so, the title is not italic (unless reporting a decision of the
+% European Commission).
+%
+%    \begin{macrocode}
+\newtoggle{bbx:eu-oj}
+\newbibmacro*{eucheck}{%
+  \IfBeginWith{\thefield{journaltitle}}{OJ}{%
+    \toggletrue{bbx:eu-oj}%
+  }{}}
+\DeclareFieldFormat[jurisdiction,legislation]{title}{%
+  \ifboolexpr{
+    togl{bbx:eu-oj}
+    and
+    not test {\iffieldequalstr{type}{Commission Decision}}
+  }{#1}{\mkbibemph{#1}}}
+
+%    \end{macrocode}
 %
 % The year is printed in square brackets, unless the case is Scottish, in which
 % case the year is printed bare, or a volume number is present, in which case the
-% year is printed in parentheses. We provide a \key{year-essential} option for
-% forcing the brackets/parentheses choice, and \key{scottish-style} for activating
-% Scottish style.
+% year is printed in parentheses. With ECR and OJ cases, however, the year is
+% always printed in square brackets despite the presence of a volume number.
+% We provide a \key{year-essential} option for forcing the brackets/parentheses
+% choice, and \key{scottish-style} for activating Scottish style.
 %
 %    \begin{macrocode}
 \newtoggle{bbx:scotstyle}
@@ -3155,6 +3168,10 @@ This work is `maintained' (as per LPPL maintenance status) by [Alex Ball][me].
     test {\iffieldundef{volume}}
     or
     togl {bbx:year-essential}
+    or
+    togl {bbx:eu-oj}
+    or
+    test {\iffieldequalstr{journaltitle}{ECR}}
   }{%
     \ifboolexpr{
       test {\ifkeyword{sc}}
@@ -3166,16 +3183,62 @@ This work is `maintained' (as per LPPL maintenance status) by [Alex Ball][me].
       \mkbibbrackets{#1}}%
   }{%
     \mkbibparens{#1}}}
+
+%    \end{macrocode}
+%
+% A case number should normally go after the title and before the year, but
+% Version 1 of this style used |number| with |type| at the end of the reference.
+% (It relied on the case number being given in the |issue| field.)
+% To maintain backwards compatibility, we rely on a `trick' that case numbers
+% are usually only present in EU cases where a page number is always provided.
+% (And we support the \textsf{oscola} semantics for numbering European
+% Commission cases.)
+%
+%    \begin{macrocode}
 \DeclareFieldFormat[jurisdiction]{issue}{\mkbibparens{#1}}
+\newbibmacro*{casenumber}{%
+  \ifboolexpr{
+    test {\iffieldundef{issue}}
+    and
+    not test {\iffieldundef{pages}}
+  }{%
+    \iffieldundef{userb}{%
+      \printfield[parens]{number}%
+      \clearfield{number}%
+    }{%
+      \printfield[parens]{userb}%
+      \setunit{\addspace}%
+      \printfield{type}%
+      \setunit*{\addspace}%
+      \printfield{number}%
+      \clearfield{type}\clearfield{number}}%
+  }{%
+    \printfield{issue}}}
+%    \end{macrocode}
+%
+% For ease, if `Commission' is given as the |institution|, this is deleted but
+% the |type| is set to `Commission Decision'.
+%
+%    \begin{macrocode}
+\DeclareStyleSourcemap{
+  \maps[datatype=bibtex]{
+    \map[overwrite=false]{
+      \step[match=\regexp{Commission}, fieldsource=institution, final]
+      \step[fieldsource=institution, fieldtarget=type]
+      \step[fieldset=type, append, fieldvalue={ Decision}]
+    }
+  }
+}
 
-\newtoggle{bbx:eustyle}
-\newbibmacro*{eucheck}{%
-  \IfBeginWith{\thefield{journaltitle}}{OJ}{%
-    \toggletrue{bbx:eustyle}%
-  }{}}
-\DeclareFieldFormat[jurisdiction,legislation]{title}{%
-  \iftoggle{bbx:eustyle}{#1}{\mkbibemph{#1}}}
-
+%    \end{macrocode}
+%
+% Law reports have a special way of printing journals, volume and page numbers.
+% Here are several macros implementing this: a deprecated one using
+% |type|/|number| and three proper ones using |journaltitle|, for UK journals,
+% ECR and OJ respectively. The |reporter| macro chooses between them (again,
+% this is a little messy for backwards compatibility).
+%
+%    \begin{macrocode}
 \newbibmacro{jurisdiction:type+number}{%
   \usebibmacro{journal}%
   \setunit*{\addspace}%
@@ -3185,16 +3248,67 @@ This work is `maintained' (as per LPPL maintenance status) by [Alex Ball][me].
     test {\iffieldundef{number}}
   }{}{%
     \printfield{volume}%
-    \setunit*{\addspace}%
+    \setunit*{\addperiod\space}%
     \printfield{type}%
     \setunit*{\addspace}%
     \printfield{number}}}
+\DeclareFieldFormat[jurisdiction]{journaltitle}{%
+  \iftoggle{bbx:eu-oj}{\mkbibemph{#1}}{#1}}
+\DeclareFieldFormat[jurisdiction,legislation]{volume}{#1}
+\DeclareFieldFormat[jurisdiction,legislation]{pages}{#1}
+\newbibmacro{journal+volume+pages}{%
+  \printfield{volume}%
+  \setunit{\addperiod\space}%
+  \printfield{journaltitle}%
+  \setunit*{\addspace}%
+  \printfield{pages}%
+}
+\newbibmacro{eu:journal+volume+pages}{%
+  \printfield{journaltitle}%
+  \setunit{\addspace}%
+  \printfield{volume}%
+  \setunit*{\printtext{\nbhyphen}}%
+  \printfield{pages}%
+}
+\newbibmacro{eu:journal+series+volume+pages}{%
+  \printfield{journaltitle}%
+  \setunit{\addspace}%
+  \printfield{series}%
+  \clearfield{series}%
+  \printfield{volume}%
+  \setunit*{\printtext{/}}%
+  \printfield{pages}%
+}
+\newbibmacro{reporter}{%
+  \iffieldundef{journaltitle}{%
+    \usebibmacro{jurisdiction:type+number}%
+  }{%
+    \iffieldequalstr{journaltitle}{ECR}{%
+      \usebibmacro{eu:journal+volume+pages}%
+    }{%
+      \iffieldequalstr{journaltitle}{OJ}{%
+        \iffieldundef{series}{%
+          \usebibmacro{jurisdiction:type+number}%
+        }{%
+          \usebibmacro{eu:journal+series+volume+pages}%
+        }%
+      }{%
+        \usebibmacro{journal+volume+pages}%
+        }}}}
+
+%    \end{macrocode}
+%
+% It's not a feature of Harvard (Bath), but OSCOLA puts the institution in
+% parentheses at the end.
+%
+%    \begin{macrocode}
+\DeclareFieldFormat[jurisdiction]{institution}{\mkbibparens{#1}}
 
 \DeclareBibliographyDriver{jurisdiction}{%
   \savebibmacro{title}%
   \xapptobibmacro{labeltitle}{%
     \setunit*{\addspace}%
-    \printfield{issue}%
+    \usebibmacro{casenumber}%
   }{}{}%
   \usebibmacro{bibindex}%
   \usebibmacro{begentry}%
@@ -3213,14 +3327,12 @@ This work is `maintained' (as per LPPL maintenance status) by [Alex Ball][me].
   \printfield{version}%
   \newunit
   \printfield{note}%
-  \newunit\newblock
-  \usebibmacro{institution+location+date}%
   \setunit{\addspace}%
-  \usebibmacro{jurisdiction:type+number}%
-  \newunit\newblock
-  \usebibmacro{chapter+pages}%
+  \usebibmacro{reporter}%
   \newunit
   \printfield{pagetotal}%
+  \newunit\newblock
+  \printfield{institution}%
   \newunit\newblock
   \iftoggle{bbx:isbn}
     {\printfield{isrn}}
@@ -3249,7 +3361,7 @@ This work is `maintained' (as per LPPL maintenance status) by [Alex Ball][me].
 %
 %    \begin{macrocode}
 \DeclareFieldFormat[legislation]{datelabel}{%
-  \iftoggle{bbx:eustyle}{%
+  \iftoggle{bbx:eu-oj}{%
     \mkbibbrackets{#1}%
   }{%
     \iftoggle{bbx:labelistitle}{\mkbibemph{#1}}{#1}}}
@@ -3264,18 +3376,6 @@ This work is `maintained' (as per LPPL maintenance status) by [Alex Ball][me].
         \setunit{\addcomma\space}%
         \printfield{chapter}}}%
     \clearfield{series}}}
-
-\DeclareFieldFormat[jurisdiction,legislation]{pages}{#1}
-\DeclareFieldFormat[legislation]{volume}{#1}
-\newbibmacro{eu:journal+series+volume+pages}{%
-  \printfield{journaltitle}%
-  \setunit{\addspace}%
-  \printfield{series}%
-  \clearfield{series}%
-  \printfield{volume}%
-  \setunit*{\printtext{/}}%
-  \printfield{pages}%
-}
 
 \DeclareBibliographyDriver{legislation}{%
   \usebibmacro{bibindex}%
@@ -3305,7 +3405,7 @@ This work is `maintained' (as per LPPL maintenance status) by [Alex Ball][me].
     \setunit{\addcomma\space}%
   }{%
     \setunit{\addspace}}%
-  \iftoggle{bbx:eustyle}{%
+  \iftoggle{bbx:eu-oj}{%
     \usebibmacro{eu:journal+series+volume+pages}%
   }{%
     \usebibmacro{series+chapter}%
