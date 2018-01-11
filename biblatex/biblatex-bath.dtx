@@ -2999,27 +2999,17 @@ This work is `maintained' (as per LPPL maintenance status) by [Alex Ball][me].
 
 \DeclareBibliographyDriver{jurisdiction}{%
   \savebibmacro{title}%
-  \renewbibmacro*{title}{%
-    \ifboolexpr{
-      test {\iffieldundef{title}}
-      and
-      test {\iffieldundef{subtitle}}
-    }{}{%
-      \printtext[title]{%
-        \printfield[sentencecase]{title}%
-        \setunit{\subtitlepunct}%
-        \printfield[sentencecase]{subtitle}%
-        \setunit{\addspace}%
-      }%
-      \printfield{titleaddon}%
-      \setunit*{\addspace}%
-      \printfield{issue}%
-    }%
-  }%
+  \xapptobibmacro{labeltitle}{%
+    \setunit*{\addspace}%
+    \printfield{issue}%
+  }{}{}%
   \usebibmacro{bibindex}%
   \usebibmacro{begentry}%
   \usebibmacro{author}%
-  \setunit{\printdelim{nametitledelim}}\newblock
+  \iftoggle{bbx:labelistitle}{%
+    \setunit{\addspace}%
+  }{%
+    \setunit{\printdelim{nametitledelim}}\newblock}
   \usebibmacro{title}%
   \newunit
   \printlist{language}%
