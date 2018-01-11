@@ -3095,8 +3095,8 @@ This work is `maintained' (as per LPPL maintenance status) by [Alex Ball][me].
   \maps[datatype=bibtex]{
     \map[overwrite=false]{
       \step[match=\regexp{Commission}, fieldsource=institution, final]
-      \step[fieldsource=institution, fieldtarget=type]
-      \step[fieldset=type, append, fieldvalue={ Decision}]
+      \step[fieldset=type, fieldvalue={Commission Decision}]
+      \step[fieldset=institution, null]
     }
   }
 }
