@@ -3011,22 +3011,44 @@ This work is `maintained' (as per LPPL maintenance status) by [Alex Ball][me].
 % \subsection{Reports}
 %
 % Compared with the standard styles, the main difference is that the type and
-% number are printed in parentheses after the publisher.
+% number are printed in parentheses after the publisher. The delimiter is either
+% a comma (normal) or a space (legal, triggered by using series instead of type).
+% House of Lords report numbers are written in parentheses.
 %
 %    \begin{macrocode}
-\newbibmacro{type+number}{%
+\DeclareFieldFormat{forceparens}{(#1)}
+\newbibmacro{series+type+number}{%
   \ifboolexpr{
+    test {\iffieldundef{series}}
+    and
     test {\iffieldundef{type}}
     and
     test {\iffieldundef{number}}
   }{}{%
     \printtext[parens]{%
+      \printfield{series}%
+      \IfStrEqCase{\thefield{series}}{%
+        {C}{\setunit*{\adddot\space}}%
+        {Cd}{\setunit*{\adddot\space}}%
+        {Cmd}{\setunit*{\adddot\space}}%
+        {Cmnd}{\setunit*{\adddot\space}}%
+        {Cm}{\printunit*{\adddot\space}\wlog{Command Paper Found!}}%
+      }{%
+        \IfBeginWith{\thefield{series}}{HC}{%
+          \setunit*{\addcomma\space}%
+        }{%
+          \IfBeginWith{\thefield{series}}{HL}{%
+            \setunit*{\addcomma\space}%
+          }{%
+            \setunit*{\addspace}}}}%
       \printfield{type}%
       \setunit*{\addspace}%
-      \printfield{number}%
-    }%
-  }%
-}
+      \IfBeginWith{\thefield{series}}{HL}{%
+        \printfield[forceparens]{number}%
+      }{%
+        \printfield{number}%
+      }}}}
+
 \DeclareBibliographyDriver{report}{%
   \usebibmacro{bibindex}%
   \usebibmacro{begentry}%
@@ -3043,8 +3065,11 @@ This work is `maintained' (as per LPPL maintenance status) by [Alex Ball][me].
   \printfield{note}%
   \newunit\newblock
   \usebibmacro{institution+location+date}%
-  \setunit{\addcomma\space}%
-  \usebibmacro{type+number}%
+  \iffieldundef{series}{%
+    \setunit{\addcomma\space}%
+  }{%
+    \setunit{\addspace}}%
+  \usebibmacro{series+type+number}%
   \newunit\newblock
   \usebibmacro{chapter+pages}%
   \newunit
@@ -3164,9 +3189,7 @@ This work is `maintained' (as per LPPL maintenance status) by [Alex Ball][me].
     \setunit*{\addspace}%
     \printfield{type}%
     \setunit*{\addspace}%
-    \printfield{number}%
-  }%
-}
+    \printfield{number}}}
 
 \DeclareBibliographyDriver{jurisdiction}{%
   \savebibmacro{title}%
@@ -3225,6 +3248,17 @@ This work is `maintained' (as per LPPL maintenance status) by [Alex Ball][me].
 % there is no |date+extradate|).
 %
 %    \begin{macrocode}
+\newbibmacro{type+number}{%
+  \ifboolexpr{
+    test {\iffieldundef{type}}
+    and
+    test {\iffieldundef{number}}
+  }{}{%
+    \printtext[parens]{%
+      \printfield{type}%
+      \setunit*{\addspace}%
+      \printfield{number}}}}
+
 \DeclareBibliographyDriver{legislation}{%
   \usebibmacro{bibindex}%
   \usebibmacro{begentry}%
