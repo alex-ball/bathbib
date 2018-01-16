@@ -444,7 +444,9 @@ To make a citation in the text, use the key that corresponds to the entry in you
 While collections can be supplemented by other means \citep{williams1997edd},
 the absence of an invisible collection amongst historians is noted by
 \citet[p.556]{stieg1981inh}. It may be, as \citet{burchard1965hhl} points out,
-that they have no assistants or are reluctant to delegate\dots
+that they have no assistants or are reluctant to delegate, or it may be
+down to economic factors \citep{adams2009tc1, adams2014tc2, gb.pa2014,
+adams2017tc3}\dots
 \end{tcblisting}
 
 Please refer to the documentation for \href{http://www.ctan.org/pkg/natbib}{\textsf{natbib}}
@@ -538,8 +540,8 @@ though of course any item might need adjustment to take account of differing con
 %</driver>
 %<*driver|bib>
 @book{oed1989,
-  year = {1989},
   title = {Oxford {English} Dictionary},
+  year = {1989},
   edition = {2},
   address = {Oxford},
   publisher = {Clarendon Press}}
@@ -556,6 +558,7 @@ though of course any item might need adjustment to take account of differing con
 %<*driver|bib>
 @book{merckNDidx,
   title = {The {Merck} Index Online},
+  year = {n.d.},
   titleaddon = {[Online]},
   address = {London},
   publisher = {RSC Publishing},
@@ -1285,6 +1288,7 @@ You can also use \texttt{dataset} as an alternative alias for \texttt{manual}.
 %<*driver|bib>
 @online{screencasto,
   author = {@screencasto},
+  year = {n.d.},
   title = {{Screencast-O-Matic}},
   titleaddon = {(v.2) [computer program]},
   url = {https://screencast-o-matic.com/},
@@ -1714,6 +1718,26 @@ This work is ‘maintained’ (as per LPPL maintenance status) by [Alex Ball][me
 
 \end{document}
 %</driver>
+%<*bib>
+@book{adams2009tc1,
+  author = {Adams, Gomez},
+  year = {2009},
+  title = {Test Citation One},
+  address = {London},
+  publisher = {Imperial College Bookstall}}
+@book{adams2014tc2,
+  author = {Adams, Gomez},
+  year = {2014},
+  title = {Test Citation Two},
+  address = {Oxford},
+  publisher = {Oxford University Press}}
+@book{adams2017tc3,
+  author = {Adams, Gomez},
+  year = {2017},
+  title = {Test Citation Three},
+  address = {Cambridge},
+  publisher = {Cambridge University Press}}
+%</bib>
 %<*bst>
 % \fi
 %
@@ -1723,7 +1747,10 @@ This work is ‘maintained’ (as per LPPL maintenance status) by [Alex Ball][me
 %
 % \subsection{Preliminaries}
 %
-% We begin by listing the entry types that we will recognize.
+% We begin by listing the entry fields that we will recognize. These are the
+% standard BibTeX ones plus |archive|, |doi|, |eid|, |eprint|, |language|,
+% |titleaddon|, |translator|, |url|, |urldate|, and |venue|, all of which have
+% been backported from \textsf{natbib} and \textsf{biblatex}.
 %
 %    \begin{macrocode}
 ENTRY

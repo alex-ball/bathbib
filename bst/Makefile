@@ -20,6 +20,7 @@ $(BST) $(NAME).bib: $(NAME).dtx
 
 $(NAME).pdf: $(NAME).dtx $(BST) $(NAME).bib
 	latexmk -silent -lualatex -synctex=1 -interaction=batchmode $(NAME).dtx >/dev/null
+	@echo "Compilation complete."
 
 clean:
 	rm -f $(NAME).{aux,bbl,bcf,blg,doc,fdb_latexmk,fls,glo,gls,hd,idx,ilg,ind,listing,log,nav,out,run.xml,snm,synctex.gz,tcbtemp,toc,vrb}
