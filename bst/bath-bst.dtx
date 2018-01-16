@@ -1315,7 +1315,7 @@ You can also use \texttt{software} as an alternative alias for \texttt{manual}.
   author = {Aristotle},
   year = {2007},
   title = {Nicomachean Ethics},
-  titleaddon = {(W.D. Ross. Trans.)},
+  translator = {W. D. Ross},
   address = {South Dakota},
   publisher = {NuVisions}}
 %</driver|bib>
@@ -1779,6 +1779,7 @@ ENTRY
     series
     title
     titleaddon
+    translator
     type
     url
     urldate
@@ -1843,6 +1844,26 @@ FUNCTION {output.check}
     'output.nonnull
   if$
 }
+
+FUNCTION {join.nonnull}
+{ 's :=
+  " " * write$
+  s
+}
+FUNCTION {join}
+{ duplicate$ empty$
+    'pop$
+    'join.nonnull
+  if$
+}
+FUNCTION {join.check}
+{ 't :=
+  duplicate$ empty$
+    { pop$ "empty " t * " in " * cite$ * warning$ }
+    'join.nonnull
+  if$
+}
+
 FUNCTION {fin.entry}
 { add.period$
   write$
@@ -1868,7 +1889,6 @@ FUNCTION {new.sentence}
 FUNCTION {add.blank}
 {  " " * before.all 'output.state :=
 }
-
 FUNCTION {date.block}
 {
   new.block
@@ -1965,6 +1985,9 @@ FUNCTION {bbl.editor}
 
 FUNCTION {bbl.edby}
 { "edited by" }
+
+FUNCTION {bbl.translator}
+{ "Trans." }
 
 FUNCTION {bbl.edition}
 { "ed." }
@@ -2271,6 +2294,17 @@ FUNCTION {format.editors}
       " " *
       get.bbl.editor
       *
+    }
+  if$
+}
+FUNCTION {format.translators}
+{ translator "translator" format.names.ed duplicate$ empty$ 'skip$
+    {
+      "." *
+      " " *
+      bbl.translator *
+      "(" swap$ *
+      ")" *
     }
   if$
 }
@@ -2855,6 +2889,7 @@ FUNCTION {book}
         format.date "year" output.check
         date.block
         format.btitle "title" output.check
+        format.translators join
       }
       if$
     }
@@ -2866,6 +2901,7 @@ FUNCTION {book}
       format.date "year" output.check
       date.block
       format.btitle "title" output.check
+      format.translators join
     }
   if$
   format.bvolume output
@@ -3184,7 +3220,7 @@ FUNCTION {unpublished}
     }
   if$
   new.block
-  format.note "note" output.check
+  format.note output
   new.block
   format.eprint output
   format.url output
