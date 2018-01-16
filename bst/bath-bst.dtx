@@ -2349,12 +2349,16 @@ FUNCTION {format.title}
       select.language
     }
   if$
-  titleaddon
-  duplicate$ empty$ 'pop$
-    { tie.or.space.prefix
-      "titleaddon" bibinfo.check * *
-    }
+}
+FUNCTION {format.titleaddon}
+{ titleaddon
+  duplicate$ empty$ 'skip$
+    { "titleaddon" bibinfo.check }
   if$
+}
+FUNCTION {get.title.addenda}
+{ format.titleaddon join
+  format.translators join
 }
 FUNCTION {format.full.names}
 {'s :=
@@ -2510,12 +2514,6 @@ FUNCTION {format.btitle}
     {
       emphasize
       select.language
-    }
-  if$
-  titleaddon
-  duplicate$ empty$ 'pop$
-    { tie.or.space.prefix
-      "titleaddon" bibinfo.check * *
     }
   if$
 }
@@ -2856,6 +2854,7 @@ FUNCTION {article}
   format.date "year" output.check
   date.block
   format.title "title" output.check
+  get.title.addenda
   new.block
   crossref missing$
     {
@@ -2883,13 +2882,14 @@ FUNCTION {book}
       { format.btitle "title" output.check
         format.date "year" output.check
         year empty$ 'skip$ { date.block } if$
+        get.title.addenda
       }
       { format.editors "author and editor" output.check
         editor format.key output
         format.date "year" output.check
         date.block
         format.btitle "title" output.check
-        format.translators join
+        get.title.addenda
       }
       if$
     }
@@ -2901,7 +2901,7 @@ FUNCTION {book}
       format.date "year" output.check
       date.block
       format.btitle "title" output.check
-      format.translators join
+      get.title.addenda
     }
   if$
   format.bvolume output
@@ -2930,12 +2930,14 @@ FUNCTION {booklet}
     { format.btitle "title" output.check
       format.date "year" output.check
       year empty$ 'skip$ { date.block } if$
+      get.title.addenda
     }
     { format.authors output
       author format.key output
       format.date "year" output.check
       date.block
       format.btitle "title" output.check
+      get.title.addenda
     }
   if$
   new.block
@@ -2968,6 +2970,7 @@ FUNCTION {inbook}
   format.date "year" output.check
   date.block
   format.btitle "title" output.check
+  get.title.addenda
   crossref missing$
     {
       format.publisher.address output
@@ -2999,6 +3002,7 @@ FUNCTION {incollection}
   format.date "year" output.check
   date.block
   format.title "title" output.check
+  get.title.addenda
   new.block
   crossref missing$
     { format.in.ed.booktitle "booktitle" output.check
@@ -3027,6 +3031,7 @@ FUNCTION {inproceedings}
   format.date "year" output.check
   date.block
   format.title "title" output.check
+  get.title.addenda
   new.block
   crossref missing$
     { format.in.ed.booktitle "booktitle" output.check
@@ -3060,12 +3065,14 @@ FUNCTION {manual}
     { format.btitle "title" output.check
       format.date "year" output.check
       year empty$ 'skip$ { date.block } if$
+      get.title.addenda
     }
     { format.authors output
       author format.key output
       format.date "year" output.check
       date.block
       format.btitle "title" output.check
+      get.title.addenda
     }
   if$
   new.block
@@ -3088,6 +3095,7 @@ FUNCTION {mastersthesis}
   format.date "year" output.check
   date.block
   format.btitle "title" output.check
+  get.title.addenda
   new.block
   bbl.mthesis format.thesis.type output.nonnull
   new.block
@@ -3107,12 +3115,14 @@ FUNCTION {misc}
     { format.title "title" output.check
       format.date "year" output.check
       year empty$ 'skip$ { date.block } if$
+      get.title.addenda
     }
     { format.authors output
       author format.key output
       format.date "year" output.check
       date.block
       format.title "title" output.check
+      get.title.addenda
     }
   if$
   new.block
@@ -3131,6 +3141,7 @@ FUNCTION {phdthesis}
   format.date "year" output.check
   date.block
   format.btitle "title" output.check
+  get.title.addenda
   new.block
   bbl.phdthesis format.thesis.type output.nonnull
   new.block
@@ -3150,12 +3161,14 @@ FUNCTION {proceedings}
     { format.btitle "title" output.check
       format.date "year" output.check
       year empty$ 'skip$ { date.block } if$
+      get.title.addenda
     }
     { format.editors output
       editor format.key output
       format.date "year" output.check
       date.block
       format.btitle "title" output.check
+      get.title.addenda
     }
   if$
   format.bvolume output
@@ -3181,12 +3194,14 @@ FUNCTION {techreport}
     { format.btitle "title" output.check
       format.date "year" output.check
       year empty$ 'skip$ { date.block } if$
+      get.title.addenda
     }
     { format.authors output
       author format.key output
       format.date "year" output.check
       date.block
       format.btitle "title" output.check
+      get.title.addenda
     }
   if$
   new.block
@@ -3211,12 +3226,14 @@ FUNCTION {unpublished}
     { format.btitle "title" output.check
       format.date "year" output.check
       year empty$ 'skip$ { date.block } if$
+      get.title.addenda
     }
     { format.authors output
       author format.key output
       format.date "year" output.check
       date.block
       format.btitle "title" output.check
+      get.title.addenda
     }
   if$
   new.block
