@@ -404,6 +404,47 @@ gb.pa2014}\dots
 Please refer to the documentation for \href{http://www.ctan.org/pkg/biblatex}{\textsf{biblatex}}
 for the full range of commands available for in-text citations.
 
+It is strongly recommended to use Biber in place of BibTeX to process your references, as the style relies on Biber functionality to deal with some of the
+more exotic types of entry.
+
+
+\section{Change history}
+
+\subsection{Version 1 to version 2}
+
+If you have previously used version 1 of this style, there are some changes
+you need to be aware of.
+
+\begin{itemize}
+\item
+  The code for styling legal references has been completely overhauled, so you can
+  represent them more semantically in your bibliography file. The examples below
+  show the fields you should now use. As far as possible they have been made
+  consistent with the \href{http://ctan.org/pkg/oscola}{\textsf{biblatex-oscola}}
+  style, a specialist style implementing the \emph{Oxford Standard for the Citation
+  of Legal Authorities}, to enable the same entries to be used with both styles.
+  
+  For the sake of backwards compatibility, the version 1 semantics still work,
+  but should be considered deprecated; support may be withdrawn in future (major)
+  versions of this style.
+
+\item
+  In version 1, the \texttt{titleaddon} field was printed unadorned, so you had
+  to supply your own brackets. This was to allow greater freedom to `hack' entries.
+  
+  With version 2, you should not need to resort to such dirty tricks, so the
+  style now applies the brackets for you, in common with styles such as
+  \href{http://ctan.org/pkg/biblatex-apa}{\textsf{biblatex-apa}}. Again, for the
+  sake of backwards compatibility, before it does this it strips off any brackets
+  you may have added by hand around your field value.
+
+\item
+  Since version 1 was released, there have been improvements made both to the
+  Harvard (Bath) style itself and to \textsf{biblatex} internals. You may therefore
+  notice some changes in how certain entries are styled, and if you have made your
+  own adaptations to the style, these may no longer work with version 2.
+\end{itemize}
+
 
 \section{Examples}
 
@@ -411,7 +452,7 @@ The examples below are shown in three parts.
 The first, marked with \faBook, shows an extract from the \emph{Harvard (Bath) guide to citing and referencing} or \emph{Referencing images}.
 The second, marked with \faCog, shows the reference as formatted by \textsf{biblatex}.
 The last shows how the reference was entered in the .bib file.
-The bottom right corner shows the source of the example: ‘HBS’ indicates the ‘Specific examples’ section of the Guide (followed by the number of the example); ‘ref.\@ list’ indicates the ‘How to organise a reference list’ section of the Guide; ‘RI’ indicates \emph{Referencing images}.
+The bottom right corner shows the source of the example: `HBS' indicates the `Specific examples' section of the Guide (followed by the number of the example); `ref.\@ list' indicates the `How to organise a reference list' section of the Guide; `RI' indicates \emph{Referencing images}.
 
 % Some examples are highlighted in
 % \tcbox[colframe=hacked,colback=hacked!5!white,nobeforeafter,size=fbox,tcbox raise base]{orange}.
@@ -419,6 +460,11 @@ The bottom right corner shows the source of the example: ‘HBS’ indicates the
 % in other words, they contain information that would normally be entered in another field.
 % Particular care should be taken with such items when switching between different styles,
 % though of course any item might need adjustment to take account of differing conventions.
+
+You may notice that the examples tend to use BibTeX aliases and conventions for
+fields (e.g.\@ \texttt{address}, \texttt{journal}, \texttt{year}) rather than the
+native \textsf{biblatex} fields. This is simply to ease transitions to and from
+BibTeX, and not a symptom of recalcitrance on the part of the author.
 
 
 \subsection{Books and book chapters}
@@ -2223,10 +2269,10 @@ This work is `maintained' (as per LPPL maintenance status) by [Alex Ball][me].
 %
 % \subsection{Dates}
 %
-% If the main publication date is missing, we fall back immediately to ‘n.d.\@’
+% If the main publication date is missing, we fall back immediately to `n.d.\@'
 % rather than use URL date or anything like that. However, for some resources
 % (ISO standards, Acts of Parliament), the date is part of the label and should
-% not be repeated, so we declare an option for removing the ‘n.d.’ Unless
+% not be repeated, so we declare an option for removing the `n.d.' Unless
 % already set, the option is inserted if |sortyear| is used.
 %
 %    \begin{macrocode}
