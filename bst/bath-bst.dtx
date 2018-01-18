@@ -1431,10 +1431,11 @@ If the name is due to appear initial first (e.g.\ after `In:'), you can append t
 \begin{Verbatim}
 %</driver>
 %<*driver|bib>
-@book{gb.wa1735,
+@techreport{gb.wa1735,
   key = {\emph{Witchcraft Act 1735}},
   title = {Witchcraft {Act} 1735},
-  titleaddon = {(9 Geo.2, c.5)}}
+  series = {9 Geo.2},
+  number = {c.5}}
 %</driver|bib>
 %<*driver>
 \end{Verbatim}
@@ -1475,8 +1476,8 @@ If the name is due to appear initial first (e.g.\ after `In:'), you can append t
   title = {Local Government Finance Bill},
   address = {London},
   publisher = {HMSO},
-  type = {{Bills |}},
-  number = {1987/88, 66}}
+  series = {{Bills | 1987/88}},
+  number = {66}}
 %</driver|bib>
 %<*driver>
 \end{Verbatim}
@@ -1494,6 +1495,7 @@ If the name is due to appear initial first (e.g.\ after `In:'), you can append t
 %</driver>
 %<*driver|bib>
 @book{gb.hmr2012,
+  key = {\emph{The {Human} {Medicines} {Regulations} 2012}},
   title = {The {Human} {Medicines} {Regulations} 2012},
   titleaddon = {[Online]},
   number = {No.1916},
@@ -1525,8 +1527,9 @@ Use this form for reports of House of Commons select committees.
   title = {National {Savings} Investment Deposits: account 2002--2003},
   address = {London},
   publisher = {National Audit Office},
-  type = {{HC}},
-  number = {2003/04, 30}}
+  type = {},
+  series = {HC 2003/04},
+  number = {30}}
 %</driver|bib>
 %<*driver>
 \end{Verbatim}
@@ -1549,8 +1552,8 @@ Use this form for reports of House of Lords select committees.
   title = {Social Fund ({Maternity} and {Funeral} {Expenses}) Bill},
   address = {London},
   publisher = {HMSO},
-  type = {{HL}},
-  number = {1986/87, (66)}}
+  series = {HL 1986/87},
+  number = {66}}
 %</driver|bib>
 %<*driver>
 \end{Verbatim}
@@ -1638,7 +1641,7 @@ years in \texttt{series} and the HL and HC numbers in \texttt{number}.
 %</driver>
 %<*driver|bib>
 @unpublished{seldon-v-c.w.j2012,
-  key = {\emph{Seldon v Clarkson Wright \& Jakes}, [2012]},
+  key = {\emph{Seldon v Clarkson Wright \& Jakes}, {[2012]}},
   title = {Seldon v {Clarkson} {Wright} \& {Jakes}},
   note = {[2012]. UKSC 16}}
 %</driver|bib>
@@ -2764,25 +2767,53 @@ FUNCTION {format.thesis.type}
   if$
 }
 FUNCTION {format.tr.number}
-{ type duplicate$ empty$
+{ series duplicate$ empty$
     { pop$
-      number duplicate$ empty$
-        { pop$ ""
+      type duplicate$ empty$
+        { pop$
+          number duplicate$ empty$
+            { pop$ ""
+            }
+            { "(" swap$
+              "number" bibinfo.check
+              * ")" *
+            }
+          if$
         }
         { "(" swap$
-          "number" bibinfo.check
-          * ")" *
+          "t" change.case$ "type" bibinfo.check
+          *
+          number duplicate$ empty$
+            'pop$
+            { tie.or.space.prefix
+              "number" bibinfo.check
+              * *
+            }
+          if$
+          ")" *
         }
       if$
     }
-    { "(" swap$
-      "t" change.case$ "type" bibinfo.check
-      *
-      number duplicate$ empty$
-        'pop$
-        { tie.or.space.prefix
-          "number" bibinfo.check
-          * *
+    { "(" swap$ *
+      type duplicate$ empty$
+        { pop$
+          number duplicate$ empty$
+            'pop$
+            { ", " swap$
+              "number" bibinfo.check
+              * *
+            }
+          if$
+        }
+        { "t" change.case$ "type" bibinfo.check
+          *
+          number duplicate$ empty$
+            'pop$
+            { tie.or.space.prefix
+              "number" bibinfo.check
+              * *
+            }
+          if$
         }
       if$
       ")" *
