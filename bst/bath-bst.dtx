@@ -603,7 +603,7 @@ though of course any item might need adjustment to take account of differing con
   author = {Hodds, J.},
   year = {2016},
   title = {Referencing ebooks},
-  titleaddon = {Kindle version 4.18},
+  titleaddon = {[Kindle version 4.18]},
   address = {Bath},
   publisher = {University of Bath}}
 %</driver|bib>
@@ -1749,7 +1749,7 @@ This work is ‘maintained’ (as per LPPL maintenance status) by [Alex Ball][me
 %
 % \setcounter{lstnumber}{16}
 %
-% \subsection{Preliminaries}
+% \subsection{Data model}
 %
 % We begin by listing the entry fields that we will recognize. These are the
 % standard BibTeX ones plus |archive|, |doi|, |eid|, |eprint|, |language|,
@@ -1795,38 +1795,60 @@ ENTRY
   { label extra.label sort.label short.list }
 %    \end{macrocode}
 %
-% Next, we define some standard integer variables, representing where we are in
-% a bibliography entry, and some utility string variables.
+% \subsection{Writing references out to a file}
+%
+% We define a set of integers for saving an output state. We will use them to
+% to implement the mechanism for stringing the elements of the reference
+% together. Whenever an element is printed, it is separated from any previous
+% previous text by a delimiter, and the delimiter chosen depends on the state.
+% We define five states which trigger increasingly strong delimiters.
 %
 %    \begin{macrocode}
-INTEGERS { output.state before.all mid.sentence after.sentence after.block }
+INTEGERS { output.state before.all mid.clause mid.sentence after.sentence after.block }
 FUNCTION {init.state.consts}
 { #0 'before.all :=
-  #1 'mid.sentence :=
-  #2 'after.sentence :=
-  #3 'after.block :=
+  #1 'mid.clause :=
+  #2 'mid.sentence :=
+  #3 'after.sentence :=
+  #4 'after.block :=
 }
-STRINGS { s t}
 %    \end{macrocode}
 %
-% \subsection{General formatting}
+% We also define two variables to store strings in.
 %
-% The following functions provide the general mechanism for printing out the
-% formatted references.
+%    \begin{macrocode}
+STRINGS { s t }
+%    \end{macrocode}
+%
+% The |output.nonnull| function removes an element from the stack, writes the
+% appropriate delimiter to the .bbl file depending on the state, then restores
+% the original element. Afterwards, the output state is set to |mid.sentence|.
+%
+% \begin{itemize}
+% \item |before.all| = nothing is written.
+% \item |mid.clause| = a space is written.
+% \item |mid.sentence| = a comma is written.
+% \item |after.sentence| = a period is written.
+% \item |after.block| = a period, line break and |\newblock| are written.
+% \end{itemize}
 %
 %    \begin{macrocode}
 FUNCTION {output.nonnull}
 { 's :=
   output.state mid.sentence =
     { ", " * write$ }
-    { output.state after.block =
-        { add.period$ write$
-          newline$
-          "\newblock " write$
-        }
+    { output.state after.sentence =
+        { add.period$ " " * write$ }
         { output.state before.all =
             'write$
-            { add.period$ " " * write$ }
+            { output.state mid.clause =
+                { " " * write$ }
+                { add.period$ write$
+                  newline$
+                  "\newblock " write$
+                }
+              if$
+            }
           if$
         }
       if$
@@ -1835,45 +1857,49 @@ FUNCTION {output.nonnull}
   if$
   s
 }
+%    \end{macrocode}
+%
+% The `after' output states persist if nothing is printed. The `mid.clause'
+% state shouldn't, so we provide a macro for reverting to `mid.sentence'.
+%
+%    \begin{macrocode}
+FUNCTION {end.clause}
+{ output.state mid.clause =
+    { mid.sentence 'output.state := }
+    'skip$
+  if$
+}
+%    \end{macrocode}
+%
+% Before writing anything out, we need to make sure there is something to be
+% printed. We provide two functions for this: |output| is silent, while
+% |output.check| will write a warning to the log that the field is empty. The
+% latter consumes an additional string (at the top of the stack) for printing
+% in the warning message.
+%
+%    \begin{macrocode}
 FUNCTION {output}
 { duplicate$ empty$
-    'pop$
+    { pop$ end.clause }
     'output.nonnull
   if$
 }
 FUNCTION {output.check}
 { 't :=
   duplicate$ empty$
-    { pop$ "empty " t * " in " * cite$ * warning$ }
+    { pop$ "empty " t * " in " * cite$ * warning$
+      end.clause
+    }
     'output.nonnull
   if$
 }
-
-FUNCTION {join.nonnull}
-{ 's :=
-  " " * write$
-  s
-}
-FUNCTION {join}
-{ duplicate$ empty$
-    'pop$
-    'join.nonnull
-  if$
-}
-FUNCTION {join.check}
-{ 't :=
-  duplicate$ empty$
-    { pop$ "empty " t * " in " * cite$ * warning$ }
-    'join.nonnull
-  if$
-}
-
-FUNCTION {fin.entry}
-{ add.period$
-  write$
-  newline$
-}
-
+%    \end{macrocode}
+%
+% We provide some convenience functions for changing the state from
+% |mid.sentence|. The order of precedence is before.all, after.block,
+% after.sentence, mid.clause/mid.sentence.
+%
+%    \begin{macrocode}
 FUNCTION {new.block}
 { output.state before.all =
     'skip$
@@ -1890,17 +1916,92 @@ FUNCTION {new.sentence}
     }
   if$
 }
-FUNCTION {add.blank}
-{  " " * before.all 'output.state :=
+FUNCTION {continue.clause}
+{ output.state after.sentence =
+    'skip$
+    { output.state after.block =
+        'skip$
+        { output.state before.all =
+            'skip$
+            { mid.clause 'output.state := }
+          if$
+        }
+      if$
+    }
+  if$
 }
+%    \end{macrocode}
+%
+% The |date.block| function is a handy alias.
+%
+%    \begin{macrocode}
 FUNCTION {date.block}
 {
   new.block
 }
+%    \end{macrocode}
+%
+% The |bibinfo| functions consume two tokens: the value and name of a field
+% respectively. If the value is non-null, it is written out to the .bbl file in
+% the form |\bibinfo{field name}{field value}|. If the value is missing, the
+% tokens are replaced with an empty string; if the value is empty, it is put
+% back on the stack. The |check| version does this silently, while the |warn|
+% version issues warnings in the log file if the value is missing or empty.
+%
+%    \begin{macrocode}
+FUNCTION {bibinfo.check}
+{ swap$
+  duplicate$ missing$
+    {
+      pop$ pop$
+      ""
+    }
+    { duplicate$ empty$
+        {
+          swap$ pop$
+        }
+        { swap$
+          "\bibinfo{" swap$ * "}{" * swap$ * "}" *
+        }
+      if$
+    }
+  if$
+}
+FUNCTION {bibinfo.warn}
+{ swap$
+  duplicate$ missing$
+    {
+      swap$ "missing " swap$ * " in " * cite$ * warning$ pop$
+      ""
+    }
+    { duplicate$ empty$
+        {
+          swap$ "empty " swap$ * " in " * cite$ * warning$
+        }
+        { swap$
+          "\bibinfo{" swap$ * "}{" * swap$ * "}" *
+        }
+      if$
+    }
+  if$
+}
+%    \end{macrocode}
+%
+% At the end of the reference, |fin.entry| writes out a final period and line
+% break.
+%
+%    \begin{macrocode}
+FUNCTION {fin.entry}
+{ add.period$
+  write$
+  newline$
+}
 
 %    \end{macrocode}
 %
-% We define some useful logical operations.
+% \subsection{Convenience functions}
+%
+% We define some useful logical operations for use with |if$|.
 %
 %    \begin{macrocode}
 FUNCTION {not}
@@ -1920,7 +2021,9 @@ FUNCTION {or}
 }
 %    \end{macrocode}
 %
-% We define some useful tests.
+% |new.block.checkb| consumes two tokens and starts a new block if at least one
+% is non-empty. |field.or.null| replaces an empty
+% token with an empty string.
 %
 %    \begin{macrocode}
 FUNCTION {new.block.checkb}
@@ -1931,6 +2034,11 @@ FUNCTION {new.block.checkb}
     'new.block
   if$
 }
+%    \end{macrocode}
+%
+% |field.or.null| replaces an empty field value with an empty string.
+%
+%    \begin{macrocode}
 FUNCTION {field.or.null}
 { duplicate$ empty$
     { pop$ "" }
@@ -1939,12 +2047,7 @@ FUNCTION {field.or.null}
 }
 %    \end{macrocode}
 %
-% The \texttt{emphasize} function applies emphasis. The
-% \texttt{tie.or.space.prefix} function prefixes a string with a non-breaking
-% space if it is up to three characters long, or a normal space otherwise.
-% The \texttt{capitalize} function makes putting strings into sentence case a
-% little more robust. The \texttt{space.word} function puts space either side
-% of a word.
+% The \texttt{emphasize} function applies emphasis.
 %
 %    \begin{macrocode}
 FUNCTION {emphasize}
@@ -1953,6 +2056,12 @@ FUNCTION {emphasize}
     { "\emph{" swap$ * "}" * }
   if$
 }
+%    \end{macrocode}
+%
+% The \texttt{tie.or.space.prefix} function prefixes a string with a non-breaking
+% space if it is up to three characters long, or a normal space otherwise.
+%
+%    \begin{macrocode}
 FUNCTION {tie.or.space.prefix}
 { duplicate$ text.length$ #3 <
     { "~" }
@@ -1960,12 +2069,22 @@ FUNCTION {tie.or.space.prefix}
   if$
   swap$
 }
-
+%    \end{macrocode}
+%
+% The \texttt{capitalize} function makes putting strings into sentence case a
+% little more robust.
+%
+%    \begin{macrocode}
 FUNCTION {capitalize}
 { "u" change.case$ "t" change.case$ }
-
+%    \end{macrocode}
+%
+% The \texttt{space.word} function adds a space to either side of a string.
+%
+%    \begin{macrocode}
 FUNCTION {space.word}
 { " " swap$ * " " * }
+
 %    \end{macrocode}
 %
 % \subsection{Bibliography strings}
@@ -2056,6 +2175,12 @@ FUNCTION {bbl.rd}
 FUNCTION {bbl.th}
 { "th" }
 
+%    \end{macrocode}
+%
+% These macros are codes that users can put in their .bib file instead of
+% literal strings.
+%
+%    \begin{macrocode}
 MACRO {jan} {"January"}
 
 MACRO {feb} {"February"}
@@ -2108,88 +2233,15 @@ FUNCTION {eng.ord}
 
 %    \end{macrocode}
 %
-% \subsection{Field-specific formatting}
+% \subsection{Name handling}
 %
-% These functions check if the .bib entry contains the information we expect.
-% The second one writes a warning to the log if not.
-%
-%    \begin{macrocode}
-FUNCTION {bibinfo.check}
-{ swap$
-  duplicate$ missing$
-    {
-      pop$ pop$
-      ""
-    }
-    { duplicate$ empty$
-        {
-          swap$ pop$
-        }
-        { swap$
-          "\bibinfo{" swap$ * "}{" * swap$ * "}" *
-        }
-      if$
-    }
-  if$
-}
-FUNCTION {bibinfo.warn}
-{ swap$
-  duplicate$ missing$
-    {
-      swap$ "missing " swap$ * " in " * cite$ * warning$ pop$
-      ""
-    }
-    { duplicate$ empty$
-        {
-          swap$ "empty " swap$ * " in " * cite$ * warning$
-        }
-        { swap$
-          "\bibinfo{" swap$ * "}{" * swap$ * "}" *
-        }
-      if$
-    }
-  if$
-}
-%    \end{macrocode}
-%
-% These functions provide the formatting instructions for different elements of
-% a reference entry, mostly corresponding to fields in .bib entries but with
-% some specialization.
+% |format.names| consumes two tokens (field, string field name) and writes out a
+% list of names in the form Surname, Initials. To help with this, we define some
+% additional integers and strings.
 %
 %    \begin{macrocode}
-FUNCTION {format.eprint}
-{ eprint duplicate$ empty$
-    'skip$
-    { "\eprint"
-      archive empty$
-        'skip$
-        { "[" * archive * "]" * }
-      if$
-      "{" * swap$ * "}" *
-    }
-  if$
-}
-FUNCTION {format.url}
-{
-  doi empty$
-    { url }
-    { "http://doi.org/" doi * }
-  if$
-  duplicate$ empty$
-    { pop$ "" }
-    { "\urlprefix\url{" swap$ * "}" * }
-  if$
-  urldate empty$
-    'skip$
-    { " [\urldateprefix{}" * urldate * "]" * }
-  if$
-}
-
 INTEGERS { nameptr namesleft numnames }
-
-
 STRINGS  { bibinfo}
-
 FUNCTION {format.names}
 { 'bibinfo :=
   duplicate$ empty$ 'skip$ {
@@ -2233,9 +2285,14 @@ FUNCTION {format.names}
   while$
   } if$
 }
+%    \end{macrocode}
+%
+% |format.names.ed| consumes two tokens (field, string field name) and writes
+% out a list of names in the form Initials Surname.
+%
+%    \begin{macrocode}
 FUNCTION {format.names.ed}
-{
-  'bibinfo :=
+{ 'bibinfo :=
   duplicate$ empty$ 'skip$ {
   's :=
   "" 't :=
@@ -2278,19 +2335,22 @@ FUNCTION {format.names.ed}
   while$
   } if$
 }
-FUNCTION {format.key}
-{ empty$
-    { key field.or.null }
-    { "" }
-  if$
-}
-
+%    \end{macrocode}
+%
+% |format.authors| writes out author names.
+%
+%    \begin{macrocode}
 FUNCTION {format.authors}
 { author "author" format.names
 }
+%    \end{macrocode}
+%
+% |format.editors| writes out editor names, and appends `ed.' or `eds.' as
+% appropriate.
+%
+%    \begin{macrocode}
 FUNCTION {get.bbl.editor}
 { editor num.names$ #1 > 'bbl.editors 'bbl.editor if$ }
-
 FUNCTION {format.editors}
 { editor "editor" format.names duplicate$ empty$ 'skip$
     {
@@ -2301,6 +2361,12 @@ FUNCTION {format.editors}
     }
   if$
 }
+%    \end{macrocode}
+%
+% |format.translators| does likewise for translators, in the form
+% (name. Trans.).
+%
+%    \begin{macrocode}
 FUNCTION {format.translators}
 { translator "translator" format.names.ed duplicate$ empty$ 'skip$
     {
@@ -2312,58 +2378,12 @@ FUNCTION {format.translators}
     }
   if$
 }
-FUNCTION {select.language}
-{ duplicate$ empty$
-    'pop$
-    { language empty$
-        'skip$
-        { "{\selectlanguage{" language * "}" * swap$ * "}" * }
-      if$
-    }
-    if$
-}
-
-FUNCTION {format.note}
-{
- note empty$
-    { "" }
-    { note #1 #1 substring$
-      duplicate$ "{" =
-        'skip$
-        { output.state mid.sentence =
-          { "l" }
-          { "u" }
-        if$
-        change.case$
-        }
-      if$
-      note #2 global.max$ substring$ * "note" bibinfo.check
-    }
-  if$
-}
-
-FUNCTION {format.title}
-{ title
-  duplicate$ empty$ 'skip$
-    { "t" change.case$ }
-  if$
-  "title" bibinfo.check
-  duplicate$ empty$ 'skip$
-    {
-      select.language
-    }
-  if$
-}
-FUNCTION {format.titleaddon}
-{ titleaddon
-  duplicate$ empty$ 'skip$
-    { "titleaddon" bibinfo.check }
-  if$
-}
-FUNCTION {get.title.addenda}
-{ format.titleaddon join
-  format.translators join
-}
+%    \end{macrocode}
+%
+% |format.full.names| consumes one token (a name field) and writes out a list
+% of names in full.
+%
+%    \begin{macrocode}
 FUNCTION {format.full.names}
 {'s :=
  "" 't :=
@@ -2494,7 +2514,139 @@ FUNCTION {n.dashify}
     }
   while$
 }
-
+%    \end{macrocode}
+%
+% |format.eprint| constructs a string |\eprint[archive]{eprint}|.
+%
+%    \begin{macrocode}
+FUNCTION {format.eprint}
+{ eprint duplicate$ empty$
+    'skip$
+    { "\eprint"
+      archive empty$
+        'skip$
+        { "[" * archive * "]" * }
+      if$
+      "{" * swap$ * "}" *
+    }
+  if$
+}
+%    \end{macrocode}
+%
+% |format.url| constructs a string |Available from: \url{url} [Accessed urldate]|.
+%
+%    \begin{macrocode}
+FUNCTION {format.url}
+{ doi empty$
+    { url }
+    { "http://doi.org/" doi * }
+  if$
+  duplicate$ empty$
+    { pop$ "" }
+    { "\urlprefix\url{" swap$ * "}" * }
+  if$
+  urldate empty$
+    'skip$
+    { " [\urldateprefix{}" * urldate * "]" * }
+  if$
+}
+%    \end{macrocode}
+%
+% |format.key| takes a field. If the field is empty, it replaces it with the
+% key field (if not non-null). Otherwise, replaces it with an empty string.
+%
+%    \begin{macrocode}
+FUNCTION {format.key}
+{ empty$
+    { key field.or.null }
+    { "" }
+  if$
+}
+%    \end{macrocode}
+%
+% |select.language| checks if the field before was written out, and if so,
+% puts |{\selectlanguage{language}}| on the stack.
+%
+%    \begin{macrocode}
+FUNCTION {select.language}
+{ duplicate$ empty$
+    'pop$
+    { language empty$
+        'skip$
+        { "{\selectlanguage{" language * "}" * swap$ * "}" * }
+      if$
+    }
+  if$
+}
+%    \end{macrocode}
+%
+% |format.note| writes out the note field, but changes the case of the first
+% letter according to the output state (unless protected by braces).
+%
+%    \begin{macrocode}
+FUNCTION {format.note}
+{ note empty$
+    { "" }
+    { note #1 #1 substring$
+      duplicate$ "{" =
+        'skip$
+        { output.state mid.sentence =
+          output.state mid.clause =
+          or
+            { "l" }
+            { "u" }
+          if$
+          change.case$
+        }
+      if$
+      note #2 global.max$ substring$ * "note" bibinfo.check
+    }
+  if$
+}
+%    \end{macrocode}
+%
+% |format.title| writes out the title and language fields.
+%
+%    \begin{macrocode}
+FUNCTION {format.title}
+{ title
+  duplicate$ empty$ 'skip$
+    { "t" change.case$ }
+  if$
+  "title" bibinfo.check
+  duplicate$ empty$
+    'skip$
+    { select.language }
+  if$
+}
+%    \end{macrocode}
+%
+% |format.titleaddon| writes out the titleaddon field.
+%
+%    \begin{macrocode}
+FUNCTION {format.titleaddon}
+{ titleaddon
+  duplicate$ empty$ 'skip$
+    { "titleaddon" bibinfo.check }
+  if$
+}
+%    \end{macrocode}
+%
+% |get.title.addenda| is a convenience for writing out the elements that
+% normally follow the title in mid.clause state.
+%
+%    \begin{macrocode}
+FUNCTION {get.title.addenda}
+{ continue.clause
+  format.titleaddon output
+  continue.clause
+  format.translators output
+}
+%    \end{macrocode}
+%
+% |word.in| provides the `In:' before book titles.
+%
+%    \begin{macrocode}
 FUNCTION {word.in}
 { bbl.in capitalize
   ":" *
