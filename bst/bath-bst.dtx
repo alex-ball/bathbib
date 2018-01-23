@@ -2393,6 +2393,7 @@ FUNCTION {format.translators}
 %
 % |format.full.names| consumes one token (a name field) and, contrary to what
 % the name might suggest, writes out a list of names in the form `Prefix Surname'.
+% It is called `full' because the list is not truncated.
 %
 %    \begin{macrocode}
 FUNCTION {format.full.names}
@@ -3220,6 +3221,8 @@ FUNCTION {format.book.crossref}
 % These functions are called when an entry of the given type is being
 % formatted.
 %
+% \subsubsection{Article}
+%
 %    \begin{macrocode}
 FUNCTION {article}
 { output.bibitem
@@ -3249,6 +3252,11 @@ FUNCTION {article}
   format.url output
   fin.entry
 }
+%    \end{macrocode}
+%
+% \subsubsection{Book}
+%
+%    \begin{macrocode}
 FUNCTION {book}
 { output.bibitem
   author empty$
@@ -3298,6 +3306,11 @@ FUNCTION {book}
   format.url output
   fin.entry
 }
+%    \end{macrocode}
+%
+% \subsubsection{Unpublished or self-published monograph}
+%
+%    \begin{macrocode}
 FUNCTION {booklet}
 { output.bibitem
   author empty$
@@ -3327,7 +3340,11 @@ FUNCTION {booklet}
   format.url output
   fin.entry
 }
-
+%    \end{macrocode}
+%
+% \subsubsection{Work in book}
+%
+%    \begin{macrocode}
 FUNCTION {inbook}
 { output.bibitem
   author empty$
@@ -3368,7 +3385,11 @@ FUNCTION {inbook}
   format.url output
   fin.entry
 }
-
+%    \end{macrocode}
+%
+% \subsubsection{Work in collection}
+%
+%    \begin{macrocode}
 FUNCTION {incollection}
 { output.bibitem
   format.authors "author" output.check
@@ -3398,6 +3419,11 @@ FUNCTION {incollection}
   format.url output
   fin.entry
 }
+%    \end{macrocode}
+%
+% \subsubsection{Conference paper}
+%
+%    \begin{macrocode}
 FUNCTION {inproceedings}
 { output.bibitem
   format.authors "author" output.check
@@ -3433,6 +3459,11 @@ FUNCTION {inproceedings}
   fin.entry
 }
 FUNCTION {conference} { inproceedings }
+%    \end{macrocode}
+%
+% \subsubsection{Manual}
+%
+%    \begin{macrocode}
 FUNCTION {manual}
 { output.bibitem
   author empty$
@@ -3461,7 +3492,11 @@ FUNCTION {manual}
   format.url output
   fin.entry
 }
-
+%    \end{macrocode}
+%
+% \subsubsection{Master's thesis}
+%
+%    \begin{macrocode}
 FUNCTION {mastersthesis}
 { output.bibitem
   format.authors "author" output.check
@@ -3482,7 +3517,11 @@ FUNCTION {mastersthesis}
   format.url output
   fin.entry
 }
-
+%    \end{macrocode}
+%
+% \subsubsection{Miscellaneous}
+%
+%    \begin{macrocode}
 FUNCTION {misc}
 { output.bibitem
   author empty$
@@ -3508,6 +3547,11 @@ FUNCTION {misc}
   format.url output
   fin.entry
 }
+%    \end{macrocode}
+%
+% \subsubsection{Doctoral thesis}
+%
+%    \begin{macrocode}
 FUNCTION {phdthesis}
 { output.bibitem
   format.authors "author" output.check
@@ -3528,7 +3572,11 @@ FUNCTION {phdthesis}
   format.url output
   fin.entry
 }
-
+%    \end{macrocode}
+%
+% \subsubsection{Conference proceedings}
+%
+%    \begin{macrocode}
 FUNCTION {proceedings}
 { output.bibitem
   editor empty$
@@ -3561,7 +3609,11 @@ FUNCTION {proceedings}
   format.url output
   fin.entry
 }
-
+%    \end{macrocode}
+%
+% \subsubsection{Report}
+%
+%    \begin{macrocode}
 FUNCTION {techreport}
 { output.bibitem
   author empty$
@@ -3593,7 +3645,11 @@ FUNCTION {techreport}
   format.url output
   fin.entry
 }
-
+%    \end{macrocode}
+%
+% \subsubsection{Unpublished works}
+%
+%    \begin{macrocode}
 FUNCTION {unpublished}
 { output.bibitem
   author empty$
@@ -3619,6 +3675,8 @@ FUNCTION {unpublished}
 }
 
 %    \end{macrocode}
+%
+% \subsubsection{Aliases and fallbacks}
 %
 % Here are a list of aliases supported by this style.
 %
@@ -3654,11 +3712,21 @@ READ
 % These functions are used to generate a sort key for each entry in the .bib
 % file.
 %
+% |sortify| strips out \LaTeX\ commands, spaces and ASCII symbols, and converts
+% to lowercase.
+%
 %    \begin{macrocode}
 FUNCTION {sortify}
 { purify$
   "l" change.case$
 }
+%    \end{macrocode}
+%
+% |chop.word| takes a string \emph{s}, an integer \emph{len}, and a prefix
+% (stop) string. If the first \emph{len} characters of \emph{s} match the
+% prefix, those characters are stripped off \emph{s}.
+%
+%    \begin{macrocode}
 INTEGERS { len }
 FUNCTION {chop.word}
 { 's :=
@@ -3668,6 +3736,13 @@ FUNCTION {chop.word}
     's
   if$
 }
+%    \end{macrocode}
+%
+% |format.lab.names| is similar to |format.full.names|, the main difference
+% being that if there are more than 3 names in the list, the second and
+% subsequent names are replaced with `et al.'
+%
+%    \begin{macrocode}
 FUNCTION {format.lab.names}
 {'s :=
  "" 't :=
@@ -3712,18 +3787,12 @@ FUNCTION {format.lab.names}
     }
   while$
 }
-
-FUNCTION {author.key.label}
-{ author empty$
-    { key empty$
-        { cite$ #1 #3 substring$ }
-        'key
-      if$
-    }
-    { author format.lab.names }
-  if$
-}
-
+%    \end{macrocode}
+%
+% |author.editor.key.label| is the analogue of |author.editor.key.full| but with
+% a truncated list of author\slash editor names.
+%
+%    \begin{macrocode}
 FUNCTION {author.editor.key.label}
 { author empty$
     { editor empty$
@@ -3738,7 +3807,12 @@ FUNCTION {author.editor.key.label}
     { author format.lab.names }
   if$
 }
-
+%    \end{macrocode}
+%
+% |editor.key.label| is the analogue of |editor.key.full| but with
+% a truncated list of editor names.
+%
+%    \begin{macrocode}
 FUNCTION {editor.key.label}
 { editor empty$
     { key empty$
@@ -3749,7 +3823,27 @@ FUNCTION {editor.key.label}
     { editor format.lab.names }
   if$
 }
-
+%    \end{macrocode}
+%
+% |author.key.label| is the analogue of |author.key.full| but with
+% a truncated list of author names.
+%
+%    \begin{macrocode}
+FUNCTION {author.key.label}
+{ author empty$
+    { key empty$
+        { cite$ #1 #3 substring$ }
+        'key
+      if$
+    }
+    { author format.lab.names }
+  if$
+}
+%    \end{macrocode}
+%
+% |calc.short.authors| chooses between the above.
+%
+%    \begin{macrocode}
 FUNCTION {calc.short.authors}
 { type$ "book" =
   type$ "inbook" =
@@ -3763,7 +3857,11 @@ FUNCTION {calc.short.authors}
   if$
   'short.list :=
 }
-
+%    \end{macrocode}
+%
+% |calc.label| creates the `Author (Year)' citation string.
+%
+%    \begin{macrocode}
 FUNCTION {calc.label}
 { calc.short.authors
   short.list
@@ -3776,7 +3874,13 @@ FUNCTION {calc.label}
   *
   'label :=
 }
-
+%    \end{macrocode}
+%
+% |sort.format.names| consumes one token (a field) and constructs a list of
+% names in the form `Surname Forename Prefix Suffix', with just spaces between
+% adjacent names and `zzzzz' used in place of `et al.'
+%
+%    \begin{macrocode}
 FUNCTION {sort.format.names}
 { 's :=
   #1 'nameptr :=
@@ -3790,7 +3894,9 @@ FUNCTION {sort.format.names}
       nameptr #1 >
         {
           "   "  *
-          namesleft #1 = t "others" = and
+          namesleft #1 =
+          t "others" =
+          and
             { "zzzzz" 't := }
             'skip$
           if$
@@ -3803,7 +3909,12 @@ FUNCTION {sort.format.names}
     }
   while$
 }
-
+%    \end{macrocode}
+%
+% |sort.format.title| strips off initial articles from the preceding field
+% and normalizes what remains using |sortify| (see above).
+%
+%    \begin{macrocode}
 FUNCTION {sort.format.title}
 { 't :=
   "A " #2
@@ -3814,22 +3925,13 @@ FUNCTION {sort.format.title}
   sortify
   #1 global.max$ substring$
 }
-FUNCTION {author.sort}
-{ author empty$
-    { title empty$
-        { key empty$
-            { "to sort, need author, title, or key in " cite$ * warning$
-              ""
-            }
-            { key sortify }
-          if$
-        }
-        { title sort.format.title }
-      if$
-    }
-    { author sort.format.names }
-  if$
-}
+%    \end{macrocode}
+%
+% |author.editor.sort| creates a string for use when sorting the entry in the
+% bibliography. In order of preference, the string is based on author, editor,
+% title or the |key| field.
+%
+%    \begin{macrocode}
 FUNCTION {author.editor.sort}
 { author empty$
     { editor empty$
@@ -3850,6 +3952,11 @@ FUNCTION {author.editor.sort}
     { author sort.format.names }
   if$
 }
+%    \end{macrocode}
+%
+% |editor.sort| does similar but skips the author names.
+%
+%    \begin{macrocode}
 FUNCTION {editor.sort}
 { editor empty$
     { title empty$
@@ -3866,12 +3973,33 @@ FUNCTION {editor.sort}
     { editor sort.format.names }
   if$
 }
+%    \end{macrocode}
+%
+% |author.sort| does similar but skips the editor names.
+%
+%    \begin{macrocode}
+FUNCTION {author.sort}
+{ author empty$
+    { title empty$
+        { key empty$
+            { "to sort, need author, title, or key in " cite$ * warning$
+              ""
+            }
+            { key sortify }
+          if$
+        }
+        { title sort.format.title }
+      if$
+    }
+    { author sort.format.names }
+  if$
+}
 
 %    \end{macrocode}
 %
-% The \texttt{presort} function applies the above functions to a given entry to
-% generate its sort key and save it to the \lstinline[style=dtxbst]!sort.key$!
-% variable.
+% |presort| constructs the |sort.label| from the |calc.label| and one of the
+% above three functions. It also constructs the |sort.key$| (used by SORT) from
+% the |sort.label| and the title.
 %
 %    \begin{macrocode}
 FUNCTION {presort}
@@ -3967,7 +4095,8 @@ FUNCTION {reverse.pass}
 %    \end{macrocode}
 %
 % Applying these functions is a bit more tricky, but once we have done that,
-% we re-sort the entries to make absolutely sure they in the right order.
+% we re-sort the entries to make absolutely sure they in the right order,
+% this time wih the year between with |sort.label| and the title.
 %
 %    \begin{macrocode}
 EXECUTE {initialize.extra.label.stuff}
