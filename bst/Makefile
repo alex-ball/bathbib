@@ -10,26 +10,29 @@ UTREE = $(shell kpsewhich --var-value TEXMFHOME)
 
 .PHONY: source clean distclean inst install uninst uninstall zip ctan
 
-all:	$(NAME).pdf $(BST) clean
+all:	$(BST) $(NAME)-v1.pdf $(NAME).pdf clean
 	@exit 0
 
-source:	$(BST) $(NAME).bib
+source:	$(BST) $(NAME).bib $(NAME)-v1.tex $(NAME)-v1.bib
 
-$(BST) $(NAME).bib: $(NAME).dtx
+$(BST) $(NAME).bib  $(NAME)-v1.tex $(NAME)-v1.bib: $(NAME).dtx
 	luatex -interaction=batchmode $(NAME).dtx >/dev/null
 
 $(NAME).pdf: $(NAME).dtx $(BST) $(NAME).bib
 	latexmk -silent -lualatex -synctex=1 -interaction=batchmode $(NAME).dtx >/dev/null
-	@echo "Compilation complete."
+	@echo "Compilation of main PDF complete."
+
+$(NAME)-v1.pdf: $(NAME)-v1.tex $(BST) $(NAME)-v1.bib
+	latexmk -silent -lualatex -synctex=1 -interaction=batchmode $(NAME)-v1.tex >/dev/null
+	@echo "Compilation of test PDF complete."
 
 clean:
-	rm -f $(NAME).{aux,bbl,bcf,blg,doc,fdb_latexmk,fls,glo,gls,hd,idx,ilg,ind,listing,log,nav,out,run.xml,snm,synctex.gz,tcbtemp,toc,vrb}
-	rm -f $(NAME).markdown.in
+	rm -f $(NAME){,-v1}.{aux,bbl,bcf,blg,doc,fdb_latexmk,fls,glo,gls,hd,idx,ilg,ind,listing,log,nav,out,run.xml,snm,synctex.gz,tcbtemp,toc,vrb}
+	rm -f $(NAME){,-v1}.markdown.in
 	rm -rf _markdown_$(NAME)
 
 distclean: clean
-	rm -f $(NAME).{pdf,bib,ins} $(BST)
-
+	rm -f $(NAME).{pdf,bib,ins} $(BST) $(NAME)-v1.{pdf,bib,tex}
 
 inst: all
 	mkdir -p $(UTREE)/{source,doc}/bibtex/$(NAME)
