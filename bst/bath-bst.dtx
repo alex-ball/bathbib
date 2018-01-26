@@ -2,8 +2,8 @@
 %<*internal>
 \iffalse
 %</internal>
-%<*bst>
-%</bst>
+%<*bst1|bst2>
+%</bst1|bst2>
 %<*readme>
 # bath-bst: Harvard referencing style as recommended by the University of Bath Library
 %</readme>
@@ -44,7 +44,8 @@ Copyright (C) 2016 by University of Bath
 
 \usedir{bibtex/bst/\jobname}
 \generate{
-  \file{bath.bst}{\from{\jobname.dtx}{bst}}
+  \file{bath.bst}{\from{\jobname.dtx}{bst1}}
+  \file{bathx.bst}{\from{\jobname.dtx}{bst2}}
 }
 %</install>
 %<install>\endbatchfile
@@ -321,7 +322,10 @@ Copyright (C) 2016 by University of Bath
 \newcommand*{\urldateprefix}{Accessed }
 
 \usepackage{bibentry}
-\bibliographystyle{bath}
+%<*driver>
+\bibliographystyle{bathx}
+%</driver>
+%<tex1>\bibliographystyle{bath}
 \nobibliography*
 
 \usepackage{readprov}
@@ -443,7 +447,7 @@ the zip archive.
 \iffalse
 %</driver>
 %<*tex1>
-This document provides a suite of examples for testing the bibliography format recommended for version 1 of the style. The goal for this version is to retain as much compatibility as possible with other Bib\TeX\ styles.
+This document provides a suite of examples for testing the bibliography format that was recommended for version 1 of the style. The goal for this version is to retain as much compatibility as possible with other Bib\TeX\ styles.
 
 The goal for version 2 is to introduce as much compatibility as possible with the corresponding \textsf{biblatex} style.
 %</tex1>
@@ -456,12 +460,26 @@ The goal for version 2 is to introduce as much compatibility as possible with th
 
 To use the style, add these lines to your preamble:
 
+%<*driver>
+\begin{tcblisting}{listing only}
+\usepackage{natbib}
+\newcommand*{\urlprefix}{Available from: }
+\newcommand*{\urldateprefix}{Accessed }
+\bibliographystyle{bathx}
+\end{tcblisting}
+\iffalse
+%</driver>
+%<*tex1>
 \begin{tcblisting}{listing only}
 \usepackage{natbib}
 \newcommand*{\urlprefix}{Available from: }
 \newcommand*{\urldateprefix}{Accessed }
 \bibliographystyle{bath}
 \end{tcblisting}
+%</tex1>
+%<*driver>
+\fi
+%</driver>
 
 Remember also to specify your .bib file at the end of the document:
 
@@ -2364,7 +2382,7 @@ This work is ‘maintained’ (as per LPPL maintenance status) by [Alex Ball][me
 %<*driver|tex1>
 \end{document}
 %</driver|tex1>
-%<*bib>
+%<*bib|bib1>
 @book{adams2009tc1,
   author = {Adams, Gomez},
   year = {2009},
@@ -2383,12 +2401,13 @@ This work is ‘maintained’ (as per LPPL maintenance status) by [Alex Ball][me
   title = {Test Citation Three},
   address = {Cambridge},
   publisher = {Cambridge University Press}}
-%</bib>
-%<*bst>
+%</bib|bib1>
+%<*bst1|bst2>
 % \fi
 %
 % \section{Implementation}
 %
+% The line numbers for the listings below match |bathx.bst|.
 % \setcounter{lstnumber}{16}
 %
 % \subsection{Data model}
@@ -4817,5 +4836,5 @@ FUNCTION {end.bib}
 EXECUTE {end.bib}
 %    \end{macrocode}
 % \iffalse
-%</bst>
+%</bst1|bst2>
 % \fi
