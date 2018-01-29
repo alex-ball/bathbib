@@ -2271,10 +2271,11 @@ years in \texttt{series} and the HL and HC numbers in \texttt{number}.
 \begin{Verbatim}
 %</driver|tex1>
 %<*driver|bib>
-@unpublished{seldon-v-c.w.j2012,
-  key = {\emph{Seldon v Clarkson Wright \& Jakes}, {[2012]}},
+@jurisdiction{seldon-v-c.w.j2012,
   title = {Seldon v {Clarkson} {Wright} \& {Jakes}},
-  note = {[2012]. UKSC 16}}
+  year = {2012},
+  journal = {UKSC},
+  pages = {16}}
 %</driver|bib>
 %<*driver>
 \end{Verbatim}
@@ -2306,9 +2307,13 @@ more-or-less by hand.
 \begin{Verbatim}
 %</driver|tex1>
 %<*driver|bib>
-@unpublished{srl.etal-v-comm2005,
-  title = {Alessandrini {Srl} and others v.~{Commission}},
-  titleaddon = {(C-295/03 P) [2005] ECR I-5700}}
+@jurisdiction{srl.etal-v-comm2005,
+  title = {Alessandrini {Srl} and others v.\@ {Commission}},
+  number = {C-295/03 P},
+  year = {2005},
+  journal = {ECR},
+  volume = {I},
+  pages = {5700}}
 %</driver|bib>
 %<*driver>
 \end{Verbatim}
@@ -2696,7 +2701,7 @@ FUNCTION {new.block.checkb}
 }
 %    \end{macrocode}
 %
-% |field.or.null| replaces an empty field value with an empty string.
+% |field.or.null| replaces an empty (null) field value with an empty string.
 %
 %    \begin{macrocode}
 FUNCTION {field.or.null}
@@ -3331,6 +3336,18 @@ FUNCTION {format.in.ed.booktitle}
 }
 %    \end{macrocode}
 %
+% |legal.journal.shape| emphasizes the preceding string if it matches `OJ' but
+% otherwise does nothing.
+%
+%    \begin{macrocode}
+FUNCTION {legal.journal.shape}
+{ duplicate$ "OJ" =
+    { emphasize }
+    'skip$
+  if$
+}
+%    \end{macrocode}
+%
 % \subsection{Dates}
 %
 % |format.date| writes out the year and any disambiguation label.
@@ -3803,6 +3820,48 @@ FUNCTION {format.chapter.pages}
 }
 %    \end{macrocode}
 %
+% |format.journal.series.vol.pages| writes out the journal title and pinpointing
+% in the form `volume journal pages', `journal volume-pages' or `journal
+% series\,volume/pages', depending on the journal.
+%
+%    \begin{macrocode}
+FUNCTION {format.journal.series.vol.pages}
+{ journal
+  duplicate$ "OJ" =
+    { "journal" bibinfo.check
+      emphasize
+      series "series" bibinfo.check
+      duplicate empty$
+        'skip$
+        { "/" * }
+      if$
+      volume "volume" bibinfo.check
+      duplicate empty$
+        'skip$
+        { * }
+      if$ *
+    }
+    { duplicate$ "ECR" =
+      { "journal" bibinfo.check
+        volume "volume" bibinfo.check
+        duplicate empty$
+          'skip$
+          { "--" * * }
+        if$
+      }
+      { volume "volume" bibinfo.check
+        swap$
+      }
+      if$
+    }
+  if$
+  eid empty$
+    { format.journal.pages }
+    { format.journal.eid }
+  if$
+}
+%    \end{macrocode}
+%
 % \subsection{URLs}
 %
 % |format.eprint| constructs a string |\eprint[archive]{eprint}|.
@@ -4124,6 +4183,45 @@ FUNCTION {inproceedings}
   fin.entry
 }
 FUNCTION {conference} { inproceedings }
+%    \end{macrocode}
+%
+% \subsubsection{Legal case studies}
+%
+% Here are a list of aliases supported by this style.
+%
+%    \begin{macrocode}
+FUNCTION {jurisdiction}
+{ output.bibitem
+  author empty$
+    { format.btitle "title" output.check
+      format.date "year" output.check
+      year empty$ 'skip$ { date.block } if$
+      get.title.addenda
+    }
+    { format.authors output
+      author format.key output
+      format.date "year" output.check
+      date.block
+      format.btitle "title" output.check
+      get.title.addenda
+    }
+  if$
+  new.block
+  format.note output
+  new.block
+  crossref missing$
+    {
+      format.journal.series.vol.pages output
+    }
+    { format.article.crossref output.nonnull
+      format.pages output
+    }
+  if$
+  new.block
+  format.eprint output
+  format.url output
+  fin.entry
+}
 %    \end{macrocode}
 %
 % \subsubsection{Manual}
