@@ -2273,7 +2273,7 @@ years in \texttt{series} and the HL and HC numbers in \texttt{number}.
 %<*driver|bib>
 @jurisdiction{seldon-v-c.w.j2012,
   title = {Seldon v {Clarkson} {Wright} \& {Jakes}},
-  year = {2012},
+  year = {{[2012]}},
   journal = {UKSC},
   pages = {16}}
 %</driver|bib>
@@ -2310,7 +2310,7 @@ more-or-less by hand.
 @jurisdiction{srl.etal-v-comm2005,
   title = {Alessandrini {Srl} and others v.\@ {Commission}},
   number = {C-295/03 P},
-  year = {2005},
+  year = {{[2005]}},
   journal = {ECR},
   volume = {I},
   pages = {5700}}
@@ -2331,6 +2331,7 @@ more-or-less by hand.
 %</driver>
 \end{bibexbox}
 
+\cite{srl.etal-v-comm2005}
 
 %</driver|tex1>
 %<tex1>\bibliography{bath-bst-v1}
@@ -3830,13 +3831,23 @@ FUNCTION {format.journal.series.vol.pages}
   duplicate$ "OJ" =
     { "journal" bibinfo.check
       emphasize
+      series empty$
+      volume empty$
+      and
+      pages empty$
+      and
+      eid empty$
+      and
+        'skip$
+        { " " * }
+      if$
       series "series" bibinfo.check
-      duplicate empty$
+      duplicate$ empty$
         'skip$
         { "/" * }
       if$
       volume "volume" bibinfo.check
-      duplicate empty$
+      duplicate$ empty$
         'skip$
         { * }
       if$ *
@@ -3844,20 +3855,29 @@ FUNCTION {format.journal.series.vol.pages}
     { duplicate$ "ECR" =
       { "journal" bibinfo.check
         volume "volume" bibinfo.check
-        duplicate empty$
+        duplicate$ empty$
           'skip$
-          { "--" * * }
+          { " " swap$ * "--" * * }
         if$
       }
       { volume "volume" bibinfo.check
-        swap$
+        duplicate$ empty$
+          'pop$
+          { " " * swap$ * }
+        if$
+        pages empty$
+        eid empty$
+        and
+          'skip$
+          { " " * }
+        if$
       }
       if$
     }
   if$
   eid empty$
-    { format.journal.pages }
-    { format.journal.eid }
+    { pages "pages" bibinfo.check * }
+    { eid "eid" bibinfo.check * }
   if$
 }
 %    \end{macrocode}
@@ -4194,6 +4214,7 @@ FUNCTION {jurisdiction}
 { output.bibitem
   author empty$
     { format.btitle "title" output.check
+      continue.clause
       format.date "year" output.check
       year empty$ 'skip$ { date.block } if$
       get.title.addenda
@@ -4202,6 +4223,7 @@ FUNCTION {jurisdiction}
       author format.key output
       format.date "year" output.check
       date.block
+      continue.clause
       format.btitle "title" output.check
       get.title.addenda
     }
