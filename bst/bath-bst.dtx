@@ -4560,7 +4560,16 @@ FUNCTION {author.editor.key.label}
 { author empty$
     { editor empty$
         { key empty$
-            { cite$ #1 #3 substring$ }
+            { title empty$
+                { cite$ #1 #3 substring$ }
+                { title
+                  type$ "book" =
+                    { emphasize }
+                    'skip$
+                  if$
+                }
+              if$
+            }
             'key
           if$
         }
@@ -4579,7 +4588,11 @@ FUNCTION {author.editor.key.label}
 FUNCTION {editor.key.label}
 { editor empty$
     { key empty$
-        { cite$ #1 #3 substring$ }
+        { title empty$
+            { cite$ #1 #3 substring$ }
+            { title emphasize }
+          if$
+        }
         'key
       if$
     }
@@ -4595,7 +4608,22 @@ FUNCTION {editor.key.label}
 FUNCTION {author.key.label}
 { author empty$
     { key empty$
-        { cite$ #1 #3 substring$ }
+        { title empty$
+            { cite$ #1 #3 substring$ }
+            { title
+              type$ "article" =
+              type$ "incollection" =
+              or
+              type$ "inproceedings" =
+              or
+              type$ "misc" =
+              or
+                'skip$
+                { emphasize }
+              if$
+            }
+          if$
+        }
         'key
       if$
     }
