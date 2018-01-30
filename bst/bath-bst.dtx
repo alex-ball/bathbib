@@ -2331,7 +2331,7 @@ more-or-less by hand.
 %</driver>
 \end{bibexbox}
 
-\cite{srl.etal-v-comm2005}
+\cite{srl.etal-v-comm2005}.
 
 %</driver|tex1>
 %<tex1>\bibliography{bath-bst-v1}
@@ -3494,7 +3494,9 @@ FUNCTION {format.edition}
 }
 %    \end{macrocode}
 %
-% |format.thesis.type| simply writes out the type field with an initial capital.
+% If the type is provided, |format.thesis.type| deletes the preceding string
+% (the default value) and writes the type field with an initial capital.
+% Otherwise it does nothing.
 %
 %    \begin{macrocode}
 FUNCTION {format.thesis.type}
@@ -3562,6 +3564,20 @@ FUNCTION {format.tr.number}
         }
       if$
       ")" *
+    }
+  if$
+}
+%    \end{macrocode}
+%
+% |format.case.number| prints out the number field, suppressing punctuation,
+% or inserts a period.
+%
+%    \begin{macrocode}
+FUNCTION {format.case.number}
+{ number duplicate$ empty$
+    { pop$ "" }
+    { "number" bibinfo.check
+     "(" swap$ * ")" *
     }
   if$
 }
@@ -4215,6 +4231,11 @@ FUNCTION {jurisdiction}
   author empty$
     { format.btitle "title" output.check
       continue.clause
+      format.case.number output
+      duplicate$ empty$
+        'new.sentence
+        'continue.clause
+      if$
       format.date "year" output.check
       year empty$ 'skip$ { date.block } if$
       get.title.addenda
