@@ -1772,9 +1772,9 @@ you may prefer to format the reference more-or-less by hand:
 \end{bibexbox}
 
 Use the \texttt{number} field for the case number.
-For Commission Decisions, use the \texttt{userb} field for the Commission case number,
-\texttt{number} for the formal decision number, and give `Commission' as the
-\texttt{institution}.
+For Commission Decisions, use the \texttt{casenumber} or \texttt{userb} field
+for the Commission case number, \texttt{number} for the formal decision number,
+and give `Commission' as the \texttt{institution}.
 
 
 \newrefcontext[sorting=nyt]
@@ -3145,6 +3145,11 @@ This work is `maintained' (as per LPPL maintenance status) by [Alex Ball][me].
       \step[match=\regexp{Commission}, fieldsource=institution, final]
       \step[fieldset=type, fieldvalue={Commission Decision}]
       \step[fieldset=institution, null]
+    }
+    \map[overwrite=false]{
+      \step[fieldsource=casenumber, final]
+      \step[notfield=number, fieldsource=casenumber, fieldtarget=number]
+      \step[fieldsource=casenumber, fieldtarget=userb]
     }
   }
 }
