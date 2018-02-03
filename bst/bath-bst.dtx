@@ -2295,9 +2295,7 @@ years in \texttt{series} and the HL and HC numbers in \texttt{number}.
 
 Generally speaking, the year should be in square brackets if it is essential to the citation
 (unless it is a Scottish case, in which case it is printed bare), and in parentheses if it is
-not. Since it is hard to automate this in Bib\TeX\, you should format the reference
-more-or-less by hand.
-
+not.
 
 \subsubsection*{Judgment of the European Court of Justice}
 
@@ -2331,7 +2329,7 @@ more-or-less by hand.
 %</driver>
 \end{bibexbox}
 
-\cite{srl.etal-v-comm2005}.
+Use \texttt{number} for the case number
 
 %</driver|tex1>
 %<tex1>\bibliography{bath-bst-v1}
@@ -3583,6 +3581,21 @@ FUNCTION {format.case.number}
 }
 %    \end{macrocode}
 %
+% |eu.case.check| checks if the case is in OJ or has a number, in which case
+% punctuation is suppressed.
+%
+%    \begin{macrocode}
+FUNCTION {eu.case.check}
+{ journal "OJ" =
+  number empty$
+  not
+  or
+    'continue.clause
+    'new.block
+  if$
+}
+%    \end{macrocode}
+%
 % \subsection{Notes}
 %
 % |format.note| writes out the note field, but changes the case of the first
@@ -4232,12 +4245,12 @@ FUNCTION {jurisdiction}
     { format.btitle "title" output.check
       continue.clause
       format.case.number output
-      duplicate$ empty$
+      number empty$
         'new.sentence
         'continue.clause
       if$
       format.date "year" output.check
-      year empty$ 'skip$ { date.block } if$
+      year empty$ 'skip$ { eu.case.check } if$
       get.title.addenda
     }
     { format.authors output
@@ -4249,11 +4262,14 @@ FUNCTION {jurisdiction}
       get.title.addenda
     }
   if$
-  new.block
+  eu.case.check
   format.note output
-  new.block
+  note empty$
+    'eu.case.check
+    'new.block
+  if$
   crossref missing$
-    {
+    { continue.clause
       format.journal.series.vol.pages output
     }
     { format.article.crossref output.nonnull
