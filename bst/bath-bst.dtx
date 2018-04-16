@@ -1079,7 +1079,7 @@ You can also use \texttt{standard} as an alias for \texttt{manual}.
   author = {{Phillipp Morris Inc.}},
   year = {1981},
   title = {Optical perforating apparatus and system},
-  series = {European patent application},
+  type = {European patent application},
   number = {0021165A1. 1981-01-07}}
 %</driver|bib>
 %<*driver>
@@ -3572,6 +3572,52 @@ FUNCTION {format.tr.number}
 }
 %    \end{macrocode}
 %
+% |format.manual.number| writes out the series, type and number fields as one of
+% `(number)', `(type number)', `(series number)', or `(series number, type)'.
+%
+%    \begin{macrocode}
+FUNCTION {format.manual.number}
+{ series duplicate$ empty$
+    { pop$
+      type duplicate$ empty$
+        { pop$
+          number duplicate$ empty$
+            { pop$ ""
+            }
+            { "number" bibinfo.check
+            }
+          if$
+        }
+        { "t" change.case$ "type" bibinfo.check
+          number duplicate$ empty$
+            'pop$
+            { tie.or.space.prefix
+              "number" bibinfo.check
+              * *
+            }
+          if$
+        }
+      if$
+    }
+    { number duplicate$ empty$
+        'pop$
+        { tie.or.space.prefix
+          "number" bibinfo.check
+          * *
+        }
+      if$
+      type duplicate$ empty$
+        'pop$
+        { ", " swap$ *
+          "t" change.case$ "type" bibinfo.check
+          *
+        }
+      if$
+    }
+  if$
+}
+%    \end{macrocode}
+%
 % |format.case.number| prints out the number field, suppressing punctuation,
 % or inserts a period.
 %
@@ -4320,7 +4366,7 @@ FUNCTION {manual}
     }
   if$
   new.block
-  format.number.series output
+  format.manual.number output
   organization address new.block.checkb
   format.organization.address output
   format.edition output
