@@ -907,8 +907,7 @@ for the work and provide preprint details using the \texttt{eprinttype},
 %</driver>
 %<*driver|bib>
 @standard{bs5605:1990,
-  label = {BS 5605:1990},
-  sortkey = {BS 5605:1990},
+  number = {BS~5605:1990},
   sortyear = {1990},
   title = {Recommendations for citing and referencing published material},
   organization = {BSI}}
@@ -919,16 +918,20 @@ for the work and provide preprint details using the \texttt{eprinttype},
 
 Use \texttt{label} to specify the standard identifier;
 this will print it at the start of the entry and in citations.
-The \texttt{sortkey} determines where the entry will appear in the bibliography;
-you should normally repeat the identifier but you might want to adjust it, e.g.\@
-by adding zeroes to the start of the number to put several standards in numerical order.
-If you omit the \texttt{sortkey}, the entry will by sorted by \texttt{title}.
+The entry will, however, be sorted by \texttt{title} in the bibliography unless
+you fix this with \texttt{sortkey}; you should normally repeat the identifier
+but you might want to adjust it, e.g.\@ by adding zeroes to the start of the
+number to put several standards in numerical order.
+If you are using Biber, you can put the standard identifier in the more
+semantically correct \texttt{number} field and the value will be moved
+into \texttt{label} and \texttt{sortkey} for you (unless these or
+\texttt{author} are already specified). If you need compatibility with Bib\TeX\, you could put the identifier in \texttt{author} with much the same effect.
 
 If the date forms part of the identifier, don't repeat it in \texttt{year} or \texttt{date};
 put it in \texttt{sortyear} instead. This will make sure it is still positioned
 correctly within a citation of multiple sources.
 If you are using Biber, it will also stop an erroneous `n.d.\@' being printed;
-otherwise you will need to do this manually by setting the (Boolean) entry option \key{nonodate}.
+otherwise you will need to do this manually by setting the (Boolean) entry option \key{nonodate}. Test citation: \parencite{bs5605:1990}.
 
 
 \subsubsection*{Patent}
@@ -949,6 +952,9 @@ otherwise you will need to do this manually by setting the (Boolean) entry optio
 %<*driver>
 \end{Verbatim}
 \end{bibexbox}
+
+Note that \textsf{biblatex} has special localisation keys for full patents and
+patent requests\slash applications.
 
 
 \subsection{Audiovisual materials}
@@ -2109,12 +2115,12 @@ This work is `maintained' (as per LPPL maintenance status) by [Alex Ball][me].
 %    \begin{macrocode}
 \newtoggle{bbx:onlineshown}
 \newbibmacro*{isonline}{%
-  \ifboolexpr{
-    test {\iffieldundef{url}}
-    and
-    test {\iffieldundef{doi}}
-    and
-    not togl {bbx:onlineshown}
+  \ifboolexpr{(
+      test {\iffieldundef{url}}
+      and
+      not test {\ifentrytype{online}}
+    ) or
+    togl {bbx:onlineshown}
   }{}{%
     \bibstring[\mkbibbrackets]{online}%
     \toggletrue{bbx:onlineshown}}}
@@ -2652,6 +2658,14 @@ This work is `maintained' (as per LPPL maintenance status) by [Alex Ball][me].
 \DeclareFieldFormat{version}{\mkbibparens{\bibstring{version}#1}}
 %    \end{macrocode}
 %
+% \subsection{Types}
+%
+% Types are always printed longhand.
+%
+%    \begin{macrocode}
+\DeclareFieldFormat{type}{\ifbibstring{#1}{\biblstring{#1}}{#1}}
+%    \end{macrocode}
+%
 % \subsection{Events}
 %
 % Events are printed as date then venue with no intermediate punctuation.
@@ -2806,7 +2820,8 @@ This work is `maintained' (as per LPPL maintenance status) by [Alex Ball][me].
 % \subsection{Books}
 %
 % Compared with the standard styles, the main difference is that the series is
-% separated by a comma rather than a period.
+% separated by a comma rather than a period. This also affects proceedings and
+% certain forms of grey literature.
 %
 %    \begin{macrocode}
 \xpatchbibdriver{book}{%
@@ -2842,14 +2857,6 @@ This work is `maintained' (as per LPPL maintenance status) by [Alex Ball][me].
 }{}{}
 
 \xpatchbibdriver{inproceedings}{%
-  \newunit\newblock
-  \usebibmacro{series+number}%
-}{%
-  \setunit{\addcomma\space}%
-  \usebibmacro{series+number}%
-}{}{}
-
-\xpatchbibdriver{manual}{%
   \newunit\newblock
   \usebibmacro{series+number}%
 }{%
@@ -2999,6 +3006,70 @@ This work is `maintained' (as per LPPL maintenance status) by [Alex Ball][me].
      \usebibmacro{related}}
     {}%
   \usebibmacro{finentry}}
+
+%    \end{macrocode}
+%
+% \subsection{Manuals}
+%
+% The \texttt{manual} driver is useful for a variety of technical publications,
+% such as standards, patents and maps. (Patents have their own driver, in fact,
+% but we set things up so the \texttt{manual} driver can be used instead if
+% needed for compatibility.)
+%
+%    \begin{macrocode}
+\newbibmacro{manual:series+type+number}{%
+  \iffieldundef{series}{%
+    \newunit\newblock
+    \printfield{type}%
+    \setunit{\addspace}%
+    \printfield{number}%
+  }{%
+    \setunit{\addcomma\space}%
+    \usebibmacro{series+number}%
+    \newunit\newblock
+    \printfield{type}%
+  }%
+}
+\xpatchbibdriver{manual}{%
+  \newunit\newblock
+  \usebibmacro{series+number}%
+  \newunit\newblock
+  \printfield{type}%
+}{%
+  \usebibmacro{manual:series+type+number}%
+}{}{}
+
+%    \end{macrocode}
+%
+% \subsection{Standards}
+%
+% A special quirk with standards is that they are often best known by their
+% number, so it comes at the head of the reference if no authors are specified.
+%
+% To achieve this cleanly with correct sorting, we copy the number into
+% |sortkey| as a simple fix (providing neither |author| nor |sortkey| are
+% already specified). We then move the number to |label| so that citations
+% come out correctly and the date (if given) is put in the right place.
+%
+%    \begin{macrocode}
+\DeclareStyleSourcemap{%
+  \maps[datatype=bibtex]{%
+    \map[overwrite=false]{
+      \pertype{standard}
+      \step[notfield=author,
+        fieldsource=number,
+        final]
+      \step[fieldset=sortkey,
+        origfieldval]
+    }
+    \map[overwrite=false]{
+      \pertype{standard}
+      \step[notfield=author,
+      fieldsource=number,
+      fieldtarget=label]
+    }
+  }}
+\ExecuteBibliographyOptions[standard]{useeditor=false}
 
 %    \end{macrocode}
 %
@@ -3527,7 +3598,7 @@ This work is `maintained' (as per LPPL maintenance status) by [Alex Ball][me].
 % We define some handy semantic aliases.
 %
 %    \begin{macrocode}
-\DeclareBibliographyAlias{standard}{misc}
+\DeclareBibliographyAlias{standard}{manual}
 \DeclareBibliographyAlias{dataset}{online}
 %    \end{macrocode}
 %
@@ -3598,6 +3669,12 @@ This work is `maintained' (as per LPPL maintenance status) by [Alex Ball][me].
 ,october          = {{October}{October}}
 ,november         = {{November}{November}}
 ,december         = {{December}{December}}
+,patreq           = {{patent application}{pat\adddot\ appl\adddot}}
+,patreqde         = {{German patent application}{German pat\adddot\ appl\adddot}}
+,patreqeu         = {{European patent application}{European pat\adddot\ appl\adddot}}
+,patreqfr         = {{French patent application}{French pat\adddot\ appl\adddot}}
+,patrequk         = {{British patent application}{British pat\adddot\ appl\adddot}}
+,patrequs         = {{U.S\adddotspace patent application}{U.S\adddotspace pat\adddot\ appl\adddot}}
 %    \end{macrocode}
 %
 % These are the new strings we define in this style.
@@ -3649,6 +3726,12 @@ This work is `maintained' (as per LPPL maintenance status) by [Alex Ball][me].
 ,october          = {{October}{October}}
 ,november         = {{November}{November}}
 ,december         = {{December}{December}}
+,patreq           = {{patent application}{pat\adddot\ appl\adddot}}
+,patreqde         = {{German patent application}{German pat\adddot\ appl\adddot}}
+,patreqeu         = {{European patent application}{European pat\adddot\ appl\adddot}}
+,patreqfr         = {{French patent application}{French pat\adddot\ appl\adddot}}
+,patrequk         = {{British patent application}{British pat\adddot\ appl\adddot}}
+,patrequs         = {{U.S\adddotspace patent application}{U.S\adddotspace pat\adddot\ appl\adddot}}
 %    \end{macrocode}
 %
 % These are the new strings we define in this style.
