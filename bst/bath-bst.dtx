@@ -956,7 +956,8 @@ The Harvard (Bath) style treats preprints as grey literature, and so the
   title = {Oxygen in Metals},
   editor = {J. M. A. Lenihan and S. J. Thompson},
   booktitle = {Activation Analysis: Proceedings of a {NATO} {Advanced} {Study} {Institute}},
-  venue = {2--4 August 1964 Glasgow},
+  eventyear = {2--4 August 1964},
+  venue = {Glasgow},
   address = {London},
   publisher = {Academic Press},
   pages = {113-118}}
@@ -979,7 +980,8 @@ The Harvard (Bath) style treats preprints as grey literature, and so the
   year = {1972},
   title = {Review of Bracken Control Experiments with Asulam},
   booktitle = {Proceedings of the 11th {British} {Weed} {Control} {Conference}},
-  venue = {15--17 November 1972 Brighton},
+  eventyear = {15--17 November 1972},
+  venue = {Brighton},
   address = {Brighton},
   publisher = {University of Sussex},
   pages = {24-31}}
@@ -2417,8 +2419,9 @@ This work is ‘maintained’ (as per LPPL maintenance status) by [Alex Ball][me
 % \subsection{Data model}
 %
 % We begin by listing the entry fields that we will recognize. These are the
-% standard Bib\TeX\ ones plus |archive|, |doi|, |eid|, |eprint|, |language|,
-% |titleaddon|, |translator|, |url|, |urldate|, and |venue|, all of which have
+% standard Bib\TeX\ ones plus |archive|, |doi|, |eid|, |eprint|, |eventyear|,
+% |language|, |library|, |titleaddon|, |translator|, |url|, |urldate|, and
+% |venue|, all of which have
 % been backported from \textsf{natbib} and \textsf{biblatex}.
 %
 %    \begin{macrocode}
@@ -2433,6 +2436,7 @@ ENTRY
     editor
     eid
     eprint
+    eventyear
     howpublished
     institution
     journal
@@ -4219,7 +4223,9 @@ FUNCTION {inproceedings}
   new.block
   crossref missing$
     { format.in.ed.booktitle "booktitle" output.check
-      venue "venue" output.check
+      eventyear output
+      continue.clause
+      venue output
       new.sentence
       publisher empty$
         { format.organization.address output }
