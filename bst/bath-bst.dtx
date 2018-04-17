@@ -1117,12 +1117,12 @@ These examples are taken from the Library guide
 \begin{Verbatim}
 %</driver|tex1>
 %<*driver|bib>
-@online{nasa2015nat,
+@image{nasa2015nat,
   author = {{NASA}},
   year = {2015},
   title = {{NASA} Astronaut {Tim} {Kopra} on {Dec.\@} 21 Spacewalk},
   address = {Washington},
-  organization = {NASA},
+  publisher = {NASA},
   url = {http://www.nasa.gov/image-feature/nasa-astronaut-tim-kopra-on-dec-21-spacewalk},
   urldate = {7 January 2015}}
 %</driver|bib>
@@ -1147,13 +1147,16 @@ These examples are taken from the Library guide
 %</driver>
 \end{bibexbox}
 
+You can use either the \texttt{publisher} or the \texttt{organization} field to
+record the source of the image. If you use both, \texttt{organization} will be ignored.
+
 \begin{bibexbox}<RI>{iliff2006rcb}
    Iliff, D., 2006. \emph{Royal Crescent in Bath, England - July 2006}, San Francisco: Wikimedia Foundation. Available from: \url{https://commons.wikimedia.org/wiki/File:Royal_Crescent_in_Bath,_England_-_July_2006.jpg} [Accessed 7 January 2016].
   \tcblower
 \begin{Verbatim}
 %</driver|tex1>
 %<*driver|bib>
-@online{iliff2006rcb,
+@image{iliff2006rcb,
   author = {D. Iliff},
   year = {2006},
   title = {{Royal} {Crescent} in {Bath,} {England} - {July} 2006},
@@ -1189,14 +1192,15 @@ These examples are taken from the Library guide
 \begin{Verbatim}
 %</driver|tex1>
 %<*driver|bib>
-@unpublished{anon1946peb,
+@image{anon1946peb,
   author = {Anon.},
   year = {1946},
   title = {Prototype electric bicycle displayed at the \enquote{Britain Can Make It} exhibition
     organised by the {Council} of {Industrial} {Design} and held at the {Victoria} and {Albert}
     {Museum}, {London}, 1946. {Designed} by {B.~G.} {Bowden}},
   titleaddon = {[photograph]},
-  note = {At: London. Design Council Slide Collection}}
+  address = {London},
+  library = {Design Council Slide Collection}}
 %</driver|bib>
 %<*driver>
 \end{Verbatim}
@@ -1204,12 +1208,12 @@ These examples are taken from the Library guide
 %</driver>
 %<*tex1|bib1>
 @unpublished{anon1946peb,
-  author = {Anon.},
+  author = {Anon\adddot},
   year = {1946},
   title = {Prototype electric bicycle displayed at the \enquote{Britain Can Make It} exhibition
     organised by the {Council} of {Industrial} {Design} and held at the {Victoria} and {Albert}
     {Museum}, {London}, 1946. {Designed} by {B.~G.} {Bowden}},
-  titleaddon = {[photograph]},
+  titleaddon = {photograph},
   note = {At: London. Design Council Slide Collection}}
 %</tex1|bib1>
 %<*driver|tex1>
@@ -1218,6 +1222,11 @@ These examples are taken from the Library guide
 \fi
 %</driver>
 \end{bibexbox}
+
+Use the \texttt{library} field to record the archive and register number.
+If you also wish to provide the name of the organisation that published the image,
+use the \texttt{publisher} field if the location you provide relates to the publisher,
+but the \texttt{organization} field if the location relates to the archive.
 
 
 \subsubsection*{Map}
@@ -3711,10 +3720,16 @@ FUNCTION {format.publisher.address}
 { publisher "publisher" bibinfo.warn format.org.or.pub
 }
 FUNCTION {format.organization.address}
-{ organization "organization" bibinfo.check format.org.or.pub
+{ publisher empty$
+    { organization "organization" bibinfo.check format.org.or.pub }
+    { publisher "publisher" bibinfo.warn format.org.or.pub }
+  if$
 }
 FUNCTION {format.institution.address}
-{ institution "institution" bibinfo.check format.org.or.pub
+{ publisher empty$
+    { institution "institution" bibinfo.check format.org.or.pub }
+    { publisher "publisher" bibinfo.warn format.org.or.pub }
+  if$
 }
 %    \end{macrocode}
 %
@@ -3724,6 +3739,66 @@ FUNCTION {format.institution.address}
 FUNCTION {format.library}
 { library "library" bibinfo.check
   emphasize
+}
+%    \end{macrocode}
+%
+% The library field is also used for where a physical image is kept.
+% As we have only one address field, it will attach to whichever is
+% present out of organization, publisher and library. In case there
+% is more than one, it will attach to |publisher| in preference to
+% |library| and |library| in preference to |organization|.
+%
+%    \begin{macrocode}
+FUNCTION {format.img.library}
+{ library duplicate$ empty$
+    { pop$ "" }
+    { "library" bibinfo.check
+      "At: " swap$ *
+    }
+  if$
+}
+FUNCTION {format.img.library.address}
+{ address empty$ library empty$ and
+    { "" }
+    { "At: "
+      address "address" bibinfo.check *
+      library duplicate$ empty$
+        { pop$ "" }
+        { address empty$
+            'skip$
+            { ". " swap$ }
+          if$
+          "library" bibinfo.check * *
+        }
+      if$
+    }
+  if$
+}
+FUNCTION {format.pub.org.lib.address}
+{ publisher duplicate$ empty$
+  { pop$
+    organization duplicate$ empty$
+      { pop$
+        format.img.library.address }
+      { "organization" bibinfo.check
+        library empty$
+          { format.org.or.pub }
+          { ". " *
+            format.img.library.address *
+          }
+        if$
+      }
+    if$
+  }
+  { "publisher" bibinfo.warn format.org.or.pub
+    library empty$
+      'skip$
+      { ". " *
+        format.img.library *
+      }
+    if$
+  }
+  if$
 }
 
 %    \end{macrocode}
@@ -4365,11 +4440,44 @@ FUNCTION {manual}
       get.title.addenda
     }
   if$
+  format.edition output
   new.block
   format.manual.number output
   organization address new.block.checkb
   format.organization.address output
+  new.block
+  format.note output
+  new.block
+  format.eprint output
+  format.url output
+  fin.entry
+}
+%    \end{macrocode}
+%
+% \subsubsection{Image}
+%
+%    \begin{macrocode}
+FUNCTION {image}
+{ output.bibitem
+  author empty$
+  { format.btitle "title" output.check
+    format.date "year" output.check
+    year empty$ 'skip$ { date.block } if$
+    get.title.addenda
+  }
+  { format.authors output
+    author format.key output
+    format.date "year" output.check
+    date.block
+    format.btitle "title" output.check
+    get.title.addenda
+  }
+  if$
   format.edition output
+  new.block
+  format.manual.number output
+  new.block
+  format.pub.org.lib.address output
   new.block
   format.note output
   new.block
