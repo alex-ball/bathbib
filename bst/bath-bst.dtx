@@ -1263,7 +1263,8 @@ The \texttt{book} entry type would also work for this reference.
 @booklet{macbeth1948,
   year = {1948},
   title = {Macbeth},
-  howpublished = {Film. Directed by Orson Welles},
+  type = {Film},
+  note = {Directed by Orson Welles},
   address = {USA},
   publisher = {Republic Pictures}}
 %</driver|bib>
@@ -3521,6 +3522,18 @@ FUNCTION {format.thesis.type}
 }
 %    \end{macrocode}
 %
+% If the type is provided, |format.booklet.type| simply writes the type field
+% with an initial capital. Otherwise it returns an empty string.
+%
+%    \begin{macrocode}
+FUNCTION {format.booklet.type}
+{ type duplicate$ empty$
+    { pop$ "" }
+    { "t" change.case$ "type" bibinfo.check}
+  if$
+}
+%    \end{macrocode}
+%
 % |format.tr.number| writes out the series, type and number fields as one of
 % `(number)', `(type number)', `(series, number)', or `(series, type number)'.
 %
@@ -4236,13 +4249,15 @@ FUNCTION {booklet}
     }
   if$
   new.block
+  format.booklet.type output
+  new.block
   howpublished "howpublished" bibinfo.check output
+  new.block
+  format.note output
   publisher empty$ 'skip$
     { new.block}
   if$
   format.publisher.address output
-  new.block
-  format.note output
   new.block
   format.eprint output
   format.url output
