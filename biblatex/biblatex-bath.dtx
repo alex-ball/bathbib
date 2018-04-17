@@ -1073,6 +1073,12 @@ The \texttt{book} entry type would also work for this reference.
 \end{Verbatim}
 \end{bibexbox}
 
+In the above entry, the following would also work instead of using \texttt{note}:
+
+\begin{tcblisting}{listing only}
+  editor = {Orson Welles}, editortype = {director}
+\end{tcblisting}
+
 You can also use \texttt{movie} as an alias for \texttt{video}.
 
 
@@ -1877,12 +1883,19 @@ This work is `maintained' (as per LPPL maintenance status) by [Alex Ball][me].
 \ExecuteBibliographyOptions{%
   maxcitenames=3,maxbibnames=9999,isbn=false,giveninits=true,dashed=false,
   alldates=comp,labeldate=year}
+\ExecuteBibliographyOptions[audio,video,music,movie]{%
+  useeditor=false}
 %    \end{macrocode}
 %
 % We provide some additional bibliography strings.
 %
 %    \begin{macrocode}
-\NewBibliographyString{online,hours,at,legalchapter}
+\NewBibliographyString{%
+  online, hours, at, legalchapter,
+  director, performer, reader, conductor,
+  directors, performers, readers, conductors,
+  bydirector, byperformer, byreader, byconductor,
+}
 %    \end{macrocode}
 %
 % We allow the bibliography look more like the Bib\TeX\ default.
@@ -2012,82 +2025,112 @@ This work is `maintained' (as per LPPL maintenance status) by [Alex Ball][me].
 
 %    \end{macrocode}
 %
+% With videos, names in credits are printed in full.
+%
+%    \begin{macrocode}
+\DeclareNameFormat{given-family:full}{%
+  \usebibmacro{name:given-family}
+    {\namepartfamily}
+    {\namepartgiven}
+    {\namepartprefix}
+    {\namepartsuffix}%
+  \usebibmacro{name:andothers}}
+
+\renewbibmacro*{byauthor}[1][byauthor]{%
+  \ifboolexpr{
+    test \ifuseauthor
+    or
+    test {\ifnameundef{author}}
+  }{}
+  {\usebibmacro{bytypestrg}{author}{author}%
+    \setunit{\addspace}%
+    \printnames[#1]{author}}}
+
+\renewbibmacro*{byeditor}[1][byeditor]{%
+  \ifnameundef{editor}
+  {}
+  {\usebibmacro{bytypestrg}{editor}{editor}%
+    \setunit{\addspace}%
+    \printnames[#1]{editor}%
+    \newunit}%
+  \ifstrequal{#1}{byeditor}{%
+    \usebibmacro{byeditora}%
+    \usebibmacro{byeditorb}%
+    \usebibmacro{byeditorc}
+  }{%
+    \usebibmacro{byeditora}[#1]%
+    \usebibmacro{byeditorb}[#1]%
+    \usebibmacro{byeditorc}[#1]}}
+
+\newbibmacro*{byeditora}[1][byeditora]{%
+  \ifnameundef{editora}
+  {}
+  {\usebibmacro{bytypestrg}{editora}{editor}%
+    \setunit{\addspace}%
+    \printnames[#1]{editora}%
+    \newunit}}
+\newbibmacro*{byeditorb}[1][byeditorb]{%
+  \ifnameundef{editorb}
+  {}
+  {\usebibmacro{bytypestrg}{editorb}{editor}%
+    \setunit{\addspace}%
+    \printnames[#1]{editorb}%
+    \newunit}}
+\newbibmacro*{byeditorc}[1][byeditorc]{%
+  \ifnameundef{editorc}
+  {}
+  {\usebibmacro{bytypestrg}{editorc}{editor}%
+    \setunit{\addspace}%
+    \printnames[#1]{editorc}%
+    \newunit}}
+
+\renewbibmacro*{bytranslator}[1][bytranslator]{%
+  \ifnameundef{translator}
+  {}
+  {\bibstring{bytranslator}%
+    \setunit{\addspace}%
+    \printnames[#1]{translator}}}
+
+\renewbibmacro*{byeditor+others}[1][byeditor]{%
+  \ifnameundef{editor}
+  {}
+  {\usebibmacro{byeditor+othersstrg}%
+    \setunit{\addspace}%
+    \printnames[#1]{editor}%
+    \clearname{editor}%
+    \newunit}%
+  \ifstrequal{#1}{byeditor}{%
+    \usebibmacro{byeditorx}%
+    \usebibmacro{bytranslator+others}%
+  }{%
+    \usebibmacro{byeditora}[#1]%
+    \usebibmacro{byeditorb}[#1]%
+    \usebibmacro{byeditorc}[#1]%
+    \usebibmacro{bytranslator+others}[#1]}}
+
+\renewbibmacro*{bytranslator+others}[1][bytranslator]{%
+  \ifnameundef{translator}
+  {}
+  {\usebibmacro{bytranslator+othersstrg}%
+    \setunit{\addspace}%
+    \printnames[#1]{translator}%
+    \clearname{translator}%
+    \newunit}%
+  \usebibmacro{withothers}}
+
+%    \end{macrocode}
+%
 % With collections, editors appear in natural order between `In' and the title,
 % followed by `ed.'
 %
 %    \begin{macrocode}
-\renewbibmacro*{byeditor}{%
-  \ifnameundef{editor}
-    {}
-    {\printnames[byeditor]{editor}%
-     \setunit{\addcomma\space}%
-     \usebibmacro{editorstrg}%
-     \clearname{editor}%
-     \newunit}%
-  \usebibmacro{byeditorx}}
-
-\renewbibmacro*{byeditorx}{%
-  \ifnameundef{editora}
-    {}
-    {\printnames[byeditora]{editora}%
-     \setunit{\addcomma\space}%
-     \usebibmacro{typestrg}{editora}{editor}%
-     \clearname{editora}%
-     \newunit}%
-  \ifnameundef{editorb}
-    {}
-    {\printnames[byeditorb]{editorb}%
-     \setunit{\addcomma\space}%
-     \usebibmacro{typestrg}{editorb}{editor}%
-     \clearname{editorb}%
-     \newunit}%
-  \ifnameundef{editorc}
-    {}
-    {\printnames[byeditorc]{editorc}%
-     \setunit{\addcomma\space}%
-     \usebibmacro{typestrg}{editorc}{editor}%
-     \clearname{editorc}%
-     \newunit}}
-
-\renewbibmacro*{bytranslator}{%
-  \ifnameundef{translator}
-    {}
-    {\setunit{\addspace}%
-     \printtext[parens]{%
-       \printnames[bytranslator]{translator}%
-       \newunit
-       \bibstring{translator}%
-       \clearname{translator}}}}
-
-\renewbibmacro*{byeditor+others}{%
-  \ifnameundef{editor}
-    {}
-    {\printnames[byeditor]{editor}%
-     \setunit{\addcomma\space}%
-     \usebibmacro{editorstrg}%
-     \clearname{editor}%
-     \newunit}%
-  \usebibmacro{byeditorx}%
-  \usebibmacro{bytranslator+others}}
-
-\renewbibmacro*{bytranslator+others}{%
-  \ifnameundef{translator}
-    {\usebibmacro{withothers}}
-    {\setunit{\addspace}%
-     \printtext[parens]{%
-       \printnames[bytranslator]{translator}%
-       \newunit
-       \bibstring{translator}%
-       \clearname{translator}%
-       \newunit
-       \usebibmacro{withothers}}}}
-
-\newbibmacro*{typestrg}[2]{%
-  \iffieldundef{#1type}
-    {\bibstring{#2}}
-    {\ifbibxstring{\thefield{#1type}}
-       {\bibstring{\thefield{#1type}}}
-       {\printtext{\thefield{#1type}}}}}
+\newbibmacro*{bookeditor}{%
+  \ifnameundef{editor}{}{%
+    \printnames[bookeditor]{editor}%
+    \setunit*{\addspace}%
+    \usebibmacro{editor+othersstrg}%
+    \clearname{editor}%
+  }}
 
 %    \end{macrocode}
 %
@@ -2887,10 +2930,10 @@ This work is `maintained' (as per LPPL maintenance status) by [Alex Ball][me].
   \usebibmacro{byeditor+others}%
 }{%
   \ifnameundef{editor}{}{\usebibmacro{in:}}%
-  \usebibmacro{byeditor}%
+  \usebibmacro{bookeditor}%
   \newunit\newblock
   \usebibmacro{maintitle+booktitle}%
-  \usebibmacro{bytranslator+others}%
+  \usebibmacro{byeditor+others}%
 }{}{}
 
 \xpatchbibdriver{inproceedings}{%
@@ -2902,10 +2945,10 @@ This work is `maintained' (as per LPPL maintenance status) by [Alex Ball][me].
   \usebibmacro{byeditor+others}%
 }{%
   \ifnameundef{editor}{}{\usebibmacro{in:}}%
-  \usebibmacro{byeditor}%
+  \usebibmacro{bookeditor}%
   \newunit\newblock
   \usebibmacro{maintitle+booktitle}%
-  \usebibmacro{bytranslator+others}%
+  \usebibmacro{byeditor+others}%
   \newunit
   \usebibmacro{event+venue+date}%
 }{}{}
@@ -3087,15 +3130,15 @@ This work is `maintained' (as per LPPL maintenance status) by [Alex Ball][me].
   \newunit
   \printlist{language}%
   \newunit\newblock
-  \usebibmacro{byauthor}%
+  \printfield{type}%
   \newunit\newblock
-  \usebibmacro{byeditor+others}%
+  \usebibmacro{byauthor}[given-family:full]%
+  \newunit\newblock
+  \usebibmacro{byeditor+others}[given-family:full]%
   \newunit\newblock
   \printfield{howpublished}%
   \newunit\newblock
   \printfield{version}%
-  \newunit
-  \printfield{type}%
   \newunit
   \printfield{note}%
   \newunit\newblock
@@ -3684,6 +3727,18 @@ This work is `maintained' (as per LPPL maintenance status) by [Alex Ball][me].
 ,hours            = {{hours}{hrs\adddot}}
 ,at               = {{at}{at}}
 ,legalchapter     = {{chapter}{c\adddot}}
+,director         = {{director}{dir\adddot}}
+,directors        = {{directors}{dir\adddot}}
+,bydirector       = {{directed by}{directed by}}
+,performer        = {{}{}}
+,performers       = {{}{}}
+,byperformer      = {{}{}}
+,reader           = {{reader}{reader}}
+,readers          = {{readers}{readers}}
+,byreader         = {{read by}{read by}}
+,conductor        = {{conductor}{cond\adddot}}
+,conductors       = {{conductors}{cond\adddot}}
+,byconductor      = {{conducted by}{conducted by}}
 }
 %    \end{macrocode}
 % \iffalse
