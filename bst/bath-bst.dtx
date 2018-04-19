@@ -612,7 +612,7 @@ though of course any item might need adjustment to take account of differing con
   address = {London},
   publisher = {RSC Publishing},
   url = {http://www.rsc.org/Merck-Index},
-  urldate = {16 June 2016}}
+  urlyear = {16 June 2016}}
 %</driver|bib>
 %<*driver>
 \end{Verbatim}
@@ -653,7 +653,7 @@ though of course any item might need adjustment to take account of differing con
   address = {Boca Raton, Fla.},
   publisher = {CRC Press/Taylor and Francis},
   url = {http://www.hbcpnetbase.com},
-  urldate = {16 June 2016}}
+  urlyear = {16 June 2016}}
 %</driver|bib>
 %<*driver>
 \end{Verbatim}
@@ -833,7 +833,7 @@ though of course any item might need adjustment to take account of differing con
   journal = {Ariadne \textup{[Online]}},
   volume = {10},
   url = {http://www.ariadne.ac.uk/issue10/edd/},
-  urldate = {5 December 1997}}
+  urlyear = {5 December 1997}}
 %</driver|bib>
 %<*driver>
 \end{Verbatim}
@@ -873,7 +873,7 @@ though of course any item might need adjustment to take account of differing con
   institution = {University of Bath},
   library = {OPUS \textup{[Online]}},
   url = {http://opus.bath.ac.uk},
-  urldate = {04/05/2016}}
+  urlyear = {04/05/2016}}
 %</driver|bib>
 %<*driver>
 \end{Verbatim}
@@ -1124,7 +1124,7 @@ These examples are taken from the Library guide
   address = {Washington},
   publisher = {NASA},
   url = {http://www.nasa.gov/image-feature/nasa-astronaut-tim-kopra-on-dec-21-spacewalk},
-  urldate = {7 January 2015}}
+  urlyear = {7 January 2015}}
 %</driver|bib>
 %<*driver>
 \end{Verbatim}
@@ -1163,7 +1163,7 @@ record the source of the image. If you use both, \texttt{organization} will be i
   address = {San Francisco},
   organization = {Wikimedia Foundation},
   url = {https://commons.wikimedia.org/wiki/File:Royal_Crescent_in_Bath,_England_-_July_2006.jpg},
-  urldate = {7 January 2016}}
+  urlyear = {7 January 2016}}
 %</driver|bib>
 %<*driver>
 \end{Verbatim}
@@ -1260,7 +1260,7 @@ The \texttt{book} entry type would also work for this reference.
 \begin{Verbatim}
 %</driver|tex1>
 %<*driver|bib>
-@booklet{macbeth1948,
+@video{macbeth1948,
   year = {1948},
   title = {Macbeth},
   type = {Film},
@@ -1287,7 +1287,7 @@ The \texttt{book} entry type would also work for this reference.
 %</driver>
 \end{bibexbox}
 
-You can also use \texttt{movie} or \texttt{video} as an alias for \texttt{booklet}.
+Internally, \texttt{movie} and \texttt{video} are aliases for \texttt{booklet}.
 
 
 \subsubsection*{Streamed video (YouTube, TED Talks, etc.)}
@@ -1298,13 +1298,13 @@ You can also use \texttt{movie} or \texttt{video} as an alias for \texttt{bookle
 \begin{Verbatim}
 %</driver|tex1>
 %<*driver|bib>
-@online{moran2016sol,
+@video{moran2016sol,
   author = {Moran, C.},
   year = {2016},
   title = {Save Our Libraries},
   titleaddon = {[Online]},
   url = {https://www.youtube.com/watch?v=gKTfCz4JtVE&feature=youtu.be},
-  urldate = {29/04/2016}}
+  urlyear = {29/04/2016}}
 %</driver|bib>
 %<*driver>
 \end{Verbatim}
@@ -1314,7 +1314,7 @@ You can also use \texttt{movie} or \texttt{video} as an alias for \texttt{bookle
 @online{moran2016sol,
   author = {Moran, C.},
   year = {2016},
-  title = {Save Our Libraries},
+  title = {Save {Our} {Libraries}},
   titleaddon = {[Online]},
   url = {https://www.youtube.com/watch?v=gKTfCz4JtVE&feature=youtu.be},
   urldate = {29 April 2016}}
@@ -1332,12 +1332,12 @@ You can also use \texttt{movie} or \texttt{video} as an alias for \texttt{bookle
 \begin{Verbatim}
 %</driver|tex1>
 %<*driver|bib>
-@online{uob2015wie,
+@video{uob2015wie,
   author = {{University of Bath}},
   year = {2015},
   title = {What is Engineering?},
   url = {https://www.youtube.com/watch?v=NoyZarq-Zbo},
-  urldate = {12 January 2016}}
+  urlyear = {12 January 2016}}
 %</driver|bib>
 %<*driver>
 \end{Verbatim}
@@ -1367,10 +1367,12 @@ You can also use \texttt{movie} or \texttt{video} as an alias for \texttt{bookle
 \begin{Verbatim}
 %</driver|tex1>
 %<*driver|bib>
-@booklet{rsfo2006ep5,
+@video{rsfo2006ep5,
   year = {2006},
   title = {Rick {Stein's} {French} {Odyssey}: Episode 5},
-  howpublished = {TV. BBC2, 23 August. 20.30 hrs}}
+  type = {TV},
+  note = {BBC2, 23 August. 20.30 hrs}
+}
 %</driver|bib>
 %<*driver>
 \end{Verbatim}
@@ -1388,6 +1390,8 @@ You can also use \texttt{movie} or \texttt{video} as an alias for \texttt{bookle
 \fi
 %</driver>
 \end{bibexbox}
+
+%<driver>Use \texttt{type} for the medium and \texttt{note} for the channel, date and time.
 
 \begin{bibexbox}<HBS 21>{archers20060823}
   \emph{The Archers}, 2006. Radio.\@ BBC Radio 4, 23 August. 19.02 hrs.
@@ -1395,10 +1399,11 @@ You can also use \texttt{movie} or \texttt{video} as an alias for \texttt{bookle
 \begin{Verbatim}
 %</driver|tex1>
 %<*driver|bib>
-@booklet{archers20060823,
+@audio{archers20060823,
   year = {2006},
   title = {The {Archers}},
-  howpublished = {Radio. BBC Radio 4, 23 August. 19.02 hrs}}
+  type = {Radio},
+  note = {BBC Radio 4, 23 August. 19.02 hrs}}
 %</driver|bib>
 %<*driver>
 \end{Verbatim}
@@ -1417,7 +1422,7 @@ You can also use \texttt{movie} or \texttt{video} as an alias for \texttt{bookle
 %</driver>
 \end{bibexbox}
 
-You can also use \texttt{audio} or \texttt{music} as an alias for \texttt{booklet}.
+Internally, \texttt{audio} and \texttt{music} are aliases for \texttt{booklet}.
 
 
 \subsubsection*{Music score}
@@ -1445,7 +1450,7 @@ You can also use \texttt{audio} or \texttt{music} as an alias for \texttt{bookle
 \subsubsection*{Website\slash webpage}
 
 While it is normal when using Bib\TeX\ to use \texttt{misc} for websites,
-with this style you should use \texttt{electronic}, \texttt{online} or \texttt{www} instead.
+with this style you should use \texttt{online} (or \texttt{electronic} or \texttt{www}) instead.
 Internally these are all aliases for \texttt{manual}.
 
 \begin{bibexbox}<HBS 9>{holland2002gci}
@@ -1462,7 +1467,7 @@ Internally these are all aliases for \texttt{manual}.
   address = {Poole},
   organization = {Bournemouth University},
   url = {http://www.bournemouth.ac.uk/library/using/guide_to_citing_internet_sourc.html},
-  urldate = {4 November 2002}}
+  urlyear = {4 November 2002}}
 %</driver|bib>
 %<*driver>
 \end{Verbatim}
@@ -1500,7 +1505,7 @@ Internally these are all aliases for \texttt{manual}.
   address = {Trowbridge},
   organization = {Wiltshire Council},
   url = {http://www.wiltshire.gov.uk/leisureandrecreation/sportphysicalactivity/getwiltshirewalking.html},
-  urldate = {19 August 2015}}
+  urlyear = {19 August 2015}}
 %</driver|bib>
 %<*driver>
 \end{Verbatim}
@@ -1535,11 +1540,11 @@ Internally these are all aliases for \texttt{manual}.
 %<*driver|bib>
 @letter{clark2004euk,
   author = {Clark, T.},
-  year = {05/07/2004},
+  year = {5 July 2004},
   title = {A {European} {UK} {Libraries} {Plus}?},
   journal = {Lis-link \textup{[Online]}},
   url = {lis-link@jiscmail.ac.uk},
-  urldate = {30/07/2004}}
+  urlyear = {30 July 2004}}
 %</driver|bib>
 %<*driver>
 \end{Verbatim}
@@ -1615,7 +1620,7 @@ while the one below is transformed into an \texttt{unpublished} entry.
   address = {London},
   organization = {Bureau van Dijk},
   url = {http://www.portal.euromonitor.com},
-  urldate = {6 November 2014}}
+  urlyear = {6 November 2014}}
 %</driver|bib>
 %<*driver>
 \end{Verbatim}
@@ -1656,7 +1661,7 @@ while the one below is transformed into an \texttt{unpublished} entry.
   address = {Bath},
   organization = {University of Bath},
   doi = {10.15125/BATH-00069},
-  urldate = {20 April 2016}}
+  urlyear = {20 April 2016}}
 %</driver|bib>
 %<*driver>
 \end{Verbatim}
@@ -1697,7 +1702,7 @@ You can also use \texttt{dataset} as an alternative alias for \texttt{manual}.
   title = {{Screencast-O-Matic}},
   titleaddon = {(v.2) [computer program]},
   url = {https://screencast-o-matic.com/},
-  urldate = {16 May 2016}}
+  urlyear = {16 May 2016}}
 %</driver|bib>
 %<*driver>
 \end{Verbatim}
@@ -2053,7 +2058,7 @@ If the name is due to appear initial first (e.g.\ after `In:'), you can append t
   address = {United Kingdom},
   publisher = {HMSO},
   url = {http://www.legislation.gov.uk/uksi/2012/1916/pdfs/uksi_20121916_en.pdf},
-  urldate = {17/04/2016}}
+  urlyear = {17/04/2016}}
 %</driver|bib>
 %<*driver>
 \end{Verbatim}
@@ -2434,8 +2439,8 @@ This work is ‘maintained’ (as per LPPL maintenance status) by [Alex Ball][me
 %
 % We begin by listing the entry fields that we will recognize. These are the
 % standard Bib\TeX\ ones plus |archive|, |doi|, |eid|, |eprint|, |eventyear|,
-% |language|, |library|, |titleaddon|, |translator|, |url|, |urldate|, and
-% |venue|, all of which have
+% |language|, |library|, |titleaddon|, |translator|, |url|, |urldate|,
+% |urlyear|, and |venue|, all of which have
 % been backported from \textsf{natbib} and \textsf{biblatex}.
 %
 %    \begin{macrocode}
@@ -2471,6 +2476,7 @@ ENTRY
     type
     url
     urldate
+    urlyear
     venue
     volume
     year
@@ -4094,9 +4100,13 @@ FUNCTION {format.url}
     { pop$ "" }
     { "\urlprefix\url{" swap$ * "}" * }
   if$
-  urldate empty$
-    'skip$
-    { " [\urldateprefix{}" * urldate * "]" * }
+  urlyear empty$
+    { urldate empty$
+        'skip$
+        { " [\urldateprefix{}" * urldate * "]" * }
+      if$
+    }
+    { " [\urldateprefix{}" * urlyear * "]" * }
   if$
 }
 %    \end{macrocode}
