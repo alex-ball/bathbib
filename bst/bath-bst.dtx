@@ -608,7 +608,7 @@ though of course any item might need adjustment to take account of differing con
 @book{merckNDidx,
   title = {The {Merck} Index Online},
   year = {n.d.},
-  titleaddon = {[Online]},
+  titleaddon = {Online},
   address = {London},
   publisher = {RSC Publishing},
   url = {http://www.rsc.org/Merck-Index},
@@ -648,7 +648,7 @@ though of course any item might need adjustment to take account of differing con
   editor = {Haynes, W. M.},
   year = {2014},
   title = {{CRC} Handbook of Chemistry and Physics},
-  titleaddon = {[Online]},
+  titleaddon = {Online},
   edition = {94},
   address = {Boca Raton, Fla.},
   publisher = {CRC Press/Taylor and Francis},
@@ -688,7 +688,7 @@ though of course any item might need adjustment to take account of differing con
   author = {Hodds, J.},
   year = {2016},
   title = {Referencing ebooks},
-  titleaddon = {[Kindle version 4.18]},
+  titleaddon = {Kindle version 4.18},
   address = {Bath},
   publisher = {University of Bath}}
 %</driver|bib>
@@ -1198,7 +1198,7 @@ record the source of the image. If you use both, \texttt{organization} will be i
   title = {Prototype electric bicycle displayed at the \enquote{Britain Can Make It} exhibition
     organised by the {Council} of {Industrial} {Design} and held at the {Victoria} and {Albert}
     {Museum}, {London}, 1946. {Designed} by {B.~G.} {Bowden}},
-  titleaddon = {[photograph]},
+  titleaddon = {photograph},
   address = {London},
   library = {Design Council Slide Collection}}
 %</driver|bib>
@@ -1213,7 +1213,7 @@ record the source of the image. If you use both, \texttt{organization} will be i
   title = {Prototype electric bicycle displayed at the \enquote{Britain Can Make It} exhibition
     organised by the {Council} of {Industrial} {Design} and held at the {Victoria} and {Albert}
     {Museum}, {London}, 1946. {Designed} by {B.~G.} {Bowden}},
-  titleaddon = {photograph},
+  titleaddon = {[photograph]},
   note = {At: London. Design Council Slide Collection}}
 %</tex1|bib1>
 %<*driver|tex1>
@@ -1302,7 +1302,7 @@ Internally, \texttt{movie} and \texttt{video} are aliases for \texttt{booklet}.
   author = {Moran, C.},
   year = {2016},
   title = {Save Our Libraries},
-  titleaddon = {[Online]},
+  titleaddon = {Online},
   url = {https://www.youtube.com/watch?v=gKTfCz4JtVE&feature=youtu.be},
   urlyear = {29 April 2016}}
 %</driver|bib>
@@ -1465,7 +1465,7 @@ Internally these are all aliases for \texttt{manual}.
   author = {Holland, M.},
   year = {2002},
   title = {Guide to Citing Internet Sources},
-  titleaddon = {[Online]},
+  titleaddon = {Online},
   address = {Poole},
   organization = {Bournemouth University},
   url = {http://www.bournemouth.ac.uk/library/using/guide_to_citing_internet_sourc.html},
@@ -1503,7 +1503,7 @@ Internally these are all aliases for \texttt{manual}.
   author = {{Wiltshire Council}},
   year = {2015},
   title = {Get {Wiltshire} walking},
-  titleaddon = {[Online]},
+  titleaddon = {Online},
   address = {Trowbridge},
   organization = {Wiltshire Council},
   url = {http://www.wiltshire.gov.uk/leisureandrecreation/sportphysicalactivity/getwiltshirewalking.html},
@@ -1666,7 +1666,7 @@ your citation command.
   author = {Wilson, D.},
   year = {2013},
   title = {Real Geometry and Connectedness via Triangular Description: {CAD} Example Bank},
-  titleaddon = {[Online]},
+  titleaddon = {Online},
   address = {Bath},
   organization = {University of Bath},
   doi = {10.15125/BATH-00069},
@@ -1699,7 +1699,7 @@ You can also use \texttt{dataset} as an alternative alias for \texttt{manual}.
 
 \subsubsection*{Computer program}
 
-\begin{bibexbox}(todo)<HBS 42>{screencasto}
+\begin{bibexbox}<HBS 42>{screencasto}
   @screencasto, n.d.\@ \emph{Screencast-O-Matic} (v.2) [computer program]. Available from: \url{https://screencast-o-matic.com/} [Accessed 16 May 2016].
   \tcblower
 \begin{Verbatim}
@@ -1790,7 +1790,7 @@ Internally, \texttt{software} is an alias for \texttt{manual}.
   author = {Esquivel, L.},
   year = {2003},
   title = {Como Agua para Chocolate},
-  titleaddon = {[Like water for chocolate]},
+  titleaddon = {Like water for chocolate},
   address = {Barcelona},
   publisher = {Debolsillo}}
 %</driver|bib>
@@ -1824,7 +1824,7 @@ Internally, \texttt{software} is an alias for \texttt{manual}.
   author = {Thurfjell, W.},
   year = {1975},
   title = {Vart har våran doktor tagit vägen?},
-  titleaddon = {[Where has our doctor gone?]},
+  titleaddon = {Where has our doctor gone?},
   journal = {Läkartidningen},
   volume = {72},
   pages = {789}}
@@ -3326,7 +3326,8 @@ FUNCTION {format.btitle}
 FUNCTION {format.titleaddon}
 { titleaddon
   duplicate$ empty$ 'skip$
-    { "titleaddon" bibinfo.check }
+%<bst1>    { "titleaddon" bibinfo.check }
+%<bst2>    { "[" swap$ "titleaddon" bibinfo.check * "]" * }
   if$
 }
 %    \end{macrocode}
