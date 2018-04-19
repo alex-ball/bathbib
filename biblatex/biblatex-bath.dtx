@@ -2087,9 +2087,12 @@ This work is `maintained' (as per LPPL maintenance status) by [Alex Ball][me].
 \renewbibmacro*{bytranslator}[1][bytranslator]{%
   \ifnameundef{translator}
   {}
-  {\bibstring{bytranslator}%
-    \setunit{\addspace}%
-    \printnames[#1]{translator}}}
+  {\setunit{\addspace}%
+    \printtext[parens]{%
+    \printnames[#1]{translator}%
+    \newunit
+    \bibstring{translator}%
+    \clearname{translator}}}}
 
 \renewbibmacro*{byeditor+others}[1][byeditor]{%
   \ifnameundef{editor}
@@ -2110,13 +2113,15 @@ This work is `maintained' (as per LPPL maintenance status) by [Alex Ball][me].
 
 \renewbibmacro*{bytranslator+others}[1][bytranslator]{%
   \ifnameundef{translator}
-  {}
-  {\usebibmacro{bytranslator+othersstrg}%
-    \setunit{\addspace}%
-    \printnames[#1]{translator}%
+  {\usebibmacro{withothers}}
+  {\setunit{\addspace}%
+    \printtext[parens]{%
+    \printnames[bytranslator]{translator}%
+    \newunit
+    \bibstring{translator}%
     \clearname{translator}%
-    \newunit}%
-  \usebibmacro{withothers}}
+    \newunit
+    \usebibmacro{withothers}}}}
 
 %    \end{macrocode}
 %
