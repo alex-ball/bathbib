@@ -1949,17 +1949,17 @@ If the name is due to appear initial first (e.g.\ after `In:'), you can append t
 
 \subsubsection*{Act of Parliament (UK Statutes) before 1963}
 
-\begin{bibexbox}<HBS 32>{gb.wa1735}
+\begin{bibexbox}(todo)<HBS 32>{gb.wa1735}
   \emph{Witchcraft Act 1735} (9 Geo.2, c.5).
   \tcblower
 \begin{Verbatim}
 %</driver|tex1>
 %<*driver|bib>
-@techreport{gb.wa1735,
-  key = {\emph{Witchcraft Act 1735}},
-  title = {Witchcraft {Act} 1735},
+@legislation{gb.wa1735,
+  title = {Witchcraft {Act}},
+  year = {1735},
   series = {9 Geo.2},
-  number = {c.5}}
+  chapter = {5}}
 %</driver|bib>
 %<*driver>
 \end{Verbatim}
@@ -1981,16 +1981,16 @@ If the name is due to appear initial first (e.g.\ after `In:'), you can append t
 
 \subsubsection*{Act of Parliament (UK Statutes) 1963 onwards}
 
-\begin{bibexbox}<HBS 33>{gb.pa2014}
+\begin{bibexbox}(todo)<HBS 33>{gb.pa2014}
   \emph{Pensions Act 2014}, c.19. London:\@ TSO.
   \tcblower
 \begin{Verbatim}
 %</driver|tex1>
 %<*driver|bib>
-@book{gb.pa2014,
-  key = {\emph{Pensions Act 2014}},
-  title = {Pensions {Act} 2014},
-  number = {c.19},
+@legislation{gb.pa2014,
+  title = {Pensions {Act}},
+  year = {2014},
+  chapter = {19},
   address = {London},
   publisher = {TSO}}
 %</driver|bib>
@@ -2016,13 +2016,13 @@ If the name is due to appear initial first (e.g.\ after `In:'), you can append t
 
 \subsubsection*{House of Commons/House of Lords bill}
 
-\begin{bibexbox}<HBS 31>{gb.bill1987/88-66}
+\begin{bibexbox}(todo)<HBS 31>{gb.bill1987/88-66}
   Great Britain. Parliament. House of Commons, 1988. \emph{Local government finance bill}. London:\@ HMSO (Bills | 1987/88, 66).
   \tcblower
 \begin{Verbatim}
 %</driver|tex1>
 %<*driver|bib>
-@techreport{gb.bill1987/88-66,
+@legislation{gb.bill1987/88-66,
   author = {{Great Britain. Parliament. House of Commons}},
   year = {1988},
   title = {Local Government Finance Bill},
@@ -2057,21 +2057,21 @@ If the name is due to appear initial first (e.g.\ after `In:'), you can append t
 
 \subsubsection*{Statutory instrument}
 
-\begin{bibexbox}<HBS 35>{gb.hmr2012}
+\begin{bibexbox}(todo)<HBS 35>{gb.hmr2012}
   \emph{The Human Medicines Regulations 2012} [Online], No.1916, United Kingdom:\@ HMSO. Available from:\@ \url{http://www.legislation.gov.uk/uksi/2012/1916/pdfs/uksi_20121916_en.pdf} [Accessed 17 April 2016].
   \tcblower
 \begin{Verbatim}
 %</driver|tex1>
 %<*driver|bib>
-@book{gb.hmr2012,
-  key = {\emph{The {Human} {Medicines} {Regulations} 2012}},
-  title = {The {Human} {Medicines} {Regulations} 2012},
-  titleaddon = {[Online]},
+@legislation{gb.hmr2012,
+  entrysubtype = {secondary},
+  title = {The {Human} {Medicines} {Regulations}},
+  year = {2012},
   number = {No.1916},
   address = {United Kingdom},
   publisher = {HMSO},
   url = {http://www.legislation.gov.uk/uksi/2012/1916/pdfs/uksi_20121916_en.pdf},
-  urlyear = {17/04/2016}}
+  urlyear = {17 April 2016}}
 %</driver|bib>
 %<*driver>
 \end{Verbatim}
@@ -2093,6 +2093,8 @@ If the name is due to appear initial first (e.g.\ after `In:'), you can append t
 \fi
 %</driver>
 \end{bibexbox}
+
+Use the \texttt{entrysubtype} `secondary' to put the number in the right place.
 
 
 % Parliamentary reports
@@ -2142,7 +2144,7 @@ Use this form for reports of House of Commons select committees.
 
 Use this form for reports of House of Lords select committees.
 
-\begin{bibexbox}<HBS 30>{gb.hl1986/87-66}
+\begin{bibexbox}(todo)<HBS 30>{gb.hl1986/87-66}
   Great Britain. Parliament. House of Lords, 1987. \emph{Social fund (Maternity and Funeral Expenses) Bill}. London:\@ HMSO (HL 1986/87, (66)).
   \tcblower
 \begin{Verbatim}
@@ -2184,7 +2186,7 @@ years in \texttt{series} and the HL and HC numbers in \texttt{number}.
 
 \subsubsection*{Command paper}
 
-\begin{bibexbox}<HBS 34>{gb.cm6041}
+\begin{bibexbox}(todo)<HBS 34>{gb.cm6041}
   Great Britain. Ministry of Defence, 2004. \emph{Delivering security in a changing world:\@ defence white paper}. London:\@ TSO (Cm.\@ 6041).
   \tcblower
 \begin{Verbatim}
@@ -2196,7 +2198,7 @@ years in \texttt{series} and the HL and HC numbers in \texttt{number}.
   title = {Delivering Security in a Changing World: defence White Paper},
   address = {London},
   publisher = {TSO},
-  type = {{Cm.}},
+  series = {Cm},
   number = {6041}}
 %</driver|bib>
 %<*driver>
@@ -2227,17 +2229,21 @@ years in \texttt{series} and the HL and HC numbers in \texttt{number}.
 
 \subsubsection*{EU regulation or directive, decision, recommendation or opinion}
 
-\begin{bibexbox}<HBS 38>{eu.dir2015/413}
+\begin{bibexbox}(todo)<HBS 38>{eu.dir2015/413}
   Directive (EU) 2015/413 of the European Parliament and of the Council of 11th March 2015 facilitating cross-border exchange of information on road-safety-related traffic offences [2015] \emph{OJ} L68/9.
   \tcblower
 \begin{Verbatim}
 %</driver|tex1>
 %<*driver|bib>
-@misc{eu.dir2015/413,
+@legislation{eu.dir2015/413,
   title = {Directive ({EU}) 2015/413 of the {European} {Parliament} and of the {Council} of
     11th {March} 2015 Facilitating Cross-Border Exchange of Information on Road-Safety-Related
     Traffic Offences},
-  titleaddon = {[2015] \emph{OJ} L68/9}}
+  year = {2015},
+  journal = {OJ},
+  series = {L},
+  volume = {68},
+  pages = {9}}
 %</driver|bib>
 %<*driver>
 \end{Verbatim}
@@ -2256,6 +2262,14 @@ years in \texttt{series} and the HL and HC numbers in \texttt{number}.
 \fi
 %</driver>
 \end{bibexbox}
+
+Use \verb|\defcitealias| to provide a suitable citation string:
+
+\begin{tcblisting}{listing side text, lefthand width=.5\linewidth}
+\defcitealias{eu.dir2015/413}{%
+  {Directive ({EU}) 2015/413}}
+\citepalias{eu.dir2015/413}
+\end{tcblisting}
 
 
 % European reports
@@ -4433,8 +4447,6 @@ FUNCTION {conference} { inproceedings }
 %
 % \subsubsection{Legal case studies}
 %
-% Here are a list of aliases supported by this style.
-%
 %    \begin{macrocode}
 FUNCTION {jurisdiction}
 { output.bibitem
@@ -4473,6 +4485,39 @@ FUNCTION {jurisdiction}
       format.pages output
     }
   if$
+  new.block
+  format.eprint output
+  format.url output
+  fin.entry
+}
+%    \end{macrocode}
+%
+% \subsubsection{Legislation}
+%
+%    \begin{macrocode}
+FUNCTION {legislation}
+{ output.bibitem
+  author empty$
+    { format.btitle "title" output.check
+      continue.clause
+      format.case.number output
+      number empty$
+        'new.sentence
+        'continue.clause
+      if$
+      format.date "year" output.check
+      get.title.addenda
+    }
+    { format.authors output
+      author format.key output
+      format.date "year" output.check
+      date.block
+      continue.clause
+      format.btitle "title" output.check
+      get.title.addenda
+    }
+  if$
+  format.note output
   new.block
   format.eprint output
   format.url output
