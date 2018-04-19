@@ -1533,7 +1533,7 @@ Internally these are all aliases for \texttt{manual}.
 \begin{Verbatim}
 %</driver|tex1>
 %<*driver|bib>
-@article{clark2004euk,
+@letter{clark2004euk,
   author = {Clark, T.},
   year = {05/07/2004},
   title = {A {European} {UK} {Libraries} {Plus}?},
@@ -1561,6 +1561,10 @@ Internally these are all aliases for \texttt{manual}.
 %</driver>
 \end{bibexbox}
 
+Use the \texttt{journal} field to specify the mailing list. This triggers the
+change in formatting with respect to the following example.
+Internally the example above is transformed to an \texttt{article} entry,
+while the one below is transformed into an \texttt{unpublished} entry.
 
 \subsubsection*{Personal emails}
 
@@ -1570,7 +1574,7 @@ Internally these are all aliases for \texttt{manual}.
 \begin{Verbatim}
 %</driver|tex1>
 %<*driver|bib>
-@unpublished{alston2004sah,
+@letter{alston2004sah,
   author = {Alston, S.},
   year = {19 July 2004},
   title = {Society of {Architectural} {Historians} of {GB}},
@@ -4691,6 +4695,12 @@ FUNCTION {unpublished}
 % Here are a list of aliases supported by this style.
 %
 %    \begin{macrocode}
+FUNCTION {letter} {
+  journal empty$
+    'unpublished
+    'article
+  if$
+}
 FUNCTION {audio} { booklet }
 FUNCTION {movie} { booklet }
 FUNCTION {music} { booklet }
