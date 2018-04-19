@@ -1328,7 +1328,7 @@ You can also use \texttt{dataset} as an alias for \texttt{online}.
   author = {@screencasto},
   title = {{Screencast-O-Matic}},
   version = {2},
-  type = {computer program},
+  titleaddon = {computer program},
   url = {https://screencast-o-matic.com/},
   urldate = {2016-05-16}}
 %</driver|bib>
@@ -2204,6 +2204,9 @@ This work is `maintained' (as per LPPL maintenance status) by [Alex Ball][me].
         \printfield[midsentencecase]{subtitle}%
         \setunit{\addspace}%
       }%
+      \printfield{version}%
+      \clearfield{version}%
+      \setunit*{\addspace}%
       \printfield{titleaddon}%
       \ifboolexpr{
         test {\iffieldundef{journaltitle}}
@@ -2297,6 +2300,9 @@ This work is `maintained' (as per LPPL maintenance status) by [Alex Ball][me].
 \newbibmacro*{labeltitleaddon}{%
   \iftoggle{bbx:labelistitle}{%
     \setunit{\printdelim{yearlabeltitleaddondelim}}%
+    \printfield{version}%
+    \clearfield{version}%
+    \setunit*{\addspace}%
     \printfield{titleaddon}%
     \clearfield{titleaddon}%
     \ifboolexpr{
@@ -3017,8 +3023,6 @@ This work is `maintained' (as per LPPL maintenance status) by [Alex Ball][me].
   \newunit\newblock
   \usebibmacro{byauthor}%
   \newunit\newblock
-  \printfield{version}%
-  \newunit
   \printfield{note}%
   \newunit\newblock
   \usebibmacro{institution+location+date}%
@@ -3138,8 +3142,6 @@ This work is `maintained' (as per LPPL maintenance status) by [Alex Ball][me].
   \newunit\newblock
   \printfield{howpublished}%
   \newunit\newblock
-  \printfield{version}%
-  \newunit
   \printfield{note}%
   \newunit\newblock
   \usebibmacro{publisher+location+date}%
@@ -3360,8 +3362,6 @@ This work is `maintained' (as per LPPL maintenance status) by [Alex Ball][me].
   \newunit\newblock
   \usebibmacro{byauthor}%
   \newunit\newblock
-  \printfield{version}%
-  \newunit
   \printfield{note}%
   \setunit{\addspace}%
   \usebibmacro{reporter}%
@@ -3426,8 +3426,6 @@ This work is `maintained' (as per LPPL maintenance status) by [Alex Ball][me].
   \printlist{language}%
   \newunit\newblock
   \usebibmacro{byauthor}%
-  \newunit\newblock
-  \printfield{version}%
   \iffieldequalstr{entrysubtype}{secondary}{%
     \setunit{\addcomma\space}%
     \printfield{number}%
@@ -3493,8 +3491,6 @@ This work is `maintained' (as per LPPL maintenance status) by [Alex Ball][me].
   \newunit\newblock
   \usebibmacro{bytranslator+others}%
   \newunit\newblock
-  \printfield{version}%
-  \newunit\newblock
   \usebibmacro{journal+issuetitle}%
   \newunit\newblock
   \printfield{howpublished}%
@@ -3529,8 +3525,6 @@ This work is `maintained' (as per LPPL maintenance status) by [Alex Ball][me].
   \usebibmacro{author/editor+others/translator+others}%
   \setunit{\printdelim{nametitledelim}}\newblock
   \usebibmacro{title}%
-  \setunit{\addspace}
-  \printfield{version}%
   \setunit{\addspace}
   \printfield{type}%
   \newunit
@@ -3583,8 +3577,6 @@ This work is `maintained' (as per LPPL maintenance status) by [Alex Ball][me].
   \printfield{howpublished}%
   \newunit\newblock
   \printfield{type}%
-  \newunit
-  \printfield{version}%
   \newunit
   \printfield{note}%
   \newunit\newblock

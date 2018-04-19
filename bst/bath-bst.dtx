@@ -103,7 +103,7 @@ Copyright (C) 2016 by University of Bath
 \xdefinecolor{Slate}{RGB}{80,86,94}
 \xdefinecolor{BathStone}{RGB}{213,211,185}
 \colorlet{ok}{Green}
-\colorlet{bad}{red}
+\colorlet{todo}{red}
 \colorlet{hacked}{orange}
 \colorlet{manual}{purple}
 \RecustomVerbatimEnvironment
@@ -1690,17 +1690,18 @@ You can also use \texttt{dataset} as an alternative alias for \texttt{manual}.
 
 \subsubsection*{Computer program}
 
-\begin{bibexbox}<HBS 42>{screencasto}
+\begin{bibexbox}(todo)<HBS 42>{screencasto}
   @screencasto, n.d.\@ \emph{Screencast-O-Matic} (v.2) [computer program]. Available from: \url{https://screencast-o-matic.com/} [Accessed 16 May 2016].
   \tcblower
 \begin{Verbatim}
 %</driver|tex1>
 %<*driver|bib>
-@online{screencasto,
+@software{screencasto,
   author = {@screencasto},
   year = {n.d.},
   title = {{Screencast-O-Matic}},
-  titleaddon = {(v.2) [computer program]},
+  version = {2},
+  titleaddon = {computer program},
   url = {https://screencast-o-matic.com/},
   urlyear = {16 May 2016}}
 %</driver|bib>
@@ -1723,7 +1724,10 @@ You can also use \texttt{dataset} as an alternative alias for \texttt{manual}.
 %</driver>
 \end{bibexbox}
 
-You can also use \texttt{software} as an alternative alias for \texttt{manual}.
+%<*driver>
+Internally, \texttt{software} is an alias for \texttt{manual}.
+%</driver>
+%<tex1>You can also use \texttt{software} as an alternative alias for \texttt{manual}.
 
 
 \subsection{Works in languages other than English}
@@ -2440,8 +2444,8 @@ This work is ‘maintained’ (as per LPPL maintenance status) by [Alex Ball][me
 % We begin by listing the entry fields that we will recognize. These are the
 % standard Bib\TeX\ ones plus |archive|, |doi|, |eid|, |eprint|, |eventyear|,
 % |language|, |library|, |titleaddon|, |translator|, |url|, |urldate|,
-% |urlyear|, and |venue|, all of which have
-% been backported from \textsf{natbib} and \textsf{biblatex}.
+% |urlyear|, |venue|, and |version|,
+% all of which have been backported from \textsf{natbib} and \textsf{biblatex}.
 %
 %    \begin{macrocode}
 ENTRY
@@ -2478,6 +2482,7 @@ ENTRY
     urldate
     urlyear
     venue
+    version
     volume
     year
   }
@@ -3303,12 +3308,28 @@ FUNCTION {format.titleaddon}
 }
 %    \end{macrocode}
 %
+% |format.version| writes out the version field.
+%
+%    \begin{macrocode}
+FUNCTION {format.version}
+{ version
+  duplicate$ empty$ 'skip$
+    { "(v." swap$ *
+      "version" bibinfo.check
+      ")" *
+    }
+  if$
+}
+%    \end{macrocode}
+%
 % |get.title.addenda| is a convenience for writing out the elements that
 % normally follow the title in |mid.clause| state.
 %
 %    \begin{macrocode}
 FUNCTION {get.title.addenda}
 { continue.clause
+  format.version output
+  continue.clause
   format.titleaddon output
   continue.clause
   format.translators output
