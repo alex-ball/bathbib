@@ -612,7 +612,6 @@ though of course any item might need adjustment to take account of differing con
 %<*driver|bib>
 @book{merckNDidx,
   title = {The {Merck} Index Online},
-  year = {n.d.},
   address = {London},
   publisher = {RSC Publishing},
   url = {http://www.rsc.org/Merck-Index},
@@ -1041,6 +1040,10 @@ The Harvard (Bath) style treats preprints as grey literature, and so the
 
 \subsubsection*{Standard}
 
+\hack{Unless it has one, give the standard identifier as the \texttt{author}.
+This is not terribly semantic but is the easiest way to get the bibliography
+sorting and citation text correct.}
+
 \begin{bibexbox}(hacked)<HBS 15>{bs5605:1990}
   BS 5605:1990. \emph{Recommendations for citing and referencing published material}. BSI.
   \tcblower
@@ -1049,6 +1052,7 @@ The Harvard (Bath) style treats preprints as grey literature, and so the
 %<*driver|bib>
 @manual{bs5605:1990,
   author = {{BS 5605:1990}},
+  sortyear = {1990},
   title = {Recommendations for citing and referencing published material},
   organization = {BSI}}
 %</driver|bib>
@@ -1068,6 +1072,23 @@ The Harvard (Bath) style treats preprints as grey literature, and so the
 \fi
 %</driver>
 \end{bibexbox}
+
+%<*driver>
+\tip{To suppress the printing of `n.d.', you can either give a value for
+\texttt{sortyear} (the value has no other effect in this style) or you can use
+the \key{nonodate} option. Please bear in mind that the \texttt{options} field
+from \textsf{biblatex} has been emulated rather crudely, so you can only give
+one option at a time:}
+\begin{tcolorbox}%
+  [ colframe = Slate
+  , colback = white
+  , fontupper = \footnotesize
+  ]
+\begin{Verbatim}
+  options = {nonodate},
+\end{Verbatim}
+\end{tcolorbox}
+%</driver>
 
 You can also use \texttt{standard} as an alias for \texttt{manual}.
 
@@ -1708,7 +1729,6 @@ You can also use \texttt{dataset} as an alternative alias for \texttt{manual}.
 %<*driver|bib>
 @software{screencasto,
   author = {@screencasto},
-  year = {n.d.},
   title = {{Screencast-O-Matic}},
   version = {2},
   titleaddon = {computer program},
@@ -2502,7 +2522,7 @@ This work is ‘maintained’ (as per LPPL maintenance status) by [Alex Ball][me
 %
 % We begin by listing the entry fields that we will recognize. These are the
 % standard Bib\TeX\ ones plus |archive|, |doi|, |eid|, |eprint|, |entrysubtype|,
-% |eventyear|, |keywords|, |language|, |library|, |options|, |titleaddon|,
+% |eventyear|, |keywords|, |language|, |library|, |options|, |sortyear|, |titleaddon|,
 % |translator|, |url|, |urldate|, |urlyear|, |userb|, |venue|, and |version|,
 % all of which have been backported from \textsf{natbib} and \textsf{biblatex}.
 % |casenumber| is specific to this style.
@@ -2538,6 +2558,7 @@ ENTRY
     publisher
     school
     series
+    sortyear
     title
     titleaddon
     translator
@@ -2969,6 +2990,9 @@ FUNCTION {bbl.commission}
 
 FUNCTION {bbl.online}
 { "[Online]" }
+
+FUNCTION {bbl.nodate}
+{ "n.d." }
 
 %    \end{macrocode}
 %
@@ -3498,11 +3522,33 @@ FUNCTION {legal.journal.shape}
 %
 % \subsection{Dates}
 %
+% |nodate.check| looks at the most recent token. If it is empty, replaces it
+% with `n.d.' unless either |sortyear| or the |nonodate| option is present.
+%
+%    \begin{macrocode}
+FUNCTION {nodate.check}
+{
+%<bst1>  skip$
+%<*bst2>
+duplicate$ empty$
+  sortyear empty$
+  and
+    { options field.or.null "nonodate" =
+        'skip$
+        { pop$ bbl.nodate }
+      if$
+    }
+    'skip$
+  if$
+%</bst2>
+}
+%    \end{macrocode}
+%
 % |format.date| returns the year and any disambiguation label.
 %
 %    \begin{macrocode}
 FUNCTION {format.date}
-{ year "year" bibinfo.check
+{ year "year" bibinfo.check nodate.check
   extra.label *
 }
 %    \end{macrocode}
@@ -3517,13 +3563,11 @@ FUNCTION {format.date}
 %
 %    \begin{macrocode}
 FUNCTION {format.date.brackets}
-{ year "year" bibinfo.check
-  extra.label *
+{ format.date
   "[" swap$ * "]" *
 }
 FUNCTION {format.date.parens}
-{ year "year" bibinfo.check
-  extra.label *
+{ format.date
   "(" swap$ * ")" *
 }
 FUNCTION {format.jur.date.essential}
@@ -5345,7 +5389,7 @@ FUNCTION {calc.label}
   short.list
   "("
   *
-  year duplicate$ empty$
+  year nodate.check duplicate$ empty$
      { pop$ "" }
      'skip$
   if$
