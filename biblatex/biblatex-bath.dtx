@@ -1076,9 +1076,15 @@ The \texttt{book} entry type would also work for this reference.
 
 In the above entry, the following would also work instead of using \texttt{note}:
 
-\begin{tcblisting}{listing only}
+\begin{tcolorbox}%
+  [ colframe = Slate
+  , colback = white
+  , fontupper = \footnotesize
+  ]
+\begin{Verbatim}
   editor = {Orson Welles}, editortype = {director}
-\end{tcblisting}
+\end{Verbatim}
+\end{tcolorbox}
 
 You can also use \texttt{movie} as an alias for \texttt{video}.
 
@@ -1495,6 +1501,17 @@ faithful to the original orthography), you can specify this using
 \end{Verbatim}
 \end{bibexbox}
 
+You can also combine the series and chapter in the \texttt{number} field:
+
+\begin{tcolorbox}%
+  [ colframe = Slate
+  , colback = white
+  , fontupper = \footnotesize
+  ]
+\begin{Verbatim}
+  number = {9 Geo.2, c.5}
+\end{Verbatim}
+\end{tcolorbox}
 
 \subsubsection*{Act of Parliament (UK Statutes) 1963 onwards}
 
@@ -1607,7 +1624,7 @@ Use this form for reports of House of Lords select committees.
 @report{gb.hl1986/87-66,
   author = {{Great Britain. Parliament. House of Lords}},
   year = {1987},
-  title = {Social Fund ({Maternity} and {Funeral} {Expenses}) Bill},
+  title = {Social Fund ({Maternity} and {Funeral} {Expenses}) {Bill}},
   address = {London},
   publisher = {HMSO},
   series = {HL 1986/87},
