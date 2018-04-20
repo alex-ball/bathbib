@@ -3826,12 +3826,21 @@ FUNCTION {format.img.library}
   if$
 }
 FUNCTION {format.img.library.address}
-{ address empty$ library empty$ and
+{ address empty$ library empty$ and institution empty$ and
     { "" }
     { "At: "
       address "address" bibinfo.check *
       library duplicate$ empty$
-        { pop$ "" }
+        { institution duplicate$ empty$
+            { pop$ "" }
+            { address empty$
+              'skip$
+              { ". " swap$ }
+              if$
+              "institution" bibinfo.check * *
+            }
+          if$
+        }
         { address empty$
             'skip$
             { ". " swap$ }

@@ -931,8 +931,7 @@ If the date forms part of the identifier, don't repeat it in \texttt{year} or \t
 put it in \texttt{sortyear} instead. This will make sure it is still positioned
 correctly within a citation of multiple sources.
 If you are using Biber, it will also stop an erroneous `n.d.\@' being printed;
-otherwise you will need to do this manually by setting the (Boolean) entry option \key{nonodate}. Test citation: \parencite{bs5605:1990}.
-
+otherwise you will need to do this manually by setting the (Boolean) entry option \key{nonodate}.
 
 \subsubsection*{Patent}
 
@@ -1026,6 +1025,8 @@ record the source of the image. If you use both, \texttt{organization} will be i
 \end{bibexbox}
 
 Use the \texttt{library} field to record the archive and register number.
+If the image is on display rather than archived,
+use \texttt{institution} instead for the museum, gallery or building.
 If you also wish to provide the name of the organisation that published the image,
 use the \texttt{publisher} field if the location you provide relates to the publisher,
 but the \texttt{organization} field if the location relates to the archive.
@@ -3621,12 +3622,21 @@ This work is `maintained' (as per LPPL maintenance status) by [Alex Ball][me].
   \setunit{\addcomma\space}%
   \usebibmacro{date}%
   \newunit
-  \iffieldundef{library}{}{%
+  \iffieldundef{library}{%
+    \iffieldundef{institution}{}{%
+      \bibsentence
+      \bibstring{at}%
+      \setunit{\addcolon\space}%
+      \printlist{location}%
+      \setunit*{\addperiod\space}%
+      \printfield{institution}%
+    }%
+  }{%
     \bibsentence
     \bibstring{at}%
     \setunit{\addcolon\space}%
     \printlist{location}%
-    \setunit*{\addperiod\space}
+    \setunit*{\addperiod\space}%
     \printfield{library}%
   }%
 }
