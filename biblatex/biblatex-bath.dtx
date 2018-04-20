@@ -2332,9 +2332,11 @@ This work is `maintained' (as per LPPL maintenance status) by [Alex Ball][me].
       test {\iffieldundef{journaltitle}}
       and
       test {\iffieldundef{booktitle}}
-      and
-      test {\iffieldundef{library}}
-      and
+      and (
+        test {\iffieldundef{library}}
+        or
+        test {\ifentrytype{image}}
+      ) and
       not test {\ifentrytype{software}}
     }{%
       \setunit*{\addspace}%

@@ -613,7 +613,6 @@ though of course any item might need adjustment to take account of differing con
 @book{merckNDidx,
   title = {The {Merck} Index Online},
   year = {n.d.},
-  titleaddon = {Online},
   address = {London},
   publisher = {RSC Publishing},
   url = {http://www.rsc.org/Merck-Index},
@@ -653,7 +652,6 @@ though of course any item might need adjustment to take account of differing con
   editor = {Haynes, W. M.},
   year = {2014},
   title = {{CRC} Handbook of Chemistry and Physics},
-  titleaddon = {Online},
   edition = {94},
   address = {Boca Raton, Fla.},
   publisher = {CRC Press/Taylor and Francis},
@@ -825,7 +823,7 @@ though of course any item might need adjustment to take account of differing con
 
 \subsubsection*{Electronic journal article}
 
-\begin{bibexbox}(hacked)<HBS 7>{williams1997edd}
+\begin{bibexbox}<HBS 7>{williams1997edd}
   Williams, F., 1997. Electronic document delivery:\@ a trial in an academic library. \emph{Ariadne} [Online], 10. Available from:\@ \url{http://www.ariadne.ac.uk/issue10/edd/} [Accessed 5 December 1997].
   \tcblower
 \begin{Verbatim}
@@ -835,7 +833,7 @@ though of course any item might need adjustment to take account of differing con
   author = {Williams, F.},
   year = {1997},
   title = {Electronic Document Delivery: a Trial in an Academic Library},
-  journal = {Ariadne \textup{[Online]}},
+  journal = {Ariadne},
   volume = {10},
   url = {http://www.ariadne.ac.uk/issue10/edd/},
   urlyear = {5 December 1997}}
@@ -864,7 +862,7 @@ though of course any item might need adjustment to take account of differing con
 
 \subsubsection*{Preprint in a digital repository}
 
-\begin{bibexbox}(hacked)<HBS 8>{shah.corrick2016hsc}
+\begin{bibexbox}<HBS 8>{shah.corrick2016hsc}
   Shah, I. and Corrick, I. 2016. \emph{How should central banks respond to non-neutral inflation expectations?} Bath:\@ University of Bath. \emph{OPUS} [Online]. Available from:\@ \url{http://opus.bath.ac.uk} [Accessed 4 May 2016].
   \tcblower
 \begin{Verbatim}
@@ -876,7 +874,7 @@ though of course any item might need adjustment to take account of differing con
   title = {How should central banks respond to non-neutral inflation expectations?},
   address = {Bath},
   institution = {University of Bath},
-  library = {OPUS \textup{[Online]}},
+  library = {OPUS},
   url = {http://opus.bath.ac.uk},
   urlyear = {4 May 2016}}
 %</driver|bib>
@@ -907,6 +905,8 @@ The Harvard (Bath) style treats preprints as grey literature, and so the
 
 
 \subsubsection*{Newspaper article}
+
+\hack{Put the remainder of the date as the \texttt{volume}.}
 
 \begin{bibexbox}(hacked)<HBS 12>{haurant2004bbh}
   Haurant, S., 2004. Britain's borrowing hits £1 trillion. \emph{The Guardian}, 29 July, p.16c.
@@ -1306,8 +1306,7 @@ Internally, \texttt{movie} and \texttt{video} are aliases for \texttt{booklet}.
 @video{moran2016sol,
   author = {Moran, C.},
   year = {2016},
-  title = {Save Our Libraries},
-  titleaddon = {Online},
+  title = {Save {Our} {Libraries}},
   url = {https://www.youtube.com/watch?v=gKTfCz4JtVE&feature=youtu.be},
   urlyear = {29 April 2016}}
 %</driver|bib>
@@ -1470,7 +1469,6 @@ Internally these are all aliases for \texttt{manual}.
   author = {Holland, M.},
   year = {2002},
   title = {Guide to Citing Internet Sources},
-  titleaddon = {Online},
   address = {Poole},
   organization = {Bournemouth University},
   url = {http://www.bournemouth.ac.uk/library/using/guide_to_citing_internet_sourc.html},
@@ -1508,7 +1506,6 @@ Internally these are all aliases for \texttt{manual}.
   author = {{Wiltshire Council}},
   year = {2015},
   title = {Get {Wiltshire} walking},
-  titleaddon = {Online},
   address = {Trowbridge},
   organization = {Wiltshire Council},
   url = {http://www.wiltshire.gov.uk/leisureandrecreation/sportphysicalactivity/getwiltshirewalking.html},
@@ -1549,7 +1546,7 @@ Internally these are all aliases for \texttt{manual}.
   author = {Clark, T.},
   year = {5 July 2004},
   title = {A {European} {UK} {Libraries} {Plus}?},
-  journal = {Lis-link \textup{[Online]}},
+  journal = {Lis-link},
   url = {lis-link@jiscmail.ac.uk},
   urlyear = {30 July 2004}}
 %</driver|bib>
@@ -1630,7 +1627,7 @@ your citation command.
   author = {{Bureau van Dijk}},
   year = {2008},
   title = {{BT} {Group} PLC Company Report},
-  library = {FAME \textup{[Online]}},
+  library = {FAME},
   address = {London},
   organization = {Bureau van Dijk},
   url = {http://www.portal.euromonitor.com},
@@ -1671,7 +1668,6 @@ your citation command.
   author = {Wilson, D.},
   year = {2013},
   title = {Real Geometry and Connectedness via Triangular Description: {CAD} Example Bank},
-  titleaddon = {Online},
   address = {Bath},
   organization = {University of Bath},
   doi = {10.15125/BATH-00069},
@@ -2859,7 +2855,25 @@ FUNCTION {either.or.check}
     { "can't use both " swap$ * " fields in " * cite$ * warning$ }
   if$
 }
-
+%    \end{macrocode}
+%
+% |is.online| checks whether the entry should have `[Online]' in it somewhere.
+%
+%    \begin{macrocode}
+FUNCTION {is.online}
+{ type$ "software" =
+    { #0 }
+    { url empty$
+        { type$ "online" =
+            { #1 }
+            { #0 }
+          if$
+        }
+        { #1 }
+      if$
+    }
+  if$
+}
 %    \end{macrocode}
 %
 % \subsection{Bibliography strings}
@@ -2952,6 +2966,9 @@ FUNCTION {bbl.th}
 
 FUNCTION {bbl.commission}
 { "Commission Decision" }
+
+FUNCTION {bbl.online}
+{ "[Online]" }
 
 %    \end{macrocode}
 %
@@ -3405,6 +3422,19 @@ FUNCTION {get.title.addenda}
   continue.clause
   format.titleaddon output
   continue.clause
+%<*bst2>
+  library empty$
+  type$ "image" =
+  or
+  is.online
+  and
+  journal empty$
+  and
+    { bbl.online output }
+    'skip$
+  if$
+  continue.clause
+%</bst2>
   format.translators output
 }
 %    \end{macrocode}
@@ -4028,6 +4058,16 @@ FUNCTION {format.institution.address}
 FUNCTION {format.library}
 { library "library" bibinfo.check
   emphasize
+%<*bst2>
+  duplicate$ empty$ not
+  is.online
+  and
+  journal empty$
+  and
+    { " " * bbl.online * }
+    'skip$
+  if$
+%</bst2>
 }
 %    \end{macrocode}
 %
@@ -4311,25 +4351,32 @@ FUNCTION {format.journal.series.vol.pages}
       if$ *
     }
     { duplicate$ "ECR" =
-      { "journal" bibinfo.check
-        volume "volume" bibinfo.check
-        duplicate$ empty$
-          'skip$
-          { " " swap$ * "--" * * }
-        if$
-      }
-      { volume "volume" bibinfo.check
-        duplicate$ empty$
-          'pop$
-          { " " * swap$ * }
-        if$
-        pages empty$
-        eid empty$
-        and
-          'skip$
-          { " " * }
-        if$
-      }
+        { "journal" bibinfo.check
+          volume "volume" bibinfo.check
+          duplicate$ empty$
+            'skip$
+            { " " swap$ * "--" * * }
+          if$
+        }
+        { "journal" bibinfo.check
+%<*bst2>
+          is.online
+            { " " * bbl.online * }
+            'skip$
+          if$
+%</bst2>
+          volume "volume" bibinfo.check
+          duplicate$ empty$
+            'pop$
+            { " " * swap$ * }
+          if$
+          pages empty$
+          eid empty$
+          and
+            'skip$
+            { " " * }
+          if$
+        }
       if$
     }
   if$
@@ -4445,6 +4492,14 @@ FUNCTION {article}
       "journal" bibinfo.check
       emphasize
       "journal" output.check
+%<*bst2>
+      is.online
+        { continue.clause
+          bbl.online output
+        }
+        'skip$
+      if$
+%</bst2>
       format.vol.num.pages output
     }
     { format.article.crossref output.nonnull
