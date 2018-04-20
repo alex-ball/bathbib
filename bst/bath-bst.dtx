@@ -123,9 +123,14 @@ Copyright (C) 2016 by University of Bath
   \setbox\@tempboxa\hbox{{#1}}%
   \hangindent \wd\@tempboxa\noindent\box\@tempboxa}
 \makeatother
+\newcommand{\tip}[1]{\hangfrom{\makebox[2em][c]{\faLightbulbO}}#1\par}
+\newcommand{\info}[1]{\hangfrom{\makebox[2em][c]{\faInfoCircle}}#1\par}
+\newcommand{\hack}[1]{\hangfrom{\makebox[2em][c]{\faWrench}}#1\par}
 
 \usepackage{tcolorbox}
 \tcbuselibrary{listings,breakable,skins,xparse}
+\colorlet{Option}{violet}
+\newcommand*{\key}[1]{\textcolor{Option}{\ttfamily #1}}
 \lstdefinelanguage{bafll}%
   { alsoletter={.}
   , morekeywords=[2]%
@@ -1949,7 +1954,7 @@ If the name is due to appear initial first (e.g.\ after `In:'), you can append t
 
 \subsubsection*{Act of Parliament (UK Statutes) before 1963}
 
-\begin{bibexbox}(todo)<HBS 32>{gb.wa1735}
+\begin{bibexbox}<HBS 32>{gb.wa1735}
   \emph{Witchcraft Act 1735} (9 Geo.2, c.5).
   \tcblower
 \begin{Verbatim}
@@ -1981,7 +1986,7 @@ If the name is due to appear initial first (e.g.\ after `In:'), you can append t
 
 \subsubsection*{Act of Parliament (UK Statutes) 1963 onwards}
 
-\begin{bibexbox}(todo)<HBS 33>{gb.pa2014}
+\begin{bibexbox}<HBS 33>{gb.pa2014}
   \emph{Pensions Act 2014}, c.19. London:\@ TSO.
   \tcblower
 \begin{Verbatim}
@@ -2016,7 +2021,7 @@ If the name is due to appear initial first (e.g.\ after `In:'), you can append t
 
 \subsubsection*{House of Commons/House of Lords bill}
 
-\begin{bibexbox}(todo)<HBS 31>{gb.bill1987/88-66}
+\begin{bibexbox}<HBS 31>{gb.bill1987/88-66}
   Great Britain. Parliament. House of Commons, 1988. \emph{Local government finance bill}. London:\@ HMSO (Bills | 1987/88, 66).
   \tcblower
 \begin{Verbatim}
@@ -2057,7 +2062,7 @@ If the name is due to appear initial first (e.g.\ after `In:'), you can append t
 
 \subsubsection*{Statutory instrument}
 
-\begin{bibexbox}(todo)<HBS 35>{gb.hmr2012}
+\begin{bibexbox}<HBS 35>{gb.hmr2012}
   \emph{The Human Medicines Regulations 2012} [Online], No.1916, United Kingdom:\@ HMSO. Available from:\@ \url{http://www.legislation.gov.uk/uksi/2012/1916/pdfs/uksi_20121916_en.pdf} [Accessed 17 April 2016].
   \tcblower
 \begin{Verbatim}
@@ -2144,7 +2149,7 @@ Use this form for reports of House of Commons select committees.
 
 Use this form for reports of House of Lords select committees.
 
-\begin{bibexbox}(todo)<HBS 30>{gb.hl1986/87-66}
+\begin{bibexbox}<HBS 30>{gb.hl1986/87-66}
   Great Britain. Parliament. House of Lords, 1987. \emph{Social fund (Maternity and Funeral Expenses) Bill}. London:\@ HMSO (HL 1986/87, (66)).
   \tcblower
 \begin{Verbatim}
@@ -2153,7 +2158,7 @@ Use this form for reports of House of Lords select committees.
 @techreport{gb.hl1986/87-66,
   author = {{Great Britain. Parliament. House of Lords}},
   year = {1987},
-  title = {Social Fund ({Maternity} and {Funeral} {Expenses}) Bill},
+  title = {Social Fund ({Maternity} and {Funeral} {Expenses}) {Bill}},
   address = {London},
   publisher = {HMSO},
   series = {HL 1986/87},
@@ -2186,7 +2191,7 @@ years in \texttt{series} and the HL and HC numbers in \texttt{number}.
 
 \subsubsection*{Command paper}
 
-\begin{bibexbox}(todo)<HBS 34>{gb.cm6041}
+\begin{bibexbox}<HBS 34>{gb.cm6041}
   Great Britain. Ministry of Defence, 2004. \emph{Delivering security in a changing world:\@ defence white paper}. London:\@ TSO (Cm.\@ 6041).
   \tcblower
 \begin{Verbatim}
@@ -2229,7 +2234,7 @@ years in \texttt{series} and the HL and HC numbers in \texttt{number}.
 
 \subsubsection*{EU regulation or directive, decision, recommendation or opinion}
 
-\begin{bibexbox}(todo)<HBS 38>{eu.dir2015/413}
+\begin{bibexbox}<HBS 38>{eu.dir2015/413}
   Directive (EU) 2015/413 of the European Parliament and of the Council of 11th March 2015 facilitating cross-border exchange of information on road-safety-related traffic offences [2015] \emph{OJ} L68/9.
   \tcblower
 \begin{Verbatim}
@@ -2321,7 +2326,7 @@ Use \verb|\defcitealias| to provide a suitable citation string:
 %<*driver|bib>
 @jurisdiction{seldon-v-c.w.j2012,
   title = {Seldon v {Clarkson} {Wright} \& {Jakes}},
-  year = {{[2012]}},
+  year = {2012},
   journal = {UKSC},
   pages = {16}}
 %</driver|bib>
@@ -2343,7 +2348,37 @@ Use \verb|\defcitealias| to provide a suitable citation string:
 
 Generally speaking, the year should be in square brackets if it is essential to the citation
 (unless it is a Scottish case, in which case it is printed bare), and in parentheses if it is
-not.
+not. The style assumes the year is essential if and only if a volume number is
+\emph{not} provided; to override this, you can use the \key{year-essential} option:
+
+\begin{tcolorbox}%
+  [ colframe = Slate
+  , colback = white
+  , fontupper = \footnotesize
+  ]
+  \begin{Verbatim}
+  options = {year-essential=true},
+  \end{Verbatim}
+\end{tcolorbox}
+
+To use Scottish style for a case, you can either use the \key{scottish-style} option or
+the keyword \texttt{sc}.
+
+\begin{tcolorbox}%
+  [ colframe = Slate
+  , colback = white
+  , fontupper = \footnotesize
+  ]
+  \begin{Verbatim}
+  options = {scottish-style},
+  keywords = {sc},
+  \end{Verbatim}
+\end{tcolorbox}
+
+\info{Please bear in mind that the \texttt{options} and \texttt{keywords}
+fields from \textsf{biblatex} have been emulated rather crudely. You can only
+supply one of each and the text must match exactly (so don't add spaces
+or anything like that).}
 
 \subsubsection*{Judgment of the European Court of Justice}
 
@@ -2356,7 +2391,7 @@ not.
 @jurisdiction{srl.etal-v-comm2005,
   title = {Alessandrini {Srl} and others v.\@ {Commission}},
   number = {C-295/03 P},
-  year = {{[2005]}},
+  year = {2005},
   journal = {ECR},
   volume = {I},
   pages = {5700}}
@@ -2377,7 +2412,12 @@ not.
 %</driver>
 \end{bibexbox}
 
-Use \texttt{number} for the case number
+Use the \texttt{number} field (or the non-standard \texttt{casenmuber} field)
+for the case number. For Commission Decisions, use the (non-standard)
+\texttt{casenumber} or (\textsf{biblatex-oscola}) \texttt{userb} field for the
+Commission case number, \texttt{number} for the formal decision number, and give
+`Commission' as the \texttt{institution}.
+
 
 %</driver|tex1>
 %<tex1>\bibliography{bath-bst-v1}
@@ -2465,10 +2505,11 @@ This work is ‘maintained’ (as per LPPL maintenance status) by [Alex Ball][me
 % \subsection{Data model}
 %
 % We begin by listing the entry fields that we will recognize. These are the
-% standard Bib\TeX\ ones plus |archive|, |doi|, |eid|, |eprint|, |eventyear|,
-% |language|, |library|, |titleaddon|, |translator|, |url|, |urldate|,
-% |urlyear|, |venue|, and |version|,
+% standard Bib\TeX\ ones plus |archive|, |doi|, |eid|, |eprint|, |entrysubtype|,
+% |eventyear|, |keywords|, |language|, |library|, |options|, |titleaddon|,
+% |translator|, |url|, |urldate|, |urlyear|, |userb|, |venue|, and |version|,
 % all of which have been backported from \textsf{natbib} and \textsf{biblatex}.
+% |casenumber| is specific to this style.
 %
 %    \begin{macrocode}
 ENTRY
@@ -2476,22 +2517,26 @@ ENTRY
     archive
     author
     booktitle
+    casenumber
     chapter
     doi
     edition
     editor
     eid
+    entrysubtype
     eprint
     eventyear
     howpublished
     institution
     journal
     key
+    keywords
     language
     library
     month
     note
     number
+    options
     organization
     pages
     publisher
@@ -2504,6 +2549,7 @@ ENTRY
     url
     urldate
     urlyear
+    userb
     venue
     version
     volume
@@ -2904,6 +2950,9 @@ FUNCTION {bbl.rd}
 FUNCTION {bbl.th}
 { "th" }
 
+FUNCTION {bbl.commission}
+{ "Commission Decision" }
+
 %    \end{macrocode}
 %
 % These macros are codes that users can put in their .bib file instead of
@@ -2964,7 +3013,7 @@ FUNCTION {eng.ord}
 %
 % \subsection{Name handling}
 %
-% |format.names| consumes two tokens (field, string field name) and writes out a
+% |format.names| consumes two tokens (field, string field name) and returns a
 % list of names in the form `Surname, Suffix, Initials Prefix'. To help with this,
 % we define some additional integers and strings.
 %
@@ -3066,7 +3115,7 @@ FUNCTION {format.names.ed}
 }
 %    \end{macrocode}
 %
-% |format.authors| writes out author names.
+% |format.authors| returns author names.
 %
 %    \begin{macrocode}
 FUNCTION {format.authors}
@@ -3074,7 +3123,7 @@ FUNCTION {format.authors}
 }
 %    \end{macrocode}
 %
-% |format.editors| writes out editor names, and appends `ed.' or `eds.' as
+% |format.editors| returns editor names, and appends `ed.' or `eds.' as
 % appropriate.
 %
 %    \begin{macrocode}
@@ -3110,7 +3159,7 @@ FUNCTION {format.translators}
 %    \end{macrocode}
 %
 % |format.full.names| consumes one token (a name field) and, contrary to what
-% the name might suggest, writes out a list of names in the form `Prefix Surname'.
+% the name might suggest, returns a list of names in the form `Prefix Surname'.
 % It is called `full' because the list is not truncated.
 %
 %    \begin{macrocode}
@@ -3284,7 +3333,7 @@ FUNCTION {select.language}
 }
 %    \end{macrocode}
 %
-% |format.title| writes out the title and language fields, where the title
+% |format.title| returns the title and language fields, where the title
 % should be in the upright shape.
 %
 %    \begin{macrocode}
@@ -3301,7 +3350,7 @@ FUNCTION {format.title}
 }
 %    \end{macrocode}
 %
-% |format.btitle| writes out the title and language fields, where the title
+% |format.btitle| returns the title and language fields, where the title
 % should be in the italic shape.
 %
 %    \begin{macrocode}
@@ -3320,7 +3369,7 @@ FUNCTION {format.btitle}
 }
 %    \end{macrocode}
 %
-% |format.titleaddon| writes out the titleaddon field.
+% |format.titleaddon| returns the titleaddon field.
 %
 %    \begin{macrocode}
 FUNCTION {format.titleaddon}
@@ -3332,7 +3381,7 @@ FUNCTION {format.titleaddon}
 }
 %    \end{macrocode}
 %
-% |format.version| writes out the version field.
+% |format.version| returns the version field.
 %
 %    \begin{macrocode}
 FUNCTION {format.version}
@@ -3369,7 +3418,7 @@ FUNCTION {word.in}
   " " * }
 %    \end{macrocode}
 %
-% |format.booktitle| writes out the booktitle field in italics.
+% |format.booktitle| returns the booktitle field in italics.
 %
 %    \begin{macrocode}
 FUNCTION {format.booktitle}
@@ -3382,7 +3431,7 @@ FUNCTION {format.booktitle}
 }
 %    \end{macrocode}
 %
-% |format.in.ed.booktitle| writes out the booktitle, prepended by `In: editors,
+% |format.in.ed.booktitle| returns the booktitle, prepended by `In: editors,
 % eds.'
 %
 %    \begin{macrocode}
@@ -3411,7 +3460,7 @@ FUNCTION {format.in.ed.booktitle}
 %    \begin{macrocode}
 FUNCTION {legal.journal.shape}
 { duplicate$ "OJ" =
-    { emphasize }
+    'emphasize
     'skip$
   if$
 }
@@ -3419,22 +3468,83 @@ FUNCTION {legal.journal.shape}
 %
 % \subsection{Dates}
 %
-% |format.date| writes out the year and any disambiguation label.
+% |format.date| returns the year and any disambiguation label.
 %
 %    \begin{macrocode}
 FUNCTION {format.date}
-{ year "year" bibinfo.check duplicate$ empty$
-    {
-    }
-    'skip$
-  if$
+{ year "year" bibinfo.check
   extra.label *
+}
+%    \end{macrocode}
+%
+% |format.jur.date| wraps the year and any disambiguation label in parentheses
+% if a volume number is provided or if |year-essential=false| has been given
+% as the |options|. If there is no volume number, or if |year-essential=true|
+% has been given as the |options|, then the year will be wrapped in square
+% brackets or, if |scottish-style| has been given as the |options| or |sc| as
+% the |keywords|, left bare. But if the journal is `OJ' or `ECR', the date is
+% wrapped in brackets regardless. Not complicated at all, really.
+%
+%    \begin{macrocode}
+FUNCTION {format.date.brackets}
+{ year "year" bibinfo.check
+  extra.label *
+  "[" swap$ * "]" *
+}
+FUNCTION {format.date.parens}
+{ year "year" bibinfo.check
+  extra.label *
+  "(" swap$ * ")" *
+}
+FUNCTION {format.jur.date.essential}
+{ options field.or.null "scottish-style" =
+  keywords field.or.null "sc" =
+  or
+    'format.date
+    'format.date.brackets
+  if$
+}
+FUNCTION {format.jur.date}
+{ journal field.or.null 's :=
+  s "OJ" =
+  s "ECR" =
+  or
+    'format.date.brackets
+    { options field.or.null "year-essential=false" =
+        'format.date.parens
+        { volume empty$
+            'format.jur.date.essential
+            { options field.or.null "year-essential=true" =
+                'format.jur.date.essential
+                'format.date.parens
+              if$
+            }
+          if$
+        }
+      if$
+    }
+  if$
+}
+%    \end{macrocode}
+%
+% |format.eu.date| wraps the year and any disambiguation label in square
+% brackets if (and only if) the journal title is `OJ' or `ECR'.
+%
+%    \begin{macrocode}
+FUNCTION {format.eu.date}
+{ journal field.or.null 's :=
+  s "OJ" =
+  s "ECR" =
+  or
+    'format.date.brackets
+    'format.date
+  if$
 }
 %    \end{macrocode}
 %
 % \subsection{Series, volumes, editions}
 %
-% |format.bvolume| writes out the volume and series information (in italics),
+% |format.bvolume| returns the volume and series information (in italics),
 % with a comma between. A warning is given if |number| is also given.
 %
 %    \begin{macrocode}
@@ -3454,7 +3564,7 @@ FUNCTION {format.bvolume}
 %    \end{macrocode}
 %
 % |format.number.series| returns an empty string if a volume has been specified.
-% Otherwise, it writes out the series and the number separated by a space.
+% Otherwise, it returns the series and the number separated by a space.
 %
 %    \begin{macrocode}
 FUNCTION {format.number.series}
@@ -3544,7 +3654,7 @@ FUNCTION {convert.edition}
 }
 %    \end{macrocode}
 %
-% |format.edition| writes out the converted edition field and `ed.'
+% |format.edition| returns the converted edition field and `ed.'
 %
 %    \begin{macrocode}
 FUNCTION {format.edition}
@@ -3589,10 +3699,56 @@ FUNCTION {format.booklet.type}
 }
 %    \end{macrocode}
 %
-% |format.tr.number| writes out the series, type and number fields as one of
+% |format.tr.number| returns the series, type and number fields as one of
 % `(number)', `(type number)', `(series, number)', or `(series, type number)'.
+% If a series is given, a |continue.clause| is inserted to remove the preceeding
+% comma.
+%
+% If the series begins `HL\textvisiblespace', it is assumed to be a House of
+% Lords paper, thus the number acquires additional parentheses. If it equals
+% `C', `Cd', `Cmd', `Cmnd' or `Cm', it is followed by a dot rather than a comma
+% (implemented as |add.cmd.number|). To help with this, |format.legr.number|
+% consumes one token (the number) and returns the series and number as one
+% token.
 %
 %    \begin{macrocode}
+FUNCTION {add.cmd.number}
+{
+  ". " swap$ "number" bibinfo.check *
+}
+FUNCTION {format.legr.number}
+{ series field.or.null 's :=
+  s "C" =
+    'add.cmd.number
+    { s "Cd" =
+        'add.cmd.number
+        { s "Cmd" =
+            'add.cmd.number
+            { s "Cmnd" =
+                'add.cmd.number
+                { s "Cm" =
+                    'add.cmd.number
+                    { s #1 #3 substring$ 't :=
+                      t "HL " =
+                        { ", (" swap$
+                          "number" bibinfo.check *
+                          ")" *
+                        }
+                        { ", " swap$
+                          "number" bibinfo.check *
+                        }
+                      if$
+                    }
+                  if$
+                }
+              if$
+            }
+          if$
+        }
+      if$
+    }
+  if$
+}
 FUNCTION {format.tr.number}
 { series duplicate$ empty$
     { pop$
@@ -3626,10 +3782,7 @@ FUNCTION {format.tr.number}
         { pop$
           number duplicate$ empty$
             'pop$
-            { ", " swap$
-              "number" bibinfo.check
-              * *
-            }
+            { format.legr.number * }
           if$
         }
         { "t" change.case$ "type" bibinfo.check
@@ -3644,12 +3797,13 @@ FUNCTION {format.tr.number}
         }
       if$
       ")" *
+      continue.clause
     }
   if$
 }
 %    \end{macrocode}
 %
-% |format.manual.number| writes out the series, type and number fields as one of
+% |format.manual.number| returns the series, type and number fields as one of
 % `(number)', `(type number)', `(series number)', or `(series number, type)'.
 %
 %    \begin{macrocode}
@@ -3695,15 +3849,81 @@ FUNCTION {format.manual.number}
 }
 %    \end{macrocode}
 %
-% |format.case.number| prints out the number field, suppressing punctuation,
-% or inserts a period.
+% |format.chapter| prints out the chapter field in the form `c.1', for use with
+% UK primary legislation.
+%
+%    \begin{macrocode}
+FUNCTION {format.chapter}
+{ chapter duplicate$ empty$
+    { pop$ "" }
+    { "chapter" bibinfo.check
+      "c." swap$ *
+    }
+  if$
+}
+%    \end{macrocode}
+%
+% |format.series.chapter.number| prints out the series and chapter/number fields
+% in the form `(series, c.1)' or `(series, number)', for use with UK legislation.
+%
+%    \begin{macrocode}
+FUNCTION {format.series.chapter.number}
+{ series duplicate$ empty$
+    { pop$ "" }
+    { "series" bibinfo.check
+      "(" swap$ *
+      chapter duplicate$ empty$
+        'pop$
+        { "chapter" bibinfo.check
+          ", c." swap$ * *
+        }
+      if$
+      number duplicate$ empty$
+        'pop$
+        { "number" bibinfo.check
+          ", " swap$ * *
+        }
+      if$
+      ")" *
+    }
+  if$
+}
+%    \end{macrocode}
+%
+% |format.case.number| returns the number field, suppressing punctuation,
+% or inserts a period. In the case of EU Commission Decisions, the format is
+% `(userb) Commission Decision number`
 %
 %    \begin{macrocode}
 FUNCTION {format.case.number}
-{ number duplicate$ empty$
-    { pop$ "" }
-    { "number" bibinfo.check
-     "(" swap$ * ")" *
+{ casenumber duplicate$ empty$
+    { pop$
+      number duplicate$ empty$
+        { pop$ "" }
+        { institution field.or.null "Commission" =
+          userb empty$ not
+          and
+            { userb "userb" bibinfo.check
+              "(" swap$ * ") " * bbl.commission * " " *
+              swap$ "number" bibinfo.check *
+            }
+            { "number" bibinfo.check
+            "(" swap$ * ")" *
+            }
+          if$
+        }
+      if$
+    }
+    { "casenumber" bibinfo.check
+      "(" swap$ * ")" *
+      institution field.or.null "Commission" =
+      number empty$ not
+      and
+        { " " * bbl.commission * " " *
+          number "number" bibinfo.check *
+        }
+        'skip$
+      if$
     }
   if$
 }
@@ -3714,9 +3934,10 @@ FUNCTION {format.case.number}
 %
 %    \begin{macrocode}
 FUNCTION {eu.case.check}
-{ journal "OJ" =
-  number empty$
-  not
+{ journal field.or.null "OJ" =
+  number empty$ not
+  or
+  casenumber empty$ not
   or
     'continue.clause
     'new.block
@@ -3726,7 +3947,7 @@ FUNCTION {eu.case.check}
 %
 % \subsection{Notes}
 %
-% |format.note| writes out the note field, but changes the case of the first
+% |format.note| returns the note field, but changes the case of the first
 % letter according to the output state (unless protected by braces).
 %
 %    \begin{macrocode}
@@ -3938,7 +4159,7 @@ FUNCTION {n.dashify}
 }
 %    \end{macrocode}
 %
-% |format.pages| writes out the pages fields, prefixed by `p.' or `pp.' as
+% |format.pages| returns the pages fields, prefixed by `p.' or `pp.' as
 % appropriate.
 %
 %    \begin{macrocode}
@@ -3986,7 +4207,7 @@ FUNCTION {format.journal.pages}
 }
 %    \end{macrocode}
 %
-% |format.journal.eid| writes out the EID, but it looks at the preceding string
+% |format.journal.eid| returns the EID, but it looks at the preceding string
 % and, if both are non-empty, inserts a comma between it and the EID string.
 % The EID is a code used by some online-only journals to identify an article
 % within a volume or issue instead of a page range (since the page numbering
@@ -4007,7 +4228,7 @@ FUNCTION {format.journal.eid}
 }
 %    \end{macrocode}
 %
-% |format.vol.num.pages| writes out the journal pinpointing in the form
+% |format.vol.num.pages| returns the journal pinpointing in the form
 % `volume(number), eid\slash pages'. It writes a warning to the log if |number|
 % is given instead of |volume|: if a journal does not organize itself into
 % volumes, treat every issue as its own volume!
@@ -4037,7 +4258,7 @@ FUNCTION {format.vol.num.pages}
 }
 %    \end{macrocode}
 %
-% |format.chapter.pages| writes out pinpointing information for books, in the
+% |format.chapter.pages| returns pinpointing information for books, in the
 % form `chap.\@ chapter, p.pages'.
 %
 %    \begin{macrocode}
@@ -4062,13 +4283,13 @@ FUNCTION {format.chapter.pages}
 }
 %    \end{macrocode}
 %
-% |format.journal.series.vol.pages| writes out the journal title and pinpointing
+% |format.journal.series.vol.pages| returns the journal title and pinpointing
 % in the form `volume journal pages', `journal volume-pages' or `journal
 % series\,volume/pages', depending on the journal.
 %
 %    \begin{macrocode}
 FUNCTION {format.journal.series.vol.pages}
-{ journal
+{ journal field.or.null
   duplicate$ "OJ" =
     { "journal" bibinfo.check
       emphasize
@@ -4083,14 +4304,10 @@ FUNCTION {format.journal.series.vol.pages}
         { " " * }
       if$
       series "series" bibinfo.check
-      duplicate$ empty$
+      volume "volume" bibinfo.check *
+      duplicate$ empty$ pages empty$ and
         'skip$
         { "/" * }
-      if$
-      volume "volume" bibinfo.check
-      duplicate$ empty$
-        'skip$
-        { * }
       if$ *
     }
     { duplicate$ "ECR" =
@@ -4465,16 +4682,18 @@ FUNCTION {jurisdiction}
       continue.clause
       format.case.number output
       number empty$
+      casenumber empty$
+      and
         'new.sentence
         'continue.clause
       if$
-      format.date "year" output.check
+      format.jur.date "year" output.check
       year empty$ 'skip$ { eu.case.check } if$
       get.title.addenda
     }
     { format.authors output
       author format.key output
-      format.date "year" output.check
+      format.jur.date "year" output.check
       date.block
       continue.clause
       format.btitle "title" output.check
@@ -4505,17 +4724,12 @@ FUNCTION {jurisdiction}
 % \subsubsection{Legislation}
 %
 %    \begin{macrocode}
-FUNCTION {legislation}
+FUNCTION {uklegislation}
 { output.bibitem
   author empty$
     { format.btitle "title" output.check
       continue.clause
-      format.case.number output
-      number empty$
-        'new.sentence
-        'continue.clause
-      if$
-      format.date "year" output.check
+      format.date emphasize "year" output.check
       get.title.addenda
     }
     { format.authors output
@@ -4527,11 +4741,71 @@ FUNCTION {legislation}
       get.title.addenda
     }
   if$
+  entrysubtype field.or.null "secondary" =
+    { number "number" bibinfo.check output }
+    'skip$
+  if$
+  series empty$
+    { format.chapter output }
+    'skip$
+  if$
   format.note output
+  publisher empty$ 'skip$
+    { entrysubtype field.or.null "secondary" =
+        'skip$
+        { new.block }
+      if$
+      format.publisher.address output
+    }
+  if$
+  continue.clause
+  format.series.chapter.number output
   new.block
   format.eprint output
   format.url output
   fin.entry
+}
+FUNCTION {eulegislation}
+{ output.bibitem
+  author empty$
+  { format.title "title" output.check
+    continue.clause
+    format.eu.date "year" output.check
+    get.title.addenda
+  }
+  { format.authors output
+    author format.key output
+    format.eu.date "year" output.check
+    date.block
+    continue.clause
+    format.title "title" output.check
+    get.title.addenda
+  }
+  if$
+  eu.case.check
+  format.note output
+  note empty$
+    'eu.case.check
+    'new.block
+  if$
+  crossref missing$
+    { continue.clause
+      format.journal.series.vol.pages output
+    }
+    { format.article.crossref output.nonnull
+      format.pages output
+    }
+  if$
+  new.block
+  format.eprint output
+  format.url output
+  fin.entry
+}
+FUNCTION {legislation}
+{ journal empty$
+    'uklegislation
+    'eulegislation
+  if$
 }
 %    \end{macrocode}
 %
