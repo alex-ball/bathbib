@@ -79,6 +79,7 @@ Copyright (C) 2016 by University of Bath
 \documentclass[10pt,a4paper]{article}
 \usepackage[british]{babel}
 \usepackage[hmargin=3cm,vmargin=2.5cm]{geometry}
+\frenchspacing
 
 % For typesetting the CJK example
 
@@ -123,9 +124,24 @@ Copyright (C) 2016 by University of Bath
   \setbox\@tempboxa\hbox{{#1}}%
   \hangindent \wd\@tempboxa\noindent\box\@tempboxa}
 \makeatother
-\newcommand{\tip}[1]{\hangfrom{\makebox[2em][c]{\faLightbulbO}}#1\par}
-\newcommand{\info}[1]{\hangfrom{\makebox[2em][c]{\faInfoCircle}}#1\par}
-\newcommand{\hack}[1]{\hangfrom{\makebox[2em][c]{\faWrench}}#1\par}
+\newenvironment{tips}{%
+  \begin{list}{\makebox[2em][c]{\faLightbulbO}}{%
+    \setlength{\leftmargin}{2em}
+    \setlength{\labelwidth}{2em}
+    \setlength{\labelsep}{0pt}}
+}{\end{list}}
+\newenvironment{info}{%
+  \begin{list}{\makebox[2em][c]{\faInfoCircle}}{%
+    \setlength{\leftmargin}{2em}
+    \setlength{\labelwidth}{2em}
+    \setlength{\labelsep}{0pt}}
+}{\end{list}}
+\newenvironment{hacks}{%
+  \begin{list}{\makebox[2em][c]{\faWrench}}{%
+    \setlength{\leftmargin}{2em}
+    \setlength{\labelwidth}{2em}
+    \setlength{\labelsep}{0pt}}
+}{\end{list}}
 
 \usepackage{tcolorbox}
 \tcbuselibrary{listings,breakable,skins,xparse}
@@ -203,6 +219,9 @@ Copyright (C) 2016 by University of Bath
   , moretexcs=
     { citet
     , citep
+    , defcitealias
+    , citepalias
+    , citetalias
     , noop
     , urlprefix
     , urldateprefix
@@ -449,17 +468,71 @@ the zip archive.
 %</driver|readme>
 %<*driver>
 \end{markdown*}
+
+\section{Choosing which variant to use}
+%</driver>
+%<*driver|tex1>
+
+The data model offered by the standard Bib\TeX\ styles, and even the extended
+\textsf{natbib} variants, is not really rich enough to support the nuances of
+the Harvard (Bath) style. This means design decisions have to be made about
+whether to attempt some level of compatibility with other styles or craft
+something utterly unique.
+
+In the first version of \textsf{bath-bst}, the intention was to set things up
+so that, if the same .bib file was used with a different style, the features
+peculiar to the Harvard (Bath) style would be ignored and the remaining
+information would come out in a sensible arrangement. The recommendations of
+the style's documentation were to use the standard entry types as much as
+possible (though more semantic aliases were provided), and minimal new fields
+were introduced. For the more exotic (in Bib\TeX\ terms) demands of the style,
+extensive use was made of the (standard) \texttt{note} and (non-standard)
+\texttt{titleaddon} fields to place information properly. If you have written
+a .bib file according the principles in that first version, the \texttt{bath}
+style will still work as advertised for you.
+
+The second version introduces a new variant, \texttt{bathx} (`Bath extended'),
+which has a different aim. The idea with this one is that .bib files written
+for this style will be rendered just the same by the companion
+\textsf{biblatex-bath} style. Where possible, features from the latter have
+been emulated for Bib\TeX; otherwise, the `cheats' used in this style will
+also work under \textsf{biblatex}.
+
+Happily, it has been possible to do this while keeping most of the code in
+common. The main differences between two versions are as follows:
+
+\begin{itemize}
+\item
+  In \texttt{bath}, the \texttt{titleaddon} field is printed bare, while
+  in \texttt{bathx} it is wrapped in square brackets.
+\item
+  In \texttt{bathx} online items are marked with `[Online]' automatically,
+  while in \texttt{bath} you have to mark them thus yourself.
+\item
+  In \texttt{bathx} undated items are marked with `n.d.' automatically,
+  while in \texttt{bath} you have to give `n.d.' as the value of \texttt{year}
+  yourself.
+\end{itemize}
+
+One other change worth noting regards URL access dates. In version 1, the
+advice was to put them in \texttt{urldate}. With version 2, the advice is now
+to put them, counter-intuitively, in \texttt{urlyear}. The reason is that
+\textsf{biblatex} will complain if the value of \texttt{urldate} is in the wrong
+format, but will happily print the contents of \texttt{urlyear} literally. If
+you don't care about \textsf{biblatex} compatibility, you can continue to use
+\texttt{urldate}.
+
+%<*driver>
 \iffalse
 %</driver>
 %<*tex1>
-This document provides a suite of examples for testing the bibliography format that was recommended for version 1 of the style. The goal for this version is to retain as much compatibility as possible with other Bib\TeX\ styles.
-
-The goal for version 2 is to introduce as much compatibility as possible with the corresponding \textsf{biblatex} style.
+This document provides a suite of examples that demonstrate and test the
+bibliography format that was recommended for version 1.0 of the style.
 %</tex1>
 %<*driver>
 \fi
 %</driver>
-%<*driver|tex1>
+
 
 \section{Using the style}
 
@@ -504,15 +577,20 @@ adams2017tc3}\dots
 \end{tcblisting}
 
 Please refer to the documentation for \href{http://www.ctan.org/pkg/natbib}{\textsf{natbib}}
-for the full range of commands available for in-text citations.
+for the full range of commands available for in-text citations. Be aware that the
+\textsf{natbib} option \texttt{sort} will sort citations in bibliography order,
+rather than the chronological order demanded by Harvard (Bath) -- so don't use it!
 
 
 \section{Examples}
 
 The examples below are shown in three parts.
-The first, marked with \faBook, shows an extract from the Harvard (Bath) referencing style sheet.
+The first, marked with \faBook, shows an extract from the
+\href{http://www.bath.ac.uk/library/infoskills/referencing-plagiarism/harvard-bath-style.html}{\emph{Harvard (Bath) guide to citing and referencing}} or
+\href{http://www.bath.ac.uk/library/pass.bho/images-referencing.pdf}{\emph{Referencing images}}.
 The second, marked with \faCog, shows the reference as formatted by Bib\TeX.
 The last shows how the reference was entered in the .bib file.
+The bottom right corner shows the source of the example: `HBS' indicates the `Specific examples' section of the Guide (followed by the number of the example); `ref.\@ list' indicates the `How to organise a reference list' section of the Guide; `RI' indicates \emph{Referencing images}.
 
 Some examples are highlighted in
 \tcbox[colframe=hacked,colback=hacked!5!white,nobeforeafter,size=fbox,tcbox raise base]{orange}.
@@ -899,13 +977,16 @@ though of course any item might need adjustment to take account of differing con
 %</driver>
 \end{bibexbox}
 
+\begin{tips}
+\item
 The Harvard (Bath) style treats preprints as grey literature, and so the
 \texttt{techreport} entry type is the best match semantically.
+\end{tips}
 
 
 \subsubsection*{Newspaper article}
 
-\hack{Put the remainder of the date as the \texttt{volume}.}
+\begin{hacks}\item Give the issue's day and month as the \texttt{volume}.\end{hacks}
 
 \begin{bibexbox}(hacked)<HBS 12>{haurant2004bbh}
   Haurant, S., 2004. Britain's borrowing hits £1 trillion. \emph{The Guardian}, 29 July, p.16c.
@@ -953,7 +1034,7 @@ The Harvard (Bath) style treats preprints as grey literature, and so the
   \tcblower
 \begin{Verbatim}
 %</driver|tex1>
-%<*driver|bib|tex1|bib1>
+%<*driver|bib>
 @inproceedings{crawford1965oim,
   author = {Crawford, G. I.},
   year = {1965},
@@ -965,9 +1046,28 @@ The Harvard (Bath) style treats preprints as grey literature, and so the
   address = {London},
   publisher = {Academic Press},
   pages = {113-118}}
-%</driver|bib|tex1|bib1>
+%</driver|bib>
+%<*driver>
+\end{Verbatim}
+\iffalse
+%</driver>
+%<*tex1|bib1>
+@inproceedings{crawford1965oim,
+  author = {Crawford, G. I.},
+  year = {1965},
+  title = {Oxygen in Metals},
+  editor = {J. M. A. Lenihan and S. J. Thompson},
+  booktitle = {Activation Analysis: Proceedings of a {NATO} {Advanced} {Study} {Institute}},
+  venue = {2--4 August 1964 Glasgow},
+  address = {London},
+  publisher = {Academic Press},
+  pages = {113-118}}
+%</tex1|bib1>
 %<*driver|tex1>
 \end{Verbatim}
+%<*driver>
+\fi
+%</driver>
 \end{bibexbox}
 
 
@@ -978,7 +1078,7 @@ The Harvard (Bath) style treats preprints as grey literature, and so the
   \tcblower
 \begin{Verbatim}
 %</driver|tex1>
-%<*driver|bib|tex1|bib1>
+%<*driver|bib>
 @inproceedings{soper1972rbc,
   author = {Soper, D.},
   year = {1972},
@@ -989,9 +1089,27 @@ The Harvard (Bath) style treats preprints as grey literature, and so the
   address = {Brighton},
   publisher = {University of Sussex},
   pages = {24-31}}
-%</driver|bib|tex1|bib1>
+%</driver|bib>
+%<*driver>
+\end{Verbatim}
+\iffalse
+%</driver>
+%<*tex1|bib1>
+@inproceedings{soper1972rbc,
+  author = {Soper, D.},
+  year = {1972},
+  title = {Review of Bracken Control Experiments with Asulam},
+  booktitle = {Proceedings of the 11th {British} {Weed} {Control} {Conference}},
+  venue = {15--17 November 1972 Brighton},
+  address = {Brighton},
+  publisher = {University of Sussex},
+  pages = {24-31}}
+%</tex1|bib1>
 %<*driver|tex1>
 \end{Verbatim}
+%<*driver>
+\fi
+%</driver>
 \end{bibexbox}
 
 
@@ -1040,9 +1158,11 @@ The Harvard (Bath) style treats preprints as grey literature, and so the
 
 \subsubsection*{Standard}
 
-\hack{Unless it has one, give the standard identifier as the \texttt{author}.
+\begin{hacks}
+\item Unless it already has one, give the standard identifier as the \texttt{author}.
 This is not terribly semantic but is the easiest way to get the bibliography
-sorting and citation text correct.}
+sorting and citation text correct.
+\end{hacks}
 
 \begin{bibexbox}(hacked)<HBS 15>{bs5605:1990}
   BS 5605:1990. \emph{Recommendations for citing and referencing published material}. BSI.
@@ -1050,7 +1170,7 @@ sorting and citation text correct.}
 \begin{Verbatim}
 %</driver|tex1>
 %<*driver|bib>
-@manual{bs5605:1990,
+@standard{bs5605:1990,
   author = {{BS 5605:1990}},
   sortyear = {1990},
   title = {Recommendations for citing and referencing published material},
@@ -1074,11 +1194,14 @@ sorting and citation text correct.}
 \end{bibexbox}
 
 %<*driver>
-\tip{To suppress the printing of `n.d.', you can either give a value for
+\begin{tips}
+\item
+To suppress the printing of `n.d.', you can either give a value for
 \texttt{sortyear} (the value has no other effect in this style) or you can use
 the \key{nonodate} option. Please bear in mind that the \texttt{options} field
 from \textsf{biblatex} has been emulated rather crudely, so you can only give
-one option at a time:}
+one option at a time:
+
 \begin{tcolorbox}%
   [ colframe = Slate
   , colback = white
@@ -1088,9 +1211,11 @@ one option at a time:}
   options = {nonodate},
 \end{Verbatim}
 \end{tcolorbox}
+\end{tips}
+
 %</driver>
 
-You can also use \texttt{standard} as an alias for \texttt{manual}.
+\begin{info}\item Internally, \texttt{standard} is an alias for \texttt{manual}.\end{info}
 
 
 \subsubsection*{Patent}
@@ -1101,7 +1226,7 @@ You can also use \texttt{standard} as an alias for \texttt{manual}.
 \begin{Verbatim}
 %</driver|tex1>
 %<*driver|bib>
-@manual{pm1981opa,
+@patent{pm1981opa,
   author = {{Phillipp Morris Inc.}},
   year = {1981},
   title = {Optical perforating apparatus and system},
@@ -1127,15 +1252,14 @@ You can also use \texttt{standard} as an alias for \texttt{manual}.
 %</driver>
 \end{bibexbox}
 
-You can also use \texttt{patent} as an alias for \texttt{manual}.
+\begin{info}\item Internally, \texttt{patent} is an alias for \texttt{manual}.\end{info}
 
 
 \subsection{Audiovisual materials}
 
 \subsubsection*{Image}
 
-These examples are taken from the Library guide
-\href{http://www.bath.ac.uk/library/pass.bho/images-referencing.pdf}{\emph{Referencing images}}.
+%<tex1>\begin{tips}\item You can use \texttt{online} (an alias for \texttt{manual}) for online images and \texttt{unpublished} for physical images.\end{tips}
 
 \begin{bibexbox}<RI>{nasa2015nat}
    NASA, 2015, \emph{NASA Astronaut Tim Kopra on Dec.\@ 21 Spacewalk}. Washington: NASA. Available from: \url{http://www.nasa.gov/image-feature/nasa-astronaut-tim-kopra-on-dec-21-spacewalk} [Accessed 7 January 2015].
@@ -1157,7 +1281,7 @@ These examples are taken from the Library guide
 \iffalse
 %</driver>
 %<*tex1|bib1>
-@online{nasa2015nat,
+@manual{nasa2015nat,
   author = {{NASA}},
   year = {2015},
   title = {{NASA} Astronaut {Tim} {Kopra} on {Dec.\@} 21 Spacewalk},
@@ -1173,8 +1297,8 @@ These examples are taken from the Library guide
 %</driver>
 \end{bibexbox}
 
-You can use either the \texttt{publisher} or the \texttt{organization} field to
-record the source of the image. If you use both, \texttt{organization} will be ignored.
+\begin{tips}\item You can use either the \texttt{publisher} or the \texttt{organization} field to
+record the source of the image. If you use both, \texttt{organization} will be ignored.\end{tips}
 
 \begin{bibexbox}<RI>{iliff2006rcb}
    Iliff, D., 2006. \emph{Royal Crescent in Bath, England - July 2006}, San Francisco: Wikimedia Foundation. Available from: \url{https://commons.wikimedia.org/wiki/File:Royal_Crescent_in_Bath,_England_-_July_2006.jpg} [Accessed 7 January 2016].
@@ -1196,7 +1320,7 @@ record the source of the image. If you use both, \texttt{organization} will be i
 \iffalse
 %</driver>
 %<*tex1|bib1>
-@online{iliff2006rcb,
+@manual{iliff2006rcb,
   author = {D. Iliff},
   year = {2006},
   title = {{Royal} {Crescent} in {Bath,} {England} - {July} 2006},
@@ -1234,7 +1358,7 @@ record the source of the image. If you use both, \texttt{organization} will be i
 %</driver>
 %<*tex1|bib1>
 @unpublished{anon1946peb,
-  author = {Anon\adddot},
+  author = {Anon.},
   year = {1946},
   title = {Prototype electric bicycle displayed at the \enquote{Britain Can Make It} exhibition
     organised by the {Council} of {Industrial} {Design} and held at the {Victoria} and {Albert}
@@ -1249,11 +1373,15 @@ record the source of the image. If you use both, \texttt{organization} will be i
 %</driver>
 \end{bibexbox}
 
+%<*driver>
+\begin{tips}
+\item
 Use the \texttt{library} field to record the archive and register number.
 If you also wish to provide the name of the organisation that published the image,
 use the \texttt{publisher} field if the location you provide relates to the publisher,
 but the \texttt{organization} field if the location relates to the archive.
-
+\end{tips}
+%</driver>
 
 \subsubsection*{Map}
 
@@ -1275,7 +1403,7 @@ but the \texttt{organization} field if the location relates to the archive.
 \end{Verbatim}
 \end{bibexbox}
 
-The \texttt{book} entry type would also work for this reference.
+\begin{tips}\item The \texttt{book} entry type would also work for this reference.\end{tips}
 
 
 \subsubsection*{Film, video or DVD}
@@ -1313,7 +1441,7 @@ The \texttt{book} entry type would also work for this reference.
 %</driver>
 \end{bibexbox}
 
-Internally, \texttt{movie} and \texttt{video} are aliases for \texttt{booklet}.
+\begin{info}\item Internally, \texttt{movie} and \texttt{video} are aliases for \texttt{booklet}.\end{info}
 
 
 \subsubsection*{Streamed video (YouTube, TED Talks, etc.)}
@@ -1336,7 +1464,7 @@ Internally, \texttt{movie} and \texttt{video} are aliases for \texttt{booklet}.
 \iffalse
 %</driver>
 %<*tex1|bib1>
-@online{moran2016sol,
+@manual{moran2016sol,
   author = {Moran, C.},
   year = {2016},
   title = {Save {Our} {Libraries}},
@@ -1369,7 +1497,7 @@ Internally, \texttt{movie} and \texttt{video} are aliases for \texttt{booklet}.
 \iffalse
 %</driver>
 %<*tex1|bib1>
-@online{uob2015wie,
+@manual{uob2015wie,
   author = {{University of Bath}},
   year = {2015},
   title = {What is Engineering?},
@@ -1416,10 +1544,6 @@ Internally, \texttt{movie} and \texttt{video} are aliases for \texttt{booklet}.
 %</driver>
 \end{bibexbox}
 
-%<*driver>
-Use \texttt{type} for the medium and \texttt{note} for the channel, date and time.
-%</driver>
-
 \begin{bibexbox}<HBS 21>{archers20060823}
   \emph{The Archers}, 2006. Radio.\@ BBC Radio 4, 23 August. 19.02 hrs.
   \tcblower
@@ -1449,7 +1573,11 @@ Use \texttt{type} for the medium and \texttt{note} for the channel, date and tim
 %</driver>
 \end{bibexbox}
 
-Internally, \texttt{audio} and \texttt{music} are aliases for \texttt{booklet}.
+%<*driver>
+\begin{tips}\item Use \texttt{type} for the medium and \texttt{note} for the channel, date and time.\end{tips}
+%</driver>
+
+\begin{info}\item Internally, \texttt{audio} and \texttt{music} are aliases for \texttt{booklet}.\end{info}
 
 
 \subsubsection*{Music score}
@@ -1500,7 +1628,7 @@ Internally these are all aliases for \texttt{manual}.
 \iffalse
 %</driver>
 %<*tex1|bib1>
-@online{holland2002gci,
+@manual{holland2002gci,
   author = {Holland, M.},
   year = {2002},
   title = {Guide to Citing Internet Sources},
@@ -1591,10 +1719,24 @@ Internally these are all aliases for \texttt{manual}.
 %</driver>
 \end{bibexbox}
 
-Use the \texttt{journal} field to specify the mailing list. This triggers the
-change in formatting with respect to the following example.
+\begin{tips}
+\item Use the \texttt{journal} field to specify the mailing list.
+%<*driver>
+This triggers the change in formatting with respect to the following example.
 Internally the example above is transformed to an \texttt{article} entry,
 while the one below is transformed into an \texttt{unpublished} entry.
+%</driver>
+\end{tips}
+
+\begin{hacks}
+\item You will need to put the full date in the \texttt{year} field;
+unfortunately this means you have to put in extra work to show only the year in citations:
+\end{hacks}
+
+\begin{tcblisting}{listing side text, lefthand width=.5\linewidth}
+\citetext{\citeauthor[2004]{clark2004euk}}
+\end{tcblisting}
+
 
 \subsubsection*{Personal emails}
 
@@ -1628,13 +1770,6 @@ while the one below is transformed into an \texttt{unpublished} entry.
 %</driver>
 \end{bibexbox}
 
-Using the \texttt{year} field for the full date means you have to be sneaky with
-your citation command.
-
-\begin{tcblisting}{listing side text, lefthand width=.5\linewidth}
-\citetext{\citeauthor[2004]{alston2004sah}}
-\end{tcblisting}
-
 
 \subsubsection*{Database}
 
@@ -1659,7 +1794,7 @@ your citation command.
 \iffalse
 %</driver>
 %<*tex1|bib1>
-@online{bvd2008bt,
+@manual{bvd2008bt,
   author = {{Bureau van Dijk}},
   year = {2008},
   title = {{BT} {Group} PLC Company Report},
@@ -1685,7 +1820,7 @@ your citation command.
 \begin{Verbatim}
 %</driver|tex1>
 %<*driver|bib>
-@online{wilson2013rgc,
+@dataset{wilson2013rgc,
   author = {Wilson, D.},
   year = {2013},
   title = {Real Geometry and Connectedness via Triangular Description: {CAD} Example Bank},
@@ -1699,7 +1834,7 @@ your citation command.
 \iffalse
 %</driver>
 %<*tex1|bib1>
-@online{wilson2013rgc,
+@manual{wilson2013rgc,
   author = {Wilson, D.},
   year = {2013},
   title = {Real Geometry and Connectedness via Triangular Description: {CAD} Example Bank},
@@ -1716,7 +1851,7 @@ your citation command.
 %</driver>
 \end{bibexbox}
 
-You can also use \texttt{dataset} as an alternative alias for \texttt{manual}.
+\begin{info}\item Internally, \texttt{dataset} is an alias for \texttt{manual}.\end{info}
 
 
 \subsubsection*{Computer program}
@@ -1740,7 +1875,7 @@ You can also use \texttt{dataset} as an alternative alias for \texttt{manual}.
 \iffalse
 %</driver>
 %<*tex1|bib1>
-@online{screencasto,
+@manual{screencasto,
   author = {@screencasto},
   title = {{Screencast-O-Matic}},
   titleaddon = {(v.2) [computer program]},
@@ -1754,10 +1889,7 @@ You can also use \texttt{dataset} as an alternative alias for \texttt{manual}.
 %</driver>
 \end{bibexbox}
 
-%<*driver>
-Internally, \texttt{software} is an alias for \texttt{manual}.
-%</driver>
-%<tex1>You can also use \texttt{software} as an alternative alias for \texttt{manual}.
+\begin{info}\item Internally, \texttt{software} is an alias for \texttt{manual}.\end{info}
 
 
 \subsection{Works in languages other than English}
@@ -1874,6 +2006,8 @@ Internally, \texttt{software} is an alias for \texttt{manual}.
 
 \subsubsection*{Work in a non-Roman alphabet}
 
+\begin{tips}
+\item
 The following example tricks Bib\TeX\ into treating the original rendering of the author's name as the `von' part of a Roman-alphabet name. This requires the use of a command that simply gobbles its argument, which you have to define yourself:
 
 \begin{tcblisting}{listing only}
@@ -1881,6 +2015,7 @@ The following example tricks Bib\TeX\ into treating the original rendering of th
 \end{tcblisting}
 
 For the trick to work, the argument you give to \lstinline[style=dtxlatex]|\noop| must be lowercase, but otherwise it can be anything you like.
+\end{tips}
 
 \newcommand*{\noop}[1]{}
 \begin{bibexbox}(hacked){hua1999qys1}
@@ -1894,8 +2029,8 @@ For the trick to work, the argument you give to \lstinline[style=dtxlatex]|\noop
   year = {1999},
   title = {Qingdai yilai {Sanxia} diqu shuihan zaihai de chubu yanjiu
     {清代以來三峽地區水旱災害的初步硏}},
-  titleaddon = {[A preliminary study of floods and droughts in the {Three} {Gorges} region since
-    the {Qing} dynasty]},
+  titleaddon = {A preliminary study of floods and droughts in the {Three} {Gorges} region since
+    the {Qing} dynasty},
   journal = {Zhongguo shehui kexue \textup{中國社會科學}},
   volume = {1},
   pages = {168-79}}
@@ -1923,7 +2058,9 @@ For the trick to work, the argument you give to \lstinline[style=dtxlatex]|\noop
 %</driver>
 \end{bibexbox}
 
-If the name is due to appear initial first (e.g.\ after `In:'), you can append the non-Roman characters to the author's surname; to do this, use inverted name order as you would for English double-barrelled names without hyphens, e.g.\ \texttt{Hua 華林甫, Linfu}.
+\begin{tips}
+\item If the name is due to appear initial first (e.g.\ after `In:'), you can append the non-Roman characters to the author's surname; to do this, use inverted name order as you would for English double-barrelled names without hyphens, e.g.\ \texttt{Hua 華林甫, Linfu}.
+\end{tips}
 
 \begin{bibexbox}{hua1999qys2}
   Hua, L., 1999. Qingdai yilai Sanxia diqu shuihan zaihai de chubu yanjiu [A preliminary study of floods and droughts in the Three Gorges region since the Qing dynasty], \emph{Zhongguo shehui kexue}, 1, pp.168--79.
@@ -1935,8 +2072,8 @@ If the name is due to appear initial first (e.g.\ after `In:'), you can append t
   author = {Hua, Linfu},
   year = {1999},
   title = {Qingdai yilai {Sanxia} diqu shuihan zaihai de chubu yanjiu},
-  titleaddon = {[A preliminary study of floods and droughts in the {Three} {Gorges} region since
-    the {Qing} dynasty]},
+  titleaddon = {A preliminary study of floods and droughts in the {Three} {Gorges} region since
+    the {Qing} dynasty},
   journal = {Zhongguo shehui kexue},
   volume = {1},
   pages = {168-79}}
@@ -2115,8 +2252,9 @@ If the name is due to appear initial first (e.g.\ after `In:'), you can append t
 %</driver>
 \end{bibexbox}
 
-Use the \texttt{entrysubtype} `secondary' to put the number in the right place.
-
+%<*driver>
+\begin{tips}\item Use the \texttt{entrysubtype} `secondary' to put the number in the right place.\end{tips}
+%</driver>
 
 % Parliamentary reports
 
@@ -2201,8 +2339,12 @@ Use this form for reports of House of Lords select committees.
 %</driver>
 \end{bibexbox}
 
-For joint committees, you will have to hack this slightly, putting the session
+%<*driver>
+\begin{hacks}
+\item For joint committees, you will have to hack this slightly, putting the session
 years in \texttt{series} and the HL and HC numbers in \texttt{number}.
+\end{hacks}
+%</driver>
 
 
 \subsubsection*{Command paper}
@@ -2284,14 +2426,14 @@ years in \texttt{series} and the HL and HC numbers in \texttt{number}.
 %</driver>
 \end{bibexbox}
 
-Use \verb|\defcitealias| to provide a suitable citation string:
-
+\begin{hacks}
+\item Use \lstinline[style=dtxlatex]|\defcitealias| to provide a suitable citation string:
 \begin{tcblisting}{listing side text, lefthand width=.5\linewidth}
 \defcitealias{eu.dir2015/413}{%
   {Directive ({EU}) 2015/413}}
 \citepalias{eu.dir2015/413}
 \end{tcblisting}
-
+\end{hacks}
 
 % European reports
 
@@ -2364,7 +2506,11 @@ Use \verb|\defcitealias| to provide a suitable citation string:
 
 Generally speaking, the year should be in square brackets if it is essential to the citation
 (unless it is a Scottish case, in which case it is printed bare), and in parentheses if it is
-not. The style assumes the year is essential if and only if a volume number is
+not.
+%<*driver>
+
+\begin{tips}
+\item The style assumes the year is essential if and only if a volume number is
 \emph{not} provided; to override this, you can use the \key{year-essential} option:
 
 \begin{tcolorbox}%
@@ -2372,9 +2518,9 @@ not. The style assumes the year is essential if and only if a volume number is
   , colback = white
   , fontupper = \footnotesize
   ]
-  \begin{Verbatim}
+\begin{Verbatim}
   options = {year-essential=true},
-  \end{Verbatim}
+\end{Verbatim}
 \end{tcolorbox}
 
 To use Scottish style for a case, you can either use the \key{scottish-style} option or
@@ -2385,16 +2531,20 @@ the keyword \texttt{sc}.
   , colback = white
   , fontupper = \footnotesize
   ]
-  \begin{Verbatim}
+\begin{Verbatim}
   options = {scottish-style},
   keywords = {sc},
-  \end{Verbatim}
+\end{Verbatim}
 \end{tcolorbox}
+\end{tips}
 
-\info{Please bear in mind that the \texttt{options} and \texttt{keywords}
+\begin{info}
+\item Please bear in mind that the \texttt{options} and \texttt{keywords}
 fields from \textsf{biblatex} have been emulated rather crudely. You can only
 supply one of each and the text must match exactly (so don't add spaces
-or anything like that).}
+or anything like that).
+\end{info}
+%</driver>
 
 \subsubsection*{Judgment of the European Court of Justice}
 
@@ -2428,11 +2578,16 @@ or anything like that).}
 %</driver>
 \end{bibexbox}
 
+%<*driver>
+\begin{tips}
+\item
 Use the \texttt{number} field (or the non-standard \texttt{casenmuber} field)
 for the case number. For Commission Decisions, use the (non-standard)
 \texttt{casenumber} or (\textsf{biblatex-oscola}) \texttt{userb} field for the
 Commission case number, \texttt{number} for the formal decision number, and give
 `Commission' as the \texttt{institution}.
+\end{tips}
+%</driver>
 
 
 %</driver|tex1>
