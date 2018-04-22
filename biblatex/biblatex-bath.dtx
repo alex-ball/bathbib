@@ -68,6 +68,7 @@ Copyright (C) 2018 by University of Bath
 \documentclass[10pt,a4paper]{article}
 \usepackage[british]{babel}
 \usepackage[hmargin=3cm,vmargin=2.5cm]{geometry}
+\frenchspacing
 
 % For typesetting the CJK example
 
@@ -115,6 +116,24 @@ Copyright (C) 2018 by University of Bath
   \setbox\@tempboxa\hbox{{#1}}%
   \hangindent \wd\@tempboxa\noindent\box\@tempboxa}
 \makeatother
+\newenvironment{tips}{%
+  \begin{list}{\makebox[2em][c]{\faLightbulbO}}{%
+    \setlength{\leftmargin}{2em}
+    \setlength{\labelwidth}{2em}
+    \setlength{\labelsep}{0pt}}
+}{\end{list}}
+\newenvironment{info}{%
+  \begin{list}{\makebox[2em][c]{\faInfoCircle}}{%
+    \setlength{\leftmargin}{2em}
+    \setlength{\labelwidth}{2em}
+    \setlength{\labelsep}{0pt}}
+}{\end{list}}
+\newenvironment{hacks}{%
+  \begin{list}{\makebox[2em][c]{\faWrench}}{%
+    \setlength{\leftmargin}{2em}
+    \setlength{\labelwidth}{2em}
+    \setlength{\labelsep}{0pt}}
+}{\end{list}}
 
 \usepackage{tcolorbox}
 \tcbuselibrary{listings,breakable,skins,xparse}
@@ -423,7 +442,7 @@ you need to be aware of.
   consistent with the \href{http://ctan.org/pkg/oscola}{\textsf{biblatex-oscola}}
   style, a specialist style implementing the \emph{Oxford Standard for the Citation
   of Legal Authorities}, to enable the same entries to be used with both styles.
-  
+
   For the sake of backwards compatibility, the version 1 semantics still work,
   but should be considered deprecated; support may be withdrawn in future (major)
   versions of this style.
@@ -431,7 +450,7 @@ you need to be aware of.
 \item
   In version 1, the \texttt{titleaddon} field was printed unadorned, so you had
   to supply your own brackets. This was to allow greater freedom to `hack' entries.
-  
+
   With version 2, you should not need to resort to such dirty tricks, so the
   style now applies the brackets for you, in common with styles such as
   \href{http://ctan.org/pkg/biblatex-apa}{\textsf{biblatex-apa}}. Again, for the
@@ -445,11 +464,18 @@ you need to be aware of.
   own adaptations to the style, these may no longer work with version 2.
 \end{itemize}
 
+There is now a companion Bib\TeX\ style available (\texttt{bathx} in version 2+
+of the \textsf{bath-bst} package) which is compatible with this style in the
+sense that it will render the same .bib file the same way, so long as some
+adjustments are made that won't affect the \textsf{biblatex} rendering (mainly
+concerning the handling of dates).
 
 \section{Examples}
 
 The examples below are shown in three parts.
-The first, marked with \faBook, shows an extract from the \emph{Harvard (Bath) guide to citing and referencing} or \emph{Referencing images}.
+The first, marked with \faBook, shows an extract from the
+\href{http://www.bath.ac.uk/library/infoskills/referencing-plagiarism/harvard-bath-style.html}{\emph{Harvard (Bath) guide to citing and referencing}} or
+\href{http://www.bath.ac.uk/library/pass.bho/images-referencing.pdf}{\emph{Referencing images}}.
 The second, marked with \faCog, shows the reference as formatted by \textsf{biblatex}.
 The last shows how the reference was entered in the .bib file.
 The bottom right corner shows the source of the example: `HBS' indicates the `Specific examples' section of the Guide (followed by the number of the example); `ref.\@ list' indicates the `How to organise a reference list' section of the Guide; `RI' indicates \emph{Referencing images}.
@@ -757,6 +783,8 @@ BibTeX, and not a symptom of recalcitrance on the part of the author.
 \end{Verbatim}
 \end{bibexbox}
 
+\begin{tips}
+\item
 The Harvard (Bath) style treats preprints as grey literature, and so the
 \texttt{report} entry type is the best match semantically. Use \texttt{library}
 to specify the name of the preprint repository.
@@ -764,6 +792,7 @@ to specify the name of the preprint repository.
 In standard \textsf{biblatex}, you would typically use the natural entry type
 for the work and provide preprint details using the \texttt{eprinttype},
 \texttt{eprintclass} and \texttt{eprint} fields.
+\end{tips}
 
 
 \subsubsection*{Newspaper article}
@@ -916,6 +945,8 @@ for the work and provide preprint details using the \texttt{eprinttype},
 \end{Verbatim}
 \end{bibexbox}
 
+\begin{tips}
+\item
 Use \texttt{label} to specify the standard identifier;
 this will print it at the start of the entry and in citations.
 The entry will, however, be sorted by \texttt{title} in the bibliography unless
@@ -927,11 +958,13 @@ semantically correct \texttt{number} field and the value will be moved
 into \texttt{label} and \texttt{sortkey} for you (unless these or
 \texttt{author} are already specified). If you need compatibility with Bib\TeX\, you could put the identifier in \texttt{author} with much the same effect.
 
+\item
 If the date forms part of the identifier, don't repeat it in \texttt{year} or \texttt{date};
 put it in \texttt{sortyear} instead. This will make sure it is still positioned
 correctly within a citation of multiple sources.
 If you are using Biber, it will also stop an erroneous `n.d.\@' being printed;
 otherwise you will need to do this manually by setting the (Boolean) entry option \key{nonodate}.
+\end{tips}
 
 \subsubsection*{Patent}
 
@@ -952,16 +985,14 @@ otherwise you will need to do this manually by setting the (Boolean) entry optio
 \end{Verbatim}
 \end{bibexbox}
 
+\begin{info}\item
 Note that \textsf{biblatex} has special localisation keys for full patents and
 patent requests\slash applications.
-
+\end{info}
 
 \subsection{Audiovisual materials}
 
 \subsubsection*{Image}
-
-These examples are taken from the Library guide
-\href{http://www.bath.ac.uk/library/pass.bho/images-referencing.pdf}{\emph{Referencing images}}.
 
 \begin{bibexbox}<RI>{nasa2015nat}
    NASA, 2015, \emph{NASA Astronaut Tim Kopra on Dec.\@ 21 Spacewalk}. Washington: NASA. Available from: \url{http://www.nasa.gov/image-feature/nasa-astronaut-tim-kopra-on-dec-21-spacewalk} [Accessed 7 January 2015].
@@ -982,8 +1013,10 @@ These examples are taken from the Library guide
 \end{Verbatim}
 \end{bibexbox}
 
+\begin{tips}\item
 You can use either the \texttt{publisher} or the \texttt{organization} field to
 record the source of the image. If you use both, \texttt{organization} will be ignored.
+\end{tips}
 
 \begin{bibexbox}<RI>{iliff2006rcb}
    Iliff, D., 2006. \emph{Royal Crescent in Bath, England - July 2006}, San Francisco: Wikimedia Foundation. Available from: \url{https://commons.wikimedia.org/wiki/File:Royal_Crescent_in_Bath,_England_-_July_2006.jpg} [Accessed 7 January 2016].
@@ -1024,12 +1057,14 @@ record the source of the image. If you use both, \texttt{organization} will be i
 \end{Verbatim}
 \end{bibexbox}
 
+\begin{tips}\item
 Use the \texttt{library} field to record the archive and register number.
 If the image is on display rather than archived,
 use \texttt{institution} instead for the museum, gallery or building.
 If you also wish to provide the name of the organisation that published the image,
 use the \texttt{publisher} field if the location you provide relates to the publisher,
 but the \texttt{organization} field if the location relates to the archive.
+\end{tips}
 
 
 \subsubsection*{Map}
@@ -1052,7 +1087,9 @@ but the \texttt{organization} field if the location relates to the archive.
 \end{Verbatim}
 \end{bibexbox}
 
+\begin{info}\item
 The \texttt{book} entry type would also work for this reference.
+\end{info}
 
 \subsubsection*{Film, video or DVD}
 
@@ -1074,6 +1111,7 @@ The \texttt{book} entry type would also work for this reference.
 \end{Verbatim}
 \end{bibexbox}
 
+\begin{info}\item
 In the above entry, the following would also work instead of using \texttt{note}:
 
 \begin{tcolorbox}%
@@ -1082,11 +1120,14 @@ In the above entry, the following would also work instead of using \texttt{note}
   , fontupper = \footnotesize
   ]
 \begin{Verbatim}
-  editor = {Orson Welles}, editortype = {director}
+  editor = {Orson Welles},
+  editortype = {director},
 \end{Verbatim}
 \end{tcolorbox}
 
+\item
 You can also use \texttt{movie} as an alias for \texttt{video}.
+\end{info}
 
 
 \subsubsection*{Streamed video (YouTube, TED Talks, etc.)}
@@ -1145,7 +1186,9 @@ You can also use \texttt{movie} as an alias for \texttt{video}.
 \end{Verbatim}
 \end{bibexbox}
 
+\begin{tips}\item
 Use \texttt{type} for the medium and \texttt{publisher} for the channel.
+\end{tips}
 
 \begin{bibexbox}<HBS 21>{archers20060823}
   \emph{The Archers}, 2006. Radio.\@ BBC Radio 4, 23 August. 19.02 hrs.
@@ -1163,7 +1206,9 @@ Use \texttt{type} for the medium and \texttt{publisher} for the channel.
 \end{Verbatim}
 \end{bibexbox}
 
+\begin{info}\item
 You can also use \texttt{music} as an alias for \texttt{audio}.
+\end{info}
 
 
 \subsubsection*{Music score}
@@ -1249,8 +1294,10 @@ You can also use \texttt{music} as an alias for \texttt{audio}.
 \end{Verbatim}
 \end{bibexbox}
 
+\begin{tips}\item
 Use the \texttt{journal} field to specify the mailing list. This triggers the
 change in formatting with respect to the following example.
+\end{tips}
 
 
 \subsubsection*{Personal emails}
@@ -1294,8 +1341,10 @@ change in formatting with respect to the following example.
 \end{Verbatim}
 \end{bibexbox}
 
+\begin{tips}\item
 Use the \texttt{title} field for the entry title,
 and the \texttt{library} field for the name of the database itself.
+\end{tips}
 
 
 \subsubsection*{Dataset}
@@ -1320,7 +1369,9 @@ and the \texttt{library} field for the name of the database itself.
 \end{Verbatim}
 \end{bibexbox}
 
+\begin{tips}\item
 You can also use \texttt{dataset} as an alias for \texttt{online}.
+\end{tips}
 
 
 \subsubsection*{Computer program}
@@ -1387,7 +1438,9 @@ You can also use \texttt{dataset} as an alias for \texttt{online}.
 \end{Verbatim}
 \end{bibexbox}
 
+\begin{tips}\item
 Use the \texttt{titleaddon} field to supply the English translation of the title.
+\end{tips}
 
 \begin{bibexbox}<HBS 27>{thurfjell1975vhv}
   Thurfjell, W., 1975. Vart har våran doktor tagit vägen? [Where has our doctor gone?] \emph{Läkartidningen} 72, p.789.
@@ -1432,10 +1485,12 @@ Use the \texttt{titleaddon} field to supply the English translation of the title
 \end{Verbatim}
 \end{bibexbox}
 
+\begin{tips}\item
 To supply a transliterated version of an author name, specify the name using the
 name parts \texttt{family}, \texttt{given} and \texttt{cjk}. Please note that if
 you do supply a \texttt{cjk} component, any \texttt{prefix} or \texttt{suffix}
 component you may supply will be ignored.
+\end{tips}
 
 \begin{bibexbox}<HBS 28>{hua1999qys2}
   Hua, L., 1999. Qingdai yilai Sanxia diqu shuihan zaihai de chubu yanjiu [A preliminary study of floods and droughts in the Three Gorges region since the Qing dynasty], \emph{Zhongguo shehui kexue}, 1, pp.168--79.
@@ -1457,10 +1512,12 @@ component you may supply will be ignored.
 \end{Verbatim}
 \end{bibexbox}
 
+\begin{tips}\item
 Although not a feature of the Harvard (Bath) Style, if you want to suppress the 
 punctuation between the family name and the initial (and thereby be more
 faithful to the original orthography), you can specify this using
 \textsf{biblatex}'s data annotations feature, using the keyword \texttt{cjk}:
+\end{tips}
 
 \begin{bibexbox}{hua2001foo}
   Hua L. 華林甫, 2001. \emph{Lorem ipsum}.
@@ -1501,7 +1558,8 @@ faithful to the original orthography), you can specify this using
 \end{Verbatim}
 \end{bibexbox}
 
-You can also combine the series and chapter in the \texttt{number} field:
+\begin{info}\item
+You could instead combine the series and chapter in the \texttt{number} field:
 
 \begin{tcolorbox}%
   [ colframe = Slate
@@ -1512,6 +1570,7 @@ You can also combine the series and chapter in the \texttt{number} field:
   number = {9 Geo.2, c.5}
 \end{Verbatim}
 \end{tcolorbox}
+\end{info}
 
 \subsubsection*{Act of Parliament (UK Statutes) 1963 onwards}
 
@@ -1531,9 +1590,6 @@ You can also combine the series and chapter in the \texttt{number} field:
 %<*driver>
 \end{Verbatim}
 \end{bibexbox}
-
-Use \texttt{note} for identifiers that should appear directly after the title
-and without parentheses.
 
 
 \subsubsection*{House of Commons/House of Lords bill}
@@ -1582,13 +1638,17 @@ and without parentheses.
 \end{Verbatim}
 \end{bibexbox}
 
+\begin{tips}\item
 Use the \texttt{entrysubtype} `secondary' to put the number in the right place.
+\end{tips}
 
 % Parliamentary reports
 
 \subsubsection*{House of Commons paper}
 
+\begin{tips}\item
 Use this form for reports of House of Commons select committees.
+\end{tips}
 
 \begin{bibexbox}<HBS 29>{gb.hc2003/04-30}
   Great Britain. Parliament. House of Commons, 2004. \emph{National Savings investment deposits:\@ account 2002--2003}. London:\@ National Audit Office (HC 2003/04, 30).
@@ -1613,7 +1673,9 @@ Use this form for reports of House of Commons select committees.
 
 \subsubsection*{House of Lords paper}
 
+\begin{tips}\item
 Use this form for reports of House of Lords select committees.
+\end{tips}
 
 \begin{bibexbox}<HBS 30>{gb.hl1986/87-66}
   Great Britain. Parliament. House of Lords, 1987. \emph{Social fund (Maternity and Funeral Expenses) Bill}. London:\@ HMSO (HL 1986/87, (66)).
@@ -1634,8 +1696,10 @@ Use this form for reports of House of Lords select committees.
 \end{Verbatim}
 \end{bibexbox}
 
+\begin{hacks}\item
 For joint committees, you will have to hack this slightly, putting the session
 years in \texttt{series} and the HL and HC numbers in \texttt{number}.
+\end{hacks}
 
 
 \subsubsection*{Command paper}
@@ -1688,7 +1752,9 @@ years in \texttt{series} and the HL and HC numbers in \texttt{number}.
 \end{Verbatim}
 \end{bibexbox}
 
+\begin{info}\item
 The \texttt{shorttitle} will be used in citations instead of the full title.
+\end{info}
 
 
 % European reports
@@ -1733,9 +1799,13 @@ The \texttt{shorttitle} will be used in citations instead of the full title.
 \end{Verbatim}
 \end{bibexbox}
 
+\begin{info}\item
 Generally speaking, the year should be in square brackets if it is essential to the citation
 (unless it is a Scottish case, in which case it is printed bare), and in parentheses if it is
-not. By default, the style assumes the year is essential if and only if a volume number is
+not.
+\end{info}
+\begin{tips}\item
+By default, the style assumes the year is essential if and only if a volume number is
 \emph{not} provided; to override this, you can use the \key{year-essential} option:
 
 \begin{tcolorbox}%
@@ -1761,7 +1831,9 @@ the keyword \texttt{sc}:
   keywords = {sc},
   \end{Verbatim}
 \end{tcolorbox}
+\end{tips}
 
+\begin{hacks}\item
 This should cover most cases, but legal references tend to enforce their own conventions
 no matter what the rest of the reference list is doing,
 and it is out of scope for this style to cater for every variation.
@@ -1779,7 +1851,7 @@ you may prefer to format the reference more-or-less by hand:
   note = {[2012]. UKSC 16}
   \end{Verbatim}
 \end{tcolorbox}
-
+\end{hacks}
 
 \subsubsection*{Judgment of the European Court of Justice}
 
@@ -1801,11 +1873,13 @@ you may prefer to format the reference more-or-less by hand:
 \end{Verbatim}
 \end{bibexbox}
 
+\begin{tips}\item
 Use the \texttt{number} field (or the non-standard \texttt{casenmuber} field)
 for the case number. For Commission Decisions, use the (non-standard)
 \texttt{casenumber} or (\textsf{biblatex-oscola}) \texttt{userb} field for the
 Commission case number, \texttt{number} for the formal decision number, and give
 `Commission' as the \texttt{institution}.
+\end{tips}
 
 
 \newrefcontext[sorting=nyt]

@@ -515,8 +515,8 @@ common. The main differences between two versions are as follows:
 \end{itemize}
 
 One other change worth noting regards URL access dates. In version 1, the
-advice was to put them in \texttt{urldate}. With version 2, the advice is now
-to put them, counter-intuitively, in \texttt{urlyear}. The reason is that
+advice was to put them in \texttt{urldate}. With version 2 the advice is now
+to put them, perhaps counter-intuitively, in \texttt{urlyear}. The reason is that
 \textsf{biblatex} will complain if the value of \texttt{urldate} is in the wrong
 format, but will happily print the contents of \texttt{urlyear} literally. If
 you don't care about \textsf{biblatex} compatibility, you can continue to use
@@ -1027,6 +1027,10 @@ The Harvard (Bath) style treats preprints as grey literature, and so the
 
 \subsection{Conference papers}
 
+\begin{info}\item
+As in the standard Bib\TeX\ styles, \texttt{conference} is a legacy (and highly deprecated) alias for \texttt{inproceedings}.
+\end{info}
+
 \subsubsection*{Conference paper (when proceedings have a named editor)}
 
 \begin{bibexbox}<HBS 10>{crawford1965oim}
@@ -1134,6 +1138,8 @@ The Harvard (Bath) style treats preprints as grey literature, and so the
 \end{Verbatim}
 \end{bibexbox}
 
+\begin{info}\item Internally, \texttt{thesis} is an alias for \texttt{phdthesis}.\end{info}
+
 
 \subsubsection*{Report}
 
@@ -1154,6 +1160,8 @@ The Harvard (Bath) style treats preprints as grey literature, and so the
 %<*driver|tex1>
 \end{Verbatim}
 \end{bibexbox}
+
+\begin{info}\item Internally, \texttt{report} is an alias for \texttt{techreport}.\end{info}
 
 
 \subsubsection*{Standard}
@@ -2504,9 +2512,11 @@ years in \texttt{series} and the HL and HC numbers in \texttt{number}.
 %</driver>
 \end{bibexbox}
 
+\begin{info}\item
 Generally speaking, the year should be in square brackets if it is essential to the citation
 (unless it is a Scottish case, in which case it is printed bare), and in parentheses if it is
 not.
+\end{info}
 %<*driver>
 
 \begin{tips}
@@ -2544,7 +2554,28 @@ fields from \textsf{biblatex} have been emulated rather crudely. You can only
 supply one of each and the text must match exactly (so don't add spaces
 or anything like that).
 \end{info}
+
+\begin{hacks}\item
+This should cover most cases, but legal references tend to enforce their own conventions
+no matter what the rest of the reference list is doing,
+and it is out of scope for this style to cater for every variation.
+Therefore if you need a different format (e.g.\@ for an American case),
+you may prefer to format the reference more-or-less by hand:
+
+\begin{tcolorbox}%
+  [ colframe = Slate
+  , colback = white
+  , fontupper = \footnotesize
+  ]
+  \begin{Verbatim}
+  title = {Seldon v {Clarkson} {Wright} \& {Jakes}},
+  sortyear = {2012},
+  note = {[2012]. UKSC 16}
+  \end{Verbatim}
+\end{tcolorbox}
+\end{hacks}
 %</driver>
+
 
 \subsubsection*{Judgment of the European Court of Justice}
 
@@ -5339,6 +5370,8 @@ FUNCTION {patent} { manual }
 FUNCTION {software} { manual }
 FUNCTION {standard} { manual }
 FUNCTION {www} { manual }
+FUNCTION {thesis} { phdthesis }
+FUNCTION {report} { techreport }
 %    \end{macrocode}
 %
 % The fallback driver is \texttt{misc}, as with most styles.
