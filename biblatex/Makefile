@@ -50,7 +50,7 @@ install: all
 	mktexlsr
 
 uninstall:
-	sudo rm -r $(UTREE)/{source,tex,doc}/latex/$(NAME)
+	sudo rm -r $(LOCAL)/{source,tex,doc}/latex/$(NAME)
 	mktexlsr
 
 zip: all
