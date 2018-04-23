@@ -17,11 +17,11 @@ A makefile is provided which you can use with the Make utility on
 UNIX-like systems:
 
   * Running `make source` generates the derived files
-      - README.md
-      - bath.bbx, bath.cbx, bath.dbx
-      - american-bath.lbx, british-bath.lbx
-      - biblatex-bath.bib
-      - biblatex-bath.ins
+      - `README.md`
+      - `bath.bbx`, `bath.cbx`, `bath.dbx`
+      - `american-bath.lbx`, `british-bath.lbx`
+      - `biblatex-bath.bib`
+      - `biblatex-bath.ins`
   * Running `make` generates the above files and also biblatex-bath.pdf.
   * Running `make inst` installs the files in the user's TeX tree.
     You can undo this with `make uninst`.
@@ -36,7 +36,7 @@ the zip archive.
 
  1. Run `luatex biblatex-bath.dtx` to generate the source files.
 
- 2. Compile biblatex-bath.dtx with [LuaLaTeX] and [Biber] to generate the
+ 2. Compile `biblatex-bath.dtx` with [LuaLaTeX] and [Biber] to generate the
     documentation. You will need, among other things, the [luatexja],
     [adobemapping] and [ipaex] packages installed; this is just for the
     documentation, not for the biblatex style itself.
@@ -55,17 +55,17 @@ the zip archive.
 
  4. Move the files to your TeX tree as follows:
       - `source/latex/biblatex-bath`:
-        biblatex-bath.dtx,
-        (biblatex-bath.ins)
+        `biblatex-bath.dtx`,
+        (`biblatex-bath.ins`)
       - `tex/latex/biblatex-bath`:
-        bath.bbx,
-        bath.cbx,
-        bath.dbx,
-        american-bath.lbx,
-        british-bath.lbx
+        `bath.bbx`,
+        `bath.cbx`,
+        `bath.dbx`,
+        `american-bath.lbx`,
+        `british-bath.lbx`
       - `doc/latex/biblatex-bath`:
-        biblatex-bath.pdf,
-        README.md
+        `biblatex-bath.pdf`,
+        `README.md`
 
  5. You may then have to update your installation's file name database
     before TeX and friends can see the files.

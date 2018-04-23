@@ -485,7 +485,7 @@ whether to attempt some level of compatibility with other styles or craft
 something utterly unique.
 
 In the first version of \textsf{bath-bst}, the intention was to set things up
-so that, if the same .bib file was used with a different style, the features
+so that, if the same \texttt{.bib} file was used with a different style, the features
 peculiar to the Harvard (Bath) style would be ignored and the remaining
 information would come out in a sensible arrangement. The recommendations of
 the style's documentation were to use the standard entry types as much as
@@ -493,11 +493,11 @@ possible (though more semantic aliases were provided), and minimal new fields
 were introduced. For the more exotic (in Bib\TeX\ terms) demands of the style,
 extensive use was made of the (standard) \texttt{note} and (non-standard)
 \texttt{titleaddon} fields to place information properly. If you have written
-a .bib file according the principles in that first version, the \texttt{bath}
+a \texttt{.bib} file according the principles in that first version, the \texttt{bath}
 style will still work as advertised for you.
 
 The second version introduces a new variant, \texttt{bathx} (`Bath extended'),
-which has a different aim. The idea with this one is that .bib files written
+which has a different aim. The idea with this one is that \texttt{.bib} files written
 for this style will be rendered just the same by the companion
 \textsf{biblatex-bath} style. Where possible, features from the latter have
 been emulated for Bib\TeX; otherwise, the `cheats' used in this style will
@@ -564,13 +564,13 @@ To use the style, add these lines to your preamble:
 \fi
 %</driver>
 
-Remember also to specify your .bib file at the end of the document:
+Remember also to specify your \texttt{.bib} file at the end of the document:
 
 \begin{tcblisting}{listing only}
 \bibliography{file}
 \end{tcblisting}
 
-To make a citation in the text, use the key that corresponds to the entry in your .bib file:
+To make a citation in the text, use the key that corresponds to the entry in your \texttt{.bib} file:
 
 \begin{tcblisting}{}
 While collections can be supplemented by other means \citep{williams1997edd},
@@ -594,7 +594,7 @@ The first, marked with \faBook, shows an extract from the
 \href{http://www.bath.ac.uk/library/infoskills/referencing-plagiarism/harvard-bath-style.html}{\emph{Harvard (Bath) guide to citing and referencing}} or
 \href{http://www.bath.ac.uk/library/pass.bho/images-referencing.pdf}{\emph{Referencing images}}.
 The second, marked with \faCog, shows the reference as formatted by Bib\TeX.
-The last shows how the reference was entered in the .bib file.
+The last shows how the reference was entered in the \texttt{.bib} file.
 The bottom right corner shows the source of the example: `HBS' indicates the `Specific examples' section of the Guide (followed by the number of the example); `ref.\@ list' indicates the `How to organise a reference list' section of the Guide; `RI' indicates \emph{Referencing images}.
 
 Some examples are highlighted in
@@ -3187,7 +3187,7 @@ FUNCTION {bbl.nodate}
 
 %    \end{macrocode}
 %
-% These macros are codes that users can put in their .bib file instead of
+% These macros are codes that users can put in their \texttt{.bib} file instead of
 % literal strings.
 %
 %    \begin{macrocode}
@@ -5388,13 +5388,13 @@ FUNCTION {default.type} { misc }
 %
 % \subsection{Bibliography processing}
 %
-% We are now ready for Bib\TeX\ to read in the .bib file.
+% We are now ready for Bib\TeX\ to read in the \texttt{.bib} file.
 %
 %    \begin{macrocode}
 READ
 %    \end{macrocode}
 %
-% These functions are used to generate a sort key for each entry in the .bib
+% These functions are used to generate a sort key for each entry in the \texttt{.bib}
 % file.
 %
 % |sortify| strips out \LaTeX\ commands, spaces and ASCII symbols, and converts
