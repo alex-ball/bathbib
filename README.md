@@ -4,9 +4,9 @@ This repository contains two LaTeX implementations of the
 [Harvard referencing style][bath-harvard] recommended by the University of Bath
 Library.
 
-  + [`biblatex`](tree/master/biblatex)
+  + [`biblatex`](biblatex/)
     contains the implementation for use with [biblatex] and [Biber].
-  + [`bst`](tree/master/bst)
+  + [`bst`](bst/)
     contains the implementation for use with [BibTeX].
 
 [bath-harvard]: http://www.bath.ac.uk/library/infoskills/referencing-plagiarism/harvard-bath-style.html
