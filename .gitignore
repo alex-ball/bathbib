@@ -95,7 +95,7 @@ sympy-plots-for-*.tex/
 *.xdy
 
 ## Preliminary files
-/bst/custom-bib/bath.dbj
+/bst/custom-bib/
 
 ## Compiled files
 /biblatex/biblatex-bath-*.zip
