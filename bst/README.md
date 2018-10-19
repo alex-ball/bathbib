@@ -89,7 +89,7 @@ the zip archive.
 
 ## Licence
 
-Copyright 2016 University of Bath.
+Copyright 2016-2018 University of Bath.
 
 This work consists of the documented LaTeX file bath-bst.dtx and a Makefile.
 
