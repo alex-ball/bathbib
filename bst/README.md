@@ -16,8 +16,8 @@ instructions below.
 
 The latest stable release of bath-bst has been packaged for TeX Live and
 MiKTeX. If you are running TeX Live and have `tlmgr` installed, you can install
-the bundle simply by running `tlmgr install bath-bst`. If you are running
-MiKTeX, you can install the bundle by running `mpm --install=bath-bst`.
+the package simply by running `tlmgr install bath-bst`. If you are running
+MiKTeX, you can install the package by running `mpm --install=bath-bst`.
 Both `tlmgr` and `mpm` have GUI versions that you might find friendlier.
 
 ### Automated way
