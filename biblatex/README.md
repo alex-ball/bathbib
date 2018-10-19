@@ -11,6 +11,14 @@ main `.tex` file for your document. If you want the style to be available for
 all your documents without having to copy the files over each time, you can
 install them using the instructions below.
 
+### Managed way
+
+The latest stable release of biblatex-bath has been packaged for TeX Live and
+MiKTeX. If you are running TeX Live and have `tlmgr` installed, you can install
+the bundle simply by running `tlmgr install biblatex-bath`. If you are running
+MiKTeX, you can install the bundle by running `mpm --install=biblatex-bath`.
+Both `tlmgr` and `mpm` have GUI versions that you might find friendlier.
+
 ### Automated way
 
 A makefile is provided which you can use with the Make utility on
