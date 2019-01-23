@@ -1,0 +1,788 @@
+---
+references:
+- id: rang.etal2012rdp
+  type: book
+  author:
+  - family: Rang
+    given: H. P.
+  - family: Dale
+    given: M. M.
+  - family: Ritter
+    given: J. M.
+  - family: Flower
+    given: R. J.
+  - family: Henderson
+    given: G.
+  issued:
+  - year: '2012'
+  title: Rang and <span class="nocase">Dale’s</span> pharmacology
+  publisher: Elsevier Churchill Livingstone
+  publisher-place: Edinburgh
+  edition: '7'
+
+- id: ou1972em
+  type: book
+  author:
+  - literal: Open University
+  issued:
+  - year: '1972'
+  title: Electricity and magnetism
+  publisher: Open University Press
+  publisher-place: Bletchley
+
+- id: rothman.etal2008me
+  type: book
+  editor:
+  - family: Rothman
+    given: Kenneth J.
+  - family: Greenland
+    given: Sander
+  - family: Lash
+    given: Timothy L.
+  issued:
+  - year: '2008'
+  title: Modern epidemiology
+  publisher: Lippincott Williams & Wilkins
+  publisher-place: Philadelphia, Pa.
+  edition: '3'
+
+- id: oed1989
+  type: book
+  issued:
+  - year: '1989'
+  title: Oxford English dictionary
+  publisher: Clarendon Press
+  publisher-place: Oxford
+  edition: '2'
+
+- id: merckNDidx
+  type: book
+  accessed:
+  - year: '2016'
+    month: '6'
+    day: '16'
+  title: The Merck index online
+  publisher: RSC Publishing
+  publisher-place: London
+  URL: http://www.rsc.org/Merck-Index
+
+- id: haynes2014crc
+  type: book
+  editor:
+  - family: Haynes
+    given: W. M.
+  issued:
+  - year: '2014'
+  accessed:
+  - year: '2016'
+    month: '6'
+    day: '16'
+  title: CRC handbook of chemistry and physics
+  publisher: CRC Press/Taylor and Francis
+  publisher-place: Boca Raton, Fla.
+  edition: '94'
+  URL: http://www.hbcpnetbase.com
+
+- id: hodds2016re
+  type: book
+  author:
+  - family: Hodds
+    given: J.
+  issued:
+  - year: '2016'
+  title: Referencing ebooks. Kindle version 4.18
+  title-short: Referencing ebooks
+  publisher: University of Bath
+  publisher-place: Bath
+
+- id: burchard1965hhl
+  type: chapter
+  author:
+  - family: Burchard
+    given: J. E.
+  editor:
+  - family: Overhage
+    given: C. F. J.
+  - family: Harman
+    given: J. R.
+  issued:
+  - year: '1965'
+  title: How humanists use a library
+  container-title: 'Intrex: Report on a planning conference and information transfer
+    experiments'
+  publisher: MIT Press
+  publisher-place: Cambridge, Mass.
+  page: '41-87'
+
+- id: reid1967ptp
+  type: chapter
+  author:
+  - family: Reid
+    given: D. R.
+  editor:
+  - family: Pinner
+    given: S. H.
+  issued:
+  - year: '1967'
+  title: Physical testing of polymer films
+  container-title: Modern packaging films
+  publisher: Butterworths
+  publisher-place: London
+  page: '143-183'
+
+- id: stieg1981cer
+  type: article-journal
+  author:
+  - family: Stieg
+    given: M. F.
+  issued:
+  - year: '1981'
+  title: Continuing education and the reference librarian in the academic and research
+    library
+  container-title: Library Journal
+  page: '2547-2551'
+  volume: '105'
+  issue: '22'
+
+- id: stieg1981inh
+  type: article-journal
+  author:
+  - family: Stieg
+    given: M. F.
+  issued:
+  - year: '1981'
+  title: The information needs of historians
+  container-title: College and Research Libraries
+  page: '549-560'
+  volume: '42'
+  issue: '6'
+
+- id: newman2010mcb
+  type: article-journal
+  author:
+  - family: Newman
+    given: R.
+  issued:
+  - year: '2010'
+  title: Malaria control beyond 2010
+  container-title: Brit.Med.J.
+  page: '157-208'
+  volume: '341'
+  issue: '7765'
+
+- id: williams1997edd
+  type: article-journal
+  author:
+  - family: Williams
+    given: F.
+  issued:
+  - year: '1997'
+  accessed:
+  - year: '1997'
+    month: '12'
+    day: '5'
+  title: 'Electronic document delivery: A trial in an academic library'
+  title-short: Electronic document delivery
+  container-title: Ariadne
+  volume: '10'
+  URL: http://www.ariadne.ac.uk/issue10/edd/
+
+- id: shah.corrick2016hsc
+  type: report
+  author:
+  - family: Shah
+    given: I.
+  - family: Corrick
+    given: I.
+  issued:
+  - year: '2016'
+  accessed:
+  - year: '2016'
+    month: '5'
+    day: '4'
+  title: How should central banks respond to non-neutral inflation expectations?
+  publisher: University of Bath
+  publisher-place: Bath
+  URL: http://opus.bath.ac.uk
+  call-number: OPUS
+
+- id: haurant2004bbh
+  type: article-journal
+  author:
+  - family: Haurant
+    given: S.
+  issued:
+  - year: '2004'
+    month: '7'
+    day: '29'
+  title: Britain’s borrowing hits £1 trillion
+  container-title: The Guardian
+  page: 16c
+
+- id: independent1992pub
+  type: article-journal
+  author:
+  - literal: The Independent
+  issued:
+  - year: '1992'
+    month: '6'
+    day: '4'
+  title: Picking up the bills
+  container-title: The Independent
+  page: 28a
+
+- id: crawford1965oim
+  type: paper-conference
+  author:
+  - family: Crawford
+    given: G. I.
+  editor:
+  - family: Lenihan
+    given: J. M. A.
+  - family: Thompson
+    given: S. J.
+  issued:
+  - year: '1965'
+  event-date:
+  - year: '1964'
+    month: '8'
+    day: '2'
+  - year: '1964'
+    month: '8'
+    day: '4'
+  title: Oxygen in metals
+  container-title: 'Activation analysis: Proceedings of a NATO Advanced Study Institute'
+  publisher: Academic Press
+  publisher-place: London
+  event-place: Glasgow
+  page: '113-118'
+
+- id: soper1972rbc
+  type: paper-conference
+  author:
+  - family: Soper
+    given: D.
+  issued:
+  - year: '1972'
+  event-date:
+  - year: '1972'
+    month: '11'
+    day: '15'
+  - year: '1972'
+    month: '11'
+    day: '17'
+  title: Review of bracken control experiments with asulam
+  container-title: Proceedings of the 11th British Weed Control Conference
+  publisher: University of Sussex
+  publisher-place: Brighton
+  event-place: Brighton
+  page: '24-31'
+
+- id: burrell1973ist
+  type: thesis
+  author:
+  - family: Burrell
+    given: J. G.
+  issued:
+  - year: '1973'
+  title: The importance of school tours in education
+  publisher: Queen’s University, Belfast
+  genre: Thesis (M.A.)
+
+- id: unesco1993gip
+  type: report
+  author:
+  - literal: UNESCO
+  issued:
+  - year: '1993'
+  title: General information programme and UNISIST
+  publisher: UNESCO
+  publisher-place: Paris
+  number: PGI-93/WS/22
+
+- id: bs5605:1990
+  type: legislation
+  title: Recommendations for citing and referencing published material
+  publisher: BSI
+  number: BS 5605:1990
+
+- id: pm1981opa
+  type: patent
+  author:
+  - literal: Phillipp Morris Inc.
+  issued:
+  - year: '1981'
+  title: Optical perforating apparatus and system
+  genre: European patent application
+  number: 0021165A1. 1981-01-07
+
+- id: nasa2015nat
+  type: graphic
+  author:
+  - literal: NASA
+  issued:
+  - year: '2015'
+  accessed:
+  - year: '2015'
+    month: '1'
+    day: '7'
+  title: NASA astronaut Tim Kopra on Dec. 21 spacewalk
+  publisher: NASA
+  publisher-place: Washington
+  URL: http://www.nasa.gov/image-feature/nasa-astronaut-tim-kopra-on-dec-21-spacewalk
+
+- id: iliff2006rcb
+  type: graphic
+  author:
+  - family: Iliff
+    given: D.
+  issued:
+  - year: '2006'
+  accessed:
+  - year: '2015'
+    month: '1'
+    day: '7'
+  title: Royal Crescent in Bath, England - July 2006
+  publisher: Wikimedia Foundation
+  publisher-place: San Francisco
+  URL: https://commons.wikimedia.org/wiki/File:Royal_Crescent_in_Bath,_England_-_July_2006.jpg
+
+- id: anon1946peb
+  type: graphic
+  author:
+  - family: Anon.
+  issued:
+  - year: '1946'
+  title: Prototype electric bicycle displayed at the “britain can make it” exhibition
+    organised by the Council of Industrial Design and held at the Victoria and Albert
+    Museum, London, 1946. Designed by B. G. Bowden. Photograph
+  title-short: Prototype electric bicycle displayed at the “britain can make it” exhibition
+    organised by the Council of Industrial Design and held at the Victoria and Albert
+    Museum, London, 1946. Designed by B. G. Bowden
+  publisher-place: London
+  call-number: Design Council Slide Collection
+
+- id: andrews.dury1773wilts
+  type: book
+  author:
+  - family: Andrews
+    given: J.
+  - family: Dury
+    given: A.
+  issued:
+  - year: '1773'
+  title: Map of Wiltshire
+  collection-title: 1 inch to 2 miles
+  publisher: Wiltshire Record Society
+  publisher-place: Devizes
+
+- id: macbeth1948
+  type: motion_picture
+  issued:
+  - year: '1948'
+  title: Macbeth
+  publisher: Republic Pictures
+  publisher-place: USA
+  genre: Film
+  note: Directed by Orson Welles
+
+- id: moran2016sol
+  type: motion_picture
+  author:
+  - family: Moran
+    given: C.
+  issued:
+  - year: '2016'
+  accessed:
+  - year: '2016'
+    month: '4'
+    day: '29'
+  title: Save Our Libraries
+  URL: https://www.youtube.com/watch?v=gKTfCz4JtVE&feature=youtu.be
+
+- id: uob2015wie
+  type: motion_picture
+  author:
+  - literal: University of Bath
+  issued:
+  - year: '2015'
+  accessed:
+  - year: '2016'
+    month: '1'
+    day: '12'
+  title: What is engineering?
+  URL: https://www.youtube.com/watch?v=NoyZarq-Zbo
+
+- id: rsfo2006ep5
+  type: motion_picture
+  issued:
+  - year: '2006'
+    month: '8'
+    day: '23'
+  title: 'Rick <span class="nocase">Stein’s</span> French Odyssey: Episode 5'
+  title-short: Rick <span class="nocase">Stein’s</span> French Odyssey
+  publisher: BBC2
+  genre: TV
+
+- id: archers20060823
+  type: song
+  issued:
+  - year: '2006'
+    month: '8'
+    day: '23'
+  title: The Archers
+  publisher: BBC Radio 4
+  genre: Radio
+
+- id: beethoven1950symph1
+  type: book
+  author:
+  - family: Beethoven
+    given: Ludwig
+    dropping-particle: van
+  issued:
+  - year: '1950'
+  title: Symphony no.1 in C, Op.21
+  publisher: Penguin
+  publisher-place: Harmondsworth
+
+- id: holland2002gci
+  type: webpage
+  author:
+  - family: Holland
+    given: M.
+  issued:
+  - year: '2002'
+  accessed:
+  - year: '2002'
+    month: '11'
+    day: '4'
+  title: Guide to citing internet sources
+  publisher: Bournemouth University
+  publisher-place: Poole
+  URL: http://www.bournemouth.ac.uk/library/using/guide_to_citing_internet_sourc.html
+
+- id: wiltshire2015gww
+  type: webpage
+  author:
+  - literal: Wiltshire Council
+  issued:
+  - year: '2015'
+  accessed:
+  - year: '2015'
+    month: '8'
+    day: '19'
+  title: Get Wiltshire walking
+  publisher: Wiltshire Council
+  publisher-place: Trowbridge
+  URL: http://www.wiltshire.gov.uk/leisureandrecreation/sportphysicalactivity/getwiltshirewalking.html
+
+- id: clark2004euk
+  type: personal_communication
+  author:
+  - family: Clark
+    given: T.
+  issued:
+  - year: '2004'
+    month: '7'
+    day: '5'
+  accessed:
+  - year: '2004'
+    month: '7'
+    day: '30'
+  title: A European UK Libraries Plus?
+  container-title: Lis-link
+  URL: lis-link@jiscmail.ac.uk
+
+- id: alston2004sah
+  type: personal_communication
+  author:
+  - family: Alston
+    given: S.
+  issued:
+  - year: '2004'
+    month: '7'
+    day: '19'
+  title: Society of Architectural Historians of GB
+  publisher: Email to K.M. Jordan
+
+- id: bvd2008bt
+  type: webpage
+  author:
+  - literal: Bureau van Dijk
+  issued:
+  - year: '2008'
+  accessed:
+  - year: '2014'
+    month: '11'
+    day: '6'
+  title: BT Group plc company report
+  publisher: Bureau van Dijk
+  publisher-place: London
+  URL: http://www.portal.euromonitor.com
+  call-number: FAME
+
+- id: wilson2013rgc
+  type: webpage
+  author:
+  - family: Wilson
+    given: D.
+  issued:
+  - year: '2013'
+  accessed:
+  - year: '2016'
+    month: '4'
+    day: '20'
+  title: 'Real geometry and connectedness via triangular description: CAD example
+    bank'
+  title-short: Real geometry and connectedness via triangular description
+  publisher: University of Bath
+  publisher-place: Bath
+  DOI: 10.15125/BATH-00069
+
+- id: screencasto
+  type: book
+  author:
+  - family: '@screencasto'
+  accessed:
+  - year: '2016'
+    month: '5'
+    day: '16'
+  title: Screencast-O-Matic. Computer program
+  title-short: Screencast-O-Matic
+  version: '2'
+  URL: https://screencast-o-matic.com/
+
+- id: aristotle2007ne
+  type: book
+  author:
+  - family: Aristotle
+  translator:
+  - family: Ross
+    given: W. D.
+  issued:
+  - year: '2007'
+  title: Nicomachean ethics
+  publisher: NuVisions
+  publisher-place: South Dakota
+
+- id: esquivel2003cap
+  type: book
+  author:
+  - family: Esquivel
+    given: L.
+  issued:
+  - year: '2003'
+  title: Como agua para chocolate. Like water for chocolate
+  title-short: Como agua para chocolate
+  publisher: Debolsillo
+  publisher-place: Barcelona
+
+- id: thurfjell1975vhv
+  type: article-journal
+  author:
+  - family: Thurfjell
+    given: W.
+  issued:
+  - year: '1975'
+  title: Vart har våran doktor tagit vägen? Where has our doctor gone?
+  title-short: Vart har våran doktor tagit vägen?
+  container-title: Läkartidningen
+  page: '789'
+  volume: '72'
+
+- id: hua1999qys1
+  type: article-journal
+  author:
+  - family: Hua
+    given: Linfu
+    cjk: 華林甫
+  issued:
+  - year: '1999'
+  title: Qingdai yilai Sanxia diqu shuihan zaihai de chubu yanjiu 清代以來三峽地區水旱災害的初步硏.
+    A preliminary study of floods and droughts in the Three Gorges region since the
+    Qing dynasty
+  title-short: Qingdai yilai Sanxia diqu shuihan zaihai de chubu yanjiu 清代以來三峽地區水旱災害的初步硏
+  container-title: Zhongguo shehui kexue <span class="upright">中國社會科學</span>
+  page: '168-79'
+  volume: '1'
+
+- id: hua1999qys2
+  type: article-journal
+  author:
+  - family: Hua
+    given: Linfu
+  issued:
+  - year: '1999'
+  title: Qingdai yilai Sanxia diqu shuihan zaihai de chubu yanjiu. A preliminary study
+    of floods and droughts in the Three Gorges region since the Qing dynasty
+  title-short: Qingdai yilai Sanxia diqu shuihan zaihai de chubu yanjiu
+  container-title: Zhongguo shehui kexue
+  page: '168-79'
+  volume: '1'
+
+- id: hua2001foo
+  type: book
+  author:
+  - family: given=Linfu
+    given: cjk=華林甫
+    suffix: family=Hua
+  issued:
+  - year: '2001'
+  title: Lorem ipsum
+
+- id: gb.wa1735
+  type: legislation
+  issued:
+  - year: '1735'
+  title: Witchcraft Act
+  collection-title: 9 geo.2
+  chapter-number: '5'
+
+- id: gb.pa2014
+  type: legislation
+  issued:
+  - year: '2014'
+  title: Pensions Act
+  publisher: TSO
+  publisher-place: London
+  chapter-number: '19'
+
+- id: gb.bill1987/88-66
+  type: legislation
+  author:
+  - literal: Great Britain. Parliament. House of Commons
+  issued:
+  - year: '1988'
+  title: Local government finance bill
+  collection-title: Bills \| 1987/88
+  publisher: HMSO
+  publisher-place: London
+  number: '66'
+
+- id: gb.hmr2012
+  type: legislation
+  issued:
+  - year: '2012'
+  accessed:
+  - year: '2016'
+    month: '4'
+    day: '17'
+  title: The Human Medicines Regulations
+  publisher: HMSO
+  publisher-place: United Kingdom
+  number: No.1916
+  URL: http://www.legislation.gov.uk/uksi/2012/1916/pdfs/uksi_20121916_en.pdf
+
+- id: gb.hc2003/04-30
+  type: report
+  author:
+  - literal: Great Britain. Parliament. House of Commons
+  issued:
+  - year: '2004'
+  title: 'National Savings investment deposits: Account 2002–2003'
+  title-short: National Savings investment deposits
+  collection-title: HC 2003/04
+  publisher: National Audit Office
+  publisher-place: London
+  number: '30'
+
+- id: gb.hl1986/87-66
+  type: report
+  author:
+  - literal: Great Britain. Parliament. House of Lords
+  issued:
+  - year: '1987'
+  title: Social fund (Maternity and Funeral Expenses) Bill
+  collection-title: HL 1986/87
+  publisher: HMSO
+  publisher-place: London
+  number: '66'
+
+- id: gb.cm6041
+  type: report
+  author:
+  - literal: Great Britain. Ministry of Defence
+  issued:
+  - year: '2004'
+  title: 'Delivering security in a changing world: Defence white paper'
+  title-short: Delivering security in a changing world
+  collection-title: Cm
+  publisher: TSO
+  publisher-place: London
+  number: '6041'
+
+- id: eu.dir2015/413
+  type: legislation
+  issued:
+  - year: '2015'
+  title: Directive (EU) 2015/413 of the European Parliament and of the Council of
+    11th March 2015 facilitating cross-border exchange of information on road-safety-related
+    traffic offences
+  title-short: Directive (EU) 2015/413
+  container-title: OJ
+  collection-title: L
+  page: '9'
+  volume: '68'
+
+- id: ec2015gra
+  type: report
+  author:
+  - literal: European Commission
+  issued:
+  - year: '2015'
+  title: General report on the activities of the European Union 2014
+  publisher: Publications Office of the European Union
+  publisher-place: Luxembourg
+
+- id: seldon-v-c.w.j2012
+  type: legal_case
+  issued:
+  - year: '2012'
+  title: Seldon v Clarkson Wright & Jakes
+  container-title: UKSC
+  page: '16'
+
+- id: srl.etal-v-comm2005
+  type: legal_case
+  issued:
+  - year: '2005'
+  title: Alessandrini Srl and others v.Commission
+  container-title: ECR
+  page: '5700'
+  volume: I
+  number: C-295/03 P
+
+- id: adams2009tc1
+  type: book
+  author:
+  - family: Adams
+    given: Gomez
+  issued:
+  - year: '2009'
+  title: Test citation one
+  publisher: Imperial College Bookstall
+  publisher-place: London
+
+- id: adams2014tc2
+  type: book
+  author:
+  - family: Adams
+    given: Gomez
+  issued:
+  - year: '2014'
+  title: Test citation two
+  publisher: Oxford University Press
+  publisher-place: Oxford
+
+- id: adams2017tc3
+  type: book
+  author:
+  - family: Adams
+    given: Gomez
+  issued:
+  - year: '2017'
+  title: Test citation three
+  publisher: Cambridge University Press
+  publisher-place: Cambridge
+...
