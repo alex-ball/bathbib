@@ -163,9 +163,7 @@
     </sort>
     <layout>
       <text macro="author" suffix=","/>
-      <date variable="issued" prefix=" " suffix=".">
-        <date-part name="year"/>
-      </date>
+      <text macro="year-date" prefix=" " suffix="."/>
       <choose>
         <if type="bill book graphic legal_case legislation motion_picture song" match="any">
           <group prefix=" " suffix="." delimiter=". ">
