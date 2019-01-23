@@ -108,7 +108,7 @@ references:
   issued:
   - year: '1965'
   title: How humanists use a library
-  container-title: 'Intrex: Report on a planning conference and information transfer
+  container-title: 'Intrex: report on a planning conference and information transfer
     experiments'
   publisher: MIT Press
   publisher-place: Cambridge, Mass.
@@ -181,7 +181,7 @@ references:
   - year: '1997'
     month: '12'
     day: '5'
-  title: 'Electronic document delivery: A trial in an academic library'
+  title: 'Electronic document delivery: a trial in an academic library'
   title-short: Electronic document delivery
   container-title: Ariadne
   volume: '10'
@@ -251,7 +251,7 @@ references:
     month: '8'
     day: '4'
   title: Oxygen in metals
-  container-title: 'Activation analysis: Proceedings of a NATO Advanced Study Institute'
+  container-title: 'Activation analysis: proceedings of a NATO Advanced Study Institute'
   publisher: Academic Press
   publisher-place: London
   event-place: Glasgow
@@ -419,8 +419,8 @@ references:
   - year: '2006'
     month: '8'
     day: '23'
-  title: 'Rick <span class="nocase">Stein’s</span> French Odyssey: Episode 5'
-  title-short: Rick <span class="nocase">Stein’s</span> French Odyssey
+  title: 'Rick <span class="nocase">Stein’s</span> <span class="nocase">French Odyssey</span>: Episode 5'
+  title-short: Rick <span class="nocase">Stein’s</span> <span class="nocase">French</span> Odyssey
   publisher: BBC2
   genre: TV
 
@@ -533,7 +533,7 @@ references:
   - year: '2016'
     month: '4'
     day: '20'
-  title: 'Real geometry and connectedness via triangular description: CAD example
+  title: 'Real geometry and connectedness via triangular description: <span class="nocase">CAD</span> example
     bank'
   title-short: Real geometry and connectedness via triangular description
   publisher: University of Bath
@@ -600,8 +600,8 @@ references:
   issued:
   - year: '1999'
   title: Qingdai yilai Sanxia diqu shuihan zaihai de chubu yanjiu 清代以來三峽地區水旱災害的初步硏.
-    A preliminary study of floods and droughts in the Three Gorges region since the
-    Qing dynasty
+    A preliminary study of floods and droughts in the <span class="nocase">Three Gorges</span> region since the
+    <span class="nocase">Qing</span> dynasty
   title-short: Qingdai yilai Sanxia diqu shuihan zaihai de chubu yanjiu 清代以來三峽地區水旱災害的初步硏
   container-title: Zhongguo shehui kexue <span class="upright">中國社會科學</span>
   page: '168-79'
@@ -615,7 +615,7 @@ references:
   issued:
   - year: '1999'
   title: Qingdai yilai Sanxia diqu shuihan zaihai de chubu yanjiu. A preliminary study
-    of floods and droughts in the Three Gorges region since the Qing dynasty
+    of floods and droughts in the <span class="nocase">Three Gorges</span> region since the <span class="nocase">Qing</span> dynasty
   title-short: Qingdai yilai Sanxia diqu shuihan zaihai de chubu yanjiu
   container-title: Zhongguo shehui kexue
   page: '168-79'
@@ -680,7 +680,7 @@ references:
   - literal: Great Britain. Parliament. House of Commons
   issued:
   - year: '2004'
-  title: 'National Savings investment deposits: Account 2002–2003'
+  title: 'National Savings investment deposits: account 2002–2003'
   title-short: National Savings investment deposits
   collection-title: HC 2003/04
   publisher: National Audit Office
@@ -705,7 +705,7 @@ references:
   - literal: Great Britain. Ministry of Defence
   issued:
   - year: '2004'
-  title: 'Delivering security in a changing world: Defence white paper'
+  title: 'Delivering security in a changing world: defence white paper'
   title-short: Delivering security in a changing world
   collection-title: Cm
   publisher: TSO
