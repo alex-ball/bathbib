@@ -11,11 +11,15 @@
       <name>Rob Fuller</name>
       <email>rob.fuller1@gmail.com</email>
     </author>
+    <author>
+      <name>Alex Ball</name>
+      <email>ab318@bath.ac.uk</email>
+    </author>
     <category citation-format="author-date"/>
     <category field="generic-base"/>
-    <summary>Adaptation of Harvard referencing style used at the University of Bath. This template has been developed by a student: it is not an official template provided by the university.</summary>
-    <updated>2016-11-28T13:05:27+00:00</updated>
-    <rights license="http://creativecommons.org/licenses/by-sa/3.0/">This work is licensed under a Creative Commons Attribution-ShareAlike 3.0 License</rights>
+    <summary>Adaptation of Harvard referencing style used at the University of Bath.</summary>
+    <updated>2019-02-01T13:05:27+00:00</updated>
+    <rights license="https://creativecommons.org/licenses/by-sa/4.0/">This work is licensed under a Creative Commons Attribution-ShareAlike 4.0 International License</rights>
   </info>
   <macro name="editor">
     <names variable="editor" delimiter=", ">
@@ -32,7 +36,7 @@
       <label form="short" prefix=" " text-case="lowercase"/>
       <substitute>
         <names variable="editor"/>
-        <text macro="anon"/>
+        <text macro="title"/>
       </substitute>
     </names>
   </macro>
@@ -42,7 +46,7 @@
       <substitute>
         <names variable="editor"/>
         <names variable="translator"/>
-        <text macro="anon"/>
+        <text macro="title-short"/>
       </substitute>
     </names>
   </macro>
@@ -69,6 +73,16 @@
       </if>
       <else>
         <text variable="title"/>
+      </else>
+    </choose>
+  </macro>
+  <macro name="title-short">
+    <choose>
+      <if type="bill book graphic legal_case legislation motion_picture report song webpage thesis" match="any">
+        <text variable="title" font-style="italic"/>
+      </if>
+      <else>
+        <text variable="title-short"/>
       </else>
     </choose>
   </macro>
