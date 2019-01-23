@@ -22,8 +22,8 @@
     <rights license="https://creativecommons.org/licenses/by-sa/4.0/">This work is licensed under a Creative Commons Attribution-ShareAlike 4.0 International License</rights>
   </info>
   <macro name="editor">
-    <names variable="editor" delimiter=", ">
-      <name and="symbol" initialize-with=". " delimiter=", "/>
+    <names variable="editor">
+      <name and="text" delimiter-precedes-last="never" initialize-with="."/>
       <label form="short" prefix=", " text-case="lowercase"/>
     </names>
   </macro>
@@ -32,7 +32,7 @@
   </macro>
   <macro name="author">
     <names variable="author">
-      <name and="text" initialize-with="." name-as-sort-order="all"/>
+      <name and="text" delimiter-precedes-last="never" initialize-with="." name-as-sort-order="all"/>
       <label form="short" prefix=" " text-case="lowercase"/>
       <substitute>
         <names variable="editor"/>
