@@ -9,7 +9,7 @@ Library.
   + [`bst`](bst/)
     contains the implementation for use with [BibTeX].
 
-[bath-harvard]: http://www.bath.ac.uk/library/infoskills/referencing-plagiarism/harvard-bath-style.html
+[bath-harvard]: https://library.bath.ac.uk/referencing/harvard-bath
 [biblatex]: http://ctan.org/pkg/biblatex
 [Biber]: http://ctan.org/pkg/biber
 [BibTeX]: http://ctan.org/pkg/bibtex

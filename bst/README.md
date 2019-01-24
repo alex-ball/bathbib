@@ -79,7 +79,7 @@ the zip archive.
  5. You may then have to update your installation's file name database
     before TeX and friends can see the files.
 
-[bath-harvard]: http://www.bath.ac.uk/library/infoskills/referencing-plagiarism/harvard-bath-style.html
+[bath-harvard]: https://library.bath.ac.uk/referencing/harvard-bath
 [BibTeX]: http://ctan.org/pkg/bibtex
 [natbib]: http://www.ctan.org/pkg/natbib
 [LuaLaTeX]: http://ctan.org/pkg/lualatex-doc
