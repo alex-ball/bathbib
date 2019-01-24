@@ -90,7 +90,8 @@ references:
     given: J.
   issued:
   - year: '2016'
-  title: Referencing ebooks. Kindle version 4.18
+  title: Referencing ebooks
+  genre: Kindle version 4.18
   title-short: Referencing ebooks
   publisher: University of Bath
   publisher-place: Bath
@@ -204,10 +205,10 @@ references:
   publisher: University of Bath
   publisher-place: Bath
   URL: http://opus.bath.ac.uk
-  call-number: OPUS
+  archive-place: OPUS
 
 - id: haurant2004bbh
-  type: article-journal
+  type: article-newspaper
   author:
   - family: Haurant
     given: S.
@@ -220,7 +221,7 @@ references:
   page: 16c
 
 - id: independent1992pub
-  type: article-journal
+  type: article-newspaper
   author:
   - literal: The Independent
   issued:
@@ -355,15 +356,13 @@ references:
   - year: '1946'
   title: Prototype electric bicycle displayed at the “britain can make it” exhibition
     organised by the Council of Industrial Design and held at the Victoria and Albert
-    Museum, London, 1946. Designed by B. G. Bowden. Photograph
-  title-short: Prototype electric bicycle displayed at the “britain can make it” exhibition
-    organised by the Council of Industrial Design and held at the Victoria and Albert
-    Museum, London, 1946. Designed by B. G. Bowden
+    Museum, London, 1946. Designed by B. G. Bowden.
+  genre: photograph
   publisher-place: London
   call-number: Design Council Slide Collection
 
 - id: andrews.dury1773wilts
-  type: book
+  type: map
   author:
   - family: Andrews
     given: J.
@@ -372,7 +371,7 @@ references:
   issued:
   - year: '1773'
   title: Map of Wiltshire
-  collection-title: 1 inch to 2 miles
+  scale: 1 inch to 2 miles
   publisher: Wiltshire Record Society
   publisher-place: Devizes
 
@@ -414,7 +413,7 @@ references:
   URL: https://www.youtube.com/watch?v=NoyZarq-Zbo
 
 - id: rsfo2006ep5
-  type: motion_picture
+  type: broadcast
   issued:
   - year: '2006'
     month: '8'
@@ -425,7 +424,7 @@ references:
   genre: TV
 
 - id: archers20060823
-  type: song
+  type: broadcast
   issued:
   - year: '2006'
     month: '8'
@@ -435,7 +434,7 @@ references:
   genre: Radio
 
 - id: beethoven1950symph1
-  type: book
+  type: musical_score
   author:
   - family: Beethoven
     given: Ludwig
@@ -478,7 +477,7 @@ references:
   URL: http://www.wiltshire.gov.uk/leisureandrecreation/sportphysicalactivity/getwiltshirewalking.html
 
 - id: clark2004euk
-  type: personal_communication
+  type: post
   author:
   - family: Clark
     given: T.
@@ -507,7 +506,7 @@ references:
   publisher: Email to K.M. Jordan
 
 - id: bvd2008bt
-  type: webpage
+  type: dataset
   author:
   - literal: Bureau van Dijk
   issued:
@@ -523,7 +522,7 @@ references:
   call-number: FAME
 
 - id: wilson2013rgc
-  type: webpage
+  type: dataset
   author:
   - family: Wilson
     given: D.
@@ -541,15 +540,15 @@ references:
   DOI: 10.15125/BATH-00069
 
 - id: screencasto
-  type: book
+  type: dataset
   author:
   - family: '@screencasto'
   accessed:
   - year: '2016'
     month: '5'
     day: '16'
-  title: Screencast-O-Matic. Computer program
-  title-short: Screencast-O-Matic
+  title: Screencast-O-Matic
+  genre: computer program
   version: '2'
   URL: https://screencast-o-matic.com/
 
@@ -573,8 +572,8 @@ references:
     given: L.
   issued:
   - year: '2003'
-  title: Como agua para chocolate. Like water for chocolate
-  title-short: Como agua para chocolate
+  title: Como agua para chocolate
+  genre: Like water for chocolate
   publisher: Debolsillo
   publisher-place: Barcelona
 
@@ -585,8 +584,8 @@ references:
     given: W.
   issued:
   - year: '1975'
-  title: Vart har våran doktor tagit vägen? Where has our doctor gone?
-  title-short: Vart har våran doktor tagit vägen?
+  title: Vart har våran doktor tagit vägen?
+  genre: Where has our doctor gone?
   container-title: Läkartidningen
   page: '789'
   volume: '72'
@@ -599,10 +598,9 @@ references:
     cjk: 華林甫
   issued:
   - year: '1999'
-  title: Qingdai yilai Sanxia diqu shuihan zaihai de chubu yanjiu 清代以來三峽地區水旱災害的初步硏.
-    A preliminary study of floods and droughts in the <span class="nocase">Three Gorges</span> region since the
+  title: Qingdai yilai Sanxia diqu shuihan zaihai de chubu yanjiu 清代以來三峽地區水旱災害的初步硏
+  genre: A preliminary study of floods and droughts in the <span class="nocase">Three Gorges</span> region since the
     <span class="nocase">Qing</span> dynasty
-  title-short: Qingdai yilai Sanxia diqu shuihan zaihai de chubu yanjiu 清代以來三峽地區水旱災害的初步硏
   container-title: Zhongguo shehui kexue <span class="upright">中國社會科學</span>
   page: '168-79'
   volume: '1'
@@ -614,9 +612,9 @@ references:
     given: Linfu
   issued:
   - year: '1999'
-  title: Qingdai yilai Sanxia diqu shuihan zaihai de chubu yanjiu. A preliminary study
+  title: Qingdai yilai Sanxia diqu shuihan zaihai de chubu yanjiu
+  genre: A preliminary study
     of floods and droughts in the <span class="nocase">Three Gorges</span> region since the <span class="nocase">Qing</span> dynasty
-  title-short: Qingdai yilai Sanxia diqu shuihan zaihai de chubu yanjiu
   container-title: Zhongguo shehui kexue
   page: '168-79'
   volume: '1'
@@ -624,9 +622,9 @@ references:
 - id: hua2001foo
   type: book
   author:
-  - family: given=Linfu
-    given: cjk=華林甫
-    suffix: family=Hua
+  - family: Hua
+    given: Linfu
+    cjk: 華林甫
   issued:
   - year: '2001'
   title: Lorem ipsum
@@ -649,7 +647,7 @@ references:
   chapter-number: '19'
 
 - id: gb.bill1987/88-66
-  type: legislation
+  type: bill
   author:
   - literal: Great Britain. Parliament. House of Commons
   issued:
