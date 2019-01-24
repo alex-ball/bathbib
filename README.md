@@ -13,3 +13,13 @@ Library.
 [biblatex]: http://ctan.org/pkg/biblatex
 [Biber]: http://ctan.org/pkg/biber
 [BibTeX]: http://ctan.org/pkg/bibtex
+
+## Citation Style Language
+
+This repository also contains a [development area](csl/) for maintaining an
+implementation of the Bath Harvard style in [Citation Style Language].
+
+Changes made here are submitted upstream to the
+[official repository](https://github.com/citation-style-language/styles/).
+
+[Citation Style Language]: http://docs.citationstyles.org/en/stable/
