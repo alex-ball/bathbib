@@ -75,6 +75,7 @@
         <text variable="title"/>
       </else>
     </choose>
+    <text variable="genre" prefix=" [" suffix="]"/>
   </macro>
   <macro name="title-short">
     <choose>
