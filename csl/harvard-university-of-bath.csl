@@ -69,6 +69,17 @@
       </if>
     </choose>
   </macro>
+  <macro name="archive">
+    <choose>
+      <if type="graphic">
+        <text variable="archive-place" prefix="At: " suffix=". " />
+        <text variable="archive"/>
+      </if>
+      <else>
+        <text variable="archive" font-style="italic"/>
+      </else>
+    </choose>
+  </macro>
   <macro name="title">
     <choose>
       <if type="bill book graphic legal_case legislation motion_picture report song webpage thesis" match="any">
@@ -169,7 +180,7 @@
       <text macro="author" suffix=","/>
       <text macro="year-date" prefix=" " suffix="."/>
       <choose>
-        <if type="bill book graphic legal_case legislation motion_picture song" match="any">
+        <if type="bill book legal_case legislation motion_picture song" match="any">
           <group prefix=" " suffix="." delimiter=" ">
             <text macro="title"/>
             <text macro="online"/>
@@ -201,7 +212,12 @@
         <else-if type="report webpage" match="any">
           <group prefix=" " suffix="." delimiter=" ">
             <text macro="title"/>
-            <text macro="online"/>
+            <choose>
+              <if variable="archive"/>
+              <else>
+                <text macro="online"/>
+              </else>
+            </choose>
           </group>
           <group prefix=" " suffix="." delimiter=". ">
             <text macro="edition" suffix=". "/>
@@ -209,6 +225,10 @@
             <text macro="editor" suffix=". "/>
           </group>
           <text prefix=" " suffix="." macro="publisher"/>
+          <group prefix=" " suffix="." delimiter=" ">
+            <text macro="archive"/>
+            <text macro="online"/>
+          </group>
         </else-if>
         <else-if type="chapter paper-conference" match="any">
           <text macro="title" prefix=" " suffix="."/>
@@ -230,6 +250,19 @@
             <text variable="genre"/>
             <text macro="publisher"/>
           </group>
+        </else-if>
+        <else-if type="graphic" match="any">
+          <group prefix=" " suffix="." delimiter=" ">
+            <text macro="title"/>
+            <text macro="online"/>
+          </group>
+          <group prefix=" " suffix="." delimiter=". ">
+            <text macro="edition"/>
+            <text macro="series"/>
+            <text macro="editor"/>
+          </group>
+          <text prefix=" " suffix="." macro="publisher"/>
+          <text prefix=" " suffix="." macro="archive"/>
         </else-if>
         <else>
           <group prefix=" " suffix="." delimiter=" ">

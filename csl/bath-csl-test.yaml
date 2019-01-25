@@ -205,7 +205,7 @@ references:
   publisher: University of Bath
   publisher-place: Bath
   URL: http://opus.bath.ac.uk
-  archive-place: OPUS
+  archive: OPUS
 
 - id: haurant2004bbh
   type: article-newspaper
@@ -354,12 +354,12 @@ references:
   - family: Anon.
   issued:
   - year: '1946'
-  title: Prototype electric bicycle displayed at the “britain can make it” exhibition
+  title: Prototype electric bicycle displayed at the “Britain Can Make It” exhibition
     organised by the Council of Industrial Design and held at the Victoria and Albert
-    Museum, London, 1946. Designed by B. G. Bowden.
+    Museum, London, 1946. Designed by B. G. Bowden
   genre: photograph
-  publisher-place: London
-  call-number: Design Council Slide Collection
+  archive-place: London
+  archive: Design Council Slide Collection
 
 - id: andrews.dury1773wilts
   type: map
