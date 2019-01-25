@@ -35,7 +35,10 @@
       <name and="text" delimiter-precedes-last="never" initialize-with="." name-as-sort-order="all"/>
       <label form="short" prefix=" " text-case="lowercase"/>
       <substitute>
-        <names variable="editor"/>
+        <names variable="editor">
+          <name and="text" delimiter-precedes-last="never" initialize-with="." name-as-sort-order="all"/>
+          <label form="short" prefix=", " text-case="lowercase"/>
+        </names>
         <text macro="title"/>
       </substitute>
     </names>
