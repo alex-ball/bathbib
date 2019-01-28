@@ -209,6 +209,27 @@
             </group>
           </group>
         </else-if>
+        <else-if type="article-magazine article-newspaper" match="any">
+          <group prefix=" " suffix="." delimiter=". ">
+            <text macro="title"/>
+          </group>
+          <group prefix=" " suffix=".">
+            <text variable="container-title" font-style="italic"/>
+            <text prefix=" " macro="online"/>
+            <group prefix=", ">
+              <text variable="volume"/>
+              <text variable="issue" prefix="(" suffix=")"/>
+            </group>
+            <date variable="issued" prefix=", ">
+              <date-part name="day" suffix=" "/>
+              <date-part name="month"/>
+            </date>
+            <group prefix=", ">
+              <label variable="page" form="short"/>
+              <text variable="page"/>
+            </group>
+          </group>
+        </else-if>
         <else-if type="report webpage" match="any">
           <group prefix=" " suffix="." delimiter=" ">
             <text macro="title"/>
@@ -251,7 +272,7 @@
             <text macro="publisher"/>
           </group>
         </else-if>
-        <else-if type="graphic" match="any">
+        <else-if type="graphic">
           <group prefix=" " suffix="." delimiter=" ">
             <text macro="title"/>
             <text macro="online"/>
