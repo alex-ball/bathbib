@@ -256,9 +256,19 @@
           <group prefix=" " delimiter=" ">
             <text term="in" text-case="capitalize-first" suffix=":"/>
             <text macro="editor"/>
-            <text variable="container-title" font-style="italic" suffix="."/>
+            <group suffix="." delimiter=", ">
+              <text variable="container-title" font-style="italic"/>
+              <text variable="event"/>
+              <group delimiter=" ">
+                <date variable="event-date">
+                  <date-part name="day" suffix=" "/>
+                  <date-part name="month" suffix=" "/>
+                  <date-part name="year"/>
+                </date>
+                <text variable="event-place"/>
+              </group>
+            </group>
             <text variable="collection-title" suffix="."/>
-            <text variable="event" suffix="."/>
             <group suffix="." delimiter=", ">
               <text macro="publisher" prefix=" "/>
               <text macro="pages"/>
