@@ -423,7 +423,8 @@ references:
   title: 'Rick <span class="nocase">Stein’s</span> <span class="nocase">French Odyssey</span>: Episode 5'
   title-short: Rick <span class="nocase">Stein’s</span> <span class="nocase">French</span> Odyssey
   publisher: BBC2
-  genre: TV
+  medium: TV
+  annote: 20.30 hrs
 
 - id: archers20060823
   type: broadcast
@@ -433,7 +434,8 @@ references:
     day: '23'
   title: The Archers
   publisher: BBC Radio 4
-  genre: Radio
+  medium: Radio
+  annote: 19.02 hrs
 
 - id: beethoven1950symph1
   type: musical_score

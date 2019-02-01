@@ -7,6 +7,7 @@
     <link href="http://www.zotero.org/styles/harvard-university-of-bath" rel="self"/>
     <link href="http://www.zotero.org/styles/harvard-bournemouth-university" rel="template"/>
     <link href="https://library.bath.ac.uk/referencing/harvard-bath" rel="documentation"/>
+    <link href="https://github.com/alex-ball/bathbib/" rel="documentation"/>
     <author>
       <name>Rob Fuller</name>
       <email>rob.fuller1@gmail.com</email>
@@ -106,7 +107,7 @@
   </macro>
   <macro name="title">
     <choose>
-      <if type="bill book graphic legal_case legislation map motion_picture patent report song webpage thesis" match="any">
+      <if type="bill broadcast book graphic legal_case legislation map motion_picture patent report song webpage thesis" match="any">
         <text variable="title" font-style="italic"/>
       </if>
       <else>
@@ -114,7 +115,7 @@
       </else>
     </choose>
     <choose>
-      <if type="thesis motion_picture" match="any"/>
+      <if type="thesis motion_picture broadcast" match="any"/>
       <else-if type="report" variable="number"/>
       <else-if type="patent" variable="number"/>
       <else>
@@ -124,7 +125,7 @@
   </macro>
   <macro name="title-short">
     <choose>
-      <if type="bill book graphic legal_case legislation map motion_picture patent report song webpage thesis" match="any">
+      <if type="bill broadcast book graphic legal_case legislation map motion_picture patent report song webpage thesis" match="any">
         <text variable="title" font-style="italic"/>
       </if>
       <else>
@@ -371,6 +372,21 @@
           <text prefix=" " suffix="." macro="publisher"/>
           <text prefix=" " suffix="." macro="archive"/>
         </else-if>
+        <else-if type="broadcast">
+          <group prefix=" " suffix="." delimiter=" ">
+            <text macro="title"/>
+            <text macro="online"/>
+          </group>
+          <text macro="series-genre" prefix=" " suffix="."/>
+          <text variable="medium" prefix=" " suffix="."/>
+          <group prefix=" " suffix="." delimiter=", ">
+            <text macro="publisher"/>
+            <date variable="issued">
+              <date-part name="day" suffix=" "/>
+              <date-part name="month"/>
+            </date>
+          </group>
+        </else-if>
         <else>
           <group prefix=" " suffix="." delimiter=" ">
             <text macro="title"/>
@@ -394,7 +410,8 @@
           </group>
         </else>
       </choose>
-      <text prefix=" " macro="access" suffix="."/>
+      <text variable="annote" prefix=" " suffix="."/>
+      <text macro="access" prefix=" " suffix="."/>
     </layout>
   </bibliography>
 </style>
