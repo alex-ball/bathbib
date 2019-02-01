@@ -313,10 +313,9 @@
           <group prefix=" " suffix="." delimiter=" ">
             <text macro="title"/>
             <choose>
-              <if variable="archive"/>
-              <else>
+              <if variable="archive" match="none">
                 <text macro="online"/>
-              </else>
+              </if>
             </choose>
           </group>
           <group prefix=" " suffix="." delimiter=". ">
@@ -355,9 +354,9 @@
             <choose>
               <if variable="editor">
                 <text term="in" text-case="capitalize-first" suffix=":"/>
+                <text macro="editor"/>
               </if>
             </choose>
-            <text macro="editor"/>
             <group suffix="." delimiter=", ">
               <text variable="container-title" font-style="italic"/>
               <text macro="online" prefix=" "/>
