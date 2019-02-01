@@ -80,6 +80,30 @@
       </else>
     </choose>
   </macro>
+  <macro name="credits">
+    <group delimiter=". ">
+      <names variable="composer">
+        <label form="verb" text-case="capitalize-first" suffix=" "/>
+        <name and="text" delimiter-precedes-last="never" initialize="false" initialize-with="."/>
+      </names>
+      <names variable="director">
+        <label form="verb" text-case="capitalize-first" suffix=" "/>
+        <name and="text" delimiter-precedes-last="never" initialize="false" initialize-with="."/>
+      </names>
+      <names variable="interviewer">
+        <label form="verb" text-case="capitalize-first" suffix=" "/>
+        <name and="text" delimiter-precedes-last="never" initialize="false" initialize-with="."/>
+      </names>
+      <names variable="illustrator">
+        <label form="verb" text-case="capitalize-first" suffix=" "/>
+        <name and="text" delimiter-precedes-last="never" initialize="false" initialize-with="."/>
+      </names>
+      <names variable="translator">
+        <label form="verb" text-case="capitalize-first" suffix=" "/>
+        <name and="text" delimiter-precedes-last="never" initialize="false" initialize-with="."/>
+      </names>
+    </group>
+  </macro>
   <macro name="title">
     <choose>
       <if type="bill book graphic legal_case legislation map motion_picture patent report song webpage thesis" match="any">
@@ -90,7 +114,7 @@
       </else>
     </choose>
     <choose>
-      <if type="thesis"/>
+      <if type="thesis motion_picture" match="any"/>
       <else-if type="report" variable="number"/>
       <else-if type="patent" variable="number"/>
       <else>
@@ -208,7 +232,13 @@
           <group prefix=" " suffix="." delimiter=". ">
             <text macro="edition"/>
             <text macro="series"/>
+            <choose>
+              <if type="motion_picture">
+                <text variable="genre"/>
+              </if>
+            </choose>
             <text macro="editor"/>
+            <text macro="credits"/>
           </group>
           <text prefix=" " suffix="." macro="publisher"/>
         </if>

@@ -383,7 +383,9 @@ references:
   publisher: Republic Pictures
   publisher-place: USA
   genre: Film
-  note: Directed by Orson Welles
+  director:
+  - family: Welles
+    given: Orson
 
 - id: moran2016sol
   type: motion_picture
