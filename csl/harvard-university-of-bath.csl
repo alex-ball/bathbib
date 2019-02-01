@@ -82,18 +82,25 @@
   </macro>
   <macro name="title">
     <choose>
-      <if type="bill book graphic legal_case legislation motion_picture report song webpage thesis" match="any">
+      <if type="bill book graphic legal_case legislation map motion_picture patent report song webpage thesis" match="any">
         <text variable="title" font-style="italic"/>
       </if>
       <else>
         <text variable="title"/>
       </else>
     </choose>
-    <text variable="genre" prefix=" [" suffix="]"/>
+    <choose>
+      <if type="thesis"/>
+      <else-if type="report" variable="number"/>
+      <else-if type="patent" variable="number"/>
+      <else>
+        <text variable="genre" prefix=" [" suffix="]"/>
+      </else>
+    </choose>
   </macro>
   <macro name="title-short">
     <choose>
-      <if type="bill book graphic legal_case legislation motion_picture report song webpage thesis" match="any">
+      <if type="bill book graphic legal_case legislation map motion_picture patent report song webpage thesis" match="any">
         <text variable="title" font-style="italic"/>
       </if>
       <else>
@@ -146,7 +153,20 @@
     <choose>
       <if variable="collection-title">
         <text variable="collection-title"/>
-        <text variable="number" prefix=" no. "/>
+        <text variable="number" prefix=", "/>
+      </if>
+    </choose>
+  </macro>
+  <macro name="series-genre">
+    <choose>
+      <if variable="collection-title genre number" match="any">
+        <group delimiter=", ">
+          <text variable="collection-title"/>
+          <group delimiter=" ">
+            <text variable="genre"/>
+            <text variable="number"/>
+          </group>
+        </group>
       </if>
     </choose>
   </macro>
@@ -245,11 +265,30 @@
             <text macro="series" suffix=". "/>
             <text macro="editor" suffix=". "/>
           </group>
-          <text prefix=" " suffix="." macro="publisher"/>
+          <group prefix=" " suffix="." delimiter=", ">
+            <text macro="publisher"/>
+            <choose>
+              <if type="report" variable="number">
+                  <text macro="series-genre" prefix="(" suffix=")"/>
+              </if>
+            </choose>
+          </group>
+          <choose>
+            <if variable="archive">
+              <group prefix=" " suffix="." delimiter=" ">
+                <text macro="archive"/>
+                <text macro="online"/>
+              </group>
+            </if>
+          </choose>
+        </else-if>
+        <else-if type="patent" match="any">
           <group prefix=" " suffix="." delimiter=" ">
-            <text macro="archive"/>
+            <text macro="title"/>
             <text macro="online"/>
           </group>
+          <text macro="series-genre" prefix=" " suffix="."/>
+          <text macro="publisher" prefix=" " suffix="."/>
         </else-if>
         <else-if type="chapter paper-conference" match="any">
           <text macro="title" prefix=" " suffix="."/>
@@ -286,9 +325,12 @@
             <text macro="publisher"/>
           </group>
         </else-if>
-        <else-if type="graphic">
+        <else-if type="graphic map" match="any">
           <group prefix=" " suffix="." delimiter=" ">
-            <text macro="title"/>
+            <group delimiter=", ">
+              <text macro="title"/>
+              <text variable="scale"/>
+            </group>
             <text macro="online"/>
           </group>
           <group prefix=" " suffix="." delimiter=". ">
