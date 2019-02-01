@@ -149,9 +149,20 @@
   <macro name="year-date">
     <choose>
       <if variable="issued">
-        <date variable="issued">
-          <date-part name="year"/>
-        </date>
+        <choose>
+          <if type="post">
+            <date variable="issued">
+              <date-part name="day" suffix=" "/>
+              <date-part name="month" suffix=" "/>
+              <date-part name="year"/>
+            </date>
+          </if>
+          <else>
+            <date variable="issued">
+              <date-part name="year"/>
+            </date>
+          </else>
+        </choose>
       </if>
       <else>
         <text term="no date" form="short"/>
@@ -243,7 +254,7 @@
           </group>
           <text prefix=" " suffix="." macro="publisher"/>
         </if>
-        <else-if type="article-journal">
+        <else-if type="article-journal post" match="any">
           <group prefix=" " suffix="." delimiter=". ">
             <text macro="title"/>
           </group>
