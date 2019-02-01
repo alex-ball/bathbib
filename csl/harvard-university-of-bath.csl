@@ -22,6 +22,12 @@
     <updated>2019-02-01T13:05:27+00:00</updated>
     <rights license="https://creativecommons.org/licenses/by-sa/4.0/">This work is licensed under a Creative Commons Attribution-ShareAlike 4.0 International License</rights>
   </info>
+  <locale xml:lang="en">
+    <terms>
+      <term name="available at">available from</term>
+      <term name="version" form="short">v.</term>
+    </terms>
+  </locale>
   <macro name="editor">
     <names variable="editor">
       <name and="text" delimiter-precedes-last="never" initialize-with="."/>
@@ -56,9 +62,16 @@
   </macro>
   <macro name="access">
     <choose>
-      <if variable="URL">
-        <text value="Available from:" suffix=" "/>
-        <text variable="URL"/>
+      <if variable="URL DOI" match="any">
+        <text term="available at" text-case="capitalize-first" suffix=": "/>
+        <choose>
+          <if variable="DOI">
+            <text variable="DOI" prefix="https://doi.org/"/>
+          </if>
+          <else>
+            <text variable="URL"/>
+          </else>
+        </choose>
         <group prefix=" [" suffix="]">
           <text term="accessed" text-case="capitalize-first" suffix=" "/>
           <date variable="accessed">
@@ -107,13 +120,17 @@
   </macro>
   <macro name="title">
     <choose>
-      <if type="bill broadcast book graphic legal_case legislation map motion_picture musical_score patent report song webpage thesis" match="any">
+      <if type="bill broadcast book dataset graphic legal_case legislation map motion_picture musical_score patent report song webpage thesis" match="any">
         <text variable="title" font-style="italic"/>
       </if>
       <else>
         <text variable="title"/>
       </else>
     </choose>
+    <group prefix=" (" suffix=")">
+      <text term="version" form="short"/>
+      <text variable="version"/>
+    </group>
     <choose>
       <if type="thesis motion_picture broadcast" match="any"/>
       <else-if type="report" variable="number"/>
@@ -125,7 +142,7 @@
   </macro>
   <macro name="title-short">
     <choose>
-      <if type="bill broadcast book graphic legal_case legislation map motion_picture musical_score patent report song webpage thesis" match="any">
+      <if type="bill broadcast book dataset graphic legal_case legislation map motion_picture musical_score patent report song webpage thesis" match="any">
         <text variable="title" font-style="italic"/>
       </if>
       <else>
@@ -135,7 +152,7 @@
   </macro>
   <macro name="online">
     <choose>
-      <if variable="URL" match="any">
+      <if variable="URL DOI" match="any">
         <text term="online" text-case="capitalize-first" prefix="[" suffix="]"/>
       </if>
     </choose>
@@ -343,6 +360,7 @@
             <text macro="editor"/>
             <group suffix="." delimiter=", ">
               <text variable="container-title" font-style="italic"/>
+              <text macro="online" prefix=" "/>
               <text variable="event"/>
               <group delimiter=" ">
                 <date variable="event-date">
@@ -401,7 +419,11 @@
         <else>
           <group prefix=" " suffix="." delimiter=" ">
             <text macro="title"/>
-            <text macro="online"/>
+            <choose>
+              <if variable="container-title" match="none">
+                <text macro="online"/>
+              </if>
+            </choose>
           </group>
           <group prefix=" " suffix="." delimiter=". ">
             <text macro="series"/>
@@ -409,7 +431,14 @@
             <text macro="editor"/>
           </group>
           <group prefix=" " suffix=".">
-            <text variable="container-title" font-style="italic"/>
+            <choose>
+              <if variable="container-title">
+                <group delimiter=" ">
+                  <text variable="container-title" font-style="italic"/>
+                  <text macro="online"/>
+                </group>
+              </if>
+            </choose>
             <group prefix=", ">
               <text variable="volume"/>
               <text variable="issue" prefix="(" suffix=")"/>
@@ -419,6 +448,7 @@
               <text variable="page"/>
             </group>
           </group>
+          <text prefix=" " suffix="." macro="publisher"/>
         </else>
       </choose>
       <text variable="annote" prefix=" " suffix="."/>
