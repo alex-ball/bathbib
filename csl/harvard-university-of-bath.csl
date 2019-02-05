@@ -127,9 +127,19 @@
   </macro>
   <macro name="title">
     <choose>
-      <if type="bill broadcast book dataset graphic legal_case legislation map motion_picture musical_score patent report song webpage thesis" match="any">
+      <if type="bill broadcast book dataset graphic legal_case map motion_picture musical_score patent report song webpage thesis" match="any">
         <text variable="title" font-style="italic"/>
       </if>
+      <else-if type="legislation">
+        <choose>
+          <if variable="container-title">
+            <text variable="title"/>
+          </if>
+          <else>
+            <text variable="title" font-style="italic"/>
+          </else>
+        </choose>
+      </else-if>
       <else>
         <text variable="title"/>
       </else>
@@ -150,9 +160,19 @@
   </macro>
   <macro name="title-short">
     <choose>
-      <if type="bill broadcast book dataset graphic legal_case legislation map motion_picture musical_score patent report song webpage thesis" match="any">
+      <if type="bill broadcast book dataset graphic legal_case map motion_picture musical_score patent report song webpage thesis" match="any">
         <text variable="title" font-style="italic"/>
       </if>
+      <else-if type="legislation">
+        <choose>
+          <if variable="container-title">
+            <text variable="title"/>
+          </if>
+          <else>
+            <text variable="title" font-style="italic"/>
+          </else>
+        </choose>
+      </else-if>
       <else>
         <text variable="title-short"/>
       </else>
@@ -269,34 +289,57 @@
           <group suffix=".">
             <group delimiter=" ">
               <text macro="author"/>
-              <text macro="year-date" font-style="italic"/>
+              <choose>
+                <if variable="container-title">
+                  <text macro="year-date" prefix="[" suffix="]"/>
+                </if>
+                <else>
+                  <text macro="year-date" font-style="italic"/>
+                </else>
+              </choose>
             </group>
             <text macro="title" prefix=", "/>
             <text macro="online" prefix=" "/>
             <choose>
-              <if variable="collection-title">
-                <group prefix=" (" suffix=")" delimiter=", ">
-                  <text variable="collection-title"/>
+              <if variable="container-title">
+                <group prefix=" " delimiter=" ">
+                  <text variable="container-title" font-style="italic"/>
                   <group>
-                    <term name="legal-chapter" form="short"/>
-                    <number variable="chapter-number"/>
+                    <text variable="collection-title"/>
+                    <group delimiter="/">
+                      <number variable="volume"/>
+                      <number variable="page"/>
+                    </group>
                   </group>
                 </group>
               </if>
               <else>
-                <number variable="chapter-number" prefix=", c."/>
-              </else>
-            </choose>
-            <group prefix=", ">
-              <term name="number" form="short" text-case="capitalize-first"/>
-              <number variable="number"/>
-            </group>
-            <choose>
-              <if variable="number">
-                <text prefix=", " macro="publisher"/>
-              </if>
-              <else>
-                <text prefix=". " macro="publisher"/>
+                <choose>
+                  <if variable="collection-title">
+                    <group prefix=" (" suffix=")" delimiter=", ">
+                      <text variable="collection-title"/>
+                      <group>
+                        <term name="legal-chapter" form="short"/>
+                        <number variable="chapter-number"/>
+                      </group>
+                    </group>
+                  </if>
+                  <else>
+                    <number variable="chapter-number" prefix=", c."/>
+                  </else>
+                </choose>
+                <group prefix=", ">
+                  <term name="number" form="short" text-case="capitalize-first"/>
+                  <number variable="number"/>
+                </group>
+                <choose>
+                  <if variable="number">
+                    <text prefix=", " macro="publisher"/>
+                  </if>
+                  <else>
+                    <text prefix=". " macro="publisher"/>
+                  </else>
+                </choose>
               </else>
             </choose>
           </group>
