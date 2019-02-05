@@ -309,7 +309,7 @@
       <choose>
         <if type="legislation">
         </if>
-        <else-if type="bill book legal_case motion_picture musical_score song" match="any">
+        <else-if type="book legal_case motion_picture musical_score song" match="any">
           <group prefix=" " suffix="." delimiter=" ">
             <text macro="title"/>
             <text macro="online"/>
@@ -366,7 +366,7 @@
             </group>
           </group>
         </else-if>
-        <else-if type="report webpage" match="any">
+        <else-if type="bill report webpage" match="any">
           <group prefix=" " suffix="." delimiter=" ">
             <text macro="title"/>
             <choose>
@@ -376,18 +376,36 @@
             </choose>
           </group>
           <group prefix=" " suffix="." delimiter=". ">
-            <text macro="edition" suffix=". "/>
-            <text macro="series" suffix=". "/>
-            <text macro="editor" suffix=". "/>
-          </group>
-          <group prefix=" " suffix="." delimiter=", ">
-            <text macro="publisher"/>
+            <text macro="edition"/>
             <choose>
-              <if type="report" variable="number">
-                  <text macro="series-genre" prefix="(" suffix=")"/>
+              <if variable="number" match="none">
+                <text macro="series"/>
               </if>
             </choose>
+            <text macro="editor"/>
           </group>
+          <choose>
+            <if type="report">
+              <group prefix=" " suffix="." delimiter=", ">
+                <text macro="publisher"/>
+                <choose>
+                  <if variable="number">
+                      <text macro="series-genre" prefix="(" suffix=")"/>
+                  </if>
+                </choose>
+              </group>
+            </if>
+            <else>
+              <group prefix=" " suffix="." delimiter=" ">
+                <text macro="publisher"/>
+                <choose>
+                  <if variable="number">
+                      <text macro="series-genre" prefix="(" suffix=")"/>
+                  </if>
+                </choose>
+              </group>
+            </else>
+          </choose>
           <choose>
             <if variable="archive">
               <group prefix=" " suffix="." delimiter=" ">

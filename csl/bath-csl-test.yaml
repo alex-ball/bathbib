@@ -680,7 +680,7 @@ references:
   URL: http://www.legislation.gov.uk/uksi/2012/1916/pdfs/uksi_20121916_en.pdf
 
 - id: gb.hc2003/04-30
-  type: report
+  type: bill
   author:
   - literal: Great Britain. Parliament. House of Commons
   issued:
@@ -693,7 +693,7 @@ references:
   number: '30'
 
 - id: gb.hl1986/87-66
-  type: report
+  type: bill
   author:
   - literal: Great Britain. Parliament. House of Lords
   issued:
@@ -702,10 +702,10 @@ references:
   collection-title: HL 1986/87
   publisher: HMSO
   publisher-place: London
-  number: '66'
+  number: '(66)'
 
 - id: gb.cm6041
-  type: report
+  type: bill
   author:
   - literal: Great Britain. Ministry of Defence
   issued:
