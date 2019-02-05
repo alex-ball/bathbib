@@ -26,6 +26,7 @@
     <terms>
       <term name="available at">available from</term>
       <term name="version" form="short">v.</term>
+      <term name="translator" form="short">trans.</term>
     </terms>
   </locale>
   <macro name="editor">
@@ -52,7 +53,7 @@
   </macro>
   <macro name="author-short">
     <names variable="author">
-      <name form="short" and="text" delimiter-precedes-last="never" initialize-with=". "/>
+      <name form="short" and="text" delimiter-precedes-last="never" initialize-with="."/>
       <substitute>
         <names variable="editor"/>
         <names variable="translator"/>
@@ -112,10 +113,6 @@
         <label form="verb" text-case="capitalize-first" suffix=" "/>
         <name and="text" delimiter-precedes-last="never" initialize="false" initialize-with="."/>
       </names>
-      <names variable="translator">
-        <label form="verb" text-case="capitalize-first" suffix=" "/>
-        <name and="text" delimiter-precedes-last="never" initialize="false" initialize-with="."/>
-      </names>
     </group>
   </macro>
   <macro name="title">
@@ -127,6 +124,7 @@
         <text variable="title"/>
       </else>
     </choose>
+    <text variable="original-title" prefix=" [" suffix="]"/>
     <group prefix=" (" suffix=")">
       <text term="version" form="short"/>
       <text variable="version"/>
@@ -149,6 +147,12 @@
         <text variable="title-short"/>
       </else>
     </choose>
+  </macro>
+  <macro name="translator">
+    <names variable="translator" prefix="(" suffix=")">
+      <name and="text" delimiter-precedes-last="never" initialize-with="."/>
+      <label form="short" prefix=". " text-case="capitalize-first"/>
+    </names>
   </macro>
   <macro name="online">
     <choose>
@@ -257,6 +261,7 @@
           <group prefix=" " suffix="." delimiter=" ">
             <text macro="title"/>
             <text macro="online"/>
+            <text macro="translator"/>
           </group>
           <group prefix=" " suffix="." delimiter=". ">
             <text macro="edition"/>

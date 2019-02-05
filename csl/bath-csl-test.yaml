@@ -302,10 +302,13 @@ references:
   number: PGI-93/WS/22
 
 - id: bs5605:1990
-  type: legislation
+  type: report
   title: Recommendations for citing and referencing published material
   publisher: BSI
-  number: BS 5605:1990
+  author:
+  - literal: BS 5605
+  issued:
+  - year: '1990'
 
 - id: pm1981opa
   type: patent
@@ -577,7 +580,7 @@ references:
   issued:
   - year: '2003'
   title: Como agua para chocolate
-  genre: Like water for chocolate
+  original-title: Like water for chocolate
   publisher: Debolsillo
   publisher-place: Barcelona
 
@@ -589,7 +592,7 @@ references:
   issued:
   - year: '1975'
   title: Vart har våran doktor tagit vägen?
-  genre: Where has our doctor gone?
+  original-title: Where has our doctor gone?
   container-title: Läkartidningen
   page: '789'
   volume: '72'
@@ -599,11 +602,11 @@ references:
   author:
   - family: Hua
     given: Linfu
-    cjk: 華林甫
+    dropping-particle: 華林甫
   issued:
   - year: '1999'
   title: Qingdai yilai Sanxia diqu shuihan zaihai de chubu yanjiu 清代以來三峽地區水旱災害的初步硏
-  genre: A preliminary study of floods and droughts in the <span class="nocase">Three Gorges</span> region since the
+  original-title: A preliminary study of floods and droughts in the <span class="nocase">Three Gorges</span> region since the
     <span class="nocase">Qing</span> dynasty
   container-title: Zhongguo shehui kexue <span class="upright">中國社會科學</span>
   page: '168-79'
@@ -617,7 +620,7 @@ references:
   issued:
   - year: '1999'
   title: Qingdai yilai Sanxia diqu shuihan zaihai de chubu yanjiu
-  genre: A preliminary study
+  original-title: A preliminary study
     of floods and droughts in the <span class="nocase">Three Gorges</span> region since the <span class="nocase">Qing</span> dynasty
   container-title: Zhongguo shehui kexue
   page: '168-79'
@@ -628,7 +631,7 @@ references:
   author:
   - family: Hua
     given: Linfu
-    cjk: 華林甫
+    dropping-particle: 華林甫
   issued:
   - year: '2001'
   title: Lorem ipsum
