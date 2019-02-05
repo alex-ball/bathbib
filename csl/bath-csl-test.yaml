@@ -641,7 +641,7 @@ references:
   issued:
   - year: '1735'
   title: Witchcraft Act
-  collection-title: 9 geo.2
+  collection-title: 9 <span class="nocase">Geo.2</span>
   chapter-number: '5'
 
 - id: gb.pa2014
@@ -676,7 +676,7 @@ references:
   title: The Human Medicines Regulations
   publisher: HMSO
   publisher-place: United Kingdom
-  number: No.1916
+  number: '1916'
   URL: http://www.legislation.gov.uk/uksi/2012/1916/pdfs/uksi_20121916_en.pdf
 
 - id: gb.hc2003/04-30
