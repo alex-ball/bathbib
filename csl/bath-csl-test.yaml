@@ -745,15 +745,15 @@ references:
   issued:
   - year: '2012'
   title: Seldon v Clarkson Wright & Jakes
-  container-title: UKSC
+  collection-title: UKSC
   page: '16'
 
 - id: srl.etal-v-comm2005
   type: legal_case
   issued:
   - year: '2005'
-  title: Alessandrini Srl and others v.Commission
-  container-title: ECR
+  title: Alessandrini Srl and others v. Commission
+  collection-title: ECR
   page: '5700'
   volume: I
   number: C-295/03 P
