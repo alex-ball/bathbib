@@ -20,7 +20,7 @@ This repository also contains a [development area](csl/) for maintaining an
 implementation of the Bath Harvard style in [Citation Style Language].
 
 You may find it helpful to see how the examples have been coded into a [YAML
-database](blob/master/csl/bath-csl-test.yaml). The YAML format follows the same
+database](csl/bath-csl-test.yaml). The YAML format follows the same
 principles as [CSL-JSON].
 
 Changes made here are submitted upstream to the
