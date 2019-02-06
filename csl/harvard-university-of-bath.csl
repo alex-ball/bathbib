@@ -27,11 +27,7 @@
       <term name="available at">available from</term>
       <term name="version" form="short">v.</term>
       <term name="translator" form="short">trans.</term>
-      <term name="legal-chapter" form="long">
-        <single>chapter</single>
-        <multiple>chapters</multiple>
-      </term>
-      <term name="legal-chapter" form="short">
+      <term name="chapter" form="short">
         <single>c.</single>
         <multiple>cc.</multiple>
       </term>
@@ -308,7 +304,7 @@
                     <text variable="collection-title"/>
                     <group delimiter="/">
                       <number variable="volume"/>
-                      <number variable="page"/>
+                      <text variable="page"/>
                     </group>
                   </group>
                 </group>
@@ -319,17 +315,20 @@
                     <group prefix=" (" suffix=")" delimiter=", ">
                       <text variable="collection-title"/>
                       <group>
-                        <term name="legal-chapter" form="short"/>
+                        <text term="chapter" form="short"/>
                         <number variable="chapter-number"/>
                       </group>
                     </group>
                   </if>
                   <else>
-                    <number variable="chapter-number" prefix=", c."/>
+                    <group prefix=", ">
+                      <text term="chapter" form="short"/>
+                      <number variable="chapter-number"/>
+                    </group>
                   </else>
                 </choose>
                 <group prefix=", ">
-                  <term name="number" form="short" text-case="capitalize-first"/>
+                  <text term="number" form="short" text-case="capitalize-first"/>
                   <number variable="number"/>
                 </group>
                 <choose>
