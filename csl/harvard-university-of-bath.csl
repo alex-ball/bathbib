@@ -20,7 +20,7 @@
     <category field="generic-base"/>
     <summary>Adaptation of Harvard referencing style used at the University of Bath.</summary>
     <updated>2019-02-01T13:05:27+00:00</updated>
-    <rights license="https://creativecommons.org/licenses/by-sa/4.0/">This work is licensed under a Creative Commons Attribution-ShareAlike 4.0 International License</rights>
+    <rights license="http://creativecommons.org/licenses/by-sa/3.0/">This work is licensed under a Creative Commons Attribution-ShareAlike 3.0 License</rights>
   </info>
   <locale xml:lang="en">
     <terms>
@@ -40,9 +40,6 @@
       <name and="text" delimiter-precedes-last="never" initialize-with="."/>
       <label form="short" prefix=", " text-case="lowercase"/>
     </names>
-  </macro>
-  <macro name="anon">
-    <text term="anonymous" form="short" text-case="capitalize-first" strip-periods="true"/>
   </macro>
   <macro name="author">
     <names variable="author">
