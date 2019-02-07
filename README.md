@@ -1,4 +1,6 @@
-# BibTeX and biblatex styles for the University of Bath's Harvard referencing style
+# Programmatic implementations of the University of Bath's Harvard referencing style
+
+## BibTeX and biblatex styles
 
 This repository contains two LaTeX implementations of the
 [Harvard referencing style][bath-harvard] recommended by the University of Bath
@@ -9,10 +11,18 @@ Library.
   + [`bst`](bst/)
     contains the implementation for use with [BibTeX].
 
+For details of how to use these styles, please see the PDF documentation bundled
+with the code on the [releases] page, or on the [bath-bst] or [biblatex-bath]
+package pages on CTAN.
+
 [bath-harvard]: https://library.bath.ac.uk/referencing/harvard-bath
-[biblatex]: http://ctan.org/pkg/biblatex
-[Biber]: http://ctan.org/pkg/biber
-[BibTeX]: http://ctan.org/pkg/bibtex
+[biblatex]: https://ctan.org/pkg/biblatex
+[Biber]: https://ctan.org/pkg/biber
+[BibTeX]: https://ctan.org/pkg/bibtex
+[releases]: https://github.com/alex-ball/bathbib/releases
+[bath-bst]: https://ctan.org/pkg/bath-bst
+[biblatex-bath]: https://ctan.org/pkg/biblatex-bath
+
 
 ## Citation Style Language
 
@@ -23,11 +33,12 @@ You may find it helpful to see how the examples have been coded into a [YAML
 database](csl/bath-csl-test.yaml). The YAML format follows the same
 principles as [CSL-JSON].
 
-Changes made here are submitted upstream to the
-[official repository](https://github.com/citation-style-language/styles/).
+Changes made here are submitted upstream to the [official repository][CSL Styles]
+for CSL styles.
 
 [Citation Style Language]: http://docs.citationstyles.org/en/stable/
 [CSL-JSON]: https://citeproc-js.readthedocs.io/en/latest/csl-json/markup.html
+[CSL Styles]: https://github.com/citation-style-language/styles
 
 ### Tips when using the style
 
