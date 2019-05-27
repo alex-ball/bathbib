@@ -27,10 +27,10 @@ UNIX-like systems:
   * Running `make source` generates the derived files
       - `README.md`
       - `bath.bbx`, `bath.cbx`, `bath.dbx`
-      - `american-bath.lbx`, `british-bath.lbx`
+      - `english-bath.lbx`, `british-bath.lbx`
       - `biblatex-bath.bib`
       - `biblatex-bath.ins`
-  * Running `make` generates the above files and also biblatex-bath.pdf.
+  * Running `make` generates the above files and also `biblatex-bath.pdf`.
   * Running `make inst` installs the files in the user's TeX tree.
     You can undo this with `make uninst`.
   * Running `make install` installs the files in the local TeX tree.
@@ -69,7 +69,7 @@ the zip archive.
         `bath.bbx`,
         `bath.cbx`,
         `bath.dbx`,
-        `american-bath.lbx`,
+        `english-bath.lbx`,
         `british-bath.lbx`
       - `doc/latex/biblatex-bath`:
         `biblatex-bath.pdf`,

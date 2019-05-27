@@ -45,8 +45,8 @@ Copyright (C) 2018 by University of Bath
   \file{bath.bbx}{\from{\jobname.dtx}{bbx}}
   \file{bath.cbx}{\from{\jobname.dtx}{cbx}}
   \file{bath.dbx}{\from{\jobname.dtx}{dbx}}
-  \file{british-bath.lbx}{\from{\jobname.dtx}{lbx}}
-  \file{american-bath.lbx}{\from{\jobname.dtx}{lbx-us}}
+  \file{english-bath.lbx}{\from{\jobname.dtx}{lbx}}
+  \file{british-bath.lbx}{\from{\jobname.dtx}{lbx-gb}}
 }
 %</install>
 %<install>\endbatchfile
@@ -325,10 +325,10 @@ UNIX-like systems:
   * Running `make source` generates the derived files
       - `README.md`
       - `bath.bbx`, `bath.cbx`, `bath.dbx`
-      - `american-bath.lbx`, `british-bath.lbx`
+      - `english-bath.lbx`, `british-bath.lbx`
       - `biblatex-bath.bib`
       - `biblatex-bath.ins`
-  * Running `make` generates the above files and also biblatex-bath.pdf.
+  * Running `make` generates the above files and also `biblatex-bath.pdf`.
   * Running `make inst` installs the files in the user's TeX tree.
     You can undo this with `make uninst`.
   * Running `make install` installs the files in the local TeX tree.
@@ -367,7 +367,7 @@ the zip archive.
         `bath.bbx`,
         `bath.cbx`,
         `bath.dbx`,
-        `american-bath.lbx`,
+        `english-bath.lbx`,
         `british-bath.lbx`
       - `doc/latex/biblatex-bath`:
         `biblatex-bath.pdf`,
@@ -376,7 +376,7 @@ the zip archive.
  5. You may then have to update your installation's file name database
     before TeX and friends can see the files.
 
-[bath-harvard]: https://github.com/citation-style-language/styles/
+[bath-harvard]: https://library.bath.ac.uk/referencing/harvard-bath
 [biblatex]: http://ctan.org/pkg/biblatex
 [LuaLaTeX]: http://ctan.org/pkg/lualatex-doc
 [Biber]: http://ctan.org/pkg/biber
@@ -1522,7 +1522,7 @@ component you may supply will be ignored.
 \end{bibexbox}
 
 \begin{tips}\item
-Although not a feature of the Harvard (Bath) Style, if you want to suppress the 
+Although not a feature of the Harvard (Bath) Style, if you want to suppress the
 punctuation between the family name and the initial (and thereby be more
 faithful to the original orthography), you can specify this using
 \textsf{biblatex}'s data annotations feature, using the keyword \texttt{cjk}:
@@ -3777,42 +3777,17 @@ This work is `maintained' (as per LPPL maintenance status) by [Alex Ball][me].
 %<*lbx>
 % \fi
 %
-% \section{Implementation: British English language localization}
+% \section{Implementation: General English language localization}
 %
 % \setcounter{lstnumber}{16}
-%
-% We use the standard version with a few changes. We display the day as a
-% cardinal number instead of an ordinal. The date is separated from the time
-% by a period, not just a space, and the time separator is a period instead of a
-% colon.
-%
-%    \begin{macrocode}
-\InheritBibliographyExtras{british}
-\DeclareBibliographyExtras{%
-  \protected\def\mkbibdatelong#1#2#3{%
-    \iffieldundef{#3}
-      {}
-      {\thefield{#3}%
-       \iffieldundef{#2}{}{\nobreakspace}}%
-    \iffieldundef{#2}
-      {}
-      {\mkbibmonth{\thefield{#2}}%
-       \iffieldundef{#1}{}{\space}}%
-    \iffieldbibstring{#1}
-      {\bibstring{\thefield{#1}}}
-      {\dateeraprintpre{#1}\stripzeros{\thefield{#1}}}}%
-  \renewrobustcmd*{\bibdatetimesep}{\addperiod\space}%
-  \renewrobustcmd*{\bibtimesep}{\addperiod}%
-  }
-
-%    \end{macrocode}
 %
 % The strings are mostly the same except for the following changes. Note that
 % month names are never abbreviated.
 %
 %    \begin{macrocode}
+\InheritBibliographyExtras{english}
 \DeclareBibliographyStrings
-{inherit          = {british}
+{inherit          = {english}
 ,urlseen          = {{Accessed}{Accessed}}
 ,version          = {{version~}{v\adddot}}
 ,january          = {{January}{January}}
@@ -3858,63 +3833,43 @@ This work is `maintained' (as per LPPL maintenance status) by [Alex Ball][me].
 %    \end{macrocode}
 % \iffalse
 %</lbx>
-%<*lbx-us>
+%<*lbx-gb>
 % \fi
 %
-% \section{Implementation: American English language localization}
+% \section{Implementation: British English language localization}
 %
 % \setcounter{lstnumber}{16}
 %
-% We use the standard version with a few changes. The date is separated from the
-% time by a period, not just a space.
+% We use the standard version with a few changes. We display the day as a
+% cardinal number instead of an ordinal. The date is separated from the time
+% by a period, not just a space, and the time separator is a period instead of a
+% colon.
 %
 %    \begin{macrocode}
-\InheritBibliographyExtras{american}
+\InheritBibliographyExtras{british}
 \DeclareBibliographyExtras{%
+  \protected\def\mkbibdatelong#1#2#3{%
+    \iffieldundef{#3}
+      {}
+      {\thefield{#3}%
+       \iffieldundef{#2}{}{\nobreakspace}}%
+    \iffieldundef{#2}
+      {}
+      {\mkbibmonth{\thefield{#2}}%
+       \iffieldundef{#1}{}{\space}}%
+    \iffieldbibstring{#1}
+      {\bibstring{\thefield{#1}}}
+      {\dateeraprintpre{#1}\stripzeros{\thefield{#1}}}}%
   \renewrobustcmd*{\bibdatetimesep}{\addperiod\space}%
+  \renewrobustcmd*{\bibtimesep}{\addperiod}%
   }
 
-%    \end{macrocode}
-%
-% The strings are mostly the same except for the following changes. Note that
-% month names are never abbreviated.
-%
-%    \begin{macrocode}
 \DeclareBibliographyStrings
-{inherit          = {american}
-,urlseen          = {{Accessed}{Accessed}}
-,version          = {{version~}{v\adddot}}
-,january          = {{January}{January}}
-,february         = {{February}{February}}
-,march            = {{March}{March}}
-,april            = {{April}{April}}
-,may              = {{May}{May}}
-,june             = {{June}{June}}
-,july             = {{July}{July}}
-,august           = {{August}{August}}
-,september        = {{September}{September}}
-,october          = {{October}{October}}
-,november         = {{November}{November}}
-,december         = {{December}{December}}
-,patreq           = {{patent application}{pat\adddot\ appl\adddot}}
-,patreqde         = {{German patent application}{German pat\adddot\ appl\adddot}}
-,patreqeu         = {{European patent application}{European pat\adddot\ appl\adddot}}
-,patreqfr         = {{French patent application}{French pat\adddot\ appl\adddot}}
-,patrequk         = {{British patent application}{British pat\adddot\ appl\adddot}}
-,patrequs         = {{U.S\adddotspace patent application}{U.S\adddotspace pat\adddot\ appl\adddot}}
-%    \end{macrocode}
-%
-% These are the new strings we define in this style.
-%
-%    \begin{macrocode}
-,online           = {{Online}{Online}}
-,hours            = {{hours}{hrs\adddot}}
-,at               = {{at}{at}}
-,legalchapter     = {{chapter}{c\adddot}}
+{inherit          = {english}
 }
 %    \end{macrocode}
 % \iffalse
-%</lbx-us>
+%</lbx-gb>
 %<*cbx>
 % \fi
 %
