@@ -153,7 +153,7 @@ references:
   issued:
   - year: '1981'
   title: The information needs of historians
-  container-title: College and Research Libraries
+  container-title: College and research libraries
   page: '549-560'
   volume: '42'
   issue: '6'
@@ -166,7 +166,7 @@ references:
   issued:
   - year: '2010'
   title: Malaria control beyond 2010
-  container-title: Brit. Med. J.
+  container-title: <span class="nocase">Brit. Med. J.</span>
   page: '157-208'
   volume: '341'
   issue: '7765'
@@ -187,6 +187,37 @@ references:
   container-title: Ariadne
   volume: '10'
   URL: http://www.ariadne.ac.uk/issue10/edd/
+
+- id: liontou.etal2019dra
+  type: article-journal
+  author:
+  - family: Liontou
+    given: C.
+  - family: Kontopodis
+    given: E.
+  - family: Oikonomidis
+    given: N.
+  - family: Maniotis
+    given: C.
+  - family: Tassopoulos
+    given: A.
+  - family: Tsiafoutis
+    given: I.
+  - family: Lazaris
+    given: E.
+  - family: Koutouzis
+    given: M.
+  issued:
+  - year: '2019'
+  title: 'Distal radial access: a review article'
+  title-short: Distal radial access
+  container-title: Cardiovascular revascularization medicine
+  volume: in press
+  URL: https://www.sciencedirect.com/science/article/pii/S1553838919303367
+  accessed:
+  - day: '19'
+    month: '6'
+    year: '2019'
 
 - id: shah.corrick2016hsc
   type: report
@@ -301,14 +332,38 @@ references:
   publisher-place: Paris
   number: PGI-93/WS/22
 
+- id: bre2007dqb
+  type: report
+  author:
+  - literal: BRE
+  issued:
+  - year: '2007'
+  title: 'Designing quality buildings: A BRE guide'
+  title-short: Designing quality buildings
+  publisher: BRE
+  publisher-place: Bracknell
+  collection-title: Report
+  number: 497
+
 - id: bs5605:1990
   type: report
-  title: Recommendations for citing and referencing published material
+  title: 'BS 5605:1990 Recommendations for citing and referencing published material'
   publisher: BSI
+  publisher-place: London
   author:
-  - literal: BS 5605
+  - literal: BSI
   issued:
   - year: '1990'
+
+- id: astm.d1655
+  type: report
+  author:
+  - literal: ASTM
+  issued:
+  - year: '2019'
+  title: ASTM D1655 - 19 Standard Specification for Aviation Turbine Fuels
+  publisher-place: West Conshohocken, Pa.
+  publisher: ASTM
 
 - id: pm1981opa
   type: patent
@@ -319,6 +374,42 @@ references:
   title: Optical perforating apparatus and system
   genre: European patent application
   number: 0021165A1. 1981-01-07
+
+- id: harris2013fgr
+  type: pamphlet
+  author:
+  - family: Harris
+    given: G.
+  issued:
+  - year: 2013
+  title: 'Focus group recommendations: internal task group report'
+  title-short: 'Focus group recommendations'
+  annote: Unpublished
+
+- id: hadley2015bir
+  type: pamphlet
+  author:
+  - family: Hadley
+    given: S.
+  issued:
+  - year: 2015
+  title: 'Biomechanics: introductory reading, BM289: Sport biomechanics'
+  title-short: 'Biomechanics'
+  publisher: University of Bath
+  annote: Unpublished
+
+- id: thomas2015wcr
+  type: pamphlet
+  author:
+  - family: Thomas
+    given: D.
+  issued:
+  - year: 2015
+  title: Word count and referencing style
+  container-title: 'Frequently asked questions discussion board: PHYS 2011: Housing Studies'
+  container-title-short: 'Frequently asked questions discussion board'
+  publisher: University of Bath
+  annote: Unpublished
 
 - id: nasa2015nat
   type: graphic
@@ -416,6 +507,20 @@ references:
     day: '12'
   title: What is engineering?
   URL: https://www.youtube.com/watch?v=NoyZarq-Zbo
+
+- id: chakrabarti2016hac
+  type: speech
+  author:
+  - family: Chakrabarti
+    given: V.
+  issued:
+  - year: '2016'
+  accessed:
+  - year: '2019'
+    month: '3'
+    day: '28'
+  title: How architecture and city planning can combat social inequality
+  URL: https://www.curbed.com/2016/5/5/11593058/vishaan-chakrabarti-pau-curbed-appeal-podcast
 
 - id: rsfo2006ep5
   type: broadcast
@@ -636,6 +741,18 @@ references:
   - year: '2001'
   title: Lorem ipsum
 
+- id: pamporov2006rvb
+  type: book
+  author:
+  - family: Pamporov
+    given: A.
+  issued:
+  - year: 2006
+  title: Romskoto vsekidnevie v Balgariya
+  original-title: Roma everyday life in Bulgaria
+  publisher-place: Veliko Tarnovo
+  publisher: Faber
+
 - id: gb.wa1735
   type: legislation
   issued:
@@ -717,18 +834,17 @@ references:
   publisher-place: London
   number: '6041'
 
-- id: eu.dir2015/413
+- id: eu.dir1984/2003
   type: legislation
   issued:
-  - year: '2015'
-  title: Directive (EU) 2015/413 of the European Parliament and of the Council of
-    11th March 2015 facilitating cross-border exchange of information on road-safety-related
-    traffic offences
-  title-short: Directive (EU) 2015/413
+  - year: '2003'
+  title: Council Regulation (EC) 1984/2003 of 8 April 2003 introducing a system
+    for the statistical monitoring of trade in bluefin tuna, swordfish and big
+    eye tuna within the Community
+  title-short: Council Regulation (EC) 1984/2003
   container-title: OJ
   collection-title: L
-  page: '9'
-  volume: '68'
+  volume: '295'
 
 - id: ec2015gra
   type: report
@@ -744,7 +860,7 @@ references:
   type: legal_case
   issued:
   - year: '2012'
-  title: Seldon v Clarkson Wright & Jakes
+  title: Seldon v. Clarkson Wright & Jakes
   collection-title: UKSC
   page: '16'
 
@@ -752,7 +868,7 @@ references:
   type: legal_case
   issued:
   - year: '2005'
-  title: Alessandrini Srl and others v. Commission
+  title: Alessandrini Srl and others v. Commission
   collection-title: ECR
   page: '5700'
   volume: I
