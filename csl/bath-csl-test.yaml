@@ -50,7 +50,7 @@ references:
   type: book
   issued:
   - year: '1989'
-  title: Oxford English dictionary
+  title: Oxford <span class="nocase">English</span> dictionary
   publisher: Clarendon Press
   publisher-place: Oxford
   edition: '2'
@@ -61,7 +61,7 @@ references:
   - year: '2016'
     month: '6'
     day: '16'
-  title: The Merck index online
+  title: The <span class="nocase">Merck</span> index online
   publisher: RSC Publishing
   publisher-place: London
   URL: http://www.rsc.org/Merck-Index
@@ -77,7 +77,7 @@ references:
   - year: '2016'
     month: '6'
     day: '16'
-  title: CRC handbook of chemistry and physics
+  title: <span class="nocase">CRC</span> handbook of chemistry and physics
   publisher: CRC Press/Taylor and Francis
   publisher-place: Boca Raton, Fla.
   edition: '94'
@@ -140,7 +140,7 @@ references:
   - year: '1981'
   title: Continuing education and the reference librarian in the academic and research
     library
-  container-title: Library Journal
+  container-title: Library journal
   page: '2547-2551'
   volume: '105'
   issue: '22'
@@ -248,7 +248,7 @@ references:
     month: '7'
     day: '29'
   title: Britain’s borrowing hits £1 trillion
-  container-title: The Guardian
+  container-title: The <span class="nocase">Guardian</span>
   page: 16c
 
 - id: independent1992pub
@@ -260,7 +260,7 @@ references:
     month: '6'
     day: '4'
   title: Picking up the bills
-  container-title: The Independent
+  container-title: The <span class="nocase">Independent</span>
   page: 28a
 
 - id: crawford1965oim
@@ -283,7 +283,7 @@ references:
     month: '8'
     day: '4'
   title: Oxygen in metals
-  container-title: 'Activation analysis: proceedings of a NATO Advanced Study Institute'
+  container-title: 'Activation analysis: proceedings of a <span class="nocase">NATO Advanced Study Institute</span>'
   publisher: Academic Press
   publisher-place: London
   event-place: Glasgow
@@ -304,7 +304,7 @@ references:
     month: '11'
     day: '17'
   title: Review of bracken control experiments with asulam
-  container-title: Proceedings of the 11th British Weed Control Conference
+  container-title: Proceedings of the 11th <span class="nocase">British Weed Control Conference</span>
   publisher: University of Sussex
   publisher-place: Brighton
   event-place: Brighton
@@ -327,7 +327,7 @@ references:
   - literal: UNESCO
   issued:
   - year: '1993'
-  title: General information programme and UNISIST
+  title: General information programme and <span class="nocase">UNISIST</span>
   publisher: UNESCO
   publisher-place: Paris
   number: PGI-93/WS/22
@@ -338,16 +338,16 @@ references:
   - literal: BRE
   issued:
   - year: '2007'
-  title: 'Designing quality buildings: A BRE guide'
+  title: 'Designing quality buildings: a <span class="nocase">BRE</span> guide'
   title-short: Designing quality buildings
   publisher: BRE
   publisher-place: Bracknell
-  collection-title: Report
+  genre: Report
   number: 497
 
 - id: bs5605:1990
   type: report
-  title: 'BS 5605:1990 Recommendations for citing and referencing published material'
+  title: '<span class="nocase">BS 5605:1990 Recommendations</nocase> for citing and referencing published material'
   publisher: BSI
   publisher-place: London
   author:
@@ -361,7 +361,7 @@ references:
   - literal: ASTM
   issued:
   - year: '2019'
-  title: ASTM D1655 - 19 Standard Specification for Aviation Turbine Fuels
+  title: <span class="nocase">ASTM D1655 - 19 Standard</span> specification for aviation turbine fuels
   publisher-place: West Conshohocken, Pa.
   publisher: ASTM
 
@@ -376,7 +376,7 @@ references:
   number: 0021165A1. 1981-01-07
 
 - id: harris2013fgr
-  type: pamphlet
+  type: report
   author:
   - family: Harris
     given: G.
@@ -387,26 +387,26 @@ references:
   annote: Unpublished
 
 - id: hadley2015bir
-  type: pamphlet
+  type: report
   author:
   - family: Hadley
     given: S.
   issued:
   - year: 2015
-  title: 'Biomechanics: introductory reading, BM289: Sport biomechanics'
+  title: 'Biomechanics: introductory reading, BM289: sport biomechanics'
   title-short: 'Biomechanics'
   publisher: University of Bath
   annote: Unpublished
 
 - id: thomas2015wcr
-  type: pamphlet
+  type: post
   author:
   - family: Thomas
     given: D.
   issued:
   - year: 2015
   title: Word count and referencing style
-  container-title: 'Frequently asked questions discussion board: PHYS 2011: Housing Studies'
+  container-title: 'Frequently asked questions discussion board: PHYS 2011: housing studies'
   container-title-short: 'Frequently asked questions discussion board'
   publisher: University of Bath
   annote: Unpublished
@@ -421,7 +421,7 @@ references:
   - year: '2015'
     month: '1'
     day: '7'
-  title: NASA astronaut Tim Kopra on Dec. 21 spacewalk
+  title: <span class="nocase">NASA</span> astronaut <span class="nocase">Tim Kopra</span> on <span class="nocase">Dec.</span> 21 spacewalk
   publisher: NASA
   publisher-place: Washington
   URL: http://www.nasa.gov/image-feature/nasa-astronaut-tim-kopra-on-dec-21-spacewalk
@@ -434,13 +434,13 @@ references:
   issued:
   - year: '2006'
   accessed:
-  - year: '2015'
+  - year: '2016'
     month: '1'
     day: '7'
-  title: Royal Crescent in Bath, England - July 2006
+  title: <span class="nocase">Royal Crescent</span> in <span class="nocase">Bath, England - July</span> 2006
   publisher: Wikimedia Foundation
   publisher-place: San Francisco
-  URL: https://commons.wikimedia.org/wiki/File:Royal_Crescent_in_Bath,_England_-_July_2006.jpg
+  URL: https://commons.wikimedia.org/wiki/File:Royal_Crescent_in_Bath,\_England\_-_July_2006.jpg
 
 - id: anon1946peb
   type: graphic
@@ -448,9 +448,9 @@ references:
   - family: Anon.
   issued:
   - year: '1946'
-  title: Prototype electric bicycle displayed at the “Britain Can Make It” exhibition
-    organised by the Council of Industrial Design and held at the Victoria and Albert
-    Museum, London, 1946. Designed by B. G. Bowden
+  title: Prototype electric bicycle displayed at the <span class="nocase">“Britain Can Make It”</span> exhibition
+    organised by the <span class="nocase">Council of Industrial Design</span> and held at the <span class="nocase">Victoria and Albert
+    Museum, London,</span> 1946. <span class="nocase">Designed</psan> by <span class="nocase">B. G. Bowden</span>
   genre: photograph
   archive-place: London
   archive: Design Council Slide Collection
@@ -464,7 +464,7 @@ references:
     given: A.
   issued:
   - year: '1773'
-  title: Map of Wiltshire
+  title: Map of <span class="nocase">Wiltshire</span>
   scale: 1 inch to 2 miles
   publisher: Wiltshire Record Society
   publisher-place: Devizes
@@ -492,7 +492,7 @@ references:
   - year: '2016'
     month: '4'
     day: '29'
-  title: Save Our Libraries
+  title: Save our libraries
   URL: https://www.youtube.com/watch?v=gKTfCz4JtVE&feature=youtu.be
 
 - id: uob2015wie
@@ -528,8 +528,8 @@ references:
   - year: '2006'
     month: '8'
     day: '23'
-  title: 'Rick <span class="nocase">Stein’s</span> <span class="nocase">French Odyssey</span>: Episode 5'
-  title-short: Rick <span class="nocase">Stein’s</span> <span class="nocase">French</span> Odyssey
+  title: 'Rick <span class="nocase">Stein’s</span> <span class="nocase">French</span> odyssey: Episode 5'
+  title-short: Rick <span class="nocase">Stein’s</span> <span class="nocase">French</span> odyssey
   publisher: BBC2
   medium: TV
   annote: 20.30 hrs
@@ -540,7 +540,7 @@ references:
   - year: '2006'
     month: '8'
     day: '23'
-  title: The Archers
+  title: The <span class="nocase">Archers</span>
   publisher: BBC Radio 4
   medium: Radio
   annote: 19.02 hrs
@@ -553,7 +553,7 @@ references:
     dropping-particle: van
   issued:
   - year: '1950'
-  title: Symphony no.1 in C, Op.21
+  title: Symphony no.1 in <span class="nocase">C, Op.21</span>
   publisher: Penguin
   publisher-place: Harmondsworth
 
@@ -583,7 +583,7 @@ references:
   - year: '2015'
     month: '8'
     day: '19'
-  title: Get Wiltshire walking
+  title: Get <span class="nocase">Wiltshire</span> walking
   publisher: Wiltshire Council
   publisher-place: Trowbridge
   URL: http://www.wiltshire.gov.uk/leisureandrecreation/sportphysicalactivity/getwiltshirewalking.html
@@ -601,7 +601,7 @@ references:
   - year: '2004'
     month: '7'
     day: '30'
-  title: A European UK Libraries Plus?
+  title: A <span class="nocase">European UK Libraries Plus?</span>
   container-title: Lis-link
   URL: lis-link@jiscmail.ac.uk
 
@@ -614,7 +614,7 @@ references:
   - year: '2004'
     month: '7'
     day: '19'
-  title: Society of Architectural Historians of GB
+  title: Society of <span class="nocase">Architectural Historians of GB</span>
   publisher: Email to K.M. Jordan
 
 - id: bvd2008bt
@@ -631,7 +631,7 @@ references:
   publisher: Bureau van Dijk
   publisher-place: London
   URL: http://www.portal.euromonitor.com
-  container-title: FAME
+  container-title: <span class="nocase">FAME</span>
 
 - id: wilson2013rgc
   type: dataset
@@ -659,7 +659,7 @@ references:
   - year: '2016'
     month: '5'
     day: '16'
-  title: Screencast-O-Matic
+  title: <span class="nocase">Screencast-O-Matic</span>
   genre: computer program
   version: '2'
   URL: https://screencast-o-matic.com/
@@ -748,8 +748,8 @@ references:
     given: A.
   issued:
   - year: 2006
-  title: Romskoto vsekidnevie v Balgariya
-  original-title: Roma everyday life in Bulgaria
+  title: <span class="nocase">Romskoto vsekidnevie v Balgariya</span>
+  original-title: Roma everyday life in <span class="nocase">Bulgaria</span>
   publisher-place: Veliko Tarnovo
   publisher: Faber
 
@@ -757,7 +757,7 @@ references:
   type: legislation
   issued:
   - year: '1735'
-  title: Witchcraft Act
+  title: <span class="nocase">Witchcraft Act</span>
   collection-title: 9 <span class="nocase">Geo.2</span>
   chapter-number: '5'
 
@@ -765,7 +765,7 @@ references:
   type: legislation
   issued:
   - year: '2014'
-  title: Pensions Act
+  title: <span class="nocase">Pensions Act</span>
   publisher: TSO
   publisher-place: London
   chapter-number: '19'
@@ -802,9 +802,9 @@ references:
   - literal: Great Britain. Parliament. House of Commons
   issued:
   - year: '2004'
-  title: 'National Savings investment deposits: account 2002–2003'
-  title-short: National Savings investment deposits
-  collection-title: HC 2003/04
+  title: '<span class="nocase">National Savings</span> investment deposits: account 2002–2003'
+  title-short: <span class="nocase">National Savings</span> investment deposits
+  collection-title: <span class="nocase">HC</span> 2003/04
   publisher: National Audit Office
   publisher-place: London
   number: '30'
@@ -815,8 +815,8 @@ references:
   - literal: Great Britain. Parliament. House of Lords
   issued:
   - year: '1987'
-  title: Social fund (Maternity and Funeral Expenses) Bill
-  collection-title: HL 1986/87
+  title: Social fund (maternity and funeral expenses) bill
+  collection-title: <span class="nocase">HL</span> 1986/87
   publisher: HMSO
   publisher-place: London
   number: '(66)'
@@ -838,11 +838,11 @@ references:
   type: legislation
   issued:
   - year: '2003'
-  title: Council Regulation (EC) 1984/2003 of 8 April 2003 introducing a system
+  title: <span class="nocase">Council Regulation (EC)</span> 1984/2003 of 8 <span class="nocase">April</span> 2003 introducing a system
     for the statistical monitoring of trade in bluefin tuna, swordfish and big
-    eye tuna within the Community
-  title-short: Council Regulation (EC) 1984/2003
-  container-title: OJ
+    eye tuna within the <span class="nocase">Community</span>
+  title-short: <span class="nocase">Council Regulation (EC)</span> 1984/2003
+  container-title: <span class="nocase">OJ</span>
   collection-title: L
   volume: '295'
 
@@ -852,7 +852,7 @@ references:
   - literal: European Commission
   issued:
   - year: '2015'
-  title: General report on the activities of the European Union 2014
+  title: General report on the activities of the <span class="nocase">European Union</span> 2014
   publisher: Publications Office of the European Union
   publisher-place: Luxembourg
 
@@ -860,16 +860,16 @@ references:
   type: legal_case
   issued:
   - year: '2012'
-  title: Seldon v. Clarkson Wright & Jakes
-  collection-title: UKSC
+  title: <span class="nocase">Seldon v. Clarkson Wright & Jakes</span>
+  collection-title: <span class="nocase">UKSC</span>
   page: '16'
 
 - id: srl.etal-v-comm2005
   type: legal_case
   issued:
   - year: '2005'
-  title: Alessandrini Srl and others v. Commission
-  collection-title: ECR
+  title: <span class="nocase">Alessandrini Srl</span> and others v. <span class="nocase">Commission</span>
+  collection-title: <span class="nocase">ECR</span>
   page: '5700'
   volume: I
   number: C-295/03 P
