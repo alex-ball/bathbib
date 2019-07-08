@@ -504,7 +504,7 @@ extensive use was made of the (standard) \texttt{note} and (non-standard)
 a \texttt{.bib} file according the principles in that first version, the \texttt{bath}
 style will still work as advertised for you.
 
-The second version introduces a new variant, \texttt{bathx} (`Bath extended'),
+The second version introduced a new variant, \texttt{bathx} (`Bath extended'),
 which has a different aim. The idea with this one is that \texttt{.bib} files written
 for this style will be rendered just the same by the companion
 \textsf{biblatex-bath} style. Where possible, features from the latter have
@@ -593,6 +593,25 @@ Please refer to the documentation for \href{http://www.ctan.org/pkg/natbib}{\tex
 for the full range of commands available for in-text citations. Be aware that the
 \textsf{natbib} option \texttt{sort} will sort citations in bibliography order,
 rather than the chronological order demanded by Harvard (Bath) -- so don't use it!
+
+\subsection{Migrating from version 2 to version 3}
+
+If you have previously used version 2 of the style, you may need to update your
+.bib file to accommodate the following changes in version 3:
+
+\begin{itemize}
+\item
+  Journal titles are now coerced to sentence case, so any capital letters you
+  want to keep need to be protected with braces.
+\item
+  The Harvard (Bath) style now inserts a comma between the date and venue of a
+  conference, so if you put both in the \texttt{venue} field (as recommended for
+  the \texttt{bath} variant) will need to add the comma manually.
+\item
+  Entries of type \texttt{unpublished} are now marked as unpublished. If you
+  have been using this for an item that should not be marked as unpublished
+  (e.g.~archive photographs), use \texttt{booklet} or \texttt{manual} instead.
+\end{itemize}
 
 
 \section{Examples}
@@ -895,14 +914,53 @@ though of course any item might need adjustment to take account of differing con
 %</driver>
 \end{bibexbox}
 
+%<*driver>
+\iffalse
+%</driver>
+%<*tex1>
+\begin{hacks}
+\item With most styles, you would put `in press' or `preprint' as the
+  \texttt{year} for articles that have yet to be officially published, but for
+  this style you need to put it in \texttt{volume}. If you would rather lose
+  this information when switching to a different style than have it incorrectly
+  placed, you can use the \texttt{pubstate} field from \textsf{biblatex}
+  instead. Use the keyword \texttt{inpress} for `in press' and
+  \texttt{inpreparation} or \texttt{submitted} (whichever is more accurate) for
+  `preprint'.
+
+\begin{tcolorbox}%
+  [ colframe = Slate
+  , colback = white
+  , fontupper = \footnotesize
+  ]
+  \begin{Verbatim}
+  pubstate = {inpress},
+  \end{Verbatim}
+\end{tcolorbox}
+\end{hacks}
+
+%</tex1>
+%<*driver>
+\fi
+\begin{tips}
+\item
+If citing an article yet to be officially published, use the \texttt{pubstate}
+field (from \textsf{biblatex}) with the keyword \texttt{inpress} for `in press'
+and \texttt{inpreparation} or \texttt{submitted} (whichever is more accurate)
+for `preprint'.
+\end{tips}
+
 \begin{bibexbox}<RX>{liontou.etal2019dra}
+%</driver>
+%<tex1>\begin{bibexbox}(hacked)<RX>{liontou.etal2019dra}
   Liontou, C., Kontopodis, E., Oikonomidis, N., Maniotis, C., Tassopoulos, A., Tsiafoutis, I., Lazaris, E. and Koutouzis, M., 2019. Distal radial access:\@ a review article. \emph{Cardiovascular revascularization medicine} [Online], in press. Available from: \url{https://www.sciencedirect.com/science/article/pii/S1553838919303367} [Accessed 19 June 2019].
   \tcblower
 \begin{Verbatim}
 %</driver|tex1>
 %<*driver|bib>
 @article{liontou.etal2019dra,
-  author = {Liontou, C. and Kontopodis, E. and Oikonomidis, N. and Maniotis, C. and Tassopoulos, A. and Tsiafoutis, I. and Lazaris, E. and Koutouzis, M.},
+  author = {Liontou, C. and Kontopodis, E. and Oikonomidis, N. and Maniotis, C. and
+    Tassopoulos, A. and Tsiafoutis, I. and Lazaris, E. and Koutouzis, M.},
   year = {2019},
   title = {Distal Radial Access: a Review Article},
   journal = {Cardiovascular Revascularization Medicine},
@@ -916,7 +974,8 @@ though of course any item might need adjustment to take account of differing con
 %</driver>
 %<*tex1|bib1>
 @article{liontou.etal2019dra,
-  author = {Liontou, C. and Kontopodis, E. and Oikonomidis, N. and Maniotis, C. and Tassopoulos, A. and Tsiafoutis, I. and Lazaris, E. and Koutouzis, M.},
+  author = {Liontou, C. and Kontopodis, E. and Oikonomidis, N. and Maniotis, C. and
+    Tassopoulos, A. and Tsiafoutis, I. and Lazaris, E. and Koutouzis, M.},
   year = {2019},
   title = {Distal Radial Access: a Review Article},
   journal = {Cardiovascular revascularization medicine \textup{[Online]}},
@@ -933,6 +992,13 @@ though of course any item might need adjustment to take account of differing con
 
 
 \subsubsection*{Preprint in a digital repository}
+
+\begin{tips}
+\item
+The Harvard (Bath) style gives you a choice whether to treat preprints as
+pre-publication articles (above) or as grey literature (below). In the latter
+case, the \texttt{techreport} entry type is the best match semantically.
+\end{tips}
 
 \begin{bibexbox}<RX>{shah.corrick2016hsc}
   Shah, I. and Corrick, I., 2016. \emph{How should central banks respond to non-neutral inflation expectations?} Bath:\@ University of Bath. \emph{OPUS} [Online]. Available from:\@ \url{http://opus.bath.ac.uk} [Accessed 4 May 2016].
@@ -971,12 +1037,6 @@ though of course any item might need adjustment to take account of differing con
 \fi
 %</driver>
 \end{bibexbox}
-
-\begin{tips}
-\item
-The Harvard (Bath) style treats preprints as grey literature, and so the
-\texttt{techreport} entry type is the best match semantically.
-\end{tips}
 
 
 \subsubsection*{Newspaper article}
@@ -1057,7 +1117,7 @@ As in the standard Bib\TeX\ styles, \texttt{conference} is a legacy (and highly 
   title = {Oxygen in Metals},
   editor = {J. M. A. Lenihan and S. J. Thompson},
   booktitle = {Activation Analysis: Proceedings of a {NATO} {Advanced} {Study} {Institute}},
-  venue = {2--4 August 1964 Glasgow},
+  venue = {2--4 August 1964, Glasgow},
   address = {London},
   publisher = {Academic Press},
   pages = {113-118}}
@@ -1099,7 +1159,7 @@ As in the standard Bib\TeX\ styles, \texttt{conference} is a legacy (and highly 
   year = {1972},
   title = {Review of Bracken Control Experiments with Asulam},
   booktitle = {Proceedings of the 11th {British} {Weed} {Control} {Conference}},
-  venue = {15--17 November 1972 Brighton},
+  venue = {15--17 November 1972, Brighton},
   address = {Brighton},
   publisher = {University of Sussex},
   pages = {24-31}}
@@ -1165,7 +1225,7 @@ As in the standard Bib\TeX\ styles, \texttt{conference} is a legacy (and highly 
 @techreport{bre2007dqb,
   author = {{BRE}},
   year = {2007},
-  title = {Designing quality buildings: a BRE guide},
+  title = {Designing Quality Buildings: a {BRE} Guide},
   address = {Bracknell},
   institution = {BRE},
   type = {Report},
@@ -1190,7 +1250,7 @@ As in the standard Bib\TeX\ styles, \texttt{conference} is a legacy (and highly 
 @standard{bs5605:1990,
   author = {{BSI}},
   year = {1990},
-  title = {{BS}~5605:1990 {Recommendations} for citing and referencing published material},
+  title = {{BS}~5605:1990 {Recommendations} for Citing and Referencing Published Material},
   address = {London},
   organization = {BSI}}
 %</driver|bib>
@@ -1202,7 +1262,7 @@ As in the standard Bib\TeX\ styles, \texttt{conference} is a legacy (and highly 
 @manual{bs5605:1990,
   author = {{BSI}},
   year = {1990},
-  title = {{BS}~5605:1990 {Recommendations} for citing and referencing published material},
+  title = {{BS}~5605:1990 {Recommendations} for Citing and Referencing Published Material},
   address = {London},
   organization = {BSI}}
 %</tex1|bib1>
@@ -1223,8 +1283,7 @@ As in the standard Bib\TeX\ styles, \texttt{conference} is a legacy (and highly 
 @standard{astm.d1655,
   author = {{ASTM}},
   year = {2019},
-  title = {ASTM D1655 - 19 Standard specification for aviation
-turbine fuels},
+  title = {{ASTM~D1655} - 19 {Standard} Specification for Aviation Turbine Fuels},
   address = {West Conshohocken, Pa.},
   organization = {ASTM}}
 %</driver|bib>
@@ -1236,8 +1295,7 @@ turbine fuels},
 @manual{astm.d1655,
   author = {{ASTM}},
   year = {2019},
-  title = {ASTM D1655 - 19 Standard specification for aviation
-turbine fuels},
+  title = {{ASTM~D1655} - 19 {Standard} Specification for Aviation Turbine Fuels},
   address = {West Conshohocken, Pa.},
   organization = {ASTM}}
 %</tex1|bib1>
@@ -1316,7 +1374,7 @@ turbine fuels},
 @unpublished{hadley2015bir,
   author = {Hadley, S.},
   year = {2015},
-  title = {Biomechanics: introductory reading, BM289: sport biomechanics},
+  title = {Biomechanics: introductory reading, {BM289}: sport biomechanics},
   howpublished = {University of Bath}}
 %</driver|bib|tex1|bib1>
 %<*driver|tex1>
@@ -1336,7 +1394,7 @@ turbine fuels},
   author = {Thomas, D.},
   year = {2015},
   title = {Word count and referencing style},
-  booktitle = {Frequently asked questions discussion board: PHYS 2011: housing studies},
+  booktitle = {Frequently asked questions discussion board: {PHYS} 2011: housing studies},
   howpublished = {University of Bath}}
 %</driver|bib|tex1|bib1>
 %<*driver|tex1>
@@ -1348,7 +1406,7 @@ turbine fuels},
 
 \subsubsection*{Image}
 
-%<tex1>\begin{tips}\item You can use \texttt{online} (an alias for \texttt{manual}) for online images and \texttt{unpublished} for physical images.\end{tips}
+%<tex1>\begin{tips}\item You would normally class images as \texttt{misc} or \texttt{unpublished}, but those entry types have particular formatting quirks in this style that don't work for images. Use \texttt{manual} or \texttt{booklet} instead. You can use \texttt{online} (an alias for \texttt{manual}) for online images.\end{tips}
 
 \begin{bibexbox}<RI>{nasa2015nat}
    NASA, 2015, \emph{NASA astronaut Tim Kopra on Dec.\@ 21 spacewalk} [Online]. Washington:\@ NASA. Available from:\@ \url{http://www.nasa.gov/image-feature/nasa-astronaut-tim-kopra-on-dec-21-spacewalk} [Accessed 7 January 2015].
@@ -1373,7 +1431,7 @@ turbine fuels},
 @manual{nasa2015nat,
   author = {{NASA}},
   year = {2015},
-  title = {{NASA} Astronaut {Tim} {Kopra} on {Dec.\@} 21 Spacewalk},
+  title = {{NASA} Astronaut {Tim} {Kopra} on {Dec.\@} 21 Spacewalk \textup{[Online]}},
   address = {Washington},
   organization = {NASA},
   url = {http://www.nasa.gov/image-feature/nasa-astronaut-tim-kopra-on-dec-21-spacewalk},
@@ -1412,7 +1470,7 @@ record the source of the image. If you use both, \texttt{organization} will be i
 @manual{iliff2006rcb,
   author = {D. Iliff},
   year = {2006},
-  title = {{Royal} {Crescent} in {Bath,} {England} - {July} 2006},
+  title = {{Royal} {Crescent} in {Bath,} {England} - {July} 2006 \textup{[Online]}},
   address = {San Francisco},
   organization = {Wikimedia Foundation},
   url = {https://commons.wikimedia.org/wiki/File:Royal_Crescent_in_Bath,_England_-_July_2006.jpg},
@@ -1437,7 +1495,7 @@ record the source of the image. If you use both, \texttt{organization} will be i
   title = {Prototype electric bicycle displayed at the \enquote{Britain Can Make It} exhibition
     organised by the {Council} of {Industrial} {Design} and held at the {Victoria} and {Albert}
     {Museum}, {London}, 1946. {Designed} by {B.~G.} {Bowden}},
-  titleaddon = {photograph},
+  titleaddon = {Photograph},
   address = {London},
   library = {Design Council Slide Collection}}
 %</driver|bib>
@@ -1446,13 +1504,13 @@ record the source of the image. If you use both, \texttt{organization} will be i
 \iffalse
 %</driver>
 %<*tex1|bib1>
-@unpublished{anon1946peb,
+@manual{anon1946peb,
   author = {Anon.},
   year = {1946},
   title = {Prototype electric bicycle displayed at the \enquote{Britain Can Make It} exhibition
     organised by the {Council} of {Industrial} {Design} and held at the {Victoria} and {Albert}
     {Museum}, {London}, 1946. {Designed} by {B.~G.} {Bowden}},
-  titleaddon = {[photograph]},
+  titleaddon = {[Photograph]},
   note = {At: London. Design Council Slide Collection}}
 %</tex1|bib1>
 %<*driver|tex1>
@@ -1544,7 +1602,7 @@ but the \texttt{organization} field if the location relates to the archive.
 @video{moran2016sol,
   author = {Moran, C.},
   year = {2016},
-  title = {Save {Our} {Libraries}},
+  title = {Save Our Libraries},
   url = {https://www.youtube.com/watch?v=gKTfCz4JtVE&feature=youtu.be},
   urlyear = {29 April 2016}}
 %</driver|bib>
@@ -1556,7 +1614,7 @@ but the \texttt{organization} field if the location relates to the archive.
 @manual{moran2016sol,
   author = {Moran, C.},
   year = {2016},
-  title = {Save {Our} {Libraries}},
+  title = {Save Our Libraries},
   titleaddon = {[Online]},
   url = {https://www.youtube.com/watch?v=gKTfCz4JtVE&feature=youtu.be},
   urldate = {29 April 2016}}
@@ -1590,6 +1648,7 @@ but the \texttt{organization} field if the location relates to the archive.
   author = {{University of Bath}},
   year = {2015},
   title = {What is Engineering?},
+  titleaddon = {[Online]},
   url = {https://www.youtube.com/watch?v=NoyZarq-Zbo},
   urldate = {12 January 2016}}
 %</tex1|bib1>
@@ -1622,6 +1681,7 @@ but the \texttt{organization} field if the location relates to the archive.
   author = {Chakrabarti, V.},
   year = {2016},
   title = {How Architecture and City Planning Can Combat Social Inequality},
+  titleaddon = {[Online]},
   url = {https://www.curbed.com/2016/5/5/11593058/vishaan-chakrabarti-pau-curbed-appeal-podcast},
   urlyear = {28 March 2019}}
 %</tex1|bib1>
@@ -2779,6 +2839,7 @@ ENTRY
     organization
     pages
     publisher
+    pubstate
     school
     series
     sortyear
@@ -3134,7 +3195,7 @@ FUNCTION {bbl.etal}
 { "et~al." }
 
 FUNCTION {bbl.editors}
-{ "eds." }
+{ "eds" }
 
 FUNCTION {bbl.editor}
 { "ed." }
@@ -3216,6 +3277,18 @@ FUNCTION {bbl.online}
 
 FUNCTION {bbl.nodate}
 { "n.d." }
+
+FUNCTION {bbl.inpreparation}
+{ "preprint" }
+
+FUNCTION {bbl.submitted}
+{ "preprint" }
+
+FUNCTION {bbl.inpress}
+{ "in press" }
+
+FUNCTION {bbl.unpublished}
+{ "Unpublished" }
 
 %    \end{macrocode}
 %
@@ -3387,7 +3460,7 @@ FUNCTION {format.authors}
 }
 %    \end{macrocode}
 %
-% |format.editors| returns editor names, and appends `ed.' or `eds.' as
+% |format.editors| returns editor names, and appends `ed.' or `eds' as
 % appropriate.
 %
 %    \begin{macrocode}
@@ -3719,7 +3792,7 @@ FUNCTION {format.in.ed.booktitle}
         {
           "," *
           " " *
-          get.bbl.editor
+          get.bbl.editor add.period$
           " " *
           * swap$
           *
@@ -4538,29 +4611,52 @@ FUNCTION {format.journal.eid}
 % |format.vol.num.pages| returns the journal pinpointing in the form
 % `volume(number), eid\slash pages'. It writes a warning to the log if |number|
 % is given instead of |volume|: if a journal does not organize itself into
-% volumes, treat every issue as its own volume!
+% volumes, treat every issue as its own volume! Since the Harvard (Bath) style
+% places publication state information in the volume position, the |pubstate|
+% field from \textsf{biblatex} is emulated here.
 %
 %    \begin{macrocode}
 FUNCTION {format.vol.num.pages}
-{ volume field.or.null
-  duplicate$ empty$ 'skip$
+{ pubstate field.or.null
+  duplicate$ "inpress" =
+    { pop$ bbl.inpress }
     {
-      "volume" bibinfo.check
+      duplicate$ "submitted" =
+        { pop$ bbl.submitted }
+        {
+          duplicate$ "inpreparation" =
+            { pop$ bbl.inpreparation }
+            { pop$ "" }
+          if$
+        }
+      if$
     }
   if$
-  number "number" bibinfo.check duplicate$ empty$ 'skip$
+  duplicate$ empty$
     {
-      swap$ duplicate$ empty$
-        { "there's a number but no volume in " cite$ * warning$ }
-        'skip$
+      pop$
+      volume field.or.null
+      duplicate$ empty$ 'skip$
+        {
+          "volume" bibinfo.check
+        }
       if$
-      swap$
-      "(" swap$ * ")" *
+      number "number" bibinfo.check duplicate$ empty$ 'skip$
+        {
+          swap$ duplicate$ empty$
+            { "there's a number but no volume in " cite$ * warning$ }
+            'skip$
+          if$
+          swap$
+          "(" swap$ * ")" *
+        }
+      if$ *
+      eid empty$
+        { format.journal.pages }
+        { format.journal.eid }
+      if$
     }
-  if$ *
-  eid empty$
-    { format.journal.pages }
-    { format.journal.eid }
+    'skip$
   if$
 }
 %    \end{macrocode}
@@ -4755,7 +4851,7 @@ FUNCTION {article}
   new.block
   crossref missing$
     {
-      journal
+      journal "t" change.case$
       "journal" bibinfo.check
       emphasize
       "journal" output.check
@@ -4967,7 +5063,6 @@ FUNCTION {inproceedings}
   crossref missing$
     { format.in.ed.booktitle "booktitle" output.check
       eventyear output
-      continue.clause
       venue output
       new.sentence
       publisher empty$
@@ -5336,13 +5431,14 @@ FUNCTION {techreport}
     }
   if$
   new.block
+  format.tr.number output
+  new.block
   publisher empty$
     { format.institution.address output }
     { institution "institution" bibinfo.check output
       format.publisher.address output
     }
   if$
-  format.tr.number output
   new.block
   format.library output
   new.block
@@ -5360,7 +5456,7 @@ FUNCTION {techreport}
 FUNCTION {unpublished}
 { output.bibitem
   author empty$
-    { format.btitle "title" output.check
+    { booktitle empty$ 'format.btitle 'format.title if$ "title" output.check
       format.date "year" output.check
       year empty$ 'skip$ { date.block } if$
       get.title.addenda
@@ -5369,12 +5465,16 @@ FUNCTION {unpublished}
       author format.key output
       format.date "year" output.check
       date.block
-      format.btitle "title" output.check
+      booktitle empty$ 'format.btitle 'format.title if$ "title" output.check
       get.title.addenda
     }
   if$
   new.block
+  format.in.ed.booktitle output
+  new.block
   howpublished "howpublished" bibinfo.check output
+  new.block
+  bbl.unpublished output
   new.block
   format.note output
   new.block
