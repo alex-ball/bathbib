@@ -604,13 +604,16 @@ If you have previously used version 2 of the style, you may need to update your
   Journal titles are now coerced to sentence case, so any capital letters you
   want to keep need to be protected with braces.
 \item
-  The Harvard (Bath) style now inserts a comma between the date and venue of a
-  conference, so if you put both in the \texttt{venue} field (as recommended for
-  the \texttt{bath} variant) will need to add the comma manually.
-\item
   Entries of type \texttt{unpublished} are now marked as unpublished. If you
   have been using this for an item that should not be marked as unpublished
-  (e.g.~archive photographs), use \texttt{booklet} or \texttt{manual} instead.
+  (e.g.~archive photographs, law reports), you can use \texttt{booklet} instead:
+  this is the other entry type (along with \texttt{misc}) that has a
+  \texttt{howpublished} field instead of a \texttt{publisher}.
+%<tex1>  Other entry types may work as well; indeed, some examples below have been updated to use \texttt{manual} or \texttt{report} instead.
+\item
+  Some changes to the Harvard (Bath) style cannot be applied automatically
+  (e.g.~the update to how standards are referenced), so you may need to update
+  your .bib file accordingly.
 \end{itemize}
 
 
@@ -1431,7 +1434,8 @@ As in the standard Bib\TeX\ styles, \texttt{conference} is a legacy (and highly 
 @manual{nasa2015nat,
   author = {{NASA}},
   year = {2015},
-  title = {{NASA} Astronaut {Tim} {Kopra} on {Dec.\@} 21 Spacewalk \textup{[Online]}},
+  title = {{NASA} Astronaut {Tim} {Kopra} on {Dec.\@} 21 Spacewalk},
+  titleaddon = {[Online]},
   address = {Washington},
   organization = {NASA},
   url = {http://www.nasa.gov/image-feature/nasa-astronaut-tim-kopra-on-dec-21-spacewalk},
@@ -1470,7 +1474,8 @@ record the source of the image. If you use both, \texttt{organization} will be i
 @manual{iliff2006rcb,
   author = {D. Iliff},
   year = {2006},
-  title = {{Royal} {Crescent} in {Bath,} {England} - {July} 2006 \textup{[Online]}},
+  title = {{Royal} {Crescent} in {Bath,} {England} - {July} 2006},
+  titleaddon = {[Online]},
   address = {San Francisco},
   organization = {Wikimedia Foundation},
   url = {https://commons.wikimedia.org/wiki/File:Royal_Crescent_in_Bath,_England_-_July_2006.jpg},
@@ -1696,14 +1701,14 @@ but the \texttt{organization} field if the location relates to the archive.
 \subsubsection*{Television or radio broadcast}
 
 \begin{bibexbox}<RX>{rsfo2006ep5}
-  \emph{Rick Stein's French odyssey:\@ Episode 5}, 2006. TV.\@ BBC2, 23 August. 20.30 hrs.
+  \emph{Rick Stein's French odyssey:\@ Episode 5}, 2006. TV. BBC2, 23 August. 20.30 hrs.
   \tcblower
 \begin{Verbatim}
 %</driver|tex1>
 %<*driver|bib>
 @video{rsfo2006ep5,
   year = {2006},
-  title = {Rick {Stein's} {French} {Odyssey}: Episode 5},
+  title = {Rick {Stein's} {French} Odyssey: Episode 5},
   type = {TV},
   note = {BBC2, 23 August. 20.30 hrs}
 }
@@ -1715,7 +1720,7 @@ but the \texttt{organization} field if the location relates to the archive.
 %<*tex1|bib1>
 @booklet{rsfo2006ep5,
   year = {2006},
-  title = {Rick {Stein's} {French} {Odyssey}: Episode 5},
+  title = {Rick {Stein's} {French} Odyssey: Episode 5},
   howpublished = {TV. BBC2, 23 August. 20.30 hrs}}
 %</tex1|bib1>
 %<*driver|tex1>
@@ -1726,7 +1731,7 @@ but the \texttt{organization} field if the location relates to the archive.
 \end{bibexbox}
 
 \begin{bibexbox}<RX>{archers20060823}
-  \emph{The Archers}, 2006. Radio.\@ BBC Radio 4, 23 August. 19.02 hrs.
+  \emph{The Archers}, 2006. Radio. BBC Radio 4, 23 August. 19.02 hrs.
   \tcblower
 \begin{Verbatim}
 %</driver|tex1>
@@ -1865,9 +1870,9 @@ Internally these are all aliases for \texttt{manual}.
 \begin{tips}
 \item Use the \texttt{journal} field to specify the mailing list.
 %<*driver>
-This triggers the change in formatting with respect to the following example.
-Internally the example above is transformed to an \texttt{article} entry,
-while the one below is transformed into an \texttt{unpublished} entry.
+Internally, a \texttt{letter} entry with a \texttt{journal} field is treated
+like an \texttt{article} entry, while one without is treated like an
+\texttt{unpublished} entry.
 %</driver>
 \end{tips}
 
@@ -1987,6 +1992,7 @@ unfortunately this means you have to put in extra work to show only the year in 
 %<*tex1|bib1>
 @manual{screencasto,
   author = {@screencasto},
+  year = {n.d.},
   title = {{Screencast-O-Matic}},
   titleaddon = {(v.2) [computer program]},
   url = {https://screencast-o-matic.com/},
@@ -2029,7 +2035,7 @@ unfortunately this means you have to put in extra work to show only the year in 
   author = {Aristotle},
   year = {2007},
   title = {Nicomachean Ethics},
-  titleaddon = {(W.D. Ross. Trans.)},
+  titleaddon = {(W.D. Ross, Trans.)},
   address = {South Dakota},
   publisher = {NuVisions}}
 %</tex1|bib1>
@@ -2128,7 +2134,7 @@ For the trick to work, the argument you give to \lstinline[style=dtxlatex]|\noop
 \end{tips}
 
 \newcommand*{\noop}[1]{}
-\begin{bibexbox}(hacked){hua1999qys1}
+\begin{bibexbox}(hacked)<RX>{hua1999qys1}
   Hua, L. 華林甫, 1999.  Qingdai yilai Sanxia diqu shuihan zaihai de chubu yanjiu 清代以來三峽地區水旱災害的初步硏 [A preliminary study of floods and droughts in the Three Gorges region since the Qing dynasty]. \emph{Zhongguo shehui kexue} 中國社會科學 , 1, pp.168--79.
   \tcblower
 \begin{Verbatim}
@@ -2172,7 +2178,7 @@ For the trick to work, the argument you give to \lstinline[style=dtxlatex]|\noop
 \item If the name is due to appear initial first (e.g.\ after `In:'), you can append the non-Roman characters to the author's surname; to do this, use inverted name order as you would for English double-barrelled names without hyphens, e.g.\ \texttt{Hua 華林甫, Linfu}.
 \end{tips}
 
-\begin{bibexbox}{hua1999qys2}
+\begin{bibexbox}<RX>{hua1999qys2}
   Hua, L., 1999. Qingdai yilai Sanxia diqu shuihan zaihai de chubu yanjiu [A preliminary study of floods and droughts in the Three Gorges region since the Qing dynasty]. \emph{Zhongguo shehui kexue}, 1, pp.168--79.
   \tcblower
 \begin{Verbatim}
@@ -2202,6 +2208,40 @@ For the trick to work, the argument you give to \lstinline[style=dtxlatex]|\noop
   journal = {Zhongguo shehui kexue},
   volume = {1},
   pages = {168-79}}
+%</tex1|bib1>
+%<*driver|tex1>
+\end{Verbatim}
+%<*driver>
+\fi
+%</driver>
+\end{bibexbox}
+
+\begin{bibexbox}<RX>{pamporov2006rvb}
+  Pamporov, A., 2006. \emph{Romskoto vsekidnevie v Balgariya} [Roma everyday life in Bulgaria]. Veliko Tarnovo: Faber.
+  \tcblower
+\begin{Verbatim}
+%</driver|tex1>
+%<*driver|bib>
+@book{pamporov2006rvb,
+  author = {Pamporov, A.},
+  year = {2006},
+  title = {Romskoto vsekidnevie v {Balgariya}},
+  titleaddon = {Roma everyday life in Bulgaria},
+  address = {Veliko Tarnovo},
+  publisher = {Faber}}
+%</driver|bib>
+%<*driver>
+\end{Verbatim}
+\iffalse
+%</driver>
+%<*tex1|bib1>
+@book{pamporov2006rvb,
+  author = {Pamporov, A.},
+  year = {2006},
+  title = {Romskoto vsekidnevie v {Balgariya}},
+  titleaddon = {[Roma everyday life in Bulgaria]},
+  address = {Veliko Tarnovo},
+  publisher = {Faber}}
 %</tex1|bib1>
 %<*driver|tex1>
 \end{Verbatim}
@@ -2422,7 +2462,7 @@ Use this form for reports of House of Lords select committees.
 @techreport{gb.hl1986/87-66,
   author = {{Great Britain. Parliament. House of Lords}},
   year = {1987},
-  title = {Social Fund ({Maternity} and {Funeral} {Expenses}) {Bill}},
+  title = {Social Fund (Maternity and Funeral Expenses) Bill},
   address = {London},
   publisher = {HMSO},
   series = {HL 1986/87},
@@ -2436,7 +2476,7 @@ Use this form for reports of House of Lords select committees.
 @techreport{gb.hl1986/87-66,
   author = {{Great Britain. Parliament. House of Lords}},
   year = {1987},
-  title = {Social Fund ({Maternity} and {Funeral} {Expenses}) Bill},
+  title = {Social Fund (Maternity and Funeral Expenses) Bill},
   address = {London},
   publisher = {HMSO},
   type = {{HL}},
@@ -2468,7 +2508,7 @@ years in \texttt{series} and the HL and HC numbers in \texttt{number}.
 @techreport{gb.cm6041,
   author = {{Great Britain. Ministry of Defence}},
   year = {2004},
-  title = {Delivering Security in a Changing World: defence White Paper},
+  title = {Delivering Security in a Changing World: Defence White Paper},
   address = {London},
   publisher = {TSO},
   series = {Cm},
@@ -2482,7 +2522,7 @@ years in \texttt{series} and the HL and HC numbers in \texttt{number}.
 @techreport{gb.cm6041,
   author = {{Great Britain. Ministry of Defence}},
   year = {2004},
-  title = {Delivering Security in a Changing World: defence White Paper},
+  title = {Delivering Security in a Changing World: Defence White Paper},
   address = {London},
   publisher = {TSO},
   type = {{Cm.}},
@@ -2509,7 +2549,9 @@ years in \texttt{series} and the HL and HC numbers in \texttt{number}.
 %</driver|tex1>
 %<*driver|bib>
 @legislation{eu.dir1984/2003,
-  title = {Council {Regulation} ({EC}) 1984/2003 of 8 {April} 2003 Introducing a System for the Statistical Monitoring of Trade in Bluefin Tuna, Swordfish and Big Eye Tuna within the {Community}},
+  title = {Council {Regulation} ({EC}) 1984/2003 of 8 {April} 2003 Introducing a System for
+    the Statistical Monitoring of Trade in Bluefin Tuna, Swordfish and Big Eye Tuna within
+    the {Community}},
   year = {2003},
   journal = {OJ},
   series = {L},
@@ -2521,7 +2563,9 @@ years in \texttt{series} and the HL and HC numbers in \texttt{number}.
 %</driver>
 %<*tex1|bib1>
 @misc{eu.dir1984/2003,
-  title = {Council {Regulation} ({EC}) 1984/2003 of 8 {April} 2003 Introducing a System for the Statistical Monitoring of Trade in Bluefin Tuna, Swordfish and Big Eye Tuna within the {Community}},
+  title = {Council {Regulation} ({EC}) 1984/2003 of 8 {April} 2003 Introducing a System for
+    the Statistical Monitoring of Trade in Bluefin Tuna, Swordfish and Big Eye Tuna within
+    the {Community}},
   titleaddon = {[2003] \emph{OJ} L295}}
 %</tex1|bib1>
 %<*driver|tex1>
@@ -2533,9 +2577,9 @@ years in \texttt{series} and the HL and HC numbers in \texttt{number}.
 
 \begin{hacks}
 \item Use \lstinline[style=dtxlatex]|\defcitealias| to provide a suitable citation string:
-\begin{tcblisting}{listing side text, lefthand width=.5\linewidth}
+\begin{tcblisting}{listing side text, lefthand width=.46\linewidth}
 \defcitealias{eu.dir1984/2003}{%
-  {Council {Regulation} ({EU}) 1984/2003}}
+  Council Regulation [EC] 1984/2003}
 \citepalias{eu.dir1984/2003}
 \end{tcblisting}
 \end{hacks}
@@ -2598,7 +2642,7 @@ years in \texttt{series} and the HL and HC numbers in \texttt{number}.
 \iffalse
 %</driver>
 %<*tex1|bib1>
-@unpublished{seldon-v-c.w.j2012,
+@report{seldon-v-c.w.j2012,
   title = {Seldon v.~{Clarkson} {Wright} \& {Jakes}},
   note = {[2012]. UKSC 16}}
 %</tex1|bib1>
@@ -2677,13 +2721,13 @@ you may prefer to format the reference more-or-less by hand:
 \subsubsection*{Judgment of the European Court of Justice}
 
 \begin{bibexbox}<RX>{srl.etal-v-comm2005}
-  \emph{Alessandrini Srl and others v.~Commission} (C-295/03 P) [2005] ECR I-5700.
+  \emph{Alessandrini Srl and others v.~Commission} (C-295/03 P) [2005] ECR I--5700.
   \tcblower
 \begin{Verbatim}
 %</driver|tex1>
 %<*driver|bib>
 @jurisdiction{srl.etal-v-comm2005,
-  title = {Alessandrini {Srl} and others v.\@ {Commission}},
+  title = {Alessandrini {Srl} and others v.~{Commission}},
   number = {C-295/03 P},
   year = {2005},
   journal = {ECR},
@@ -2695,9 +2739,9 @@ you may prefer to format the reference more-or-less by hand:
 \iffalse
 %</driver>
 %<*tex1|bib1>
-@unpublished{srl.etal-v-comm2005,
+@report{srl.etal-v-comm2005,
   title = {Alessandrini {Srl} and others v.~{Commission}},
-  titleaddon = {(C-295/03 P) [2005] ECR I-5700}}
+  titleaddon = {(C-295/03 P) [2005] ECR I--5700}}
 %</tex1|bib1>
 %<*driver|tex1>
 \end{Verbatim}
@@ -2805,10 +2849,10 @@ This work is ‘maintained’ (as per LPPL maintenance status) by [Alex Ball][me
 %
 % We begin by listing the entry fields that we will recognize. These are the
 % standard Bib\TeX\ ones plus |archive|, |doi|, |eid|, |eprint|, |entrysubtype|,
-% |eventyear|, |keywords|, |language|, |library|, |options|, |sortyear|, |titleaddon|,
-% |translator|, |url|, |urldate|, |urlyear|, |userb|, |venue|, and |version|,
-% all of which have been backported from \textsf{natbib} and \textsf{biblatex}.
-% |casenumber| is specific to this style.
+% |eventyear|, |keywords|, |language|, |library|, |options|, |pubstate|,
+% |sortyear|, |titleaddon|, |translator|, |url|, |urldate|, |urlyear|, |userb|,
+% |venue|, and |version|, all of which have been backported from \textsf{natbib}
+% and \textsf{biblatex}. |casenumber| is specific to this style.
 %
 %    \begin{macrocode}
 ENTRY
@@ -3479,13 +3523,13 @@ FUNCTION {format.editors}
 %    \end{macrocode}
 %
 % |format.translators| does likewise for translators, in the form
-% `(name. Trans.)'.
+% `(name, Trans.)'.
 %
 %    \begin{macrocode}
 FUNCTION {format.translators}
 { translator "translator" format.names.ed duplicate$ empty$ 'skip$
     {
-      "." *
+      "," *
       " " *
       bbl.translator *
       "(" swap$ *
@@ -4701,16 +4745,21 @@ FUNCTION {format.journal.series.vol.pages}
       and
       pages empty$
       and
-      eid empty$
-      and
         'skip$
         { " " * }
       if$
       series "series" bibinfo.check
       volume "volume" bibinfo.check *
-      duplicate$ empty$ pages empty$ and
+      duplicate$ empty$
         'skip$
-        { "/" * }
+        {
+          pages field.or.null duplicate$ empty$
+            'skip$
+            {
+              "/" swap$ *
+            }
+          if$ *
+        }
       if$ *
     }
     { duplicate$ "ECR" =
