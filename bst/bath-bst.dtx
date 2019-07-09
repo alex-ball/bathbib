@@ -1448,7 +1448,7 @@ As in the standard Bib\TeX\ styles, \texttt{conference} is a legacy (and highly 
 \end{bibexbox}
 
 \begin{tips}\item You can use either the \texttt{publisher} or the \texttt{organization} field to
-record the source of the image. If you use both, \texttt{organization} will be ignored.\end{tips}
+record the source of the image.\end{tips}
 
 \begin{bibexbox}<RI>{iliff2006rcb}
    Iliff, D., 2006. \emph{Royal Crescent in Bath, England - July 2006} [Online]. San Francisco:\@ Wikimedia Foundation. Available from:\@ \url{https://commons.wikimedia.org/wiki/File:Royal_Crescent_in_Bath,_England_-_July_2006.jpg} [Accessed 7 January 2016].
@@ -2134,7 +2134,7 @@ For the trick to work, the argument you give to \lstinline[style=dtxlatex]|\noop
 
 \newcommand*{\noop}[1]{}
 \begin{bibexbox}(hacked)<RX>{hua1999qys1}
-  Hua, L. 華林甫, 1999.  Qingdai yilai Sanxia diqu shuihan zaihai de chubu yanjiu 清代以來三峽地區水旱災害的初步硏 [A preliminary study of floods and droughts in the Three Gorges region since the Qing dynasty]. \emph{Zhongguo shehui kexue} 中國社會科學 , 1, pp.168--79.
+  Hua, L. 華林甫, 1999.  Qingdai yilai Sanxia diqu shuihan zaihai de chubu yanjiu 清代以來三峽地區水旱災害的初步硏 [A preliminary study of floods and droughts in the Three Gorges region since the Qing dynasty]. \emph{Zhongguo shehui kexue} 中國社會科學, 1, pp.168--79.
   \tcblower
 \begin{Verbatim}
 %</driver|tex1>
@@ -4424,13 +4424,25 @@ FUNCTION {format.publisher.address}
 FUNCTION {format.organization.address}
 { publisher empty$
     { organization "organization" bibinfo.check format.org.or.pub }
-    { publisher "publisher" bibinfo.warn format.org.or.pub }
+    {
+      publisher "publisher" bibinfo.warn format.org.or.pub
+      organization duplicate$ empty$
+        'pop$
+        { "organization" bibinfo.check ". " * swap$ * }
+      if$
+    }
   if$
 }
 FUNCTION {format.institution.address}
 { publisher empty$
     { institution "institution" bibinfo.check format.org.or.pub }
-    { publisher "publisher" bibinfo.warn format.org.or.pub }
+    {
+      publisher "publisher" bibinfo.warn format.org.or.pub
+      institution duplicate$ empty$
+        'pop$
+        { "institution" bibinfo.check ". " * swap$ * }
+      if$
+    }
   if$
 }
 %    \end{macrocode}

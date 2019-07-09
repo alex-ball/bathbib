@@ -479,6 +479,29 @@ sense that it will render the same \texttt{.bib} file the same way, so long as s
 adjustments are made that won't affect the \textsf{biblatex} rendering (mainly
 concerning the handling of dates).
 
+\subsection{Version 2 to version 3}
+
+If you have previously used version 2 of this style, there are some changes
+you need to be aware of.
+
+\begin{itemize}
+\item
+  Journal titles are now coerced to sentence case, so any capital letters you
+  want to keep need to be protected with braces.
+\item
+  Entries of type \texttt{unpublished} are now explicitly marked as unpublished.
+\item
+  With entry types that usually expect an \texttt{institution} or
+  \texttt{organization} instead of a \texttt{publisher}, if you gave a
+  \texttt{publisher} in earlier versions the \texttt{institution}\slash
+  \texttt{organization} would be ignored. Now they are printed before the
+  publication block.
+\item
+  Some changes to the Harvard (Bath) style cannot be applied automatically
+  (e.g.~the update to how standards are referenced), so you may need to update
+  your .bib file accordingly.
+\end{itemize}
+
 \section{Examples}
 
 The examples below are shown in three parts.
@@ -700,7 +723,7 @@ BibTeX, and not a symptom of recalcitrance on the part of the author.
   author = {Newman, R.},
   year = {2010},
   title = {Malaria control beyond 2010},
-  journal = {Brit.\@ Med.\@ J.},
+  journal = {{Brit.\@ Med.\@ J.\isdot}},
   volume = {341},
   number = {7765},
   pages = {157-208}}
@@ -807,7 +830,7 @@ for the work and provide preprint details using the \texttt{eprinttype},
   author = {Haurant, S.},
   date = {2004-07-29},
   title = {Britain's Borrowing Hits \pounds 1 Trillion},
-  journal = {The Guardian},
+  journal = {{The Guardian}},
   pages = {16c}}
 %</driver|bib>
 %<*driver>
@@ -824,7 +847,7 @@ for the work and provide preprint details using the \texttt{eprinttype},
   author = {{The Independent}},
   date = {1992-06-04},
   title = {Picking Up the Bills},
-  journal = {The Independent},
+  journal = {{The Independent}},
   pages = {28a}}
 %</driver|bib>
 %<*driver>
@@ -898,7 +921,7 @@ for the work and provide preprint details using the \texttt{eprinttype},
   author = {Burrell, J. G.},
   year = {1973},
   title = {The Importance of School Tours in Education},
-  type = {Thesis ({M.A.})},
+  type = {Thesis \parentext{M.A.}},
   school = {Queen's University, Belfast}}
 %</driver|bib>
 %<*driver>
@@ -1090,7 +1113,7 @@ patent requests\slash applications.
 
 \begin{tips}\item
 You can use either the \texttt{publisher} or the \texttt{organization} field to
-record the source of the image. If you use both, \texttt{organization} will be ignored.
+record the source of the image.
 \end{tips}
 
 \begin{bibexbox}<RI>{iliff2006rcb}
@@ -1519,7 +1542,7 @@ Use the \texttt{titleaddon} field to supply the English translation of the title
 \subsubsection*{Work in a non-Roman alphabet}
 
 \begin{bibexbox}<RX>{hua1999qys1}
-  Hua, L. 華林甫, 1999.  Qingdai yilai Sanxia diqu shuihan zaihai de chubu yanjiu 清代以來三峽地區水旱災害的初步硏 [A preliminary study of floods and droughts in the Three Gorges region since the Qing dynasty]. \emph{Zhongguo shehui kexue} 中國社會科學 , 1, pp.168--79.
+  Hua, L. 華林甫, 1999.  Qingdai yilai Sanxia diqu shuihan zaihai de chubu yanjiu 清代以來三峽地區水旱災害的初步硏 [A preliminary study of floods and droughts in the Three Gorges region since the Qing dynasty]. \emph{Zhongguo shehui kexue} 中國社會科學, 1, pp.168--79.
   \tcblower
 \begin{Verbatim}
 %</driver>
@@ -2060,7 +2083,7 @@ This work is `maintained' (as per LPPL maintenance status) by [Alex Ball][me].
 %
 %    \begin{macrocode}
 \NewBibliographyString{%
-  online, hours, at, legalchapter,
+  online, hours, at, unpublished, legalchapter,
   director, performer, reader, conductor,
   directors, performers, readers, conductors,
   bydirector, byperformer, byreader, byconductor,
@@ -2082,6 +2105,7 @@ This work is `maintained' (as per LPPL maintenance status) by [Alex Ball][me].
 %    \begin{macrocode}
 \DeclareNameAlias{author}{family-given}
 \DeclareNameAlias{editor}{family-given}
+\DeclareNameAlias{bookeditor}{given-family}
 \renewcommand*{\bibinitdelim}{}
 %    \end{macrocode}
 %
@@ -2301,7 +2325,7 @@ This work is `maintained' (as per LPPL maintenance status) by [Alex Ball][me].
 \newbibmacro*{bookeditor}{%
   \ifnameundef{editor}{}{%
     \printnames[bookeditor]{editor}%
-    \setunit*{\addspace}%
+    \setunit*{\addcomma\space}%
     \usebibmacro{editor+othersstrg}%
     \clearname{editor}%
   }}
@@ -2320,8 +2344,11 @@ This work is `maintained' (as per LPPL maintenance status) by [Alex Ball][me].
   [article,inbook,incollection,inproceedings]%
   {title}{#1}
 \DeclareFieldFormat
-  [patent,thesis,unpublished]%
+  [patent,thesis]%
   {title}{\mkbibemph{#1}}
+\DeclareFieldFormat
+  [unpublished]%
+  {title}{\iffieldundef{booktitle}{\mkbibemph{#1}}{#1}}
 
 %    \end{macrocode}
 %
@@ -2853,25 +2880,25 @@ This work is `maintained' (as per LPPL maintenance status) by [Alex Ball][me].
 %
 %    \begin{macrocode}
 \xpatchcmd{\mkdaterangefull}{%
-  \iffieldundef{#2year} {}%
+  \iffieldundef{#2year} {\blx@nounit}%
 }{%
   \iffieldundef{#2year} {\mknoyeardaterangefull{#1}{#2}}%
-}{}{}
+}{}{\wlog{WARNING: biblatex-bath failed to patch mkdaterangefull}}
 \xpatchcmd{\mkdaterangetrunc}{%
-  \iffieldundef{#2year} {}%
+  \iffieldundef{#2year} {\blx@nounit}%
 }{%
   \iffieldundef{#2year} {\mknoyeardaterangetrunc{#1}{#2}}%
-}{}{}
+}{}{\wlog{WARNING: biblatex-bath failed to patch mkdaterangetrunc}}
 \xpatchcmd{\mkdaterangefullextra}{%
-  \iffieldundef{#2year} {}%
+  \iffieldundef{#2year} {\blx@nounit}%
 }{%
   \iffieldundef{#2year} {\mknoyeardaterangefull{#1}{#2}}%
-}{}{}
+}{}{\wlog{WARNING: biblatex-bath failed to patch mkdaterangefullextra}}
 \xpatchcmd{\mkdaterangetruncextra}{%
-  \iffieldundef{#2year} {}%
+  \iffieldundef{#2year} {\blx@nounit}%
 }{%
   \iffieldundef{#2year} {\mknoyeardaterangetrunc{#1}{#2}}%
-}{}{}
+}{}{\wlog{WARNING: biblatex-bath failed to patch mkdaterangetruncextra}}
 
 %    \end{macrocode}
 %
@@ -2908,7 +2935,7 @@ This work is `maintained' (as per LPPL maintenance status) by [Alex Ball][me].
     {}
     {\setunit{\addcomma\space}%
      \printeventdate
-     \setunit*{\addspace}%
+     \setunit*{\addcomma\space}%
      \printfield{venue}%
      \newunit}}
 
@@ -2920,38 +2947,22 @@ This work is `maintained' (as per LPPL maintenance status) by [Alex Ball][me].
 % publisher list instead, if provided.
 %
 %    \begin{macrocode}
+\letbibmacro{plain:institution+location+date}{institution+location+date}
 \renewbibmacro*{institution+location+date}{%
-  \printlist{location}%
   \iflistundef{publisher}{%
-    \iflistundef{institution}{%
-      \setunit*{\addcomma\space}%
-    }{%
-      \setunit*{\addcolon\space}%
-      \printlist{institution}%
-    }%
+    \usebibmacro{plain:institution+location+date}%
   }{%
-    \setunit*{\addcolon\space}%
-    \printlist{publisher}%
-  }%
-  \setunit*{\addcomma\space}%
-  \usebibmacro{date}%
-  \newunit}
+    \printlist{institution}%
+    \newunit
+    \usebibmacro{publisher+location+date}}}
+\letbibmacro{plain:organization+location+date}{organization+location+date}
 \renewbibmacro*{organization+location+date}{%
-  \printlist{location}%
   \iflistundef{publisher}{%
-    \iflistundef{organization}{%
-      \setunit*{\addcomma\space}%
-    }{%
-      \setunit*{\addcolon\space}%
-      \printlist{organization}%
-    }%
+    \usebibmacro{plain:organization+location+date}%
   }{%
-    \setunit*{\addcolon\space}%
-    \printlist{publisher}%
-  }%
-  \setunit*{\addcomma\space}%
-  \usebibmacro{date}%
-  \newunit}
+    \printlist{organization}%
+    \newunit
+    \usebibmacro{publisher+location+date}}}
 
 %    \end{macrocode}
 %
@@ -3003,8 +3014,8 @@ This work is `maintained' (as per LPPL maintenance status) by [Alex Ball][me].
 %
 % \subsection{Articles}
 %
-% Compared with the standard styles, the main difference in the driver is the
-% omission of `in'.
+% Compared with the standard styles, the main differences in the driver are the
+% omission of `in' and the position of the publication state.
 %
 %    \begin{macrocode}
 \xpatchbibdriver{article}{%
@@ -3012,10 +3023,31 @@ This work is `maintained' (as per LPPL maintenance status) by [Alex Ball][me].
 }{%
   \usebibmacro{journal+issuetitle}%
 }{}{}
+\xpatchbibdriver{article}{%
+  \usebibmacro{addendum+pubstate}%
+}{%
+  \printfield{addendum}%
+}{}{}
+%    \end{macrocode}
+%
+% The journal title is in sentence case rather than title case.
+%
+%    \begin{macrocode}
+\xpatchbibmacro{journal}{%
+  \printfield[titlecase]{journaltitle}%
+}{%
+  \printfield[sentencecase]{journaltitle}%
+}{}{}
+\xpatchbibmacro{journal}{%
+  \printfield[titlecase]{journalsubtitle}%
+}{%
+  \printfield[sentencecase]{journalsubtitle}%
+}{}{}
 %    \end{macrocode}
 %
 % The journal title is followed by a comma. The issue number is separated from
-% the volume by parentheses rather than a dot.
+% the volume by parentheses rather than a dot. The pubstate is in the volume
+% position.
 %
 %    \begin{macrocode}
 \renewbibmacro*{journal+issuetitle}{%
@@ -3033,6 +3065,8 @@ This work is `maintained' (as per LPPL maintenance status) by [Alex Ball][me].
   \usebibmacro{issue+date}%
   \setunit{\addcolon\space}%
   \usebibmacro{issue}%
+  \setunit{\addcomma\space}%
+  \printfield{pubstate}%
   \newunit}
 \renewbibmacro*{volume+number+eid}{%
   \printfield{volume}%
@@ -3155,10 +3189,9 @@ This work is `maintained' (as per LPPL maintenance status) by [Alex Ball][me].
 %
 % \subsection{Reports}
 %
-% Compared with the standard styles, the main difference is that the type and
-% number are printed in parentheses after the publisher. The delimiter is either
-% a comma (normal) or a space (legal, triggered by using series instead of type).
-% House of Lords report numbers are written in parentheses.
+% Compared with the standard styles, the main differences are that we use a
+% special macro for printing the |type|, |series| and |number| in parentheses,
+% and we support the |library| field.
 %
 %    \begin{macrocode}
 \DeclareFieldFormat{forceparens}{(#1)}
@@ -3199,14 +3232,11 @@ This work is `maintained' (as per LPPL maintenance status) by [Alex Ball][me].
   \newunit\newblock
   \usebibmacro{byauthor}%
   \newunit\newblock
+  \usebibmacro{series+type+number}%
+  \newunit\newblock
   \printfield{note}%
   \newunit\newblock
   \usebibmacro{institution+location+date}%
-  \iffieldundef{series}{%
-    \setunit{\addcomma\space}%
-  }{%
-    \setunit{\addspace}}%
-  \usebibmacro{series+type+number}%
   \newunit\newblock
   \usebibmacro{chapter+pages}%
   \newunit
@@ -3260,6 +3290,13 @@ This work is `maintained' (as per LPPL maintenance status) by [Alex Ball][me].
   \printfield{type}%
 }{%
   \usebibmacro{manual:series+type+number}%
+}{}{}
+\xpatchbibdriver{manual}{%
+  \printlist{organization}%
+  \newunit
+  \usebibmacro{publisher+location+date}%
+}{%
+  \usebibmacro{organization+location+date}%
 }{}{}
 
 %    \end{macrocode}
@@ -3608,7 +3645,10 @@ This work is `maintained' (as per LPPL maintenance status) by [Alex Ball][me].
     \clearfield{number}%
     \printunit{\addcomma\space}%
   }{%
-    \setunit{\addcomma\space}%
+    \newunit\newblock
+    \iffieldundef{journaltitle}{%
+      \usebibmacro{series+type+number}}{}%
+    \newunit\newblock
   }%
   \printfield{note}%
   \iffieldundef{series}{%
@@ -3622,8 +3662,6 @@ This work is `maintained' (as per LPPL maintenance status) by [Alex Ball][me].
   }
   \newunit\newblock
   \usebibmacro{institution+location+date}%
-  \setunit{\addspace}%
-  \usebibmacro{series+type+number}%
   \newunit\newblock
   \printfield{pagetotal}%
   \newunit\newblock
@@ -3813,6 +3851,62 @@ This work is `maintained' (as per LPPL maintenance status) by [Alex Ball][me].
 
 %    \end{macrocode}
 %
+% \subsection{Unpublished}
+%
+% This driver is used for miscellaneous unpublished written material. It differs
+% from the standard version by supporting |maintitle| and |booktitle|, and
+% including a label at the end. The unpublished label is delegated to a macro
+% in case future versions of the style place conditions on whether it is displayed.
+%
+%    \begin{macrocode}
+\newbibmacro*{isunpublished}{%
+  \bibstring{unpublished}%
+}
+\DeclareBibliographyDriver{unpublished}{%
+  \usebibmacro{bibindex}%
+  \usebibmacro{begentry}%
+  \usebibmacro{author}%
+  \setunit{\printdelim{nametitledelim}}\newblock
+  \usebibmacro{title}%
+  \newunit
+  \printlist{language}%
+  \newunit\newblock
+  \usebibmacro{byauthor}%
+  \newunit\newblock
+  \ifnameundef{editor}{}{\usebibmacro{in:}}%
+  \usebibmacro{bookeditor}%
+  \newunit\newblock
+  \usebibmacro{maintitle+booktitle}%
+  \usebibmacro{byeditor+others}%
+  \newunit\newblock
+  \printfield{howpublished}%
+  \newunit\newblock
+  \printfield{type}%
+  \newunit\newblock
+  \usebibmacro{event+venue+date}%
+  \newunit\newblock
+  \printfield{note}%
+  \newunit\newblock
+  \usebibmacro{location+date}%
+  \newunit\newblock
+  \usebibmacro{isunpublished}%
+  \newunit\newblock
+  \iftoggle{bbx:url}
+    {\usebibmacro{url+urldate}}
+    {}%
+  \newunit\newblock
+  \usebibmacro{addendum+pubstate}%
+  \setunit{\bibpagerefpunct}\newblock
+  \usebibmacro{pageref}%
+  \newunit\newblock
+  \iftoggle{bbx:related}
+    {\usebibmacro{related:init}%
+     \usebibmacro{related}}
+    {}%
+  \usebibmacro{finentry}}
+
+%    \end{macrocode}
+%
 % \subsection{Aliases}
 %
 % We define some handy semantic aliases.
@@ -3850,8 +3944,11 @@ This work is `maintained' (as per LPPL maintenance status) by [Alex Ball][me].
 \InheritBibliographyExtras{english}
 \DeclareBibliographyStrings
 {inherit          = {english}
-,urlseen          = {{Accessed}{Accessed}}
+,editors          = {{editors}{eds}}
 ,version          = {{version~}{v\adddot}}
+,inpreparation    = {{preprint}{preprint}}
+,submitted        = {{preprint}{preprint}}
+,urlseen          = {{Accessed}{Accessed}}
 ,january          = {{January}{January}}
 ,february         = {{February}{February}}
 ,march            = {{March}{March}}
@@ -3878,6 +3975,7 @@ This work is `maintained' (as per LPPL maintenance status) by [Alex Ball][me].
 ,online           = {{Online}{Online}}
 ,hours            = {{hours}{hrs\adddot}}
 ,at               = {{at}{at}}
+,unpublished      = {{unpublished}{unpublished}}
 ,legalchapter     = {{chapter}{c\adddot}}
 ,director         = {{director}{dir\adddot}}
 ,directors        = {{directors}{dir\adddot}}
