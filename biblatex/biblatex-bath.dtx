@@ -1836,7 +1836,7 @@ years in \texttt{series} and the HL and HC numbers in \texttt{number}.
   title = {Council {Regulation} ({EC}) 1984/2003 of 8 {April} 2003 Introducing a System for
     the Statistical Monitoring of Trade in Bluefin Tuna, Swordfish and Big Eye Tuna within
     the {Community}},
-  shorttitle = {Council {Regulation} ({EC}) 1984/2003},
+  shorttitle = {Council {Regulation} \parentext{EC} 1984/2003},
   year = {2003},
   journal = {OJ},
   series = {L},
@@ -2283,8 +2283,8 @@ This work is `maintained' (as per LPPL maintenance status) by [Alex Ball][me].
   {\setunit{\addspace}%
     \printtext[parens]{%
     \printnames[#1]{translator}%
-    \newunit
-    \bibstring{translator}%
+    \setunit{\addcomma\space}%
+    \bibcpstring{translator}%
     \clearname{translator}}}}
 
 \renewbibmacro*{byeditor+others}[1][byeditor]{%
@@ -2310,8 +2310,8 @@ This work is `maintained' (as per LPPL maintenance status) by [Alex Ball][me].
   {\setunit{\addspace}%
     \printtext[parens]{%
     \printnames[bytranslator]{translator}%
-    \newunit
-    \bibstring{translator}%
+    \setunit{\addcomma\space}%
+    \bibcpstring{translator}%
     \clearname{translator}%
     \newunit
     \usebibmacro{withothers}}}}
