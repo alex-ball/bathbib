@@ -5,6 +5,10 @@ This package provides a [biblatex] style to format reference lists in the
 
 ## Installation
 
+The files you need are included in the zip archive available from [GitHub].
+If you use the zip archive from [CTAN], you will need to run `luatex
+biblatex-bath.dtx` to generate them.
+
 You can use this style simply by copying all the `.bbx`, `.cbx`, `.dbx` and
 `.lbx` files into your working directory, that is, the directory holding the
 main `.tex` file for your document. If you want the style to be available for
@@ -31,6 +35,8 @@ UNIX-like systems:
       - `biblatex-bath.bib`
       - `biblatex-bath.ins`
   * Running `make` generates the above files and also `biblatex-bath.pdf`.
+    Ensure you have (at least) the [luatexja], [adobemapping] and [ipaex]
+    packages installed first.
   * Running `make inst` installs the files in the user's TeX tree.
     You can undo this with `make uninst`.
   * Running `make install` installs the files in the local TeX tree.
@@ -38,9 +44,9 @@ UNIX-like systems:
 
 ### Manual way
 
-You only need to follow the first two steps if you have made your own
-changes to the .dtx file. The compiled files you need are included in
-the zip archive.
+You do not need to follow the first step if you downloaded the zip archive from
+[GitHub]. You do not need to follow the second step if you already have the PDF
+documentation.
 
  1. Run `luatex biblatex-bath.dtx` to generate the source files.
 
@@ -80,6 +86,8 @@ the zip archive.
 
 [bath-harvard]: https://library.bath.ac.uk/referencing/harvard-bath
 [biblatex]: http://ctan.org/pkg/biblatex
+[GitHub]: https://github.com/alex-ball/bathbib/releases
+[CTAN]: http://ctan.org/pkg/biblatex-bath
 [LuaLaTeX]: http://ctan.org/pkg/lualatex-doc
 [Biber]: http://ctan.org/pkg/biber
 [luatexja]: http://ctan.org/pkg/luatexja
