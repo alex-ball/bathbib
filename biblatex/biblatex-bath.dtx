@@ -2065,7 +2065,13 @@ This work is `maintained' (as per LPPL maintenance status) by [Alex Ball][me].
 % American English. Adapted language files have the following suffix:
 %
 %    \begin{macrocode}
-\DeclareLanguageMappingSuffix{-bath}
+\RequirePackage{etoolbox}
+\ifcsdef{DeclareLanguageMappingSuffix}{%
+  \DeclareLanguageMappingSuffix{-bath}
+}{%
+  \DeclareLanguageMapping{english}{english-bath}
+  \DeclareLanguageMapping{british}{british-bath}
+}
 %    \end{macrocode}
 %
 % We begin by loading the default author--year style.
@@ -2095,6 +2101,29 @@ This work is `maintained' (as per LPPL maintenance status) by [Alex Ball][me].
 %    \begin{macrocode}
 \setlength{\bibitemsep}{1em plus 0.2em minus 0.2em}
 \renewcommand*{\bibfont}{\normalfont\normalsize}
+%    \end{macrocode}
+%
+% To maintain compatibility with \textsf{biblatex} 3.7 (used on Overleaf at the
+% time of writing) we backport some newer features.
+%
+%    \begin{macrocode}
+\ifcsdef{letbibmacro}{}{%
+  \def\letbibmacro#1#2{%
+    \ifcsundef{abx@macro@#2}
+      {\blx@error
+        {Bibliography macro '#2' undefined}
+        {Use '\string\newbibmacro' to define this macro}}
+      {\csletcs{abx@macro@#1}{abx@macro@#2}}}
+}
+\ifcsdef{iflabeldateisdate}{}{%
+  \def\iflabeldateisdate{%
+    \ifboolexpr{%
+      togl {blx@labeldateparts}
+      and not test {\iffieldundef{labeldatesource}}
+      and
+      (test {\iffieldequalstr{labeldatesource}{}}
+      or test {\iffieldequalstr{labeldatesource}{year}})}}%
+}
 
 %    \end{macrocode}
 %
@@ -2669,7 +2698,7 @@ This work is `maintained' (as per LPPL maintenance status) by [Alex Ball][me].
   'true' (=compact)%
 }{%
   'year', 'true' (=year)%
-}{}{}
+}{}{\wlog{WARNING: biblatex-bath failed to patch KV@blx@opt@pre@datemerge}}
 \DeclareTypeOption[boolean]{mergedate}[true]{%
   \ifcsdef{bbx@opt@mergedate@#1}{%
     \csuse{bbx@opt@mergedate@#1}%
@@ -2694,12 +2723,12 @@ This work is `maintained' (as per LPPL maintenance status) by [Alex Ball][me].
     togl {bbx:nonodate}
     and
     not test {\iflabeldateisdate}}%
-}{}{}
+}{}{\wlog{WARNING: biblatex-bath failed to patch bbx@opt@mergedate@maximum}}
 \xpatchcmd{\bbx@opt@mergedate@maximum}{%
   \printtext[parens]%
 }{%
   \printtext[datelabel]%
-}{}{}
+}{}{\wlog{WARNING: biblatex-bath failed to patch bbx@opt@mergedate@maximum}}
 \xpatchcmd{\bbx@opt@mergedate@compact}{%
   \iffieldundef{labelyear}%
 }{%
@@ -2707,12 +2736,12 @@ This work is `maintained' (as per LPPL maintenance status) by [Alex Ball][me].
     togl {bbx:nonodate}
     and
     not test {\iflabeldateisdate}}%
-}{}{}
+}{}{\wlog{WARNING: biblatex-bath failed to patch bbx@opt@mergedate@compact}}
 \xpatchcmd{\bbx@opt@mergedate@compact}{%
   \printtext[parens]%
 }{%
   \printtext[datelabel]%
-}{}{}
+}{}{\wlog{WARNING: biblatex-bath failed to patch bbx@opt@mergedate@compact}}
 \xpatchcmd{\bbx@opt@mergedate@basic}{%
   \iffieldundef{labelyear}%
 }{%
@@ -2720,12 +2749,12 @@ This work is `maintained' (as per LPPL maintenance status) by [Alex Ball][me].
     togl {bbx:nonodate}
     and
     not test {\iflabeldateisdate}}%
-}{}{}
+}{}{\wlog{WARNING: biblatex-bath failed to patch bbx@opt@mergedate@basic}}
 \xpatchcmd{\bbx@opt@mergedate@basic}{%
   \printtext[parens]%
 }{%
   \printtext[datelabel]%
-}{}{}
+}{}{\wlog{WARNING: biblatex-bath failed to patch bbx@opt@mergedate@basic}}
 \xpatchcmd{\bbx@opt@mergedate@minimum}{%
   \iffieldundef{labelyear}%
 }{%
@@ -2733,12 +2762,12 @@ This work is `maintained' (as per LPPL maintenance status) by [Alex Ball][me].
     togl {bbx:nonodate}
     and
     not test {\iflabeldateisdate}}%
-}{}{}
+}{}{\wlog{WARNING: biblatex-bath failed to patch bbx@opt@mergedate@minimum}}
 \xpatchcmd{\bbx@opt@mergedate@minimum}{%
   \printtext[parens]%
 }{%
   \printtext[datelabel]%
-}{}{}
+}{}{\wlog{WARNING: biblatex-bath failed to patch bbx@opt@mergedate@minimum}}
 \xpatchcmd{\bbx@opt@mergedate@false}{%
   \iffieldundef{labelyear}%
 }{%
@@ -2746,11 +2775,29 @@ This work is `maintained' (as per LPPL maintenance status) by [Alex Ball][me].
     togl {bbx:nonodate}
     and
     not test {\iflabeldateisdate}}%
-}{}{}
+}{}{\wlog{WARNING: biblatex-bath failed to patch bbx@opt@mergedate@false}}
 \xpatchcmd{\bbx@opt@mergedate@false}{%
   \printtext[parens]%
 }{%
   \printtext[datelabel]%
+}{}{\wlog{WARNING: biblatex-bath failed to patch bbx@opt@mergedate@false}}
+%    \end{macrocode}
+%
+% If biblatex 3.7 is used, we update the logic for
+% |\bbx@opt@mergedate@maximum|, which is used by the |letter| driver.
+%
+%    \begin{macrocode}
+\xpatchcmd{\bbx@opt@mergedate@maximum}{%
+  \iffieldsequal{year}{labelyear}
+    {\printlabeldateextra}%
+    {\printfield{labelyear}%
+    \printfield{extrayear}}%
+}{%
+  \iflabeldateisdate
+    {\printfield{issue}%
+    \setunit*{\addspace}%
+    \printdateextra}
+    {\printlabeldateextra}%
 }{}{}
 
 %    \end{macrocode}
@@ -2774,6 +2821,9 @@ This work is `maintained' (as per LPPL maintenance status) by [Alex Ball][me].
       \iflabeldateisdate{%
         \clearfield{year}%
       }{}}}
+  \ifcsundef{abx@macro@date+extrayear}{}{%
+    \renewbibmacro*{date+extrayear}{\usebibmacro{date+extradate}}%
+  }
   \renewbibmacro*{issue+date}{%
     \ifboolexpr{
       test {\iffieldundef{issue}}
@@ -2883,22 +2933,50 @@ This work is `maintained' (as per LPPL maintenance status) by [Alex Ball][me].
   \iffieldundef{#2year} {\blx@nounit}%
 }{%
   \iffieldundef{#2year} {\mknoyeardaterangefull{#1}{#2}}%
-}{}{\wlog{WARNING: biblatex-bath failed to patch mkdaterangefull}}
+}{\@tempswafalse}{\@tempswatrue}%
+\if@tempswa
+  \xpatchcmd{\mkdaterangefull}{%
+    \iffieldundef{#2year} {}%
+  }{%
+    \iffieldundef{#2year} {\mknoyeardaterangefull{#1}{#2}}%
+  }{}{\wlog{WARNING: biblatex-bath failed to patch mkdaterangefull}}%
+\fi
 \xpatchcmd{\mkdaterangetrunc}{%
   \iffieldundef{#2year} {\blx@nounit}%
 }{%
   \iffieldundef{#2year} {\mknoyeardaterangetrunc{#1}{#2}}%
-}{}{\wlog{WARNING: biblatex-bath failed to patch mkdaterangetrunc}}
+}{\@tempswafalse}{\@tempswatrue}%
+\if@tempswa
+  \xpatchcmd{\mkdaterangetrunc}{%
+    \iffieldundef{#2year} {}%
+  }{%
+    \iffieldundef{#2year} {\mknoyeardaterangetrunc{#1}{#2}}%
+  }{}{\wlog{WARNING: biblatex-bath failed to patch mkdaterangetrunc}}%
+\fi
 \xpatchcmd{\mkdaterangefullextra}{%
   \iffieldundef{#2year} {\blx@nounit}%
 }{%
   \iffieldundef{#2year} {\mknoyeardaterangefull{#1}{#2}}%
-}{}{\wlog{WARNING: biblatex-bath failed to patch mkdaterangefullextra}}
+}{\@tempswafalse}{\@tempswatrue}%
+\if@tempswa
+  \xpatchcmd{\mkdaterangefullextra}{%
+    \iffieldundef{#2year} {}%
+  }{%
+    \iffieldundef{#2year} {\mknoyeardaterangefull{#1}{#2}}%
+  }{}{\wlog{WARNING: biblatex-bath failed to patch mkdaterangefullextra}}%
+\fi
 \xpatchcmd{\mkdaterangetruncextra}{%
   \iffieldundef{#2year} {\blx@nounit}%
 }{%
   \iffieldundef{#2year} {\mknoyeardaterangetrunc{#1}{#2}}%
-}{}{\wlog{WARNING: biblatex-bath failed to patch mkdaterangetruncextra}}
+}{\@tempswafalse}{\@tempswatrue}%
+\if@tempswa
+  \xpatchcmd{\mkdaterangetruncextra}{%
+    \iffieldundef{#2year} {}%
+  }{%
+    \iffieldundef{#2year} {\mknoyeardaterangetrunc{#1}{#2}}%
+  }{}{\wlog{WARNING: biblatex-bath failed to patch mkdaterangetruncextra}}%
+\fi
 
 %    \end{macrocode}
 %
@@ -3022,12 +3100,12 @@ This work is `maintained' (as per LPPL maintenance status) by [Alex Ball][me].
   \usebibmacro{in:}\usebibmacro{journal+issuetitle}%
 }{%
   \usebibmacro{journal+issuetitle}%
-}{}{}
+}{}{\wlog{WARNING: biblatex-bath failed to patch article driver}}
 \xpatchbibdriver{article}{%
   \usebibmacro{addendum+pubstate}%
 }{%
   \printfield{addendum}%
-}{}{}
+}{}{\wlog{WARNING: biblatex-bath failed to patch article driver}}
 %    \end{macrocode}
 %
 % The journal title is in sentence case rather than title case.
@@ -3037,12 +3115,12 @@ This work is `maintained' (as per LPPL maintenance status) by [Alex Ball][me].
   \printfield[titlecase]{journaltitle}%
 }{%
   \printfield[sentencecase]{journaltitle}%
-}{}{}
+}{}{\wlog{WARNING: biblatex-bath failed to patch journal macro}}
 \xpatchbibmacro{journal}{%
   \printfield[titlecase]{journalsubtitle}%
 }{%
   \printfield[sentencecase]{journalsubtitle}%
-}{}{}
+}{}{\wlog{WARNING: biblatex-bath failed to patch journal macro}}
 %    \end{macrocode}
 %
 % The journal title is followed by a comma. The issue number is separated from
@@ -3089,7 +3167,7 @@ This work is `maintained' (as per LPPL maintenance status) by [Alex Ball][me].
 }{%
   \setunit{\addcomma\space}%
   \usebibmacro{series+number}%
-}{}{}
+}{}{\wlog{WARNING: biblatex-bath failed to patch book driver}}
 
 \xpatchbibdriver{collection}{%
   \newunit\newblock
@@ -3097,7 +3175,7 @@ This work is `maintained' (as per LPPL maintenance status) by [Alex Ball][me].
 }{%
   \setunit{\addcomma\space}%
   \usebibmacro{series+number}%
-}{}{}
+}{}{\wlog{WARNING: biblatex-bath failed to patch collection driver}}
 
 \xpatchbibdriver{inbook}{%
   \newunit\newblock
@@ -3105,7 +3183,7 @@ This work is `maintained' (as per LPPL maintenance status) by [Alex Ball][me].
 }{%
   \setunit{\addcomma\space}%
   \usebibmacro{series+number}%
-}{}{}
+}{}{\wlog{WARNING: biblatex-bath failed to patch inbook driver}}
 
 \xpatchbibdriver{incollection}{%
   \newunit\newblock
@@ -3113,7 +3191,7 @@ This work is `maintained' (as per LPPL maintenance status) by [Alex Ball][me].
 }{%
   \setunit{\addcomma\space}%
   \usebibmacro{series+number}%
-}{}{}
+}{}{\wlog{WARNING: biblatex-bath failed to patch incollection driver}}
 
 \xpatchbibdriver{inproceedings}{%
   \newunit\newblock
@@ -3121,7 +3199,7 @@ This work is `maintained' (as per LPPL maintenance status) by [Alex Ball][me].
 }{%
   \setunit{\addcomma\space}%
   \usebibmacro{series+number}%
-}{}{}
+}{}{\wlog{WARNING: biblatex-bath failed to patch inproceedings driver}}
 
 \xpatchbibdriver{proceedings}{%
   \newunit\newblock
@@ -3129,7 +3207,7 @@ This work is `maintained' (as per LPPL maintenance status) by [Alex Ball][me].
 }{%
   \setunit{\addcomma\space}%
   \usebibmacro{series+number}%
-}{}{}
+}{}{\wlog{WARNING: biblatex-bath failed to patch proceedings driver}}
 
 %    \end{macrocode}
 %
@@ -3150,7 +3228,7 @@ This work is `maintained' (as per LPPL maintenance status) by [Alex Ball][me].
   \newunit\newblock
   \usebibmacro{maintitle+booktitle}%
   \usebibmacro{byeditor+others}%
-}{}{}
+}{}{\wlog{WARNING: biblatex-bath failed to patch incollection driver}}
 
 \xpatchbibdriver{inproceedings}{%
   \usebibmacro{in:}%
@@ -3167,7 +3245,7 @@ This work is `maintained' (as per LPPL maintenance status) by [Alex Ball][me].
   \usebibmacro{byeditor+others}%
   \newunit
   \usebibmacro{event+venue+date}%
-}{}{}
+}{}{\wlog{WARNING: biblatex-bath failed to patch inproceedings driver}}
 
 %    \end{macrocode}
 %
@@ -3183,7 +3261,7 @@ This work is `maintained' (as per LPPL maintenance status) by [Alex Ball][me].
   \usebibmacro{library}%
   \newunit\newblock
   \usebibmacro{organization+location+date}%
-}{}{}
+}{}{\wlog{WARNING: biblatex-bath failed to patch online driver}}
 
 %    \end{macrocode}
 %
@@ -3290,14 +3368,14 @@ This work is `maintained' (as per LPPL maintenance status) by [Alex Ball][me].
   \printfield{type}%
 }{%
   \usebibmacro{manual:series+type+number}%
-}{}{}
+}{}{\wlog{WARNING: biblatex-bath failed to patch manual driver}}
 \xpatchbibdriver{manual}{%
   \printlist{organization}%
   \newunit
   \usebibmacro{publisher+location+date}%
 }{%
   \usebibmacro{organization+location+date}%
-}{}{}
+}{}{\wlog{WARNING: biblatex-bath failed to patch manual driver}}
 
 %    \end{macrocode}
 %
@@ -4077,7 +4155,7 @@ This work is `maintained' (as per LPPL maintenance status) by [Alex Ball][me].
     togl {bbx:nonodate}
     and
     not test {\iflabeldateisdate}}%
-}{}{}
+}{}{\wlog{WARNING: biblatex-bath failed to patch cite:labeldate+extradate}}
 %    \end{macrocode}
 %
 % We activate the label-is-title toggle if the |labeltitle| is printed.
@@ -4089,7 +4167,7 @@ This work is `maintained' (as per LPPL maintenance status) by [Alex Ball][me].
 }{%
   \printtext[bibhyperref]{\printfield[citetitle]{labeltitle}}%
   \toggletrue{bbx:labelistitle}%
-}{}{}
+}{}{\wlog{WARNING: biblatex-bath failed to patch cite:label}}
 %    \end{macrocode}
 % \iffalse
 %</cbx>
