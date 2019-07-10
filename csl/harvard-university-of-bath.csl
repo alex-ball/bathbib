@@ -19,7 +19,7 @@
     <category citation-format="author-date"/>
     <category field="generic-base"/>
     <summary>Adaptation of Harvard referencing style used at the University of Bath.</summary>
-    <updated>2019-02-06T18:40:00+00:00</updated>
+    <updated>2019-07-10T17:00:00+00:00</updated>
     <rights license="http://creativecommons.org/licenses/by-sa/3.0/">This work is licensed under a Creative Commons Attribution-ShareAlike 3.0 License</rights>
   </info>
   <locale xml:lang="en">
@@ -94,7 +94,7 @@
   <macro name="archive">
     <choose>
       <if type="graphic">
-        <text variable="archive-place" prefix="At: " suffix=". " />
+        <text variable="archive-place" prefix="At: " suffix=". "/>
         <text variable="archive"/>
       </if>
       <else>
@@ -366,7 +366,7 @@
                   </if>
                   <else>
                     <text variable="collection-title"/>
-                    <group delimiter="–">
+                    <group delimiter="&#8211;">
                       <text variable="volume"/>
                       <text variable="page"/>
                     </group>
@@ -527,7 +527,7 @@
           <group prefix=" " delimiter=" ">
             <choose>
               <if variable="editor">
-                <text term="in" text-case="capitalize-first" suffix=":"/>
+                <text term="in" text-case="capitalize-first" suffix=": "/>
                 <text macro="editor" suffix="."/>
               </if>
             </choose>

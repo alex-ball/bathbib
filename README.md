@@ -63,9 +63,11 @@ for CSL styles.
     followed by a comma, while a type is typically singular and followed by a
     space.
 
-  - Record a standard as a `report`, with the identifier as a corporate
-    (`literal`) author. Separate the year out into `year`. The result is not
-    quite right but it's close.
+  - Record a standard as a `report`, with the identifier included at the
+    beginning of the `title`.
+
+  - For unpublished materials, use the closest applicable entry type and put
+    ‘Unpublished’ under `annote`.
 
   - With a `graphic`, you can specify `archive` and `archive-place`, as in the
     Bowden bicycle example.
