@@ -3044,8 +3044,7 @@ FUNCTION {continue.clause}
 %
 %    \begin{macrocode}
 FUNCTION {date.block}
-{
-  new.block
+{ new.block
 }
 %    \end{macrocode}
 %
@@ -3060,13 +3059,11 @@ FUNCTION {date.block}
 FUNCTION {bibinfo.check}
 { swap$
   duplicate$ missing$
-    {
-      pop$ pop$
+    { pop$ pop$
       ""
     }
     { duplicate$ empty$
-        {
-          swap$ pop$
+        { swap$ pop$
         }
         { swap$
           "\bibinfo{" swap$ * "}{" * swap$ * "}" *
@@ -3078,13 +3075,11 @@ FUNCTION {bibinfo.check}
 FUNCTION {bibinfo.warn}
 { swap$
   duplicate$ missing$
-    {
-      swap$ "missing " swap$ * " in " * cite$ * warning$ pop$
+    { swap$ "missing " swap$ * " in " * cite$ * warning$ pop$
       ""
     }
     { duplicate$ empty$
-        {
-          swap$ "empty " swap$ * " in " * cite$ * warning$
+        { swap$ "empty " swap$ * " in " * cite$ * warning$
         }
         { swap$
           "\bibinfo{" swap$ * "}{" * swap$ * "}" *
@@ -3402,46 +3397,44 @@ INTEGERS { nameptr namesleft numnames }
 STRINGS  { bibinfo }
 FUNCTION {format.names}
 { 'bibinfo :=
-  duplicate$ empty$ 'skip$ {
-  's :=
-  "" 't :=
-  #1 'nameptr :=
-  s num.names$ 'numnames :=
-  numnames 'namesleft :=
-    { namesleft #0 > }
-    { s nameptr
-      "{ll}{, jj}{, f{.}.}{~vv}"
-      format.name$
-      bibinfo bibinfo.check
-      't :=
-      nameptr #1 >
-        {
-          namesleft #1 >
-            { ", " * t * }
-            {
-              s nameptr "{ll}" format.name$ duplicate$ "others" =
-                { 't := }
-                { pop$ }
-              if$
-              t "others" =
-                {
-                  " " * bbl.etal *
-                }
-                {
-                  bbl.and
-                  space.word * t *
+  duplicate$ empty$
+    'skip$
+    { 's :=
+      "" 't :=
+      #1 'nameptr :=
+      s num.names$ 'numnames :=
+      numnames 'namesleft :=
+        { namesleft #0 > }
+        { s nameptr
+          "{ll}{, jj}{, f{.}.}{~vv}"
+          format.name$
+          bibinfo bibinfo.check
+          't :=
+          nameptr #1 >
+            { namesleft #1 >
+                { ", " * t * }
+                { s nameptr "{ll}" format.name$ duplicate$ "others" =
+                    { 't := }
+                    { pop$ }
+                  if$
+                  t "others" =
+                    { " " * bbl.etal *
+                    }
+                    { bbl.and
+                      space.word * t *
+                    }
+                  if$
                 }
               if$
             }
+            't
           if$
+          nameptr #1 + 'nameptr :=
+          namesleft #1 - 'namesleft :=
         }
-        't
-      if$
-      nameptr #1 + 'nameptr :=
-      namesleft #1 - 'namesleft :=
+      while$
     }
-  while$
-  } if$
+  if$
 }
 %    \end{macrocode}
 %
@@ -3451,47 +3444,44 @@ FUNCTION {format.names}
 %    \begin{macrocode}
 FUNCTION {format.names.ed}
 { 'bibinfo :=
-  duplicate$ empty$ 'skip$ {
-  's :=
-  "" 't :=
-  #1 'nameptr :=
-  s num.names$ 'numnames :=
-  numnames 'namesleft :=
-    { namesleft #0 > }
-    { s nameptr
-      "{f{.}.~}{vv~}{ll}{ jj}"
-      format.name$
-      bibinfo bibinfo.check
-      't :=
-      nameptr #1 >
-        {
-          namesleft #1 >
-            { ", " * t * }
-            {
-              s nameptr "{ll}" format.name$ duplicate$ "others" =
-                { 't := }
-                { pop$ }
-              if$
-              t "others" =
-                {
-
-                  " " * bbl.etal *
-                }
-                {
-                  bbl.and
-                  space.word * t *
+  duplicate$ empty$
+    'skip$
+    { 's :=
+      "" 't :=
+      #1 'nameptr :=
+      s num.names$ 'numnames :=
+      numnames 'namesleft :=
+        { namesleft #0 > }
+        { s nameptr
+          "{f{.}.~}{vv~}{ll}{ jj}"
+          format.name$
+          bibinfo bibinfo.check
+          't :=
+          nameptr #1 >
+            { namesleft #1 >
+                { ", " * t * }
+                { s nameptr "{ll}" format.name$ duplicate$ "others" =
+                    { 't := }
+                    { pop$ }
+                  if$
+                  t "others" =
+                    { " " * bbl.etal *
+                    }
+                    { bbl.and
+                      space.word * t *
+                    }
+                  if$
                 }
               if$
             }
+            't
           if$
+          nameptr #1 + 'nameptr :=
+          namesleft #1 - 'namesleft :=
         }
-        't
-      if$
-      nameptr #1 + 'nameptr :=
-      namesleft #1 - 'namesleft :=
+      while$
     }
-  while$
-  } if$
+  if$
 }
 %    \end{macrocode}
 %
@@ -3511,8 +3501,7 @@ FUNCTION {get.bbl.editor}
 { editor num.names$ #1 > 'bbl.editors 'bbl.editor if$ }
 FUNCTION {format.editors}
 { editor "editor" format.names duplicate$ empty$ 'skip$
-    {
-      "," *
+    { "," *
       " " *
       get.bbl.editor
       *
@@ -3527,8 +3516,7 @@ FUNCTION {format.editors}
 %    \begin{macrocode}
 FUNCTION {format.translators}
 { translator "translator" format.names.ed duplicate$ empty$ 'skip$
-    {
-      "," *
+    { "," *
       " " *
       bbl.translator *
       "(" swap$ *
@@ -3554,20 +3542,16 @@ FUNCTION {format.full.names}
       "{vv~}{ll}" format.name$
       't :=
       nameptr #1 >
-        {
-          namesleft #1 >
+        { namesleft #1 >
             { ", " * t * }
-            {
-              s nameptr "{ll}" format.name$ duplicate$ "others" =
+            { s nameptr "{ll}" format.name$ duplicate$ "others" =
                 { 't := }
                 { pop$ }
               if$
               t "others" =
-                {
-                  " " * bbl.etal *
+                { " " * bbl.etal *
                 }
-                {
-                  bbl.and
+                { bbl.and
                   space.word * t *
                 }
               if$
@@ -3741,8 +3725,7 @@ FUNCTION {format.btitle}
   if$
   "title" bibinfo.check
   duplicate$ empty$ 'skip$
-    {
-      emphasize
+    { emphasize
       select.language
     }
   if$
@@ -3830,10 +3813,8 @@ FUNCTION {format.booktitle}
 %    \begin{macrocode}
 FUNCTION {format.in.ed.booktitle}
 { format.booktitle duplicate$ empty$ 'skip$
-    {
-      editor "editor" format.names.ed duplicate$ empty$ 'pop$
-        {
-          "," *
+    { editor "editor" format.names.ed duplicate$ empty$ 'pop$
+        { "," *
           " " *
           get.bbl.editor add.period$
           " " *
@@ -4072,8 +4053,7 @@ FUNCTION {convert.edition}
 %    \begin{macrocode}
 FUNCTION {format.edition}
 { edition duplicate$ empty$ 'skip$
-    {
-      convert.edition
+    { convert.edition
       output.state mid.sentence =
         { "l" }
         { "t" }
@@ -4126,8 +4106,7 @@ FUNCTION {format.booklet.type}
 %
 %    \begin{macrocode}
 FUNCTION {add.cmd.number}
-{
-  ". " swap$ "number" bibinfo.check *
+{ ". " swap$ "number" bibinfo.check *
 }
 FUNCTION {format.legr.number}
 { series field.or.null 's :=
@@ -4276,29 +4255,68 @@ FUNCTION {format.chapter}
 }
 %    \end{macrocode}
 %
-% |format.series.chapter.number| prints out the series and chapter/number fields
+% |format.series.number.chapter| prints out the series and chapter/number fields
 % in the form `(series, c.1)' or `(series, number)', for use with UK legislation.
 %
 %    \begin{macrocode}
-FUNCTION {format.series.chapter.number}
+FUNCTION {format.series.number.chapter}
 { series duplicate$ empty$
-    { pop$ "" }
+    { pop$ "(" }
     { "series" bibinfo.check
       "(" swap$ *
-      chapter duplicate$ empty$
-        'pop$
-        { "chapter" bibinfo.check
-          ", c." swap$ * *
-        }
-      if$
+    }
+  if$
+  type duplicate$ empty$
+    { pop$
       number duplicate$ empty$
         'pop$
         { "number" bibinfo.check
-          ", " swap$ * *
+          swap$ duplicate$ "(" =
+            { swap$ * }
+            { ", " * swap$ * }
+          if$
         }
       if$
-      ")" *
+      chapter duplicate$ empty$
+        'pop$
+        { "chapter" bibinfo.check
+          swap$ duplicate$ "(" =
+            { swap$ * }
+            { ", c." * swap$ * }
+          if$
+        }
+      if$
     }
+    { "type" bibinfo.check
+      swap$ duplicate$ "(" =
+        { swap$ * }
+        { ", " * swap$ * }
+      if$
+      number duplicate$ empty$
+        { pop$
+          chapter duplicate$ empty$
+            'pop$
+            { "chapter" bibinfo.check
+              " c." swap$ * *
+            }
+          if$
+        }
+        { "number" bibinfo.check
+          " " swap$ * *
+          chapter duplicate$ empty$
+            'pop$
+            { "chapter" bibinfo.check
+              ", c." swap$ * *
+            }
+          if$
+        }
+      if$
+    }
+  if$
+  ")" *
+  duplicate$ "()" =
+    { pop$ "" }
+    'skip$
   if$
 }
 %    \end{macrocode}
@@ -4398,8 +4416,7 @@ FUNCTION {format.org.or.pub}
   ""
   address empty$ t empty$ and
     'skip$
-    {
-      address "address" bibinfo.check *
+    { address "address" bibinfo.check *
       t empty$
         'skip$
         { address empty$
@@ -4424,8 +4441,7 @@ FUNCTION {format.publisher.address}
 FUNCTION {format.organization.address}
 { publisher empty$
     { organization "organization" bibinfo.check format.org.or.pub }
-    {
-      publisher "publisher" bibinfo.warn format.org.or.pub
+    { publisher "publisher" bibinfo.warn format.org.or.pub
       organization duplicate$ empty$
         'pop$
         { "organization" bibinfo.check ". " * swap$ * }
@@ -4436,8 +4452,7 @@ FUNCTION {format.organization.address}
 FUNCTION {format.institution.address}
 { publisher empty$
     { institution "institution" bibinfo.check format.org.or.pub }
-    {
-      publisher "publisher" bibinfo.warn format.org.or.pub
+    { publisher "publisher" bibinfo.warn format.org.or.pub
       institution duplicate$ empty$
         'pop$
         { "institution" bibinfo.check ". " * swap$ * }
@@ -4568,8 +4583,7 @@ FUNCTION {multi.page.check}
 %
 %    \begin{macrocode}
 FUNCTION {n.dashify}
-{
-  't :=
+{ 't :=
   ""
     { t empty$ not }
     { t #1 #1 substring$ "-" =
@@ -4601,12 +4615,10 @@ FUNCTION {n.dashify}
 FUNCTION {format.pages}
 { pages duplicate$ empty$ 'skip$
     { duplicate$ multi.page.check
-        {
-          bbl.pages swap$
+        { bbl.pages swap$
           n.dashify
         }
-        {
-          bbl.page swap$
+        { bbl.page swap$
         }
       if$
       "pages" bibinfo.check
@@ -4624,8 +4636,7 @@ FUNCTION {format.journal.pages}
 { pages duplicate$ empty$ 'pop$
     { swap$ duplicate$ empty$
         { pop$ pop$ format.pages }
-        {
-          ", " *
+        { ", " *
           swap$
           n.dashify
           pages multi.page.check
@@ -4653,8 +4664,7 @@ FUNCTION {format.journal.eid}
 { eid "eid" bibinfo.check
   duplicate$ empty$ 'pop$
     { swap$ duplicate$ empty$ 'skip$
-      {
-          ", " *
+      { ", " *
       }
       if$
       swap$ *
@@ -4675,11 +4685,9 @@ FUNCTION {format.vol.num.pages}
 { pubstate field.or.null
   duplicate$ "inpress" =
     { pop$ bbl.inpress }
-    {
-      duplicate$ "submitted" =
+    { duplicate$ "submitted" =
         { pop$ bbl.submitted }
-        {
-          duplicate$ "inpreparation" =
+        { duplicate$ "inpreparation" =
             { pop$ bbl.inpreparation }
             { pop$ "" }
           if$
@@ -4688,17 +4696,14 @@ FUNCTION {format.vol.num.pages}
     }
   if$
   duplicate$ empty$
-    {
-      pop$
+    { pop$
       volume field.or.null
       duplicate$ empty$ 'skip$
-        {
-          "volume" bibinfo.check
+        { "volume" bibinfo.check
         }
       if$
       number "number" bibinfo.check duplicate$ empty$ 'skip$
-        {
-          swap$ duplicate$ empty$
+        { swap$ duplicate$ empty$
             { "there's a number but no volume in " cite$ * warning$ }
             'skip$
           if$
@@ -4763,11 +4768,9 @@ FUNCTION {format.journal.series.vol.pages}
       volume "volume" bibinfo.check *
       duplicate$ empty$
         'skip$
-        {
-          pages field.or.null duplicate$ empty$
+        { pages field.or.null duplicate$ empty$
             'skip$
-            {
-              "/" swap$ *
+            { "/" swap$ *
             }
           if$ *
         }
@@ -4860,13 +4863,11 @@ FUNCTION {format.url}
 %
 %    \begin{macrocode}
 FUNCTION {format.article.crossref}
-{
-  word.in
+{ word.in
   " \cite{" * crossref * "}" *
 }
 FUNCTION {format.incoll.inproc.crossref}
-{
-  word.in
+{ word.in
   " \cite{" * crossref * "}" *
 }
 %    \end{macrocode}
@@ -4910,8 +4911,7 @@ FUNCTION {article}
   get.title.addenda
   new.block
   crossref missing$
-    {
-      journal "t" change.case$
+    { journal "t" change.case$
       "journal" bibinfo.check
       emphasize
       "journal" output.check
@@ -4978,8 +4978,7 @@ FUNCTION {book}
     { new.sentence
       format.publisher.address output
     }
-    {
-      new.block
+    { new.block
       format.book.crossref output.nonnull
     }
   if$
@@ -5049,16 +5048,14 @@ FUNCTION {inbook}
   format.btitle "title" output.check
   get.title.addenda
   crossref missing$
-    {
-      format.publisher.address output
+    { format.publisher.address output
       format.bvolume output
       format.chapter.pages "chapter and pages" output.check
       new.block
       format.number.series output
       new.sentence
     }
-    {
-      format.chapter.pages "chapter and pages" output.check
+    { format.chapter.pages "chapter and pages" output.check
       new.block
       format.book.crossref output.nonnull
     }
@@ -5220,13 +5217,30 @@ FUNCTION {uklegislation}
   if$
   entrysubtype field.or.null "secondary" =
     { number "number" bibinfo.check output }
-    'skip$
+    { series empty$ type empty$ and
+        { number empty$
+            { format.chapter output }
+            { continue.clause
+              format.series.number.chapter output
+            }
+          if$
+        }
+        { chapter empty$
+            { new.block }
+            { continue.clause }
+          if$
+          format.series.number.chapter output
+        }
+      if$
+    }
   if$
-  series empty$
-    { format.chapter output }
+  note empty$
     'skip$
+    { new.block
+      format.note output
+      new.block
+    }
   if$
-  format.note output
   publisher empty$ 'skip$
     { entrysubtype field.or.null "secondary" =
         'skip$
@@ -5235,8 +5249,6 @@ FUNCTION {uklegislation}
       format.publisher.address output
     }
   if$
-  continue.clause
-  format.series.chapter.number output
   new.block
   format.eprint output
   format.url output
@@ -5550,8 +5562,8 @@ FUNCTION {unpublished}
 % Here are a list of aliases supported by this style.
 %
 %    \begin{macrocode}
-FUNCTION {letter} {
-  journal empty$
+FUNCTION {letter}
+{ journal empty$
     'unpublished
     'article
   if$
@@ -5631,8 +5643,7 @@ FUNCTION {format.lab.names}
       "{vv~}{ll}" format.name$
       't :=
       nameptr #1 >
-        {
-          nameptr #2 =
+        { nameptr #2 =
           numnames #3 > and
             { "others" 't :=
               #1 'namesleft := }
@@ -5640,17 +5651,14 @@ FUNCTION {format.lab.names}
           if$
           namesleft #1 >
             { ", " * t * }
-            {
-              s nameptr "{ll}" format.name$ duplicate$ "others" =
+            { s nameptr "{ll}" format.name$ duplicate$ "others" =
                 { 't := }
                 { pop$ }
               if$
               t "others" =
-                {
-                  " " * bbl.etal *
+                { " " * bbl.etal *
                 }
-                {
-                  bbl.and
+                { bbl.and
                   space.word * t *
                 }
               if$
@@ -5799,8 +5807,7 @@ FUNCTION {sort.format.names}
       "{ll{ }}{  f{ }}{  jj{ }}{ vv{}}"
       format.name$ 't :=
       nameptr #1 >
-        {
-          "   "  *
+        { "   "  *
           namesleft #1 =
           t "others" =
           and

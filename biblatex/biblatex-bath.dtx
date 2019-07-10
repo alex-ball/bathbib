@@ -3604,29 +3604,53 @@ This work is `maintained' (as per LPPL maintenance status) by [Alex Ball][me].
 %
 % \subsection{Legislation}
 %
-% Legislation is mostly formatted like a report, except there is no comma
-% between the publisher and the type\slash number (and no |nametitledelim| if
-% there is no |date+extradate|).
+% Legislation is mostly formatted like a report, except there is no
+% |nametitledelim| there is no |date+extradate|. There is also some variation
+% in how the series\slash number\slash chapter information is punctuated.
 %
 %    \begin{macrocode}
 \DeclareFieldFormat[legislation]{datelabel}{%
   \iftoggle{bbx:eu-oj}{%
     \mkbibbrackets{#1}%
-  }{%
-    #1}}
+  }{#1}}
 \DeclareFieldFormat[legislation]{labeldate}{%
-  \iftoggle{bbx:labelistitle}{\mkbibemph{#1}}{#1}}
+  \iftoggle{bbx:labelistitle}{\printtext[title]{#1}}{#1}}
 \DeclareFieldFormat[legislation]{chapter}{\biblcsstring{legalchapter}#1}
-\newbibmacro*{series+chapter}{%
-  \iffieldundef{chapter}{}{%
-    \iffieldundef{series}{%
-      \printfield{chapter}%
+\newbibmacro*{journal+series+volume+number+chapter+pages}{%
+  \iftoggle{bbx:eu-oj}{%
+    \setunit{\addspace}%
+    \usebibmacro{eu:journal+series+volume+pages}%
+  }{%
+    \iffieldequalstr{entrysubtype}{secondary}{%
+      \setunit{\addcomma\space}%
+      \printfield{number}%
+      \clearfield{number}%
+      \printunit{\addcomma\space}%
     }{%
-      \printtext[parens]{%
-        \printfield{series}%
-        \setunit{\addcomma\space}%
-        \printfield{chapter}}}%
-    \clearfield{series}}}
+      \ifboolexpr{
+        test {\iffieldundef{series}}
+        and
+        test {\iffieldundef{type}}
+      }{%
+        \iffieldundef{number}{%
+          \setunit{\addcomma\space}%
+          \printfield{chapter}%
+        }{%
+          \setunit{\addspace}%
+          \printtext[parens]{%
+            \printfield{number}%
+            \setunit*{\addcomma\space}%
+            \printfield{chapter}}}%
+      }{%
+        \iffieldundef{chapter}{}{\setunit{\addspace}}%
+        \printtext[parens]{%
+          \printfield{series}%
+          \setunit{\addcomma\space}%
+          \printfield{type}%
+          \setunit*{\addspace}%
+          \printfield{number}%
+          \setunit*{\addcomma\space}%
+          \printfield{chapter}}}}}}
 
 \DeclareBibliographyDriver{legislation}{%
   \usebibmacro{bibindex}%
@@ -3639,27 +3663,10 @@ This work is `maintained' (as per LPPL maintenance status) by [Alex Ball][me].
   \printlist{language}%
   \newunit\newblock
   \usebibmacro{byauthor}%
-  \iffieldequalstr{entrysubtype}{secondary}{%
-    \setunit{\addcomma\space}%
-    \printfield{number}%
-    \clearfield{number}%
-    \printunit{\addcomma\space}%
-  }{%
-    \newunit\newblock
-    \iffieldundef{journaltitle}{%
-      \usebibmacro{series+type+number}}{}%
-    \newunit\newblock
-  }%
+  \newunit\newblock
+  \usebibmacro{journal+series+volume+number+chapter+pages}
+  \newunit\newblock
   \printfield{note}%
-  \iffieldundef{series}{%
-    \setunit{\addcomma\space}%
-  }{%
-    \setunit{\addspace}}%
-  \iftoggle{bbx:eu-oj}{%
-    \usebibmacro{eu:journal+series+volume+pages}%
-  }{%
-    \usebibmacro{series+chapter}%
-  }
   \newunit\newblock
   \usebibmacro{institution+location+date}%
   \newunit\newblock
