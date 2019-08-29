@@ -2618,7 +2618,7 @@ This work is `maintained' (as per LPPL maintenance status) by [Alex Ball][me].
 %
 %    \begin{macrocode}
 \DeclareDelimFormat{nameyeardelim}{\addcomma\space}
-\DeclareDelimFormat[parencite,bib,biblist]{nameyeardelim}{\addcomma\space}
+\DeclareDelimFormat*[parencite,bib,biblist]{nameyeardelim}{\addcomma\space}
 \newcommand{\dononameyeardelim}{%
   \ifentrytype{legislation}{%
     \addspace
@@ -2644,7 +2644,7 @@ This work is `maintained' (as per LPPL maintenance status) by [Alex Ball][me].
     }{%
       \addcomma\space}}}
 \DeclareDelimFormat{nonameyeardelim}{\dononameyeardelim}
-\DeclareDelimFormat[bib,biblist]{nonameyeardelim}{\dononameyeardelim}
+\DeclareDelimFormat*[bib,biblist]{nonameyeardelim}{\dononameyeardelim}
 \DeclareDelimFormat[parencite]{nonameyeardelim}{%
   \ifboolexpr{
     test {\ifentrytype{jurisdiction}}
@@ -2669,7 +2669,7 @@ This work is `maintained' (as per LPPL maintenance status) by [Alex Ball][me].
     ) and
     togl {bbx:labelistitle}
   }{\addspace}{\addcomma\space}}
-\DeclareDelimFormat[bib,biblist]{nametitledelim}{%
+\DeclareDelimFormat*[bib,biblist]{nametitledelim}{%
   \ifboolexpr{
     (
       test {\ifentrytype{jurisdiction}}
@@ -2707,14 +2707,28 @@ This work is `maintained' (as per LPPL maintenance status) by [Alex Ball][me].
 }{%
   'year', 'true' (=year)%
 }{}{\wlog{WARNING: biblatex-bath failed to patch KV@blx@opt@pre@datemerge}}
-\DeclareTypeOption[boolean]{mergedate}[true]{%
-  \ifcsdef{bbx@opt@mergedate@#1}{%
-    \csuse{bbx@opt@mergedate@#1}%
+\ifdefined\KV@blx@opt@typ@mergedate
+  \xpatchcmd{\KV@blx@opt@typ@mergedate}{%
+    'true' (=compact)%
   }{%
-    \PackageError{biblatex}
-       {Invalid option 'mergedate=#1'}
-       {Valid values are 'maximum', 'compact', 'basic', 'minimum',\MessageBreak
-        'year', 'true' (=year), and 'false'.}}}
+    'year', 'true' (=year)%
+  }{}{\wlog{WARNING: biblatex-bath failed to patch KV@blx@opt@typ@datemerge}}
+\else
+  \DeclareTypeOption[boolean]{mergedate}[true]{%
+    \ifcsdef{bbx@opt@mergedate@#1}{%
+      \csuse{bbx@opt@mergedate@#1}%
+    }{%
+      \PackageError{biblatex}
+        {Invalid option 'mergedate=#1'}
+        {Valid values are 'maximum', 'compact', 'basic', 'minimum',\MessageBreak
+          'year', 'true' (=year), and 'false'.}}}
+\fi
+\xpatchcmd{\KV@blx@opt@ent@mergedate}{%
+  'true' (=compact)%
+}{%
+  'year', 'true' (=year)%
+}{}{\wlog{WARNING: biblatex-bath failed to patch KV@blx@opt@ent@datemerge}}
+
 %    \end{macrocode}
 %
 % We define a configurable field format for date labels to replace the
@@ -2949,7 +2963,7 @@ This work is `maintained' (as per LPPL maintenance status) by [Alex Ball][me].
     \iffieldundef{#2year} {\mknoyeardaterangefull{#1}{#2}}%
   }{}{\wlog{WARNING: biblatex-bath failed to patch mkdaterangefull}}%
 \fi
-\xpatchcmd{\mkdaterangetrunc}{%
+\xpatchcmd{\mkdaterangetrunc@i}{%
   \iffieldundef{#2year} {\blx@nounit}%
 }{%
   \iffieldundef{#2year} {\mknoyeardaterangetrunc{#1}{#2}}%
@@ -2959,7 +2973,7 @@ This work is `maintained' (as per LPPL maintenance status) by [Alex Ball][me].
     \iffieldundef{#2year} {}%
   }{%
     \iffieldundef{#2year} {\mknoyeardaterangetrunc{#1}{#2}}%
-  }{}{\wlog{WARNING: biblatex-bath failed to patch mkdaterangetrunc}}%
+  }{}{\wlog{WARNING: biblatex-bath failed to patch mkdaterangetrunc@i}}%
 \fi
 \xpatchcmd{\mkdaterangefullextra}{%
   \iffieldundef{#2year} {\blx@nounit}%
@@ -2973,7 +2987,7 @@ This work is `maintained' (as per LPPL maintenance status) by [Alex Ball][me].
     \iffieldundef{#2year} {\mknoyeardaterangefull{#1}{#2}}%
   }{}{\wlog{WARNING: biblatex-bath failed to patch mkdaterangefullextra}}%
 \fi
-\xpatchcmd{\mkdaterangetruncextra}{%
+\xpatchcmd{\mkdaterangetruncextra@i}{%
   \iffieldundef{#2year} {\blx@nounit}%
 }{%
   \iffieldundef{#2year} {\mknoyeardaterangetrunc{#1}{#2}}%
@@ -2983,7 +2997,7 @@ This work is `maintained' (as per LPPL maintenance status) by [Alex Ball][me].
     \iffieldundef{#2year} {}%
   }{%
     \iffieldundef{#2year} {\mknoyeardaterangetrunc{#1}{#2}}%
-  }{}{\wlog{WARNING: biblatex-bath failed to patch mkdaterangetruncextra}}%
+  }{}{\wlog{WARNING: biblatex-bath failed to patch mkdaterangetruncextra@i}}%
 \fi
 
 %    \end{macrocode}
