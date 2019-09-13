@@ -3130,6 +3130,12 @@ This work is `maintained' (as per LPPL maintenance status) by [Alex Ball][me].
   \iftoggle{bbx:url}
     {\usebibmacro{url+urldate}}
     {}}
+\xpatchbibdriver{online}{%
+  \iftoggle{bbx:doi}
+    {\printfield{doi}}
+    {}%
+}{}{}{\wlog{WARNING: biblatex-bath failed to remove extra DOI from online driver}}
+
 \renewbibmacro*{url}{%
   \iffieldundef{doi}%
     {\printfield{url}}%
