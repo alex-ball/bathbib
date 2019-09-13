@@ -1716,8 +1716,7 @@ but the \texttt{organization} field if the location relates to the archive.
   year = {2006},
   title = {Rick {Stein's} {French} Odyssey: Episode 5},
   type = {TV},
-  note = {BBC2, 23 August. 20.30 hrs}
-}
+  note = {BBC2, 23 August. 20.30 hrs}}
 %</driver|bib>
 %<*driver>
 \end{Verbatim}
@@ -1900,13 +1899,13 @@ unfortunately this means you have to put in extra work to show only the year in 
 \begin{Verbatim}
 %</driver|tex1>
 %<*driver|bib>
-@online{bvd2008bt,
+@dataset{bvd2008bt,
   author = {{Bureau van Dijk}},
   year = {2008},
   title = {{BT} {Group} PLC Company Report},
   library = {FAME},
   address = {London},
-  organization = {Bureau van Dijk},
+  publisher = {Bureau van Dijk},
   url = {http://www.portal.euromonitor.com},
   urlyear = {6 November 2014}}
 %</driver|bib>
@@ -1941,12 +1940,12 @@ unfortunately this means you have to put in extra work to show only the year in 
 \begin{Verbatim}
 %</driver|tex1>
 %<*driver|bib>
-@online{wilson2013rgc,
+@dataset{wilson2013rgc,
   author = {Wilson, D.},
   year = {2013},
   title = {Real Geometry and Connectedness via Triangular Description: {CAD} Example Bank},
   address = {Bath},
-  organization = {University of Bath},
+  publisher = {University of Bath},
   doi = {10.15125/BATH-00069},
   urlyear = {20 April 2016}}
 %</driver|bib>
@@ -3213,7 +3212,7 @@ FUNCTION {either.or.check}
 FUNCTION {is.online}
 { type$ "software" =
     { #0 }
-    { url empty$
+    { url empty$ doi empty$ and
         { type$ "online" =
             { #1 }
             { #0 }
@@ -3783,6 +3782,18 @@ FUNCTION {get.title.addenda}
   and
   journal empty$
   and
+  type empty$
+    type$ "booklet" = not
+    type$ "audio" = not
+    and
+    type$ "video" = not
+    and
+    type$ "music" = not
+    and
+    type$ "movie" = not
+    and
+    or
+  and
     { bbl.online output }
     'skip$
   if$
@@ -4087,14 +4098,21 @@ FUNCTION {format.thesis.type}
 }
 %    \end{macrocode}
 %
-% If the type is provided, |format.booklet.type| simply writes the type field
-% with an initial capital. Otherwise it returns an empty string.
+% If the type is provided, |format.booklet.type| writes the type field
+% with an initial capital. Then, if this is an online work with no author/editor,
+% the online label is added. If the type is not provided, it
+% returns an empty string.
 %
 %    \begin{macrocode}
 FUNCTION {format.booklet.type}
 { type duplicate$ empty$
     { pop$ "" }
-    { "type" bibinfo.check}
+    { "type" bibinfo.check
+      is.online author empty$ and editor empty$ and
+        { " " * bbl.online * }
+        'skip$
+      if$
+    }
   if$
 }
 %    \end{macrocode}
