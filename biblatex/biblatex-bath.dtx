@@ -2432,35 +2432,47 @@ This work is `maintained' (as per LPPL maintenance status) by [Alex Ball][me].
 %
 %    \begin{macrocode}
 \renewbibmacro*{title}{%
-  \printtext{%
-    \ifboolexpr{
-      test {\iffieldundef{title}}
-      and
-      test {\iffieldundef{subtitle}}
-    }{}{%
-      \printtext[title]{%
-        \printfield[sentencecase]{title}%
-        \setunit{\subtitlepunct}%
-        \printfield[midsentencecase]{subtitle}%
-        \setunit{\addspace}%
-      }%
-      \printfield{version}%
-      \clearfield{version}%
-      \setunit*{\addspace}%
-      \printfield{titleaddon}%
-      \ifboolexpr{
-        test {\iffieldundef{journaltitle}}
-        and
-        test {\iffieldundef{booktitle}}
-        and
-        test {\iffieldundef{library}}
-        and
-        not test {\ifentrytype{software}}
-      }{%
-        \setunit*{\addspace}%
-        \usebibmacro{isonline}%
-      }{}%
+  \ifboolexpr{
+    test {\iffieldundef{title}}
+    and
+    test {\iffieldundef{subtitle}}
+  }{}{%
+    \printtext[title]{%
+      \printfield[sentencecase]{title}%
+      \setunit{\subtitlepunct}%
+      \printfield[midsentencecase]{subtitle}%
+      \setunit{\addspace}%
     }%
+    \printfield{version}%
+    \clearfield{version}%
+    \setunit*{\addspace}%
+    \printfield{titleaddon}%
+    \ifboolexpr{
+      test {\iffieldundef{journaltitle}}
+      and
+      test {\iffieldundef{booktitle}}
+      and
+      test {\iffieldundef{library}}
+      and
+      not test {\ifentrytype{software}}
+      and (
+        test {\iffieldundef{type}}
+        or
+        test {\nottoggle{bbx:labelistitle}}
+        or
+        not (
+          test {\ifentrytype{audio}}
+          or
+          test {\ifentrytype{video}}
+          or
+          test {\ifentrytype{music}}
+          or
+          test {\ifentrytype{movie}}
+      ))
+    }{%
+      \setunit*{\addspace}%
+      \usebibmacro{isonline}%
+    }{}%
   }%
 }
 
@@ -2555,6 +2567,18 @@ This work is `maintained' (as per LPPL maintenance status) by [Alex Ball][me].
         test {\ifentrytype{image}}
       ) and
       not test {\ifentrytype{software}}
+      and (
+        test {\iffieldundef{type}}
+        or
+        not (
+          test {\ifentrytype{audio}}
+          or
+          test {\ifentrytype{video}}
+          or
+          test {\ifentrytype{music}}
+          or
+          test {\ifentrytype{movie}}
+      ))
     }{%
       \setunit*{\addspace}%
       \usebibmacro{isonline}%
@@ -3440,6 +3464,15 @@ This work is `maintained' (as per LPPL maintenance status) by [Alex Ball][me].
 % The \texttt{audio} and \texttt{video} drivers are based on \texttt{misc}.
 %
 %    \begin{macrocode}
+\newbibmacro*{type+online}{%
+  \printfield{type}%
+  \ifboolexpr{
+    test {\iffieldundef{type}}
+    or
+    test {\nottoggle{bbx:labelistitle}}
+  }{}{%
+    \setunit{\addspace}%
+    \usebibmacro{isonline}}}
 \DeclareBibliographyDriver{audio}{%
   \usebibmacro{bibindex}%
   \usebibmacro{begentry}%
@@ -3449,7 +3482,7 @@ This work is `maintained' (as per LPPL maintenance status) by [Alex Ball][me].
   \newunit
   \printlist{language}%
   \newunit\newblock
-  \printfield{type}%
+  \usebibmacro{type+online}%
   \newunit\newblock
   \usebibmacro{byauthor}[given-family:full]%
   \newunit\newblock
