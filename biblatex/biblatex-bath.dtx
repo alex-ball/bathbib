@@ -1414,13 +1414,13 @@ Use the \texttt{journal} field to specify the mailing list. If you omit the
 \begin{Verbatim}
 %</driver>
 %<*driver|bib>
-@online{bvd2008bt,
+@dataset{bvd2008bt,
   author = {{Bureau van Dijk}},
   year = {2008},
   title = {{BT} {Group} PLC Company Report},
   library = {FAME},
   address = {London},
-  organization = {Bureau van Dijk},
+  publisher = {Bureau van Dijk},
   url = {http://www.portal.euromonitor.com},
   urldate = {2014-11-06}}
 %</driver|bib>
@@ -1442,23 +1442,19 @@ and the \texttt{library} field for the name of the database itself.
 \begin{Verbatim}
 %</driver>
 %<*driver|bib>
-@online{wilson2013rgc,
+@dataset{wilson2013rgc,
   author = {Wilson, D.},
   year = {2013},
   title = {Real Geometry and Connectedness via Triangular Description},
   subtitle = {{CAD} Example Bank},
   address = {Bath},
-  organization = {University of Bath},
+  publisher = {University of Bath},
   doi = {10.15125/BATH-00069},
   urldate = {2016-04-20}}
 %</driver|bib>
 %<*driver>
 \end{Verbatim}
 \end{bibexbox}
-
-\begin{tips}\item
-You can also use \texttt{dataset} as an alias for \texttt{online}.
-\end{tips}
 
 
 \subsubsection*{Computer program}
@@ -2399,6 +2395,8 @@ This work is `maintained' (as per LPPL maintenance status) by [Alex Ball][me].
 \newtoggle{bbx:onlineshown}
 \newbibmacro*{isonline}{%
   \ifboolexpr{(
+      test {\iffieldundef{doi}}
+      and
       test {\iffieldundef{url}}
       and
       not test {\ifentrytype{online}}
@@ -3303,6 +3301,24 @@ This work is `maintained' (as per LPPL maintenance status) by [Alex Ball][me].
 
 %    \end{macrocode}
 %
+% \subsection{Datasets}
+%
+% We patch the new datasets driver from biblatex v3.13 so it can emulate what
+% we had previously done with the online driver.
+%
+%    \begin{macrocode}
+\xpatchbibdriver{dataset}{%
+  \printlist{organization}%
+  \newunit
+  \usebibmacro{publisher+location+date}%
+}{%
+  \usebibmacro{library}%
+  \newunit\newblock
+  \usebibmacro{organization+location+date}%
+}{}{\wlog{WARNING: biblatex-bath failed to patch dataset driver}}
+
+%    \end{macrocode}
+%
 % \subsection{Online works}
 %
 % Compared with the standard styles, the main difference is that the
@@ -4061,7 +4077,6 @@ This work is `maintained' (as per LPPL maintenance status) by [Alex Ball][me].
 %
 %    \begin{macrocode}
 \DeclareBibliographyAlias{standard}{manual}
-\DeclareBibliographyAlias{dataset}{online}
 %    \end{macrocode}
 %
 % \iffalse
