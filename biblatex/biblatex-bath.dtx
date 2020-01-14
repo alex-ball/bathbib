@@ -2642,7 +2642,7 @@ This work is `maintained' (as per LPPL maintenance status) by [Alex Ball][me].
 %
 %    \begin{macrocode}
 \DeclareDelimFormat{nameyeardelim}{\addcomma\space}
-\DeclareDelimFormat*[parencite,bib,biblist]{nameyeardelim}{\addcomma\space}
+\DeclareDelimFormat[parencite,bib,biblist]{nameyeardelim}{\addcomma\space}
 \newcommand{\dononameyeardelim}{%
   \ifentrytype{legislation}{%
     \addspace
@@ -2693,7 +2693,7 @@ This work is `maintained' (as per LPPL maintenance status) by [Alex Ball][me].
     ) and
     togl {bbx:labelistitle}
   }{\addspace}{\addcomma\space}}
-\DeclareDelimFormat*[bib,biblist]{nametitledelim}{%
+\DeclareDelimFormat[bib,biblist]{nametitledelim}{%
   \ifboolexpr{
     (
       test {\ifentrytype{jurisdiction}}
