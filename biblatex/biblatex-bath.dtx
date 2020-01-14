@@ -1,7 +1,33 @@
 % \iffalse meta-comment
+%<*internal|bbx|cbx|dbx|lbx|lbx-gb>
+\def\Version{2019/08/29 v3.1}
+%</internal|bbx|cbx|dbx|lbx|lbx-gb>
 %<*internal>
 \iffalse
 %</internal>
+%<*bbx|cbx|dbx|lbx|lbx-gb>
+\NeedsTeXFormat{LaTeX2e}[1999/12/01]
+%</bbx|cbx|dbx|lbx|lbx-gb>
+%<*bbx>
+\ProvidesFile{bath.bbx}
+    [\Version\space Biblography style as recommended by the University of Bath Library]
+%</bbx>
+%<*cbx>
+\ProvidesFile{bath.cbx}
+    [\Version\space Citation style as recommended by the University of Bath Library]
+%</cbx>
+%<*dbx>
+\ProvidesFile{bath.dbx}
+    [\Version\space Data model required by the biblatex-bath style]
+%</dbx>
+%<*lbx>
+\ProvidesFile{english-bath.lbx}
+    [\Version\space Generic English conventions required by the biblatex-bath style]
+%</lbx>
+%<*lbx-gb>
+\ProvidesFile{british-bath.lbx}
+    [\Version\space British English conventions required by the biblatex-bath style]
+%</lbx-gb>
 %<*readme>
 # biblatex-bath: Harvard referencing style as recommended by the University of Bath Library
 %</readme>
@@ -63,7 +89,7 @@ Copyright (C) 2019 by University of Bath
 %</internal>
 %<*driver>
 \ProvidesFile{biblatex-bath.dtx}
-    [2019/08/29 v3.1 Harvard referencing style as recommended by the University of Bath Library]
+    [\Version\space Harvard referencing style as recommended by the University of Bath Library]
 
 \documentclass[10pt,a4paper]{article}
 \usepackage[british]{babel}
@@ -2050,7 +2076,7 @@ This work is `maintained' (as per LPPL maintenance status) by [Alex Ball][me].
 %
 % \section{Implementation: bibliography style}
 %
-% \setcounter{lstnumber}{16}
+% \setcounter{lstnumber}{20}
 %
 % \subsection{Preliminaries}
 %
@@ -4086,7 +4112,7 @@ This work is `maintained' (as per LPPL maintenance status) by [Alex Ball][me].
 %
 % \section{Implementation: data model}
 %
-% \setcounter{lstnumber}{16}
+% \setcounter{lstnumber}{20}
 %
 %    \begin{macrocode}
 \DeclareDatamodelConstant[type=list]{nameparts}{prefix,family,suffix,given,cjk}
@@ -4098,7 +4124,7 @@ This work is `maintained' (as per LPPL maintenance status) by [Alex Ball][me].
 %
 % \section{Implementation: General English language localization}
 %
-% \setcounter{lstnumber}{16}
+% \setcounter{lstnumber}{20}
 %
 % The strings are mostly the same except for the following changes. Note that
 % month names are never abbreviated.
@@ -4161,7 +4187,7 @@ This work is `maintained' (as per LPPL maintenance status) by [Alex Ball][me].
 %
 % \section{Implementation: British English language localization}
 %
-% \setcounter{lstnumber}{16}
+% \setcounter{lstnumber}{20}
 %
 % We use the standard version with a few changes. We display the day as a
 % cardinal number instead of an ordinal. The date is separated from the time
@@ -4198,7 +4224,7 @@ This work is `maintained' (as per LPPL maintenance status) by [Alex Ball][me].
 %
 % \section{Implementation: citation style}
 %
-% \setcounter{lstnumber}{16}
+% \setcounter{lstnumber}{20}
 %
 % The standard |authoryear-comp| style is a close match for what we need.
 %
