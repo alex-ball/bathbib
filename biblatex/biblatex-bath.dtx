@@ -3057,7 +3057,7 @@ This work is `maintained' (as per LPPL maintenance status) by [Alex Ball][me].
 % Versions are printed with `v.\@' in parentheses.
 %
 %    \begin{macrocode}
-\DeclareFieldFormat{version}{\mkbibparens{\bibstring{version}#1}}
+\DeclareFieldFormat{version}{\mkbibparens{\biblcsstring{version}#1}}
 %    \end{macrocode}
 %
 % \subsection{Types}
@@ -3353,6 +3353,8 @@ This work is `maintained' (as per LPPL maintenance status) by [Alex Ball][me].
 %    \begin{macrocode}
 \xpatchbibdriver{online}{%
   \printlist{organization}%
+  \newunit\newblock
+  \usebibmacro{date}%
 }{%
   \usebibmacro{library}%
   \newunit\newblock
