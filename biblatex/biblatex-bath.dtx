@@ -104,7 +104,6 @@ Copyright (C) 2020 by University of Bath
 \else
   \ifLuaTeX
     \usepackage{luatexja-fontspec}
-    \setmainjfont{IPAexGothic}
   \else
     \ifXeTeX
     \usepackage{ctex}
@@ -3146,6 +3145,17 @@ This work is `maintained' (as per LPPL maintenance status) by [Alex Ball][me].
 \DeclareFieldFormat{url}{\bibsentence\bibstring{urlfrom}\addcolon\space\url{#1}}
 \DeclareFieldFormat{doi}{\bibsentence\bibstring{urlfrom}\addcolon\space\url{https://doi.org/#1}}
 \DeclareFieldFormat{urldate}{\mkbibbrackets{\bibstring{urlseen}\space#1}}
+%    \end{macrocode}
+%
+% Since URLs and DOIs are presented in exactly the same way, we combine them
+% such that the DOI overrides the URL. 
+%
+%    \begin{macrocode}
+\renewbibmacro*{url}{%
+  \iffieldundef{doi}%
+    {\printfield{url}}%
+    {\printfield{doi}}%
+}
 \renewbibmacro*{doi+eprint+url}{%
   \iftoggle{bbx:eprint}
     {\usebibmacro{eprint}}
@@ -3154,17 +3164,26 @@ This work is `maintained' (as per LPPL maintenance status) by [Alex Ball][me].
   \iftoggle{bbx:url}
     {\usebibmacro{url+urldate}}
     {}}
+%    \end{macrocode}
+%
+% This backports changes to the |online| driver in biblatex v3.15 to earlier
+% versions, so the above works as intended.
+%
+%    \begin{macrocode}
 \xpatchbibdriver{online}{%
   \iftoggle{bbx:doi}
     {\printfield{doi}}
     {}%
-}{}{}{\wlog{WARNING: biblatex-bath failed to remove extra DOI from online driver}}
-
-\renewbibmacro*{url}{%
-  \iffieldundef{doi}%
-    {\printfield{url}}%
-    {\printfield{doi}}%
-}
+  \newunit\newblock
+  \iftoggle{bbx:eprint}
+    {\usebibmacro{eprint}}
+    {}%
+  \newunit\newblock
+  \usebibmacro{url+urldate}%
+}{%
+  \toggletrue{bbx:url}%
+  \usebibmacro{doi+eprint+url}%
+}{}{}
 
 %    \end{macrocode}
 %
