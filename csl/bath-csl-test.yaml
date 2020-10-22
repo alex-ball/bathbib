@@ -96,6 +96,39 @@ references:
   publisher: University of Bath
   publisher-place: Bath
 
+- id: bnf2020
+  type: book
+  issued:
+  - year: '2020'
+  title: <span class="nocase">British National Formulary</span>
+  edition: '79'
+  publisher: Pharmaceutical Press
+  publisher-place: London
+
+- id: asprin2020bnf
+  type: entry
+  issued:
+  - year: '2020'
+  title: Asprin
+  container-title: <span class="nocase">British National Formulary</span>
+  edition: '79'
+  publisher: Pharmaceutical Press
+  publisher-place: London
+
+- id: asprin2019bnf
+  type: entry
+  issued:
+  - year: '2019'
+  accessed:
+  - year: '2019'
+    month: '11'
+    day: '26'
+  title: Asprin
+  container-title: <span class="nocase">British National Formulary</span>
+  publisher: Pharmaceutical Press
+  publisher-place: London
+  URL: https://www.medicinescomplete.com/#/content/bnf/_456850132
+
 - id: burchard1965hhl
   type: chapter
   author:
@@ -468,6 +501,34 @@ references:
   scale: 1 inch to 2 miles
   publisher: Wiltshire Record Society
   publisher-place: Devizes
+
+- id: os2020bath
+  type: map
+  author:
+  - literal: Ordnance Survey
+  issued:
+  - year: '2020'
+  accessed:
+  - year: '2020'
+    month: '4'
+    day: '30'
+  title: Street view map of <span class="nocase">University of Bath</span>
+  scale: 1:5000, OS VectorMap® Local
+  URL: https://digimap.edina.ac.uk/roam/map/os
+
+- id: google2020harbourside
+  type: map
+  author:
+  - literal: Google
+  issued:
+  - year: '2020'
+  accessed:
+  - year: '2020'
+    month: '4'
+    day: '30'
+  title: <span class="nocase">Harbourside, Bristol</span>
+  scale: Google Maps
+  URL: https://www.google.co.uk/maps/place/Harbourside,+Bristol/
 
 - id: macbeth1948
   type: motion_picture

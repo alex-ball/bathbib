@@ -45,17 +45,32 @@
       <label form="short" prefix=", " text-case="lowercase"/>
     </names>
   </macro>
+  <macro name="byeditor">
+    <names variable="editor">
+      <label form="verb-short" text-case="capitalize-first" suffix=" "/>
+      <name and="text" delimiter-precedes-last="never" initialize-with="."/>
+    </names>
+  </macro>
   <macro name="author">
     <names variable="author">
       <name and="text" delimiter-precedes-last="never" initialize-with="." name-as-sort-order="all"/>
       <label form="short" prefix=" " text-case="lowercase"/>
-      <substitute>
-        <names variable="editor">
-          <name and="text" delimiter-precedes-last="never" initialize-with="." name-as-sort-order="all"/>
-          <label form="short" prefix=", " text-case="lowercase"/>
-        </names>
-        <text macro="title"/>
-      </substitute>
+      <choose>
+        <if type="entry">
+          <substitute>
+            <text macro="title"/>
+          </substitute>
+        </if>
+        <else>
+          <substitute>
+            <names variable="editor">
+              <name and="text" delimiter-precedes-last="never" initialize-with="." name-as-sort-order="all"/>
+              <label form="short" prefix=", " text-case="lowercase"/>
+            </names>
+            <text macro="title"/>
+          </substitute>
+        </else>
+      </choose>
     </names>
   </macro>
   <macro name="author-short">
@@ -172,6 +187,9 @@
       </else-if>
       <else>
         <text variable="title-short"/>
+        <substitute>
+          <text variable="title"/>
+        </substitute>
       </else>
     </choose>
   </macro>
@@ -449,6 +467,25 @@
           </group>
           <text prefix=" " suffix="." macro="publisher"/>
         </else-if>
+        <else-if type="entry" match="any">
+          <text macro="title" prefix=" "/>
+          <group prefix=" " suffix="." delimiter=" ">
+            <choose>
+              <if variable="editor">
+                <text term="in" text-case="capitalize-first" suffix=":"/>
+                <text macro="editor" suffix="."/>
+              </if>
+            </choose>
+            <text variable="container-title" font-style="italic"/>
+            <text macro="online"/>
+          </group>
+          <group prefix=" " suffix="." delimiter=". ">
+            <text macro="edition"/>
+            <text macro="series"/>
+            <text macro="status"/>
+          </group>
+          <text prefix=" " suffix="." macro="publisher"/>
+        </else-if>
         <else-if type="article-journal" match="any">
           <group prefix=" " suffix="." delimiter=". ">
             <text macro="title"/>
@@ -565,12 +602,12 @@
           </group>
         </else-if>
         <else-if type="graphic map" match="any">
-          <group prefix=" " suffix="." delimiter=" ">
-            <group delimiter=", ">
+          <group prefix=" " suffix="." delimiter=", ">
+            <group delimiter=" ">
               <text macro="title"/>
-              <text variable="scale"/>
+              <text macro="online"/>
             </group>
-            <text macro="online"/>
+            <text variable="scale"/>
           </group>
           <group prefix=" " suffix="." delimiter=". ">
             <text macro="edition"/>
@@ -616,9 +653,10 @@
             </choose>
           </group>
           <group prefix=" " suffix="." delimiter=". ">
+            <text macro="editor"/>
+            <text macro="edition"/>
             <text macro="series"/>
             <text macro="status"/>
-            <text macro="editor"/>
           </group>
           <group prefix=" " suffix="." delimiter=", ">
             <choose>

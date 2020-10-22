@@ -706,7 +706,7 @@ BibTeX, and not a symptom of recalcitrance on the part of the author.
 \begin{Verbatim}
 %</driver>
 %<*driver|bib>
-@inreference{asprin2020bnf,
+@inreference{asprin2019bnf,
   title = {Asprin},
   year = {2019},
   booktitle = {{British National Formulary}},
@@ -3406,7 +3406,7 @@ This work is `maintained' (as per LPPL maintenance status) by [Alex Ball][me].
 }{%
   \setunit{\addcomma\space}%
   \usebibmacro{series+number}%
-}{}{\wlog{WARNING: biblatex-bath failed to patch book driver}}
+}{}{\wlog{WARNING: biblatex-bath failed to patch book driver (series+number)}}
 
 \xpatchbibdriver{collection}{%
   \newunit\newblock
@@ -3414,15 +3414,7 @@ This work is `maintained' (as per LPPL maintenance status) by [Alex Ball][me].
 }{%
   \setunit{\addcomma\space}%
   \usebibmacro{series+number}%
-}{}{\wlog{WARNING: biblatex-bath failed to patch collection driver}}
-
-\xpatchbibdriver{reference}{%
-  \newunit\newblock
-  \usebibmacro{series+number}%
-}{%
-  \setunit{\addcomma\space}%
-  \usebibmacro{series+number}%
-}{}{\wlog{WARNING: biblatex-bath failed to patch reference driver}}
+}{}{\wlog{WARNING: biblatex-bath failed to patch collection driver (series+number)}}
 
 \xpatchbibdriver{inbook}{%
   \newunit\newblock
@@ -3430,7 +3422,7 @@ This work is `maintained' (as per LPPL maintenance status) by [Alex Ball][me].
 }{%
   \setunit{\addcomma\space}%
   \usebibmacro{series+number}%
-}{}{\wlog{WARNING: biblatex-bath failed to patch inbook driver}}
+}{}{\wlog{WARNING: biblatex-bath failed to patch inbook driver (series+number)}}
 
 \xpatchbibdriver{incollection}{%
   \newunit\newblock
@@ -3438,15 +3430,7 @@ This work is `maintained' (as per LPPL maintenance status) by [Alex Ball][me].
 }{%
   \setunit{\addcomma\space}%
   \usebibmacro{series+number}%
-}{}{\wlog{WARNING: biblatex-bath failed to patch incollection driver}}
-
-\xpatchbibdriver{inreference}{%
-  \newunit\newblock
-  \usebibmacro{series+number}%
-}{%
-  \setunit{\addcomma\space}%
-  \usebibmacro{series+number}%
-}{}{\wlog{WARNING: biblatex-bath failed to patch inreference driver}}
+}{}{\wlog{WARNING: biblatex-bath failed to patch incollection driver (series+number)}}
 
 \xpatchbibdriver{inproceedings}{%
   \newunit\newblock
@@ -3454,7 +3438,7 @@ This work is `maintained' (as per LPPL maintenance status) by [Alex Ball][me].
 }{%
   \setunit{\addcomma\space}%
   \usebibmacro{series+number}%
-}{}{\wlog{WARNING: biblatex-bath failed to patch inproceedings driver}}
+}{}{\wlog{WARNING: biblatex-bath failed to patch inproceedings driver (series+number)}}
 
 \xpatchbibdriver{proceedings}{%
   \newunit\newblock
@@ -3462,7 +3446,7 @@ This work is `maintained' (as per LPPL maintenance status) by [Alex Ball][me].
 }{%
   \setunit{\addcomma\space}%
   \usebibmacro{series+number}%
-}{}{\wlog{WARNING: biblatex-bath failed to patch proceedings driver}}
+}{}{\wlog{WARNING: biblatex-bath failed to patch proceedings driver (series+number)}}
 
 %    \end{macrocode}
 %
@@ -3483,7 +3467,7 @@ This work is `maintained' (as per LPPL maintenance status) by [Alex Ball][me].
   \newunit\newblock
   \usebibmacro{maintitle+booktitle}%
   \usebibmacro{byeditor+others}%
-}{}{\wlog{WARNING: biblatex-bath failed to patch incollection driver}}
+}{}{\wlog{WARNING: biblatex-bath failed to patch incollection driver (bookeditor)}}
 
 \xpatchbibdriver{inproceedings}{%
   \usebibmacro{in:}%
@@ -3500,7 +3484,7 @@ This work is `maintained' (as per LPPL maintenance status) by [Alex Ball][me].
   \usebibmacro{byeditor+others}%
   \newunit
   \usebibmacro{event+venue+date}%
-}{}{\wlog{WARNING: biblatex-bath failed to patch inproceedings driver}}
+}{}{\wlog{WARNING: biblatex-bath failed to patch inproceedings driver (bookeditor)}}
 
 %    \end{macrocode}
 %
@@ -3518,7 +3502,7 @@ This work is `maintained' (as per LPPL maintenance status) by [Alex Ball][me].
   \usebibmacro{library}%
   \newunit\newblock
   \usebibmacro{organization+location+date}%
-}{}{\wlog{WARNING: biblatex-bath failed to patch dataset driver}}
+}{}{\wlog{WARNING: biblatex-bath failed to patch dataset driver (publisher)}}
 
 %    \end{macrocode}
 %
@@ -3536,7 +3520,7 @@ This work is `maintained' (as per LPPL maintenance status) by [Alex Ball][me].
   \usebibmacro{library}%
   \newunit\newblock
   \usebibmacro{organization+location+date}%
-}{}{\wlog{WARNING: biblatex-bath failed to patch online driver}}
+}{}{\wlog{WARNING: biblatex-bath failed to patch online driver (publisher)}}
 
 %    \end{macrocode}
 %
