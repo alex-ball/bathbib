@@ -781,6 +781,119 @@ though of course any item might need adjustment to take account of differing con
 \end{bibexbox}
 
 
+\subsubsection*{Book known by its title}
+
+\begin{bibexbox}<RX>{bnf2020}
+  British National Formulary, 2020. 79th ed. London: Pharmaceutical Press.
+  \tcblower
+\begin{Verbatim}
+%</driver|tex1>
+%<*driver|bib>
+@reference{bnf2020,
+  year = {2020},
+  title = {{British National Formulary}},
+  edition = {79},
+  address = {London},
+  publisher = {Pharmaceutical Press}}
+%</driver|bib>
+%<*driver>
+\end{Verbatim}
+\iffalse
+%</driver>
+%<*tex1|bib1>
+@book{bnf2020,
+  year = {2020},
+  title = {{British National Formulary}},
+  edition = {79},
+  address = {London},
+  publisher = {Pharmaceutical Press}}
+%</tex1|bib1>
+%<*driver|tex1>
+\end{Verbatim}
+%<*driver>
+\fi
+%</driver>
+\end{bibexbox}
+
+\begin{info}\item
+Internally, \texttt{collection} and \texttt{reference} are aliases for \texttt{book}.
+\end{info}
+
+\begin{bibexbox}<RX>{asprin2020bnf}
+  British National Formulary, 2020. 79th ed. \emph{Asprin.} London: Pharmaceutical Press.
+  \tcblower
+\begin{Verbatim}
+%</driver|tex1>
+%<*driver|bib>
+@inreference{asprin2020bnf,
+  title = {Asprin},
+  year = {2020},
+  booktitle = {{British National Formulary}},
+  edition = {79},
+  address = {London},
+  publisher = {Pharmaceutical Press}}
+%</driver|bib>
+%<*driver>
+\end{Verbatim}
+\iffalse
+%</driver>
+%<*tex1|bib1>
+@incollection{asprin2020bnf,
+  title = {Asprin},
+  year = {2020},
+  booktitle = {{British National Formulary}},
+  edition = {79},
+  address = {London},
+  publisher = {Pharmaceutical Press}}
+%</tex1|bib1>
+%<*driver|tex1>
+\end{Verbatim}
+%<*driver>
+\fi
+%</driver>
+\end{bibexbox}
+
+\begin{bibexbox}<RX>{asprin2019bnf}
+  British National Formulary, 2019. \emph{Aspirin} [Online]. London: Pharmaceutical Press. Available from: \url{https://www.medicinescomplete.com/\#/content/bnf/_456850132} [Accessed 26 November 2019].
+  \tcblower
+\begin{Verbatim}
+%</driver|tex1>
+%<*driver|bib>
+@inreference{asprin2019bnf,
+  title = {Asprin},
+  year = {2019},
+  booktitle = {{British National Formulary}},
+  address = {London},
+  publisher = {Pharmaceutical Press},
+  url = {https://www.medicinescomplete.com/\#/content/bnf/_456850132},
+  urlyear = {26 November 2019}}
+%</driver|bib>
+%<*driver>
+\end{Verbatim}
+\iffalse
+%</driver>
+%<*tex1|bib1>
+@incollection{asprin2019bnf,
+  title = {Asprin},
+  year = {2019},
+  booktitle = {{British National Formulary \textup{[Online]}}},
+  address = {London},
+  publisher = {Pharmaceutical Press},
+  url = {https://www.medicinescomplete.com/\#/content/bnf/_456850132},
+  urldate = {26 November 2019}}
+%</tex1|bib1>
+%<*driver|tex1>
+\end{Verbatim}
+%<*driver>
+\fi
+%</driver>
+\end{bibexbox}
+
+\begin{info}\item
+Internally, \texttt{inreference} is an alias for \texttt{incollection}.
+\end{info}
+
+
 \subsubsection*{One chapter\slash paper from a collection (by different authors) in an edited book}
 
 \begin{bibexbox}<RL>{burchard1965hhl}
@@ -1562,6 +1675,42 @@ but the \texttt{organization} field if the location relates to the archive.
 \end{bibexbox}
 
 \begin{tips}\item The \texttt{book} entry type would also work for this reference.\end{tips}
+
+\begin{bibexbox}<RX>{os2020bath}
+  Ordnance Survey, 2020. \emph{Street view map of University of Bath} [Online], 1:5000, OS VectorMap® Local. Available from: \url{https://digimap.edina.ac.uk/roam/map/os} [Accessed 30 April 2020].
+  \tcblower
+\begin{Verbatim}
+%</driver|tex1>
+%<*driver|bib|tex1|bib1>
+@manual{os2020bath,
+  author = {{Ordnance Survey}},
+  year = {2020},
+  title = {Street view map of {University of Bath}},
+  series = {1:5000, OS VectorMap® Local},
+  url = {https://digimap.edina.ac.uk/roam/map/os},
+  urlyear = {30 April 2020}}
+%</driver|bib|tex1|bib1>
+%<*driver|tex1>
+\end{Verbatim}
+\end{bibexbox}
+
+\begin{bibexbox}<RX>{google2020harbourside}
+  Google, 2020. \emph{Harbourside, Bristol} [Online], Google Maps. Available from: \url{https://www.google.co.uk/maps/place/Harbourside,+Bristol/} [Accessed 30 April 2020].
+  \tcblower
+\begin{Verbatim}
+%</driver|tex1>
+%<*driver|bib|tex1|bib1>
+@manual{google2020harbourside,
+  author = {{Google}},
+  year = {2020},
+  title = {{Harbourside, Bristol}},
+  series = {Google Maps},
+  url = {https://www.google.co.uk/maps/place/Harbourside,+Bristol/},
+  urldate = {2020-04-30}}
+%</driver|bib|tex1|bib1>
+%<*driver|tex1>
+\end{Verbatim}
+\end{bibexbox}
 
 
 \subsubsection*{Film, video or DVD}
@@ -3210,17 +3359,13 @@ FUNCTION {either.or.check}
 %
 %    \begin{macrocode}
 FUNCTION {is.online}
-{ type$ "software" =
-    { #0 }
-    { url empty$ doi empty$ and
-        { type$ "online" =
-            { #1 }
-            { #0 }
-          if$
-        }
+{ url empty$ doi empty$ and
+    { type$ "online" =
         { #1 }
+        { #0 }
       if$
     }
+    { #1 }
   if$
 }
 %    \end{macrocode}
@@ -3234,6 +3379,9 @@ FUNCTION {is.online}
 %    \begin{macrocode}
 FUNCTION {bbl.and}
 { "and"}
+
+FUNCTION {bbl.byeditor}
+{ "Ed. by" }
 
 FUNCTION {bbl.etal}
 { "et~al." }
@@ -3499,6 +3647,19 @@ FUNCTION {format.authors}
 }
 %    \end{macrocode}
 %
+% |format.byeditors| returns editor names, and prepended by `Ed. by'.
+%
+%    \begin{macrocode}
+FUNCTION {format.byeditors}
+{ editor "editor" format.names.ed duplicate$ empty$ 'skip$
+    { bbl.byeditor
+      " " *
+      swap$ *
+    }
+  if$
+}
+%    \end{macrocode}
+%
 % |format.editors| returns editor names, and appends `ed.' or `eds' as
 % appropriate.
 %
@@ -3673,8 +3834,8 @@ FUNCTION {output.bibitem}
 %
 % |format.key| takes a field (author or editor). If the field is empty, it
 % replaces it with the key field (if not non-null). Otherwise, replaces it with
-% an empty string. It is used as a last resort to stop an entry beginning with
-% the date.
+% an empty string. It is used as an extra defence against an entry beginning
+% with the date.
 %
 %    \begin{macrocode}
 FUNCTION {format.key}
@@ -3688,7 +3849,7 @@ FUNCTION {format.key}
 % \subsection{Titles}
 %
 % |select.language| checks if the field before was written out, and if so,
-% wraps |{\selectlanguage{language}\dots}| around it.
+% wraps |{\selectlanguage{language}|\dots|}| around it.
 %
 %    \begin{macrocode}
 FUNCTION {select.language}
@@ -3775,23 +3936,27 @@ FUNCTION {get.title.addenda}
   format.titleaddon output
   continue.clause
 %<*bst2>
-  library empty$
-  type$ "image" =
-  or
   is.online
-  and
   journal empty$
   and
-  type empty$
-    type$ "booklet" = not
-    type$ "audio" = not
-    and
-    type$ "video" = not
-    and
-    type$ "music" = not
-    and
-    type$ "movie" = not
-    and
+  booktitle empty$
+  and
+    library empty$
+    type$ "image" =
+    or
+  and
+  type$ "software" = not
+  and
+    type empty$
+      type$ "booklet" = not
+      type$ "audio" = not
+      and
+      type$ "video" = not
+      and
+      type$ "music" = not
+      and
+      type$ "movie" = not
+      and
     or
   and
     { bbl.online output }
@@ -3799,6 +3964,10 @@ FUNCTION {get.title.addenda}
   if$
   continue.clause
 %</bst2>
+  type$ "reference" =
+    { format.byeditors output }
+    'skip$
+  if$
   format.translators output
 }
 %    \end{macrocode}
@@ -3831,7 +4000,16 @@ FUNCTION {format.booktitle}
 %    \begin{macrocode}
 FUNCTION {format.in.ed.booktitle}
 { format.booktitle duplicate$ empty$ 'skip$
-    { editor "editor" format.names.ed duplicate$ empty$ 'pop$
+    {
+%<*bst2>
+      is.online
+        { " " *
+          bbl.online *
+        }
+        'skip$
+      if$
+%</bst2>
+      editor "editor" format.names.ed duplicate$ empty$ 'pop$
         { "," *
           " " *
           get.bbl.editor add.period$
@@ -4970,13 +5148,14 @@ FUNCTION {book}
 { output.bibitem
   author empty$
     { editor empty$
+      type$ "reference" =
+      or
         { format.btitle "title" output.check
           format.date "year" output.check
           year empty$ 'skip$ { date.block } if$
           get.title.addenda
         }
         { format.editors "author and editor" output.check
-          editor format.key output
           format.date "year" output.check
           date.block
           format.btitle "title" output.check
@@ -5072,6 +5251,8 @@ FUNCTION {inbook}
   date.block
   format.btitle "title" output.check
   get.title.addenda
+  new.block
+  format.edition output
   crossref missing$
     { format.publisher.address output
       format.bvolume output
@@ -5085,7 +5266,6 @@ FUNCTION {inbook}
       format.book.crossref output.nonnull
     }
   if$
-  format.edition output
   new.block
   format.note output
   new.block
@@ -5100,22 +5280,29 @@ FUNCTION {inbook}
 %    \begin{macrocode}
 FUNCTION {incollection}
 { output.bibitem
-  format.authors "author" output.check
-  author format.key output
-  format.date "year" output.check
-  date.block
-  format.title "title" output.check
-  get.title.addenda
+  author empty$
+    { format.title "title" output.check
+      format.date "year" output.check
+      year empty$ 'skip$ { date.block } if$
+      get.title.addenda
+    }
+    { format.authors output.nonnull
+      format.date "year" output.check
+      date.block
+      format.title "title" output.check
+      get.title.addenda
+    }
+  if$
   new.block
   crossref missing$
     { format.in.ed.booktitle "booktitle" output.check
+      new.block
+      format.edition output
       new.block
       format.publisher.address output
       format.bvolume output
       format.number.series output
       format.chapter.pages output
-      new.sentence
-      format.edition output
     }
     { format.incoll.inproc.crossref output.nonnull
       format.chapter.pages output
@@ -5593,6 +5780,9 @@ FUNCTION {letter}
     'article
   if$
 }
+FUNCTION {collection} { book }
+FUNCTION {reference} { book }
+FUNCTION {inreference} { incollection }
 FUNCTION {audio} { booklet }
 FUNCTION {movie} { booklet }
 FUNCTION {music} { booklet }
@@ -6035,7 +6225,7 @@ FUNCTION {reverse.pass}
 %
 % Applying these functions is a bit more tricky, but once we have done that,
 % we re-sort the entries to make absolutely sure they in the right order,
-% this time wih the year between with |sort.label| and the title.
+% this time with the year between with |sort.label| and the title.
 %
 %    \begin{macrocode}
 EXECUTE {initialize.extra.label.stuff}

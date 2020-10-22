@@ -280,6 +280,8 @@ Copyright (C) 2020 by University of Bath
 
 % Documentation
 
+\usepackage[british,cleanlook]{isodate}
+
 \usepackage[backend=biber,bibencoding=utf8,hyperref=false,isbn=false,style=bath,sorting=ynt]{biblatex}
 \addbibresource{biblatex-bath.bib}
 \assignrefcontextentries[]{*}
@@ -299,7 +301,6 @@ Copyright (C) 2020 by University of Bath
 }{}{}
 
 \usepackage{readprov}
-\usepackage[british,cleanlook]{isodate}
 
 \usepackage[colorlinks,citecolor=black]{hyperref}
 
@@ -656,6 +657,63 @@ BibTeX, and not a symptom of recalcitrance on the part of the author.
   titleaddon = {Kindle version 4.18},
   address = {Bath},
   publisher = {University of Bath}}
+%</driver|bib>
+%<*driver>
+\end{Verbatim}
+\end{bibexbox}
+
+
+\subsubsection*{Book known by its title}
+
+\begin{bibexbox}<RX>{bnf2020}
+  British National Formulary, 2020. 79th ed. London: Pharmaceutical Press.
+  \tcblower
+\begin{Verbatim}
+%</driver>
+%<*driver|bib>
+@reference{bnf2020,
+  year = {2020},
+  title = {{British National Formulary}},
+  edition = {79},
+  address = {London},
+  publisher = {Pharmaceutical Press}}
+%</driver|bib>
+%<*driver>
+\end{Verbatim}
+\end{bibexbox}
+
+\begin{bibexbox}<RX>{asprin2020bnf}
+  British National Formulary, 2020. 79th ed. \emph{Asprin.} London: Pharmaceutical Press.
+  \tcblower
+\begin{Verbatim}
+%</driver>
+%<*driver|bib>
+@inreference{asprin2020bnf,
+  title = {Asprin},
+  year = {2020},
+  booktitle = {{British National Formulary}},
+  edition = {79},
+  address = {London},
+  publisher = {Pharmaceutical Press}}
+%</driver|bib>
+%<*driver>
+\end{Verbatim}
+\end{bibexbox}
+
+\begin{bibexbox}<RX>{asprin2019bnf}
+  British National Formulary, 2019. \emph{Aspirin} [Online]. London: Pharmaceutical Press. Available from: \url{https://www.medicinescomplete.com/#/content/bnf/_456850132} [Accessed 26 November 2019].
+  \tcblower
+\begin{Verbatim}
+%</driver>
+%<*driver|bib>
+@inreference{asprin2020bnf,
+  title = {Asprin},
+  year = {2019},
+  booktitle = {{British National Formulary}},
+  address = {London},
+  publisher = {Pharmaceutical Press},
+  url = {https://www.medicinescomplete.com/#/content/bnf/_456850132},
+  urldate = {2019-11-26}}
 %</driver|bib>
 %<*driver>
 \end{Verbatim}
@@ -1223,6 +1281,43 @@ but the \texttt{organization} field if the location relates to the archive.
 \begin{info}\item
 The \texttt{book} entry type would also work for this reference.
 \end{info}
+
+\begin{bibexbox}<RX>{os2020bath}
+  Ordnance Survey, 2020. \emph{Street view map of University of Bath} [Online], 1:5000, OS VectorMap® Local. Available from: \url{https://digimap.edina.ac.uk/roam/map/os} [Accessed 30 April 2020].
+  \tcblower
+\begin{Verbatim}
+%</driver>
+%<*driver|bib>
+@manual{os2020bath,
+  author = {{Ordnance Survey}},
+  year = {2020},
+  title = {Street view map of {University of Bath}},
+  series = {1:5000, OS VectorMap® Local},
+  url = {https://digimap.edina.ac.uk/roam/map/os},
+  urldate = {2020-04-30}}
+%</driver|bib>
+%<*driver>
+\end{Verbatim}
+\end{bibexbox}
+
+\begin{bibexbox}<RX>{google2020harbourside}
+  Google, 2020. \emph{Harbourside, Bristol} [Online], Google Maps. Available from: \url{https://www.google.co.uk/maps/place/Harbourside,+Bristol/} [Accessed 30 April 2020].
+  \tcblower
+\begin{Verbatim}
+%</driver>
+%<*driver|bib>
+@manual{google2020harbourside,
+  author = {{Google}},
+  year = {2020},
+  title = {{Harbourside, Bristol}},
+  series = {Google Maps},
+  url = {https://www.google.co.uk/maps/place/Harbourside,+Bristol/},
+  urldate = {2020-04-30}}
+%</driver|bib>
+%<*driver>
+\end{Verbatim}
+\end{bibexbox}
+
 
 \subsubsection*{Film, video or DVD}
 
@@ -2111,8 +2206,8 @@ This work is `maintained' (as per LPPL maintenance status) by [Alex Ball][me].
 \RequireBibliographyStyle{authoryear}
 \ExecuteBibliographyOptions{%
   maxcitenames=3,maxbibnames=9999,isbn=false,giveninits=true,dashed=false,
-  alldates=comp,labeldate=year}
-\ExecuteBibliographyOptions[audio,video,music,movie]{%
+  alldates=comp,labeldate=year,labelalpha=true}
+\ExecuteBibliographyOptions[reference,audio,video,music,movie]{%
   useeditor=false}
 %    \end{macrocode}
 %
@@ -2401,7 +2496,7 @@ This work is `maintained' (as per LPPL maintenance status) by [Alex Ball][me].
 \DeclareFieldFormat{midsentencecase}{\MakeSentenceCase*{{}#1}}
 \DeclareFieldFormat{title}{\mkbibemph{#1}}
 \DeclareFieldFormat
-  [article,inbook,incollection,inproceedings]%
+  [article,inbook,incollection,inproceedings,inreference]%
   {title}{#1}
 \DeclareFieldFormat
   [patent,thesis]%
@@ -2448,10 +2543,10 @@ This work is `maintained' (as per LPPL maintenance status) by [Alex Ball][me].
 
 %    \end{macrocode}
 %
-% We need to supply a new |title| macro. The standard version hard-codes the
-% case used (we use sentence case, not title case) and puts default unit
-% punctuation between the |title| and |titleaddon| fields. We also need to add
-% conditional code for printing the automatic `[Online]' label.
+% We need to supply a new |title| macro. The standard version puts default unit
+% punctuation between the |title| and |titleaddon| fields, but we need a space.
+% We also need to add conditional code for printing the automatic `[Online]'
+% label.
 %
 %    \begin{macrocode}
 \renewbibmacro*{title}{%
@@ -3048,6 +3143,53 @@ This work is `maintained' (as per LPPL maintenance status) by [Alex Ball][me].
     \iffieldundef{#2year} {\mknoyeardaterangetrunc{#1}{#2}}%
   }{}{\wlog{WARNING: biblatex-bath failed to patch mkdaterangetruncextra@i}}%
 \fi
+%
+% By default, Title--year combinations are not disambiguated, so we fix that
+% too.
+\DeclareFieldFormat{extraalpha}{%
+  \iffieldnums{labelyear}
+    {\mknumalph{#1}}
+    {\mkbibparens{\mknumalph{#1}}}}
+\DeclareLabelalphaTemplate{
+  \labelelement{
+    \field{label}
+    \field{labelname}
+    \field{labeltitle}
+  }
+  \labelelement{
+    \field{labelyear}
+  }
+}
+\xpatchcmd{\mkdaterangefullextra}{%
+  \printfield{extradate}%
+}{%
+  \printfield{extraalpha}%
+}{}{\wlog{WARNING: biblatex-bath failed to patch mkdaterangefullextra once}}%
+\xpatchcmd{\mkdaterangefullextra}{%
+  \printfield{extradate}%
+}{%
+  \printfield{extraalpha}%
+}{}{\wlog{WARNING: biblatex-bath failed to patch mkdaterangefullextra twice}}%
+\xpatchcmd{\mkdaterangefullextra}{%
+  \printfield{extradate}%
+}{%
+  \printfield{extraalpha}%
+}{}{\wlog{WARNING: biblatex-bath failed to patch mkdaterangefullextra thrice}}%
+\xpatchcmd{\mkdaterangetruncextra@i}{%
+  \printfield{extradate}%
+}{%
+  \printfield{extraalpha}%
+}{}{\wlog{WARNING: biblatex-bath failed to patch mkdaterangetruncextra@i once}}%
+\xpatchcmd{\mkdaterangetruncextra@i}{%
+  \printfield{extradate}%
+}{%
+  \printfield{extraalpha}%
+}{}{\wlog{WARNING: biblatex-bath failed to patch mkdaterangetruncextra@i twice}}%
+\xpatchcmd{\mkdaterangetruncextra@i}{%
+  \printfield{extradate}%
+}{%
+  \printfield{extraalpha}%
+}{}{\wlog{WARNING: biblatex-bath failed to patch mkdaterangetruncextra@i thrice}}%
 
 %    \end{macrocode}
 %
@@ -3274,6 +3416,14 @@ This work is `maintained' (as per LPPL maintenance status) by [Alex Ball][me].
   \usebibmacro{series+number}%
 }{}{\wlog{WARNING: biblatex-bath failed to patch collection driver}}
 
+\xpatchbibdriver{reference}{%
+  \newunit\newblock
+  \usebibmacro{series+number}%
+}{%
+  \setunit{\addcomma\space}%
+  \usebibmacro{series+number}%
+}{}{\wlog{WARNING: biblatex-bath failed to patch reference driver}}
+
 \xpatchbibdriver{inbook}{%
   \newunit\newblock
   \usebibmacro{series+number}%
@@ -3289,6 +3439,14 @@ This work is `maintained' (as per LPPL maintenance status) by [Alex Ball][me].
   \setunit{\addcomma\space}%
   \usebibmacro{series+number}%
 }{}{\wlog{WARNING: biblatex-bath failed to patch incollection driver}}
+
+\xpatchbibdriver{inreference}{%
+  \newunit\newblock
+  \usebibmacro{series+number}%
+}{%
+  \setunit{\addcomma\space}%
+  \usebibmacro{series+number}%
+}{}{\wlog{WARNING: biblatex-bath failed to patch inreference driver}}
 
 \xpatchbibdriver{inproceedings}{%
   \newunit\newblock
