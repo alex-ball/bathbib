@@ -2991,11 +2991,7 @@ This work is `maintained' (as per LPPL maintenance status) by [Alex Ball][me].
     \renewbibmacro*{date+extrayear}{\usebibmacro{date+extradate}}%
   }
   \renewbibmacro*{issue+date}{%
-    \ifboolexpr{
-      test {\iffieldundef{issue}}
-      and
-      test {\iffieldundef{month}}
-    }{}{%
+    \iffieldundef{issue}{}{%
       \ifboolexpr{(
         test {\iffieldundef{volume}}
         and
@@ -3010,9 +3006,9 @@ This work is `maintained' (as per LPPL maintenance status) by [Alex Ball][me].
           \printfield{issue}%
         }%
       }
-      \setunit{\addcomma\space}%
-      \printdate
     }%
+    \setunit{\addcomma\space}%
+    \printdate
     \newunit
   }%
 }%
