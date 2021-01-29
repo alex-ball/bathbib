@@ -181,7 +181,7 @@ Copyright (C) 2020 by University of Bath
     }
   , moredelim=**[s][\color{violet}]{[}{]}
   , moredelim=**[s][\color{blue!75!black}]{\{}{\}}
-  , mathescape
+  , mathescape=false
   }
 \lstset{style=dtxlatex}
 \tcbset
@@ -665,6 +665,11 @@ BibTeX, and not a symptom of recalcitrance on the part of the author.
 
 \subsubsection*{Book known by its title}
 
+\begin{info}\item
+Use the most appropriate \texttt{reference} entry type instead of, say,
+\texttt{book} or \texttt{collection}.
+\end{info}
+
 \begin{bibexbox}<RX>{bnf2020}
   British National Formulary, 2020. 79th ed. London: Pharmaceutical Press.
   \tcblower
@@ -699,6 +704,13 @@ BibTeX, and not a symptom of recalcitrance on the part of the author.
 %<*driver>
 \end{Verbatim}
 \end{bibexbox}
+
+\begin{info}\item
+If you use the Bib\TeX\ backend, you will have to repeat the contents of the
+\texttt{booktitle} field in the \texttt{sorttitle} field yourself to ensure the
+entry is placed correctly in the reference list. If you use Biber, this is done
+automatically for you.
+\end{info}
 
 \begin{bibexbox}<RX>{asprin2019bnf}
   British National Formulary, 2019. \emph{Aspirin} [Online]. London: Pharmaceutical Press. Available from: \url{https://www.medicinescomplete.com/#/content/bnf/_456850132} [Accessed 26 November 2019].
@@ -2198,6 +2210,7 @@ This work is `maintained' (as per LPPL maintenance status) by [Alex Ball][me].
   \DeclareLanguageMapping{english}{english-bath}
   \DeclareLanguageMapping{british}{british-bath}
 }
+
 %    \end{macrocode}
 %
 % We begin by loading the default author--year style.
@@ -2496,11 +2509,20 @@ This work is `maintained' (as per LPPL maintenance status) by [Alex Ball][me].
 \DeclareFieldFormat{midsentencecase}{\MakeSentenceCase*{{}#1}}
 \DeclareFieldFormat{title}{\mkbibemph{#1}}
 \DeclareFieldFormat
-  [article,inbook,incollection,inproceedings,inreference]%
+  [article,inbook,incollection,inproceedings]%
   {title}{#1}
 \DeclareFieldFormat
   [patent,thesis]%
   {title}{\mkbibemph{#1}}
+\DeclareFieldFormat
+  [reference,mvreference]%
+  {title}{\ifnameundef{author}{#1}{\mkbibemph{#1}}}
+\DeclareFieldFormat
+  [inreference]%
+  {title}{\ifnameundef{author}{\mkbibemph{#1}}{#1}}
+\DeclareFieldFormat
+  [inreference]%
+  {booktitle}{\ifnameundef{author}{#1}{\mkbibemph{#1}}}
 \DeclareFieldFormat
   [unpublished]%
   {title}{\iffieldundef{booktitle}{\mkbibemph{#1}}{#1}}
@@ -2648,20 +2670,37 @@ This work is `maintained' (as per LPPL maintenance status) by [Alex Ball][me].
 % and show titleaddon after the |date+extradate| macro.
 %
 %    \begin{macrocode}
+\DeclareLabeltitle[inreference]{%
+  \field{shorttitle}
+  \field{booktitle}
+  \field{title}
+}
 \providetoggle{bbx:labelistitle}
 \renewbibmacro*{labeltitle}{%
   \iffieldundef{label}{%
     \ifboolexpr{
-      test {\iffieldundef{title}}
+      test {\ifentrytype{inreference}}
       and
-      test {\iffieldundef{subtitle}}
-    }{}{%
-      \printtext[title]{%
-        \printfield[sentencecase]{title}%
-        \setunit{\subtitlepunct}%
-        \printfield[midsentencecase]{subtitle}}%
-      \clearfield{title}\clearfield{subtitle}%
-      \toggletrue{bbx:labelistitle}}%
+      not test {\iffieldundef{booktitle}}
+    }{%
+      \printtext[booktitle]{%
+        \printfield[sentencecase]{booktitle}%
+        \setunit{\booksubtitlepunct}%
+        \printfield[midsentencecase]{booksubtitle}}%
+      \clearfield{booktitle}\clearfield{booksubtitle}%
+    }{%
+      \ifboolexpr{
+        test {\iffieldundef{title}}
+        and
+        test {\iffieldundef{subtitle}}
+      }{}{%
+        \printtext[title]{%
+          \printfield[sentencecase]{title}%
+          \setunit{\subtitlepunct}%
+          \printfield[midsentencecase]{subtitle}}%
+        \clearfield{title}\clearfield{subtitle}%
+        \toggletrue{bbx:labelistitle}}%
+    }%
   }{%
     \printfield{label}%
   }%
@@ -3484,6 +3523,65 @@ This work is `maintained' (as per LPPL maintenance status) by [Alex Ball][me].
 
 %    \end{macrocode}
 %
+% \subsection{Works in books known by their title}
+%
+% In these cases, the title is moved after the edition information.
+%
+%    \begin{macrocode}
+\DeclareBibliographyDriver{inreference}{%
+  \usebibmacro{bibindex}%
+  \usebibmacro{begentry}%
+  \usebibmacro{author/translator+others}%
+  \setunit{\printdelim{nametitledelim}}\newblock
+  \ifnameundef{author}{}{\usebibmacro{title}%
+  \newunit}%
+  \printlist{language}%
+  \newunit\newblock
+  \usebibmacro{byauthor}%
+  \newunit\newblock
+  \ifnameundef{editor}{}{\usebibmacro{in:}}%
+  \usebibmacro{bookeditor}%
+  \newunit\newblock
+  \usebibmacro{maintitle+booktitle}%
+  \usebibmacro{byeditor+others}%
+  \newunit\newblock
+  \printfield{edition}%
+  \newunit
+  \iffieldundef{maintitle}
+    {\printfield{volume}%
+     \printfield{part}}
+    {}%
+  \newunit
+  \ifnameundef{author}{\usebibmacro{title}%
+  \newunit}{}%
+  \printfield{volumes}%
+  \newunit\newblock
+  \usebibmacro{series+number}%
+  \newunit\newblock
+  \printfield{note}%
+  \newunit\newblock
+  \usebibmacro{publisher+location+date}%
+  \newunit\newblock
+  \usebibmacro{chapter+pages}%
+  \newunit\newblock
+  \iftoggle{bbx:isbn}
+    {\printfield{isbn}}
+    {}%
+  \newunit\newblock
+  \usebibmacro{doi+eprint+url}%
+  \newunit\newblock
+  \usebibmacro{addendum+pubstate}%
+  \setunit{\bibpagerefpunct}\newblock
+  \usebibmacro{pageref}%
+  \newunit\newblock
+  \iftoggle{bbx:related}
+    {\usebibmacro{related:init}%
+     \usebibmacro{related}}
+    {}%
+  \usebibmacro{finentry}}
+
+%    \end{macrocode}
+%
 % \subsection{Datasets}
 %
 % We patch the new datasets driver from biblatex v3.13 so it can emulate what
@@ -4262,6 +4360,24 @@ This work is `maintained' (as per LPPL maintenance status) by [Alex Ball][me].
 %
 %    \begin{macrocode}
 \DeclareBibliographyAlias{standard}{manual}
+
+%    \end{macrocode}
+%
+% \subsection{Sorting}
+%
+% This source map helps with correct sorting of anonymous |inreference| entries.
+%
+%    \begin{macrocode}
+\DeclareStyleSourcemap{%
+  \maps[datatype=bibtex]{%
+    \map{%
+      \pertype{inreference}
+      \step[notfield=author, final]
+      \step[fieldsource=booktitle]
+      \step[fieldset=sorttitle, origfieldval]
+    }%
+  }%
+}%
 %    \end{macrocode}
 %
 % \iffalse
