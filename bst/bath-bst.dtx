@@ -704,6 +704,10 @@ though of course any item might need adjustment to take account of differing con
 \end{Verbatim}
 \end{bibexbox}
 
+\begin{info}\item
+Internally, \texttt{collection} is an alias for \texttt{book}.
+\end{info}
+
 
 \subsubsection*{Electronic book}
 
@@ -783,6 +787,12 @@ though of course any item might need adjustment to take account of differing con
 
 \subsubsection*{Book known by its title}
 
+\begin{info}\item
+Unfortunately, to avoid breaking other use cases for the \texttt{book} entry
+type, to achieve the following format you must use the non-standard
+\texttt{reference} entry type.
+\end{info}
+
 \begin{bibexbox}<RX>{bnf2020}
   British National Formulary, 2020. 79th ed. London: Pharmaceutical Press.
   \tcblower
@@ -816,7 +826,8 @@ though of course any item might need adjustment to take account of differing con
 \end{bibexbox}
 
 \begin{info}\item
-Internally, \texttt{collection} and \texttt{reference} are aliases for \texttt{book}.
+Similarly, to achieve the following formats you must use the non-standard
+\texttt{inreference} entry type.
 \end{info}
 
 \begin{bibexbox}<RX>{asprin2020bnf}
@@ -891,8 +902,10 @@ Internally, \texttt{collection} and \texttt{reference} are aliases for \texttt{b
 
 \begin{info}\item
 Internally, \texttt{inreference} is an alias for \texttt{incollection}.
+%<driver>Use \texttt{inreference} if you need compatibility with \textsf{biblatex-bath}.
 \end{info}
 
+\citet{bnf2020}, \cite{asprin2019bnf}, \citet{asprin2020bnf}.
 
 \subsubsection*{One chapter\slash paper from a collection (by different authors) in an edited book}
 
@@ -3939,7 +3952,11 @@ FUNCTION {get.title.addenda}
   is.online
   journal empty$
   and
-  booktitle empty$
+    booktitle empty$
+      type$ "inreference" =
+      author empty$
+      and
+    or
   and
     library empty$
     type$ "image" =
@@ -3981,15 +3998,23 @@ FUNCTION {word.in}
   " " * }
 %    \end{macrocode}
 %
-% |format.booktitle| returns the booktitle field in italics.
+% |format.label.booktitle| returns the booktitle field upright
 %
 %    \begin{macrocode}
-FUNCTION {format.booktitle}
+FUNCTION {format.label.booktitle}
 { booktitle
   duplicate$ empty$ 'skip$
     { "t" change.case$ }
   if$
   "booktitle" bibinfo.check
+}
+%    \end{macrocode}
+%
+% |format.booktitle| returns the booktitle field in italics.
+%
+%    \begin{macrocode}
+FUNCTION {format.booktitle}
+{ format.label.booktitle
   emphasize
 }
 %    \end{macrocode}
@@ -3999,7 +4024,9 @@ FUNCTION {format.booktitle}
 %
 %    \begin{macrocode}
 FUNCTION {format.in.ed.booktitle}
-{ format.booktitle duplicate$ empty$ 'skip$
+{ format.booktitle
+  duplicate$ empty$
+    'skip$
     {
 %<*bst2>
       is.online
@@ -5150,7 +5177,10 @@ FUNCTION {book}
     { editor empty$
       type$ "reference" =
       or
-        { format.btitle "title" output.check
+        { type$ "reference" =
+            { format.title "title" output.check }
+            { format.btitle "title" output.check }
+          if$
           format.date "year" output.check
           year empty$ 'skip$ { date.block } if$
           get.title.addenda
@@ -5281,10 +5311,16 @@ FUNCTION {inbook}
 FUNCTION {incollection}
 { output.bibitem
   author empty$
-    { format.title "title" output.check
+    { type$ "inreference" =
+        { format.label.booktitle output }
+        { format.title "title" output.check }
+      if$
       format.date "year" output.check
       year empty$ 'skip$ { date.block } if$
-      get.title.addenda
+      type$ "inreference" =
+        'skip$
+        { get.title.addenda }
+      if$
     }
     { format.authors output.nonnull
       format.date "year" output.check
@@ -5295,10 +5331,24 @@ FUNCTION {incollection}
   if$
   new.block
   crossref missing$
-    { format.in.ed.booktitle "booktitle" output.check
+    { type$ "inreference" =
+      author empty$
+      and
+        { format.byeditors output }
+        { format.in.ed.booktitle "booktitle" output.check }
+      if$
       new.block
       format.edition output
       new.block
+      type$ "inreference" =
+      author empty$
+      and
+        { format.btitle "title" output.check
+          get.title.addenda
+          new.block
+        }
+        'skip$
+      if$
       format.publisher.address output
       format.bvolume output
       format.number.series output
@@ -5945,18 +5995,28 @@ FUNCTION {editor.key.label}
 FUNCTION {author.key.label}
 { author empty$
     { key empty$
-        { title empty$
-            { cite$ #1 #3 substring$ }
-            { title
-              type$ "article" =
-              type$ "incollection" =
-              or
-              type$ "inproceedings" =
-              or
-              type$ "misc" =
-              or
-                'skip$
-                { emphasize }
+        { type$ "inreference" =
+          booktitle empty$ not
+          and
+            { booktitle }
+            { title empty$
+                { cite$ #1 #3 substring$ }
+                { title
+                  type$ "article" =
+                  type$ "incollection" =
+                  or
+                  type$ "inproceedings" =
+                  or
+                    type$ "reference" =
+                    author empty$
+                    and
+                  or
+                  type$ "misc" =
+                  or
+                    'skip$
+                    { emphasize }
+                  if$
+                }
               if$
             }
           if$
@@ -6109,15 +6169,21 @@ FUNCTION {editor.sort}
 %    \begin{macrocode}
 FUNCTION {author.sort}
 { author empty$
-    { title empty$
-        { key empty$
-            { "to sort, need author, title, or key in " cite$ * warning$
-              ""
+    { type$ "inreference" =
+      booktitle empty$ not
+      and
+        { booktitle sort.format.title }
+        { title empty$
+            { key empty$
+                { "to sort, need author, title, or key in " cite$ * warning$
+                  ""
+                }
+                { key sortify }
+              if$
             }
-            { key sortify }
+            { title sort.format.title }
           if$
         }
-        { title sort.format.title }
       if$
     }
     { author sort.format.names }
