@@ -58,7 +58,7 @@
       <choose>
         <if type="entry">
           <substitute>
-            <text macro="title"/>
+            <text macro="title-label"/>
           </substitute>
         </if>
         <else>
@@ -66,6 +66,9 @@
             <names variable="editor">
               <name and="text" delimiter-precedes-last="never" initialize-with="." name-as-sort-order="all"/>
               <label form="short" prefix=", " text-case="lowercase"/>
+              <substitute>
+                <text macro="title-label"/>
+              </substitute>
             </names>
             <text macro="title"/>
           </substitute>
@@ -172,7 +175,7 @@
   </macro>
   <macro name="title-short">
     <choose>
-      <if type="bill broadcast book dataset graphic map motion_picture musical_score patent report song webpage thesis" match="any">
+      <if type="bill broadcast dataset graphic map motion_picture musical_score patent report song webpage thesis" match="any">
         <text variable="title" font-style="italic"/>
       </if>
       <else-if type="legislation legal_case" match="any">
@@ -185,11 +188,37 @@
           </else>
         </choose>
       </else-if>
+      <else-if type="entry">
+        <text variable="container-title"/>
+      </else-if>
       <else>
         <text variable="title-short"/>
         <substitute>
-          <text variable="title"/>
+          <text variable="title" />
         </substitute>
+      </else>
+    </choose>
+  </macro>
+  <macro name="title-label">
+    <choose>
+      <if type="entry">
+        <text variable="container-title"/>
+      </if>
+      <else-if type="bill broadcast dataset graphic legal_case map motion_picture musical_score patent report song speech webpage thesis" match="any">
+        <text variable="title" font-style="italic"/>
+      </else-if>
+      <else-if type="legislation">
+        <choose>
+          <if variable="container-title">
+            <text variable="title"/>
+          </if>
+          <else>
+            <text variable="title" font-style="italic"/>
+          </else>
+        </choose>
+      </else-if>
+      <else>
+        <text variable="title"/>
       </else>
     </choose>
   </macro>
@@ -467,20 +496,16 @@
           </group>
           <text prefix=" " suffix="." macro="publisher"/>
         </else-if>
-        <else-if type="entry" match="any">
-          <text macro="title" prefix=" "/>
+        <else-if type="entry">
+          <group prefix=" " suffix="." delimiter=". ">
+            <text macro="byeditor"/>
+            <text macro="edition"/>
+          </group>
           <group prefix=" " suffix="." delimiter=" ">
-            <choose>
-              <if variable="editor">
-                <text term="in" text-case="capitalize-first" suffix=":"/>
-                <text macro="editor" suffix="."/>
-              </if>
-            </choose>
-            <text variable="container-title" font-style="italic"/>
+            <text variable="title" font-style="italic"/>
             <text macro="online"/>
           </group>
           <group prefix=" " suffix="." delimiter=". ">
-            <text macro="edition"/>
             <text macro="series"/>
             <text macro="status"/>
           </group>
