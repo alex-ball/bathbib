@@ -53,9 +53,10 @@ documentation.
 
  2. Compile `bath-bst.dtx` with [LuaLaTeX] and BibTeX to generate the
     documentation. You will need, among other things, the [luatexja],
-    [adobemapping] and [ipaex] packages installed; this is just for the
-    documentation, not for the BibTeX style itself. To generate the version 1
-    tests and documentation, compile `bath-bst-v1.tex` with LuaLaTeX and BibTeX.
+    [adobemapping], [ipaex] and [haranoaji] packages installed; this is just for
+    the documentation, not for the BibTeX style itself. To generate the version
+    1 tests and documentation, compile `bath-bst-v1.tex` with LuaLaTeX and
+    BibTeX.
 
  3. If you are using TeX Live, find your home TeX tree using the following
     command at the command prompt/terminal:
@@ -93,6 +94,7 @@ documentation.
 [luatexja]: http://ctan.org/pkg/luatexja
 [adobemapping]: http://ctan.org/pkg/adobemapping
 [ipaex]: http://ctan.org/pkg/ipaex
+[haranoaji]: http://ctan.org/pkg/haranoaji
 
 ## Licence
 

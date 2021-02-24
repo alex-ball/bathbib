@@ -52,8 +52,8 @@ documentation.
 
  2. Compile `biblatex-bath.dtx` with [LuaLaTeX] and [Biber] to generate the
     documentation. You will need, among other things, the [luatexja],
-    [adobemapping] and [ipaex] packages installed; this is just for the
-    documentation, not for the biblatex style itself.
+    [adobemapping] and [haranoaji] packages installed; this is just
+    for the documentation, not for the biblatex style itself.
 
  3. If you are using TeX Live, find your home TeX tree using the following
     command at the command prompt/terminal:
@@ -92,7 +92,7 @@ documentation.
 [Biber]: http://ctan.org/pkg/biber
 [luatexja]: http://ctan.org/pkg/luatexja
 [adobemapping]: http://ctan.org/pkg/adobemapping
-[ipaex]: http://ctan.org/pkg/ipaex
+[haranoaji]: http://ctan.org/pkg/haranoaji
 
 ## Licence
 
