@@ -3325,7 +3325,7 @@ This work is `maintained' (as per LPPL maintenance status) by [Alex Ball][me].
 %    \end{macrocode}
 %
 % Since URLs and DOIs are presented in exactly the same way, we combine them
-% such that the DOI overrides the URL. 
+% such that the DOI overrides the URL.
 %
 %    \begin{macrocode}
 \renewbibmacro*{url}{%
@@ -3539,10 +3539,15 @@ This work is `maintained' (as per LPPL maintenance status) by [Alex Ball][me].
   \newunit\newblock
   \usebibmacro{byauthor}%
   \newunit\newblock
-  \ifnameundef{editor}{}{\usebibmacro{in:}}%
-  \usebibmacro{bookeditor}%
-  \newunit\newblock
-  \usebibmacro{maintitle+booktitle}%
+  \ifboolexpr{
+    test {\iffieldundef{maintitle}}
+    and
+    test {\iffieldundef{booktitle}}
+  }{}{%
+    \ifnameundef{editor}{}{\usebibmacro{in:}}%
+    \usebibmacro{bookeditor}%
+    \newunit\newblock
+    \usebibmacro{maintitle+booktitle}}%
   \usebibmacro{byeditor+others}%
   \newunit\newblock
   \printfield{edition}%
