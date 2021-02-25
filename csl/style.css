@@ -1,0 +1,47 @@
+.success {
+	border-color: #1B5E20;
+	background-color: #E8F5E9;
+}
+
+.failure {
+	border-color: #B71C1C;
+	background-color: #FFEBEE;
+}
+
+.test {
+	margin-top:1rem;
+	margin-bottom:1rem;
+	border: 2px solid #263238;
+	border-radius: 0.5rem;
+}
+
+div.citation {
+	padding-left: 1rem;
+	padding-right: 1rem;
+}
+
+.target {
+	padding: 1rem;
+	border-top-width: 2px;
+	border-top-style: solid;
+}
+
+.references {
+	padding: 1rem;
+	border-top-width: 1px;
+	border-top-style: solid;
+}
+
+.references:last-child {
+	border-bottom-left-radius: 0.5rem;
+	border-bottom-right-radius: 0.5rem;
+}
+
+.target p,
+.references p {
+	margin: 0;
+}
+
+.roman {
+	font-style: normal;
+}

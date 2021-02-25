@@ -380,7 +380,7 @@ references:
 
 - id: bs5605:1990
   type: report
-  title: '<span class="nocase">BS 5605:1990 Recommendations</nocase> for citing and referencing published material'
+  title: '<span class="nocase">BS 5605:1990 Recommendations</span> for citing and referencing published material'
   publisher: BSI
   publisher-place: London
   author:
@@ -483,8 +483,8 @@ references:
   - year: '1946'
   title: Prototype electric bicycle displayed at the <span class="nocase">“Britain Can Make It”</span> exhibition
     organised by the <span class="nocase">Council of Industrial Design</span> and held at the <span class="nocase">Victoria and Albert
-    Museum, London,</span> 1946. <span class="nocase">Designed</psan> by <span class="nocase">B. G. Bowden</span>
-  genre: photograph
+    Museum, London,</span> 1946. <span class="nocase">Designed</span> by <span class="nocase">B. G. Bowden</span>
+  genre: Photograph
   archive-place: London
   archive: Design Council Slide Collection
 
@@ -774,7 +774,7 @@ references:
   title: Qingdai yilai Sanxia diqu shuihan zaihai de chubu yanjiu 清代以來三峽地區水旱災害的初步硏
   original-title: A preliminary study of floods and droughts in the <span class="nocase">Three Gorges</span> region since the
     <span class="nocase">Qing</span> dynasty
-  container-title: Zhongguo shehui kexue <span class="upright">中國社會科學</span>
+  container-title: Zhongguo shehui kexue <span class="roman">中國社會科學</span>
   page: '168-79'
   volume: '1'
 
@@ -890,7 +890,7 @@ references:
   - year: '2004'
   title: 'Delivering security in a changing world: defence white paper'
   title-short: Delivering security in a changing world
-  collection-title: Cm
+  genre: Cm.
   publisher: TSO
   publisher-place: London
   number: '6041'
