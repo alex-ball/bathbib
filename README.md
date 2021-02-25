@@ -47,7 +47,8 @@ for CSL styles.
 
   - For many resource types, you can use `genre` to put something in square
     brackets after the title, e.g. the Kindle version in the Hodds reference.
-    The exceptions are `thesis`, `report`, `patent` and `motion_picture`.
+    The exceptions are `thesis`, `report`, `patent`, `motion_picture` and
+    `bill`.
 
   - For preprints, use resource type `report` and put the repository name under
     `archive`.
@@ -100,8 +101,9 @@ for CSL styles.
     for the series, `volume` for the volume and `page` for the starting page.
 
   - Use the `bill` type for House of Commons/Lords Bills but also for House of
-    Commons/Lords Papers and Command Papers. Use `collection-title` for the type
-    and session (e.g. ‘Bills | 1987/88’, ‘Cm.’) and `number` for the printing.
+    Commons/Lords Papers and Command Papers. Use `collection-title` for the
+    series and session (e.g. ‘Bills | 1987/88’) or `genre` for the type (e.g.
+    ‘Cm.’) and `number` for the printing.
 
   - For legal cases, only approximate support is possible. The year will be
     shown in square brackets unless `volume` is given, in which case it will be

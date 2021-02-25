@@ -39,7 +39,7 @@ See:     http://www.latex-project.org/lppl.txt
 \endpreamble
 \postamble
 
-Copyright (C) 2020 by University of Bath
+Copyright (C) 2016-2021 by University of Bath
 \endpostamble
 
 \usedir{bibtex/bst/\jobname}
@@ -74,7 +74,7 @@ Copyright (C) 2020 by University of Bath
 \ProvidesFile{bath-bst.dtx}
 %</driver>
 %<*driver|tex1>
-    [2020/01/16 v3.2 Harvard referencing style as recommended by the University of Bath Library]
+    [2021/02/25 v4.0 Harvard referencing style as recommended by the University of Bath Library]
 
 \documentclass[10pt,a4paper]{article}
 \usepackage[british]{babel}
@@ -800,31 +800,16 @@ type, to achieve the following format you must use the non-standard
   \tcblower
 \begin{Verbatim}
 %</driver|tex1>
-%<*driver|bib>
+%<*driver|bib|tex1|bib1>
 @reference{bnf2020,
   year = {2020},
   title = {{British National Formulary}},
   edition = {79},
   address = {London},
   publisher = {Pharmaceutical Press}}
-%</driver|bib>
-%<*driver>
-\end{Verbatim}
-\iffalse
-%</driver>
-%<*tex1|bib1>
-@book{bnf2020,
-  year = {2020},
-  title = {{British National Formulary}},
-  edition = {79},
-  address = {London},
-  publisher = {Pharmaceutical Press}}
-%</tex1|bib1>
+%</driver|bib|tex1|bib1>
 %<*driver|tex1>
 \end{Verbatim}
-%<*driver>
-\fi
-%</driver>
 \end{bibexbox}
 
 \begin{info}\item
@@ -837,7 +822,7 @@ Similarly, to achieve the following formats you must use the non-standard
   \tcblower
 \begin{Verbatim}
 %</driver|tex1>
-%<*driver|bib>
+%<*driver|bib|tex1|bib1>
 @inreference{asprin2020bnf,
   title = {Asprin},
   year = {2020},
@@ -845,25 +830,9 @@ Similarly, to achieve the following formats you must use the non-standard
   edition = {79},
   address = {London},
   publisher = {Pharmaceutical Press}}
-%</driver|bib>
-%<*driver>
-\end{Verbatim}
-\iffalse
-%</driver>
-%<*tex1|bib1>
-@incollection{asprin2020bnf,
-  title = {Asprin},
-  year = {2020},
-  booktitle = {{British National Formulary}},
-  edition = {79},
-  address = {London},
-  publisher = {Pharmaceutical Press}}
-%</tex1|bib1>
+%</driver|bib|tex1|bib1>
 %<*driver|tex1>
 \end{Verbatim}
-%<*driver>
-\fi
-%</driver>
 \end{bibexbox}
 
 \begin{bibexbox}<RX>{asprin2019bnf}
@@ -886,7 +855,7 @@ Similarly, to achieve the following formats you must use the non-standard
 \iffalse
 %</driver>
 %<*tex1|bib1>
-@incollection{asprin2019bnf,
+@inreference{asprin2019bnf,
   title = {Asprin},
   year = {2019},
   booktitle = {{British National Formulary \textup{[Online]}}},
@@ -2944,7 +2913,7 @@ Commission case number, \texttt{number} for the formal decision number, and give
 %<readme>## Licence
 %<readme>
 %<*driver|readme>
-Copyright 2016-2020 University of Bath.
+Copyright 2016-2021 University of Bath.
 
 This work consists of the documented LaTeX file bath-bst.dtx and a Makefile.
 

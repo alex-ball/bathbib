@@ -98,7 +98,7 @@ documentation.
 
 ## Licence
 
-Copyright 2016-2020 University of Bath.
+Copyright 2016-2021 University of Bath.
 
 This work consists of the documented LaTeX file bath-bst.dtx and a Makefile.
 
