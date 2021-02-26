@@ -630,9 +630,9 @@
             <text macro="edition"/>
             <text macro="series"/>
             <text macro="editor"/>
+            <text macro="publisher"/>
+            <text macro="archive"/>
           </group>
-          <text prefix=" " suffix="." macro="publisher"/>
-          <text prefix=" " suffix="." macro="archive"/>
         </else-if>
         <else-if type="broadcast">
           <group prefix=" " suffix="." delimiter=" ">
