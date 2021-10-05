@@ -21,7 +21,7 @@ $(NAME).html: $(NAME)-raw.html check-output.py
 
 clean:
 	rm -rf tmp/
-	$(NAME)-raw.html
+	rm $(NAME)-raw.html
 
 distclean: clean
 	rm -f $(NAME).html
