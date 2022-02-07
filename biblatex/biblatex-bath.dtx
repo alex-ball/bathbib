@@ -600,6 +600,24 @@ BibTeX, and not a symptom of recalcitrance on the part of the author.
 \end{Verbatim}
 \end{bibexbox}
 
+\begin{bibexbox}<RX>{solomon.etal2019cbe}
+  Solomon, M.R., Askegaard, S., Hogg, M. and Bamossy, G.J., 2019. \emph{Consumer behaviour: a European perspective.} 7th ed. Harlow: Pearson.
+  \tcblower
+\begin{Verbatim}
+%</driver>
+%<*driver|bib>
+@book{solomon.etal2019cbe,
+  author = {Solomon, M. R. and Askegaard, S. and Hogg, M. and Bamossy, G. J.},
+  year = {2019},
+  title = {Consumer Behaviour: a {European} Perspective},
+  edition = {7},
+  address = {Harlow},
+  publisher = {Pearson}}
+%</driver|bib>
+%<*driver>
+\end{Verbatim}
+\end{bibexbox}
+
 
 \subsubsection*{Book with editor(s) instead of author(s)}
 
@@ -644,19 +662,20 @@ BibTeX, and not a symptom of recalcitrance on the part of the author.
 \end{Verbatim}
 \end{bibexbox}
 
-\begin{bibexbox}<RX>{hodds2016re}
-  Hodds, J., 2016. \emph{Referencing ebooks} [Kindle version 4.18]. Bath:\@ University of Bath.
+\begin{bibexbox}<RX>{blockley2021evs}
+  Blockley, D., 2021. \emph{Engineering: a very short introduction} [Online]. Oxford: Oxford University Press. Available from: \url{https://www.amazon.co.uk/kindle} [Accessed 30 June 2021].
   \tcblower
 \begin{Verbatim}
 %</driver>
 %<*driver|bib>
-@book{hodds2016re,
-  author = {Hodds, J.},
-  year = {2016},
-  title = {Referencing ebooks},
-  titleaddon = {Kindle version 4.18},
-  address = {Bath},
-  publisher = {University of Bath}}
+@book{blockley2021evs,
+  author = {Blockley, D.},
+  year = {2021},
+  title = {Engineering: a Very Short Introduction},
+  address = {Oxford},
+  publisher = {Oxford University Press},
+  url = {https://www.amazon.co.uk/kindle},
+  urldate = {2021-06-30}}
 %</driver|bib>
 %<*driver>
 \end{Verbatim}
@@ -732,7 +751,7 @@ automatically for you.
 \end{bibexbox}
 
 
-\subsubsection*{One chapter\slash paper from a collection (by different authors) in an edited book}
+\subsubsection*{Chapter\slash paper from a collection (by different authors) in an edited book}
 
 \begin{bibexbox}<RL>{burchard1965hhl}
   Burchard, J.E., 1965. How humanists use a library. In:\@ C.F.J. Overhage and J.R. Harman, eds. \emph{Intrex:\@ report on a planning conference and information transfer experiments}. Cambridge, Mass.:\@ MIT Press, pp.41--87.
@@ -837,24 +856,64 @@ automatically for you.
 \end{Verbatim}
 \end{bibexbox}
 
-
-\subsubsection*{Electronic journal article}
-
-\begin{bibexbox}<RX>{williams1997edd}
-  Williams, F., 1997. Electronic document delivery:\@ a trial in an academic library. \emph{Ariadne} [Online], 10. Available from:\@ \url{http://www.ariadne.ac.uk/issue10/edd/} [Accessed 5 December 1997].
+\begin{bibexbox}<RX>{wetzstein.etal2020iai}
+  Wetzstein, G., Ozcan, A., Gigan, S., Fan, S., Englund, D., Soljacic, M., Denz, C., Miller, D.A.B. and Psaltis, D., 2020. Inference in artificial intelligence with deep optics and photonics. \emph{Nature}, 588(7836), pp.39--47.
   \tcblower
 \begin{Verbatim}
 %</driver>
 %<*driver|bib>
-@article{williams1997edd,
-  author = {Williams, F.},
-  year = {1997},
-  title = {Electronic Document Delivery},
-  subtitle = {A Trial in an Academic Library},
-  journal = {Ariadne},
-  volume = {10},
-  url = {http://www.ariadne.ac.uk/issue10/edd/},
-  urldate = {1997-12-05}}
+@article{wetzstein.etal2020iai,
+  author = {Wetzstein, G. and Ozcan, A. and Gigan, S. and Fan, S. and
+    Englund, D. and Soljacic, M. and Denz, C. and Miller, D. A. B. and
+    Psaltis, D.},
+  year = {2020},
+  title = {Inference in artificial intelligence with deep optics and photonics},
+  journal = {Nature},
+  volume = {588},
+  number = {7836},
+  pages = {39-47}}
+%</driver|bib>
+%<*driver>
+\end{Verbatim}
+\end{bibexbox}
+
+
+\subsubsection*{Electronic journal article}
+
+\begin{bibexbox}<RX>{devlin.etal2021ipp}
+  Devlin, S.M., Martin, A. and Ostrovnaya, I., 2021. Identifying prognostic pairwise relationships among bacterial species in microbiome studies. \emph{PLOS Computational Biology} [Online], 17(11). Available from: \url{https://journals.plos.org/ploscompbiol/article?id=10.1371/journal.pcbi.1009501} [Accessed 9 December 2021].
+  \tcblower
+\begin{Verbatim}
+%</driver>
+%<*driver|bib>
+@article{devlin.etal2021ipp,
+  author = {Devlin, S. M. and Martin, A. and Ostrovnaya, I.},
+  year = {2021},
+  title = {Identifying prognostic pairwise relationships among bacterial
+    species in microbiome studies},
+  journal = {{PLOS Computational Biology}},
+  volume = {17},
+  number = {11},
+  url = {https://journals.plos.org/ploscompbiol/article?id=10.1371/journal.pcbi.1009501},
+  urldate = {2021-12-09}}
+%</driver|bib>
+%<*driver>
+\end{Verbatim}
+\end{bibexbox}
+
+\begin{bibexbox}<RX>{steward.etal2020eys}
+  Steward, S., Connelly, D. and Robinson, J., 2020. Everything you should know about the coronavirus outbreak. \emph{The pharmaceutical journal} [Online]. Available from: \url{https://www.pharmaceutical-journal.com/news-and-analysis/features/everything-you-should-know-about-the-coronavirus-outbreak/20207629.article} [Accessed 30 April 2020].
+  \tcblower
+\begin{Verbatim}
+%</driver>
+%<*driver|bib>
+@article{steward.etal2020eys,
+  author = {Steward, S. and Connelly, D. and Robinson, J.},
+  year = {2020},
+  title = {Everything you should know about the coronavirus outbreak},
+  journal = {The Pharmaceutical Journal},
+  url = {https://www.pharmaceutical-journal.com/news-and-analysis/features/everything-you-should-know-about-the-coronavirus-outbreak/20207629.article},
+  urldate = {2020-04-30}}
 %</driver|bib>
 %<*driver>
 \end{Verbatim}
@@ -889,7 +948,7 @@ for `preprint'.
 \end{bibexbox}
 
 
-\subsubsection*{Preprint in a digital repository}
+\subsubsection*{Preprint or trial study in a digital repository}
 
 \begin{bibexbox}<RX>{shah.corrick2016hsc}
   Shah, I. and Corrick, I., 2016. \emph{How should central banks respond to non-neutral inflation expectations?} Bath:\@ University of Bath. \emph{OPUS} [Online]. Available from:\@ \url{http://opus.bath.ac.uk} [Accessed 4 May 2016].
@@ -906,6 +965,26 @@ for `preprint'.
   library = {OPUS},
   url = {http://opus.bath.ac.uk},
   urldate = {2016-05-04}}
+%</driver|bib>
+%<*driver>
+\end{Verbatim}
+\end{bibexbox}
+
+\begin{bibexbox}<RX>{ganju2021sed}
+  Ganju, V., 2021. \emph{A study of EnGeneIC Dream Vectors (EDV's) packaged with the chemotherapy, E-EDV-D682 given simultaneously as non-targeted EDVs carrying an immune enhancer called EDV-GC, in participants with advanced pancreatic and other cancers whose disease has progressed after one or two treatment regimes, or where other standard therapies are not appropriate.} Sydney: University of Sydney. \emph{Australian and New Zealand Clinical Trials Registry} [Online]. Available from:\@ \url{http://www.anzctr.org.au/Trial/Registration/TrialReview.aspx?id=365258} [Accessed 29 April 2021].
+  \tcblower
+\begin{Verbatim}
+%</driver>
+%<*driver|bib>
+@report{ganju2021sed,
+  author = {Ganju, V.},
+  year = {2021},
+  title = {A study of EnGeneIC Dream Vectors (EDV's) packaged with the chemotherapy, E-EDV-D682 given simultaneously as non-targeted EDVs carrying an immune enhancer called EDV-GC, in participants with advanced pancreatic and other cancers whose disease has progressed after one or two treatment regimes, or where other standard therapies are not appropriate},
+  address = {Sydney},
+  institution = {University of Sydney},
+  library = {Australian and New Zealand Clinical Trials Registry},
+  url = {http://www.anzctr.org.au/Trial/Registration/TrialReview.aspx?id=365258},
+  urldate = {2021-04-29}}
 %</driver|bib>
 %<*driver>
 \end{Verbatim}
@@ -954,6 +1033,24 @@ for the work and provide preprint details using the \texttt{eprinttype},
   title = {Picking Up the Bills},
   journal = {{The Independent}},
   pages = {28a}}
+%</driver|bib>
+%<*driver>
+\end{Verbatim}
+\end{bibexbox}
+
+\begin{bibexbox}<RX>{cogley2020ccs}
+  Cogley, M., 2020. Corporate confidence slumps to record low. \emph{The Telegraph} [Online], 4 May. Available from: \url{https://www.telegraph.co.uk/business/2020/05/03/corporate-confidence-slumps-all-time-low/} [Accessed 5 May 2020].
+  \tcblower
+\begin{Verbatim}
+%</driver>
+%<*driver|bib>
+@article{cogley2020ccs,
+  author = {Cogley, M.},
+  date = {2020-05-04},
+  title = {Corporate Confidence Slumps to Record Low},
+  journal = {{The Telegraph}},
+  url = {https://www.telegraph.co.uk/business/2020/05/03/corporate-confidence-slumps-all-time-low/},
+  urldate = {2020-05-05}}
 %</driver|bib>
 %<*driver>
 \end{Verbatim}
@@ -1034,7 +1131,7 @@ for the work and provide preprint details using the \texttt{eprinttype},
 \end{bibexbox}
 
 
-\subsubsection*{Report}
+\subsubsection*{Report, working paper, or research briefing}
 
 \begin{bibexbox}<RX>{unesco1993gip}
   UNESCO, 1993. \emph{General information programme and UNISIST}\@. (PGI-93/WS/22). Paris:\@ UNESCO.
@@ -1068,6 +1165,25 @@ for the work and provide preprint details using the \texttt{eprinttype},
   institution = {BRE},
   type = {Report},
   number = {497}}
+%</driver|bib>
+%<*driver>
+\end{Verbatim}
+\end{bibexbox}
+
+\begin{bibexbox}<RX>{deneulin.dinerstein2010hms}
+  Deneulin, S. and Dinerstein, A.C., 2010. \emph{Hope movements: social movements in the pursuit of human development.} (Bath papers in international development and wellbeing, no. 8). Bath: University of Bath.
+  \tcblower
+\begin{Verbatim}
+%</driver>
+%<*driver|bib>
+@techreport{deneulin.dinerstein2010hms,
+  author = {Deneulin, S. and Dinerstein, A.C.},
+  year = {2010},
+  title = {Hope movements: social movements in the pursuit of human development},
+  address = {Bath},
+  institution = {University of Bath},
+  type = {Bath papers in international development and wellbeing},
+  number = {no.~8}}
 %</driver|bib>
 %<*driver>
 \end{Verbatim}
@@ -1365,12 +1481,32 @@ In the above entry, the following would also work instead of using \texttt{note}
 \end{Verbatim}
 \end{tcolorbox}
 
+\begin{bibexbox}<RX>{elephant-man1980}
+  \emph{The elephant man} [Online], 1980. Film. Directed by David Lynch. USA: Brooksfilms. Available from: BBC iPlayer [Accessed 4 May 2021].
+  \tcblower
+\begin{Verbatim}
+%</driver>
+%<*driver|bib>
+@video{elephant-man1980,
+  year = {1980},
+  title = {The elephant man},
+  type = {Film},
+  note = {Directed by David Lynch},
+  address = {USA},
+  publisher = {Brooksfilms},
+  library = {BBC iPlayer},
+  urldate = {2021-05-04}}
+%</driver|bib>
+%<*driver>
+\end{Verbatim}
+\end{bibexbox}
+
 \item
 You can also use \texttt{movie} as an alias for \texttt{video}.
 \end{info}
 
 
-\subsubsection*{Streamed video (YouTube, TED Talks, etc.)}
+\subsubsection*{Online video\slash audio}
 
 \begin{bibexbox}<RX>{moran2016sol}
   Moran, C., 2016. \emph{Save our libraries} [Online]. Available from:\@ \url{https://www.youtube.com/watch?v=gKTfCz4JtVE&feature=youtu.be} [Accessed 29 April 2016].
@@ -1389,24 +1525,7 @@ You can also use \texttt{movie} as an alias for \texttt{video}.
 \end{Verbatim}
 \end{bibexbox}
 
-\begin{bibexbox}<RI>{uob2015wie}
-   University of Bath, 2015. \emph{What is engineering?} [Online]. Available from:\@ \url{https://www.youtube.com/watch?v=NoyZarq-Zbo} [Accessed 12 January 2016].
-  \tcblower
-\begin{Verbatim}
-%</driver>
-%<*driver|bib>
-@video{uob2015wie,
-  author = {{University of Bath}},
-  year = {2015},
-  title = {What is Engineering?},
-  url = {https://www.youtube.com/watch?v=NoyZarq-Zbo},
-  urldate = {2016-01-12}}
-%</driver|bib>
-%<*driver>
-\end{Verbatim}
-\end{bibexbox}
-
-\begin{bibexbox}<RI>{chakrabarti2016hac}
+\begin{bibexbox}<RX>{chakrabarti2016hac}
    Chakrabarti, V., 2016. \emph{How architecture and city planning can combat social inequality} [Online]. Available from:\@ \url{https://www.curbed.com/2016/5/5/11593058/vishaan-chakrabarti-pau-curbed-appeal-podcast} [Accessed 28 March 2019].
   \tcblower
 \begin{Verbatim}
@@ -1426,8 +1545,26 @@ You can also use \texttt{movie} as an alias for \texttt{video}.
 
 \subsubsection*{Television or radio broadcast}
 
+\begin{bibexbox}<RX>{inn2021huw}
+  Hurry up and wait, 2021. \emph{Inside no.9, Episode 6:4}. TV. BBC2, 31 May. 21.30 hrs.
+  \tcblower
+\begin{Verbatim}
+%</driver>
+%<*driver|bib>
+@video{inn2021huw,
+  date = {2021-05-31T21:30:00},
+  title = {Hurry up and wait},
+  series = {Inside No.9},
+  part = {{Episode} 6:4},
+  type = {TV},
+  publisher = {BBC2}}
+%</driver|bib>
+%<*driver>
+\end{Verbatim}
+\end{bibexbox}
+
 \begin{bibexbox}<RX>{rsfo2006ep5}
-  \emph{Rick Stein's French odyssey:\@ Episode 5}, 2006. TV. BBC2, 23 August. 20.30 hrs.
+  Rick Stein's French odyssey:\@ Episode 5, 2006. TV. BBC2, 23 August. 20.30 hrs.
   \tcblower
 \begin{Verbatim}
 %</driver>
@@ -1448,7 +1585,7 @@ Use \texttt{type} for the medium and \texttt{publisher} for the channel.
 \end{tips}
 
 \begin{bibexbox}<RX>{archers20060823}
-  \emph{The Archers}, 2006. Radio. BBC Radio 4, 23 August. 19.02 hrs.
+  The Archers, 2006. Radio. BBC Radio 4, 23 August. 19.02 hrs.
   \tcblower
 \begin{Verbatim}
 %</driver>
@@ -1466,6 +1603,25 @@ Use \texttt{type} for the medium and \texttt{publisher} for the channel.
 \begin{info}\item
 You can also use \texttt{music} as an alias for \texttt{audio}.
 \end{info}
+
+\begin{bibexbox}<RX>{tkmmm2020ts}
+  The secret, 2020. \emph{Tiger king: murder, mayhem and madness, Episode 3} [Online]. TV. Available from: Netflix [Accessed 4 May 2021].
+  \tcblower
+\begin{Verbatim}
+%</driver>
+%<*driver|bib>
+@video{tkmmm2020ts,
+  date = {2020},
+  title = {The Secret},
+  series = {Tiger King: Murder, Mayhem and Madness},
+  part = {{Episode} 3},
+  type = {TV},
+  library = {Netflix},
+  urldate = {2021-05-04}}
+%</driver|bib>
+%<*driver>
+\end{Verbatim}
+\end{bibexbox}
 
 
 \subsubsection*{Music score}
@@ -1490,29 +1646,102 @@ You can also use \texttt{music} as an alias for \texttt{audio}.
 
 \subsection{Digital media}
 
-\subsubsection*{Website\slash webpage}
+\subsubsection*{Website or webpage}
 
-\begin{bibexbox}<RX>{holland2002gci}
-  Holland, M., 2002. \emph{Guide to citing internet sources} [Online]. Poole:\@ Bournemouth University. Available from:\@ \url{http://www.bournemouth.ac.uk/library/using/guide_to_citing_internet_sourc.html} [Accessed 4 November 2002].
+\begin{bibexbox}<RX>{who2018ttc}
+  World Health Organization, 2018. \emph{The top 10 causes of death} [Online]. Geneva: World Health Organization. Available from: \url{https://www.who.int/news-room/fact-sheets/detail/the-top-10-causes-of-death} [Accessed 29 June 2020].
   \tcblower
 \begin{Verbatim}
 %</driver>
 %<*driver|bib>
-@online{holland2002gci,
-  author = {Holland, M.},
-  year = {2002},
-  title = {Guide to Citing Internet Sources},
-  address = {Poole},
-  organization = {Bournemouth University},
-  url = {http://www.bournemouth.ac.uk/library/using/guide_to_citing_internet_sourc.html},
-  urldate = {2002-11-04}}
+@online{who2018ttc,
+  author = {{World Health Organization}},
+  year = {2018},
+  title = {The Top 10 Causes of Death},
+  address = {Geneva},
+  organization = {World Health Organization},
+  url = {https://www.who.int/news-room/fact-sheets/detail/the-top-10-causes-of-death},
+  urldate = {2020-06-29}}
+%</driver|bib>
+%<*driver>
+\end{Verbatim}
+\end{bibexbox}
+
+\begin{bibexbox}<RX>{manco2013va}
+  Manco, J., 2013. \emph{Vernacular architecture} [Online]. Available from: \url{https://www.buildinghistory.org/style/vernacular.shtml} [Accessed 20 February 2020].
+  \tcblower
+\begin{Verbatim}
+%</driver>
+%<*driver|bib>
+@online{manco2013va,
+  author = {Manco, J.},
+  year = {2013},
+  title = {Vernacular Architecture},
+  url = {https://www.buildinghistory.org/style/vernacular.shtml},
+  urldate = {2020-02-20}}
 %</driver|bib>
 %<*driver>
 \end{Verbatim}
 \end{bibexbox}
 
 
-\subsubsection*{Email discussion lists (jiscmail\slash listserv etc.)}
+\subsubsection*{Social media}
+
+\begin{bibexbox}<RX>{gaiman2021fbp}
+  Gaiman, N., 2021. \emph{Facebook post} [Online], 21 April. Available from: \url{https://www.facebook.com/neilgaiman/posts/305187897642814} [Accessed 13 May 2021].
+  \tcblower
+\begin{Verbatim}
+%</driver>
+%<*driver|bib>
+@online{gaiman2021fbp,
+  author = {Gaiman, N.},
+  date = {2021-04-21},
+  title = {Facebook post},
+  url = {https://www.facebook.com/neilgaiman/posts/305187897642814},
+  urldate = {2021-05-13}}
+%</driver|bib>
+%<*driver>
+\end{Verbatim}
+\end{bibexbox}
+
+\begin{bibexbox}<RX>{ublib2021tp}
+  Library at University of Bath [@bathunilibrary], 2021. \emph{Twitter post} [Online], 10 May. Available from: https://twitter.com/BathUniLibrary/status/1391774402618998795?s=20 [Accessed 12 May 2021].
+  \tcblower
+\begin{Verbatim}
+%</driver>
+%<*driver|bib>
+@online{ublib2021tp,
+  author = {{Library at University of Bath}},
+  nameaddon = {@bathunilibrary},
+  date = {2021-05-10},
+  title = {Twitter post},
+  url = {https://twitter.com/BathUniLibrary/status/1391774402618998795?s=20},
+  urldate = {2021-05-12}}
+%</driver|bib>
+%<*driver>
+\end{Verbatim}
+\end{bibexbox}
+
+\begin{bibexbox}<RX>{ublib2021ip}
+  University of Bath Library [@unibathlib], 2021. \emph{Instagram post} [Online], 15 March. Available from: \url{https://www.instagram.com/p/CMb5GHjFv9A/?utm_source=ig_web_copy_link} [Accessed 7 May 2021]. 
+  \tcblower
+\begin{Verbatim}
+%</driver>
+%<*driver|bib>
+@online{ublib2021ip,
+  author = {{University of Bath Library}},
+  nameaddon = {@unibathlib},
+  date = {2021-03-15},
+  title = {Instagram post},
+  url = {https://www.instagram.com/p/CMb5GHjFv9A/?utm_source=ig_web_copy_link},
+  urldate = {2021-05-07}}
+%</driver|bib>
+%<*driver>
+\end{Verbatim}
+\end{bibexbox}
+
+
+\subsubsection*{Email discussion list}
 
 \begin{bibexbox}<RX>{clark2004euk}
   Clark, T., 5 July 2004. A European UK Libraries Plus? \emph{Lis-link} [Online]. Available from:\@ \url{lis-link@jiscmail.ac.uk} [Accessed 30 July 2004].
@@ -1769,111 +1998,7 @@ faithful to the original orthography), you can specify this using
 \end{bibexbox}
 
 
-\subsection{Legal references: UK legislation and parliamentary reports}
-
-% UK Primary Legislation
-
-\subsubsection*{Act of Parliament (UK Statutes) before 1963}
-
-\begin{bibexbox}<RX>{gb.wa1735}
-  \emph{Witchcraft Act 1735} (9 Geo.2, c.5).
-  \tcblower
-\begin{Verbatim}
-%</driver>
-%<*driver|bib>
-@legislation{gb.wa1735,
-  title = {Witchcraft {Act}},
-  year = {1735},
-  series = {9 Geo.2},
-  chapter = {5}}
-%</driver|bib>
-%<*driver>
-\end{Verbatim}
-\end{bibexbox}
-
-\begin{info}\item
-You could instead combine the series and chapter in the \texttt{number} field:
-
-\begin{tcolorbox}%
-  [ colframe = Slate
-  , colback = white
-  , fontupper = \footnotesize
-  ]
-\begin{Verbatim}
-  number = {9 Geo.2, c.5}
-\end{Verbatim}
-\end{tcolorbox}
-\end{info}
-
-\subsubsection*{Act of Parliament (UK Statutes) 1963 onwards}
-
-\begin{bibexbox}<RX>{gb.pa2014}
-  \emph{Pensions Act 2014}, c.19. London:\@ TSO.
-  \tcblower
-\begin{Verbatim}
-%</driver>
-%<*driver|bib>
-@legislation{gb.pa2014,
-  title = {Pensions {Act}},
-  year = {2014},
-  chapter = {19},
-  address = {London},
-  publisher = {TSO}}
-%</driver|bib>
-%<*driver>
-\end{Verbatim}
-\end{bibexbox}
-
-
-\subsubsection*{House of Commons/House of Lords bill}
-
-\begin{bibexbox}<RX>{gb.bill1987/88-66}
-  Great Britain.\@ Parliament.\@ House of Commons, 1988. \emph{Local government finance bill}. (Bills | 1987/88, 66). London:\@ HMSO.
-  \tcblower
-\begin{Verbatim}
-%</driver>
-%<*driver|bib>
-@legislation{gb.bill1987/88-66,
-  author = {{Great Britain. Parliament. House of Commons}},
-  year = {1988},
-  title = {Local Government Finance Bill},
-  address = {London},
-  publisher = {HMSO},
-  series = {{Bills | 1987/88}},
-  number = {66}}
-%</driver|bib>
-%<*driver>
-\end{Verbatim}
-\end{bibexbox}
-
-
-% UK secondary legislation
-
-\subsubsection*{Statutory instrument}
-
-\begin{bibexbox}<RX>{gb.hmr2012}
-  \emph{The Human Medicines Regulations 2012} [Online], No.1916, United Kingdom:\@ HMSO. Available from:\@ \url{http://www.legislation.gov.uk/uksi/2012/1916/pdfs/uksi_20121916_en.pdf} [Accessed 17 April 2016].
-  \tcblower
-\begin{Verbatim}
-%</driver>
-%<*driver|bib>
-@legislation{gb.hmr2012,
-  entrysubtype = {secondary},
-  title = {The {Human} {Medicines} {Regulations}},
-  year = {2012},
-  number = {No.1916},
-  address = {United Kingdom},
-  publisher = {HMSO},
-  url = {http://www.legislation.gov.uk/uksi/2012/1916/pdfs/uksi_20121916_en.pdf},
-  urldate = {2016-04-17}}
-%</driver|bib>
-%<*driver>
-\end{Verbatim}
-\end{bibexbox}
-
-\begin{tips}\item
-Use the \texttt{entrysubtype} `secondary' to put the number in the right place.
-\end{tips}
+\subsection{Legal or government document: UK parliamentary reports and legislation}
 
 % Parliamentary reports
 
@@ -1958,7 +2083,135 @@ years in \texttt{series} and the HL and HC numbers in \texttt{number}.
 \end{bibexbox}
 
 
-\subsection{Legal references: EU legislation and reports}
+% UK Primary Legislation
+
+\subsubsection*{House of Commons/House of Lords bill}
+
+\begin{bibexbox}<RX>{gb.bill1987/88-66}
+  Great Britain.\@ Parliament.\@ House of Commons, 1988. \emph{Local government finance bill}. (Bills | 1987/88, 66). London:\@ HMSO.
+  \tcblower
+\begin{Verbatim}
+%</driver>
+%<*driver|bib>
+@legislation{gb.bill1987/88-66,
+  author = {{Great Britain. Parliament. House of Commons}},
+  year = {1988},
+  title = {Local Government Finance Bill},
+  address = {London},
+  publisher = {HMSO},
+  series = {{Bills | 1987/88}},
+  number = {66}}
+%</driver|bib>
+%<*driver>
+\end{Verbatim}
+\end{bibexbox}
+
+
+\subsubsection*{Act of Parliament (UK Statutes) before 1963}
+
+\begin{bibexbox}<RX>{gb.wa1735}
+  \emph{Witchcraft Act 1735} (9 Geo.2, c.5).
+  \tcblower
+\begin{Verbatim}
+%</driver>
+%<*driver|bib>
+@legislation{gb.wa1735,
+  title = {Witchcraft {Act}},
+  year = {1735},
+  series = {9 Geo.2},
+  chapter = {5}}
+%</driver|bib>
+%<*driver>
+\end{Verbatim}
+\end{bibexbox}
+
+\begin{info}\item
+You could instead combine the series and chapter in the \texttt{number} field:
+
+\begin{tcolorbox}%
+  [ colframe = Slate
+  , colback = white
+  , fontupper = \footnotesize
+  ]
+\begin{Verbatim}
+  number = {9 Geo.2, c.5}
+\end{Verbatim}
+\end{tcolorbox}
+\end{info}
+
+
+\subsubsection*{Act of Parliament (UK Statutes) 1963 onwards}
+
+\begin{bibexbox}<RX>{gb.pa2014}
+  \emph{Pensions Act 2014}, c.19. London:\@ TSO.
+  \tcblower
+\begin{Verbatim}
+%</driver>
+%<*driver|bib>
+@legislation{gb.pa2014,
+  title = {Pensions {Act}},
+  year = {2014},
+  chapter = {19},
+  address = {London},
+  publisher = {TSO}}
+%</driver|bib>
+%<*driver>
+\end{Verbatim}
+\end{bibexbox}
+
+
+% UK secondary legislation
+
+\subsubsection*{Statutory instrument}
+
+\begin{bibexbox}<RX>{gb.hmr2012}
+  \emph{The Human Medicines Regulations 2012} [Online], No.1916, United Kingdom:\@ HMSO. Available from:\@ \url{http://www.legislation.gov.uk/uksi/2012/1916/pdfs/uksi_20121916_en.pdf} [Accessed 17 April 2016].
+  \tcblower
+\begin{Verbatim}
+%</driver>
+%<*driver|bib>
+@legislation{gb.hmr2012,
+  entrysubtype = {secondary},
+  title = {The {Human} {Medicines} {Regulations}},
+  year = {2012},
+  number = {No.1916},
+  address = {United Kingdom},
+  publisher = {HMSO},
+  url = {http://www.legislation.gov.uk/uksi/2012/1916/pdfs/uksi_20121916_en.pdf},
+  urldate = {2016-04-17}}
+%</driver|bib>
+%<*driver>
+\end{Verbatim}
+\end{bibexbox}
+
+\begin{tips}\item
+Use the \texttt{entrysubtype} `secondary' to put the number in the right place.
+\end{tips}
+
+
+\subsection{Legal or government document: EU reports and legislation}
+
+% European reports
+
+\subsubsection*{EU publication}
+
+\begin{bibexbox}<RX>{ec2015gra}
+  European Commission, 2015. \emph{General report on the activities of the European Union 2014}. Luxembourg:\@ Publications Office of the European Union.
+  \tcblower
+\begin{Verbatim}
+%</driver>
+%<*driver|bib>
+@report{ec2015gra,
+  author = {{European Commission}},
+  year = {2015},
+  title = {General Report on the Activities of the {European} {Union} 2014},
+  address = {Luxembourg},
+  publisher = {Publications Office of the European Union}}
+%</driver|bib>
+%<*driver>
+\end{Verbatim}
+\end{bibexbox}
+
 
 % European legislation
 
@@ -1989,29 +2242,7 @@ The \texttt{shorttitle} will be used in citations instead of the full title.
 \end{info}
 
 
-% European reports
-
-\subsubsection*{EU publication}
-
-\begin{bibexbox}<RX>{ec2015gra}
-  European Commission, 2015. \emph{General report on the activities of the European Union 2014}. Luxembourg:\@ Publications Office of the European Union.
-  \tcblower
-\begin{Verbatim}
-%</driver>
-%<*driver|bib>
-@report{ec2015gra,
-  author = {{European Commission}},
-  year = {2015},
-  title = {General Report on the Activities of the {European} {Union} 2014},
-  address = {Luxembourg},
-  publisher = {Publications Office of the European Union}}
-%</driver|bib>
-%<*driver>
-\end{Verbatim}
-\end{bibexbox}
-
-
-\subsection{Legal references: case reports}
+\subsection{Legal or government document: case reports}
 
 \subsubsection*{Legal case study}
 
@@ -2084,6 +2315,7 @@ you may prefer to format the reference more-or-less by hand:
   \end{Verbatim}
 \end{tcolorbox}
 \end{hacks}
+
 
 \subsubsection*{Judgment of the European Court of Justice}
 
