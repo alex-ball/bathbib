@@ -178,6 +178,7 @@ Copyright (C) 2016-2021 by University of Bath
     , addbibresource
     , assignrefcontextentries
     , newrefcontext
+    , bibhang
     }
   , moredelim=**[s][\color{violet}]{[}{]}
   , moredelim=**[s][\color{blue!75!black}]{\{}{\}}
@@ -472,12 +473,17 @@ references, as the style relies on Biber functionality to deal with some of the
 more exotic types of entry.
 
 
-\section{Change history}
+\section{Breaking changes between versions}
 
-\subsection{Version 1 to version 2}
+The following sections list implementation changes that might affect the way
+in which you write your bibliography database files.
 
-If you have previously used version 1 of this style, there are some changes
-you need to be aware of.
+In addition to the changes listed, when upgrading between major versions,
+you should expect some changes in formatting relating to the evolution of the
+Harvard (Bath) style itself. Some of the style's internal settings and
+structures may also change without warning.
+
+\subsection{Version 2}
 
 \begin{itemize}
 \item
@@ -501,12 +507,6 @@ you need to be aware of.
   \href{http://ctan.org/pkg/biblatex-apa}{\textsf{biblatex-apa}}. Again, for the
   sake of backwards compatibility, before it does this it strips off any brackets
   you may have added by hand around your field value.
-
-\item
-  Since version 1 was released, there have been improvements made both to the
-  Harvard (Bath) style itself and to \textsf{biblatex} internals. You may therefore
-  notice some changes in how certain entries are styled, and if you have made your
-  own adaptations to the style, these may no longer work with version 2.
 \end{itemize}
 
 There is now a companion Bib\TeX\ style available (\texttt{bathx} in version 2+
@@ -515,10 +515,7 @@ sense that it will render the same \texttt{.bib} file the same way, so long as s
 adjustments are made that won't affect the \textsf{biblatex} rendering (mainly
 concerning the handling of dates).
 
-\subsection{Version 2 to version 3}
-
-If you have previously used version 2 of this style, there are some changes
-you need to be aware of.
+\subsection{Version 3}
 
 \begin{itemize}
 \item
@@ -536,6 +533,21 @@ you need to be aware of.
   Some changes to the Harvard (Bath) style cannot be applied automatically
   (e.g.~the update to how standards are referenced), so you may need to update
   your .bib file accordingly.
+\end{itemize}
+
+\subsection{Version 5}
+
+\begin{itemize}
+\item
+  Series names (except those in \texttt{legislation} and \texttt{jurisdiction}
+  entries) are now coerced to sentence case, so any capital letters you
+  want to keep need to be protected with braces.
+\item
+  The `[Online]' tag is now also triggered by \texttt{urldate}\slash
+  \texttt{urlyear}.
+\item
+  The style now sets \lstinline{\bibhang} to 0pt instead of
+  \lstinline{\parindent} (or 1em).
 \end{itemize}
 
 \section{Examples}
