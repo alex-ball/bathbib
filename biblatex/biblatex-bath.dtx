@@ -456,7 +456,7 @@ throughout.
 To make a citation in the text, use the key that corresponds to the entry in your \texttt{.bib} file:
 
 \begin{tcblisting}{}
-While collections can be supplemented by other means \autocite{williams1997edd},
+While collections can be supplemented by other means \autocite{devlin.etal2021ipp},
 the absence of an invisible collection amongst historians is noted by
 \textcite[556]{stieg1981inh}. It may be, as \textcite{burchard1965hhl} points
 out, that they have no assistants or are reluctant to delegate, or it may be
@@ -1176,13 +1176,13 @@ for the work and provide preprint details using the \texttt{eprinttype},
 \begin{Verbatim}
 %</driver>
 %<*driver|bib>
-@techreport{deneulin.dinerstein2010hms,
-  author = {Deneulin, S. and Dinerstein, A.C.},
+@report{deneulin.dinerstein2010hms,
+  author = {Deneulin, S. and Dinerstein, A. C.},
   year = {2010},
-  title = {Hope movements: social movements in the pursuit of human development},
+  title = {Hope Movements: Social Movements in the Pursuit of Human Development},
   address = {Bath},
   institution = {University of Bath},
-  type = {Bath papers in international development and wellbeing},
+  series = {Bath Papers in International Development and Wellbeing},
   number = {no.~8}}
 %</driver|bib>
 %<*driver>
@@ -1420,7 +1420,7 @@ The \texttt{book} entry type would also work for this reference.
   author = {{Ordnance Survey}},
   year = {2020},
   title = {Street view map of {University of Bath}},
-  series = {1:5000, OS VectorMap® Local},
+  series = {1:5000, {OS VectorMap® Local}},
   url = {https://digimap.edina.ac.uk/roam/map/os},
   urldate = {2020-04-30}}
 %</driver|bib>
@@ -1438,7 +1438,7 @@ The \texttt{book} entry type would also work for this reference.
   author = {{Google}},
   year = {2020},
   title = {{Harbourside, Bristol}},
-  series = {Google Maps},
+  series = {{Google Maps}},
   url = {https://www.google.co.uk/maps/place/Harbourside,+Bristol/},
   urldate = {2020-04-30}}
 %</driver|bib>
@@ -1481,6 +1481,10 @@ In the above entry, the following would also work instead of using \texttt{note}
 \end{Verbatim}
 \end{tcolorbox}
 
+\item
+You can also use \texttt{movie} as an alias for \texttt{video}.
+\end{info}
+
 \begin{bibexbox}<RX>{elephant-man1980}
   \emph{The elephant man} [Online], 1980. Film. Directed by David Lynch. USA: Brooksfilms. Available from: BBC iPlayer [Accessed 4 May 2021].
   \tcblower
@@ -1500,10 +1504,6 @@ In the above entry, the following would also work instead of using \texttt{note}
 %<*driver>
 \end{Verbatim}
 \end{bibexbox}
-
-\item
-You can also use \texttt{movie} as an alias for \texttt{video}.
-\end{info}
 
 
 \subsubsection*{Online video\slash audio}
@@ -1555,7 +1555,7 @@ You can also use \texttt{movie} as an alias for \texttt{video}.
   date = {2021-05-31T21:30:00},
   title = {Hurry up and wait},
   series = {Inside No.9},
-  part = {{Episode} 6:4},
+  number = {{Episode} 6:4},
   type = {TV},
   publisher = {BBC2}}
 %</driver|bib>
@@ -1614,7 +1614,7 @@ You can also use \texttt{music} as an alias for \texttt{audio}.
   date = {2020},
   title = {The Secret},
   series = {Tiger King: Murder, Mayhem and Madness},
-  part = {{Episode} 3},
+  number = {{Episode} 3},
   type = {TV},
   library = {Netflix},
   urldate = {2021-05-04}}
@@ -1705,7 +1705,7 @@ You can also use \texttt{music} as an alias for \texttt{audio}.
 \end{bibexbox}
 
 \begin{bibexbox}<RX>{ublib2021tp}
-  Library at University of Bath [@bathunilibrary], 2021. \emph{Twitter post} [Online], 10 May. Available from: https://twitter.com/BathUniLibrary/status/1391774402618998795?s=20 [Accessed 12 May 2021].
+  Library at University of Bath [@bathunilibrary], 2021. \emph{Twitter post} [Online], 10 May. Available from: \url{https://twitter.com/BathUniLibrary/status/1391774402618998795?s=20} [Accessed 12 May 2021].
   \tcblower
 \begin{Verbatim}
 %</driver>
@@ -2021,7 +2021,7 @@ Use this form for reports of House of Commons select committees.
   subtitle = {Account 2002--2003},
   address = {London},
   publisher = {National Audit Office},
-  series = {HC 2003/04},
+  series = {{HC} 2003/04},
   number = {30}}
 %</driver|bib>
 %<*driver>
@@ -2047,7 +2047,7 @@ Use this form for reports of House of Lords select committees.
   title = {Social Fund (Maternity and Funeral Expenses) Bill},
   address = {London},
   publisher = {HMSO},
-  series = {HL 1986/87},
+  series = {{HL} 1986/87},
   number = {66}}
 %</driver|bib>
 %<*driver>
@@ -2470,6 +2470,7 @@ This work is `maintained' (as per LPPL maintenance status) by [Alex Ball][me].
 % We allow the bibliography look more like the Bib\TeX\ default.
 %
 %    \begin{macrocode}
+\setlength{\bibhang}{0pt}
 \setlength{\bibitemsep}{1em plus 0.2em minus 0.2em}
 \renewcommand*{\bibfont}{\normalfont\normalsize}
 %    \end{macrocode}
@@ -2618,6 +2619,38 @@ This work is `maintained' (as per LPPL maintenance status) by [Alex Ball][me].
 
 %    \end{macrocode}
 %
+% We support the |nameaddon| field.
+%
+%    \begin{macrocode}
+\DeclareFieldFormat{nameaddon}{\mkbibbrackets{#1}}
+\renewbibmacro*{author}{%
+  \ifboolexpr{
+    test \ifuseauthor
+    and
+    not test {\ifnameundef{author}}
+  }
+    {\usebibmacro{bbx:dashcheck}
+       {\bibnamedash}
+       {\usebibmacro{bbx:savehash}%
+        \printnames{author}%
+        \iffieldundef{nameaddon}
+          {}
+          {\setunit{\addspace}%
+           \printfield{nameaddon}}%
+        \iffieldundef{authortype}
+          {\setunit{\printdelim{nameyeardelim}}}
+          {\setunit{\printdelim{authortypedelim}}}}%
+     \iffieldundef{authortype}
+       {}
+       {\usebibmacro{authorstrg}%
+        \setunit{\printdelim{nameyeardelim}}}}%
+    {\global\undef\bbx@lasthash
+     \usebibmacro{labeltitle}%
+     \setunit*{\printdelim{nonameyeardelim}}}%
+  \usebibmacro{date+extradate}%
+  \usebibmacro{labeltitleaddon}}
+%    \end{macrocode}
+%
 % With videos, names in credits are printed in full.
 %
 %    \begin{macrocode}
@@ -2744,9 +2777,6 @@ This work is `maintained' (as per LPPL maintenance status) by [Alex Ball][me].
   [article,inbook,incollection,inproceedings]%
   {title}{#1}
 \DeclareFieldFormat
-  [patent,thesis]%
-  {title}{\mkbibemph{#1}}
-\DeclareFieldFormat
   [reference,mvreference]%
   {title}{\ifnameundef{author}{#1}{\mkbibemph{#1}}}
 \DeclareFieldFormat
@@ -2755,6 +2785,16 @@ This work is `maintained' (as per LPPL maintenance status) by [Alex Ball][me].
 \DeclareFieldFormat
   [inreference]%
   {booktitle}{\ifnameundef{author}{#1}{\mkbibemph{#1}}}
+\DeclareFieldFormat
+  [patent,thesis]%
+  {title}{\mkbibemph{#1}}
+\DeclareFieldFormat
+  [audio,video,music,video]%
+  {title}{\ifboolexpr{
+    test {\iffieldequalstr{type}{TV}}
+    or
+    test {\iffieldequalstr{type}{Radio}}
+  }{#1}{\mkbibemph{#1}}}
 \DeclareFieldFormat
   [unpublished]%
   {title}{\iffieldundef{booktitle}{\mkbibemph{#1}}{#1}}
@@ -2772,6 +2812,8 @@ This work is `maintained' (as per LPPL maintenance status) by [Alex Ball][me].
       test {\iffieldundef{doi}}
       and
       test {\iffieldundef{url}}
+      and
+      test {\iffieldundef{urlyear}}
       and
       not test {\ifentrytype{online}}
     ) or
@@ -2823,24 +2865,29 @@ This work is `maintained' (as per LPPL maintenance status) by [Alex Ball][me].
       test {\iffieldundef{journaltitle}}
       and
       test {\iffieldundef{booktitle}}
-      and
-      test {\iffieldundef{library}}
-      and
+      and (
+        test {\iffieldundef{library}}
+        or
+        test {\ifentrytype{image}}
+        or
+        test {\ifentrytype{audio}}
+        or
+        test {\ifentrytype{video}}
+        or
+        test {\ifentrytype{music}}
+        or
+        test {\ifentrytype{movie}}
+      ) and
       not test {\ifentrytype{software}}
       and (
-        test {\iffieldundef{type}}
-        or
-        test {\nottoggle{bbx:labelistitle}}
-        or
         not (
-          test {\ifentrytype{audio}}
+          test {\iffieldequalstr{type}{TV}}
           or
-          test {\ifentrytype{video}}
-          or
-          test {\ifentrytype{music}}
-          or
-          test {\ifentrytype{movie}}
-      ))
+          test {\iffieldequalstr{type}{Radio}}
+        )
+        or
+        test {\iffieldundef{series}}
+      )
     }{%
       \setunit*{\addspace}%
       \usebibmacro{isonline}%
@@ -2932,6 +2979,41 @@ This work is `maintained' (as per LPPL maintenance status) by [Alex Ball][me].
           \printfield[midsentencecase]{subtitle}}%
         \clearfield{title}\clearfield{subtitle}%
         \toggletrue{bbx:labelistitle}}%
+        \ifboolexpr{
+          test {\iffieldundef{journaltitle}}
+          and
+          test {\iffieldundef{booktitle}}
+          and (
+            test {\iffieldundef{library}}
+            or
+            test {\ifentrytype{image}}
+            or
+            test {\ifentrytype{audio}}
+            or
+            test {\ifentrytype{video}}
+            or
+            test {\ifentrytype{music}}
+            or
+            test {\ifentrytype{movie}}
+          ) and
+          not test {\ifentrytype{software}}
+          and
+          not test {\ifentrytype{legislation}}
+          and
+          not test {\ifentrytype{jurisdiction}}
+          and (
+            not (
+              test {\iffieldequalstr{type}{TV}}
+              or
+              test {\iffieldequalstr{type}{Radio}}
+            )
+            or
+            test {\iffieldundef{series}}
+          )
+        }{%
+          \setunit*{\addspace}%
+          \usebibmacro{isonline}%
+        }{}%
     }%
   }{%
     \printfield{label}%
@@ -2946,35 +3028,21 @@ This work is `maintained' (as per LPPL maintenance status) by [Alex Ball][me].
     \setunit*{\addspace}%
     \printfield{titleaddon}%
     \clearfield{titleaddon}%
-    \ifboolexpr{
+    \ifboolexpr{(
+        test {\ifentrytype{legislation}}
+        or
+        test {\ifentrytype{jurisdiction}}
+      )
+      and
       test {\iffieldundef{journaltitle}}
       and
       test {\iffieldundef{booktitle}}
-      and (
-        test {\iffieldundef{library}}
-        or
-        test {\ifentrytype{image}}
-      ) and
-      not test {\ifentrytype{software}}
-      and (
-        test {\iffieldundef{type}}
-        or
-        not (
-          test {\ifentrytype{audio}}
-          or
-          test {\ifentrytype{video}}
-          or
-          test {\ifentrytype{music}}
-          or
-          test {\ifentrytype{movie}}
-      ))
     }{%
       \setunit*{\addspace}%
       \usebibmacro{isonline}%
     }{}%
   }{}%
 }
-\xapptobibmacro{author}{\usebibmacro{labeltitleaddon}}{}{}
 \xapptobibmacro{bbx:editor}{\usebibmacro{labeltitleaddon}}{}{}
 \xapptobibmacro{bbx:translator}{\usebibmacro{labeltitleaddon}}{}{}
 
@@ -3474,6 +3542,27 @@ This work is `maintained' (as per LPPL maintenance status) by [Alex Ball][me].
 %
 %    \begin{macrocode}
 \DeclareFieldFormat{type}{\ifbibstring{#1}{\biblstring{#1}}{#1}}
+\DeclareFieldFormat{series}{\MakeSentenceCase*{#1}}
+\DeclareFieldFormat
+  [audio,video,music,video]%
+  {series}{\ifboolexpr{
+    test {\iffieldequalstr{type}{TV}}
+    or
+    test {\iffieldequalstr{type}{Radio}}
+  }{\mkbibemph{\MakeSentenceCase*{#1}}}{\MakeSentenceCase*{#1}}}
+\DeclareFieldFormat
+  [audio,video,music,video]%
+  {number}{\ifboolexpr{
+    test {\iffieldequalstr{type}{TV}}
+    or
+    test {\iffieldequalstr{type}{Radio}}
+  }{\mkbibemph{#1}}{#1}}
+\DeclareFieldFormat[legislation,jurisdiction]{series}{#1}
+\renewbibmacro*{series+number}{%
+  \printfield{series}%
+  \setunit*{\addcomma\space}%
+  \printfield{number}%
+  \newunit}
 %    \end{macrocode}
 %
 % \subsection{Events}
@@ -3530,7 +3619,7 @@ This work is `maintained' (as per LPPL maintenance status) by [Alex Ball][me].
 \DeclareFieldFormat{library}{\mkbibemph{#1}}
 \newbibmacro*{library}{%
   \iffieldundef{library}{}{%
-    \printfield{library}%
+    \printfield{library}\clearfield{library}%
     \setunit*{\addspace}%
     \usebibmacro{isonline}%
   }%
@@ -3553,18 +3642,25 @@ This work is `maintained' (as per LPPL maintenance status) by [Alex Ball][me].
 %    \begin{macrocode}
 \DeclareFieldFormat{url}{\bibsentence\bibstring{urlfrom}\addcolon\space\url{#1}}
 \DeclareFieldFormat{doi}{\bibsentence\bibstring{urlfrom}\addcolon\space\url{https://doi.org/#1}}
+\DeclareFieldFormat{pseudourl}{\bibsentence\bibstring{urlfrom}\addcolon\space#1}
 \DeclareFieldFormat{urldate}{\mkbibbrackets{\bibstring{urlseen}\space#1}}
 %    \end{macrocode}
 %
 % Since URLs and DOIs are presented in exactly the same way, we combine them
-% such that the DOI overrides the URL.
+% such that the DOI overrides the URL. We also allow the \texttt{library} field
+% to be used as a fallback URL.
 %
 %    \begin{macrocode}
 \renewbibmacro*{url}{%
-  \iffieldundef{doi}%
-    {\printfield{url}}%
-    {\printfield{doi}}%
-}
+  \iffieldundef{doi}{%
+    \ifboolexpr{
+      test {\iffieldundef{url}}
+      and not
+      test {\iffieldundef{urlyear}}
+    }{\printfield[pseudourl]{library}}{\printfield{url}}%
+  }{%
+    \printfield{doi}%
+  }}
 \renewbibmacro*{doi+eprint+url}{%
   \iftoggle{bbx:eprint}
     {\usebibmacro{eprint}}
@@ -4006,25 +4102,25 @@ This work is `maintained' (as per LPPL maintenance status) by [Alex Ball][me].
 % The \texttt{audio} and \texttt{video} drivers are based on \texttt{misc}.
 %
 %    \begin{macrocode}
-\newbibmacro*{type+online}{%
-  \printfield{type}%
-  \ifboolexpr{
-    test {\iffieldundef{type}}
-    or
-    test {\nottoggle{bbx:labelistitle}}
-  }{}{%
-    \setunit{\addspace}%
-    \usebibmacro{isonline}}}
 \DeclareBibliographyDriver{audio}{%
   \usebibmacro{bibindex}%
   \usebibmacro{begentry}%
   \usebibmacro{author/editor+others/translator+others}%
   \setunit{\printdelim{nametitledelim}}\newblock
   \usebibmacro{title}%
+  \newunit\newblock
+  \usebibmacro{series+number}%
+  \ifboolexpr{
+    test {\iffieldequalstr{type}{TV}}
+    or
+    test {\iffieldequalstr{type}{Radio}}
+  }{%
+    \setunit{\addspace}%
+    \usebibmacro{isonline}}{}%
   \newunit
   \printlist{language}%
   \newunit\newblock
-  \usebibmacro{type+online}%
+  \printfield{type}%
   \newunit\newblock
   \usebibmacro{byauthor}[given-family:full]%
   \newunit\newblock
@@ -4529,7 +4625,7 @@ This work is `maintained' (as per LPPL maintenance status) by [Alex Ball][me].
     \setunit{\addcolon\space}%
     \printlist{location}%
     \setunit*{\addperiod\space}%
-    \printfield{library}%
+    \printfield{library}\clearfield{library}%
   }%
 }
 
