@@ -30,6 +30,25 @@ references:
   publisher: Open University Press
   publisher-place: Bletchley
 
+- id: solomon.etal2019cbe
+  type: book
+  author:
+  - family: Solomon
+    given: M. R.
+  - family: Askegaard
+    given: S.
+  - family: Hogg
+    given: M.
+  - family: Bamossy
+    given: G. J.
+  issued:
+  - year: '2019'
+  title: 'Consumer behaviour: a <span class="nocase">European</span> perspective'
+  title-short: Consumer behaviour
+  publisher: Pearson
+  publisher-place: Harlow
+  edition: '7'
+
 - id: rothman.etal2008me
   type: book
   editor:
@@ -83,18 +102,22 @@ references:
   edition: '94'
   URL: http://www.hbcpnetbase.com
 
-- id: hodds2016re
+- id: blockley2021evs
   type: book
   author:
-  - family: Hodds
-    given: J.
+  - family: Blockley
+    given: D.
   issued:
-  - year: '2016'
-  title: Referencing ebooks
-  genre: Kindle version 4.18
-  title-short: Referencing ebooks
-  publisher: University of Bath
-  publisher-place: Bath
+  - year: '2021'
+  accessed:
+  - year: '2021'
+    month: '6'
+    day: '30'
+  title: 'Engineering: a very short introduction'
+  short-title: Engineering
+  publisher: Oxford University Press
+  publisher-place: Oxford
+  URL: https://www.amazon.co.uk/kindle
 
 - id: bnf2020
   type: book
@@ -204,22 +227,74 @@ references:
   volume: '341'
   issue: '7765'
 
-- id: williams1997edd
+- id: wetzstein.etal2020iai
   type: article-journal
   author:
-  - family: Williams
-    given: F.
+  - family: Wetzstein
+    given: G.
+  - family: Ozcan
+    given: A.
+  - family: Gigan
+    given: S.
+  - family: Fan
+    given: S.
+  - family: Englund
+    given: D.
+  - family: Soljacic
+    given: M.
+  - family: Denz
+    given: C.
+  - family: Miller
+    given: D. A. B.
+  - family: Psaltis
+    given: D.
   issued:
-  - year: '1997'
+  - year: '2020'
+  title: Inference in artificial intelligence with deep optics and photonics
+  container-title: Nature
+  page: '39-47'
+  volume: '588'
+  issue: '7836'
+
+- id: devlin.etal2021ipp
+  type: article-journal
+  author:
+  - family: Devlin
+    given: S. M.
+  - family: Martin
+    given: A.
+  - family: Ostrovnaya
+    given: I.
+  issued:
+  - year: '2021'
   accessed:
-  - year: '1997'
+  - year: '2021'
     month: '12'
-    day: '5'
-  title: 'Electronic document delivery: a trial in an academic library'
-  title-short: Electronic document delivery
-  container-title: Ariadne
-  volume: '10'
-  URL: http://www.ariadne.ac.uk/issue10/edd/
+    day: '9'
+  title: Identifying prognostic pairwise relationships among bacterial species in microbiome studies
+  container-title: <span class="nocase">PLOS Computational Biology</span>
+  volume: '17'
+  issue: '11'
+  URL: https://journals.plos.org/ploscompbiol/article?id=10.1371/journal.pcbi.1009501
+
+- id: steward.etal2020eys
+  type: article-journal
+  author:
+  - family: Steward
+    given: S.
+  - family: Connelly
+    given: D.
+  - family: Robinson
+    given: J.
+  issued:
+  - year: '2020'
+  accessed:
+  - year: '2020'
+    month: '4'
+    day: '30'
+  title: Everything you should know about the coronavirus outbreak
+  container-title: The pharmaceutical journal
+  URL: https://www.pharmaceutical-journal.com/news-and-analysis/features/everything-you-should-know-about-the-coronavirus-outbreak/20207629.article
 
 - id: liontou.etal2019dra
   type: article-journal
@@ -271,6 +346,27 @@ references:
   URL: http://opus.bath.ac.uk
   archive: OPUS
 
+- id: ganju2021sed
+  type: report
+  author:
+  - family: Ganju
+    given: V.
+  issued:
+  - year: '2021'
+  accessed:
+  - year: '2021'
+    month: '4'
+    day: '29'
+  title: A study of EnGeneIC Dream Vectors (EDV's) packaged with the chemotherapy,
+    E-EDV-D682 given simultaneously as non-targeted EDVs carrying an immune enhancer
+    called EDV-GC, in participants with advanced pancreatic and other cancers whose
+    disease has progressed after one or two treatment regimes, or where other
+    standard therapies are not appropriate.
+  publisher: University of Sydney
+  publisher-place: Sydney
+  URL: http://www.anzctr.org.au/Trial/Registration/TrialReview.aspx?id=365258
+  archive: Australian and New Zealand Clinical Trials Registry
+
 - id: haurant2004bbh
   type: article-newspaper
   author:
@@ -295,6 +391,23 @@ references:
   title: Picking up the bills
   container-title: The <span class="nocase">Independent</span>
   page: 28a
+
+- id: cogley2020ccs
+  type: article-newspaper
+  author:
+  - family: Cogley
+    given: M.
+  issued:
+  - year: '2020'
+    month: '5'
+    day: '4'
+  accessed:
+  - year: '2020'
+    month: '5'
+    day: '5'
+  title: Corporate confidence slumps to record low.
+  container-title: The Telegraph
+  URL: https://www.telegraph.co.uk/business/2020/05/03/corporate-confidence-slumps-all-time-low/
 
 - id: crawford1965oim
   type: paper-conference
@@ -377,6 +490,21 @@ references:
   publisher-place: Bracknell
   genre: Report
   number: 497
+
+- id: deneulin.dinerstein2010hms
+  type: report
+  author:
+  - family: Deneulin
+    given: S.
+  - family: Dinerstein
+    given: A. C.
+  issued:
+  - year: '2010'
+  title: 'Hope movements: social movements in the pursuit of human development'
+  publisher: University of Bath
+  publisher-place: Bath
+  collection-title: Bath papers in international development and wellbeing
+  number: no. 8
 
 - id: bs5605:1990
   type: report
@@ -542,6 +670,22 @@ references:
   - family: Welles
     given: Orson
 
+- id: elephant-man1980
+  type: motion_picture
+  issued:
+  - year: '1980'
+  accessed:
+  - year: '2021'
+    month: '5'
+    day: '4'
+  title: The elephant man
+  director:
+  - family: Lynch
+    given: David
+  publisher: Brooksfilms
+  publisher-place: USA
+  archive: BBC iPlayer
+
 - id: moran2016sol
   type: motion_picture
   author:
@@ -556,19 +700,6 @@ references:
   title: Save our libraries
   URL: https://www.youtube.com/watch?v=gKTfCz4JtVE&feature=youtu.be
 
-- id: uob2015wie
-  type: motion_picture
-  author:
-  - literal: University of Bath
-  issued:
-  - year: '2015'
-  accessed:
-  - year: '2016'
-    month: '1'
-    day: '12'
-  title: What is engineering?
-  URL: https://www.youtube.com/watch?v=NoyZarq-Zbo
-
 - id: chakrabarti2016hac
   type: speech
   author:
@@ -582,6 +713,19 @@ references:
     day: '28'
   title: How architecture and city planning can combat social inequality
   URL: https://www.curbed.com/2016/5/5/11593058/vishaan-chakrabarti-pau-curbed-appeal-podcast
+
+- id: inn2021huw
+  type: broadcast
+  issued:
+  - year: '2021'
+    month: '5'
+    day: '31'
+  title: Hurry up and wait
+  collection-title: Inside no.9
+  number: Episode 6:4
+  publisher: BBC2
+  medium: TV
+  annote: 21.30 hrs
 
 - id: rsfo2006ep5
   type: broadcast
@@ -606,6 +750,20 @@ references:
   medium: Radio
   annote: 19.02 hrs
 
+- id: tkmmm2020ts
+  type: broadcast
+  issued:
+  - year: '2020'
+  accessed:
+  - year: '2021'
+    month: '5'
+    day: '4'
+  title: The secret
+  collection-title: 'Tiger king: murder, mayhem and madness'
+  number: Episode 3
+  archive: Netflix
+  medium: TV
+
 - id: beethoven1950symph1
   type: musical_score
   author:
@@ -618,36 +776,82 @@ references:
   publisher: Penguin
   publisher-place: Harmondsworth
 
-- id: holland2002gci
+- id: who2018ttc
   type: webpage
   author:
-  - family: Holland
-    given: M.
+  - literal: World Health Organization
   issued:
-  - year: '2002'
+  - year: '2018'
   accessed:
-  - year: '2002'
-    month: '11'
-    day: '4'
-  title: Guide to citing internet sources
-  publisher: Bournemouth University
-  publisher-place: Poole
-  URL: http://www.bournemouth.ac.uk/library/using/guide_to_citing_internet_sourc.html
+  - year: '2020'
+    month: '6'
+    day: '29'
+  title: The top 10 causes of death
+  publisher: World Health Organization
+  publisher-place: Geneva
+  URL: https://www.who.int/news-room/fact-sheets/detail/the-top-10-causes-of-death
 
-- id: wiltshire2015gww
+- id: manco2013va
   type: webpage
   author:
-  - literal: Wiltshire Council
+  - family: Manco
+    given: J.
   issued:
-  - year: '2015'
+  - year: '2013'
   accessed:
-  - year: '2015'
-    month: '8'
-    day: '19'
-  title: Get <span class="nocase">Wiltshire</span> walking
-  publisher: Wiltshire Council
-  publisher-place: Trowbridge
-  URL: http://www.wiltshire.gov.uk/leisureandrecreation/sportphysicalactivity/getwiltshirewalking.html
+  - year: '2020'
+    month: '2'
+    day: '20'
+  title: Vernacular architecture
+  URL: https://www.buildinghistory.org/style/vernacular.shtml
+
+- id: gaiman2021fbp
+  type: post
+  author:
+  - family: Gaiman
+    given: N.
+  issued:
+  - year: '2021'
+    month: '4'
+    day: '21'
+  accessed:
+  - year: '2021'
+    month: '5'
+    day: '13'
+  title: Facebook post
+  URL: https://www.facebook.com/neilgaiman/posts/305187897642814
+
+- id: ublib2021tp
+  type: post
+  author:
+  - family: Library at University of Bath
+    suffix: '[@bathunilibrary]'
+  issued:
+  - year: '2021'
+    month: '5'
+    day: '10'
+  accessed:
+  - year: '2021'
+    month: '5'
+    day: '12'
+  title: Twitter post
+  URL: https://twitter.com/BathUniLibrary/status/1391774402618998795?s=20
+
+- id: ublib2021ip
+  type: post
+  author:
+  - family: University of Bath Library
+    suffix: '[@unibathlib]'
+  issued:
+  - year: '2021'
+    month: '3'
+    day: '15'
+  accessed:
+  - year: '2021'
+    month: '5'
+    day: '7'
+  title: Instagram post
+  URL: https://www.instagram.com/p/CMb5GHjFv9A/?utm_source=ig_web_copy_link
 
 - id: clark2004euk
   type: post
