@@ -560,13 +560,6 @@ The second, marked with \faCog, shows the reference as formatted by \textsf{bibl
 The last shows how the reference was entered in the \texttt{.bib} file.
 The bottom right corner shows the source of the example: `RX' indicates the `Reference examples (A-Z)' section of the Guide; `RL' indicates the `Organise a reference list' section of the Guide; `RI' indicates \emph{Referencing images}.
 
-% Some examples are highlighted in
-% \tcbox[colframe=hacked,colback=hacked!5!white,nobeforeafter,size=fbox,tcbox raise base]{orange}.
-% This indicates that some fields have been `abused' to achieve the right effect;
-% in other words, they contain information that would normally be entered in another field.
-% Particular care should be taken with such items when switching between different styles,
-% though of course any item might need adjustment to take account of differing conventions.
-
 You may notice that the examples tend to use BibTeX aliases and conventions for
 fields (e.g.\@ \texttt{address}, \texttt{journal}, \texttt{year}) rather than the
 native \textsf{biblatex} fields. This is simply to ease transitions to and from
@@ -613,7 +606,7 @@ BibTeX, and not a symptom of recalcitrance on the part of the author.
 \end{bibexbox}
 
 \begin{bibexbox}<RX>{solomon.etal2019cbe}
-  Solomon, M.R., Askegaard, S., Hogg, M. and Bamossy, G.J., 2019. \emph{Consumer behaviour: a European perspective.} 7th ed. Harlow: Pearson.
+  Solomon, M.R., Askegaard, S., Hogg, M. and Bamossy, G.J., 2019. \emph{Consumer behaviour: a European perspective}. 7th ed. Harlow: Pearson.
   \tcblower
 \begin{Verbatim}
 %</driver>
@@ -696,10 +689,10 @@ BibTeX, and not a symptom of recalcitrance on the part of the author.
 
 \subsubsection*{Book known by its title}
 
-\begin{info}\item
+\begin{tip}\item
 Use the most appropriate \texttt{reference} entry type instead of, say,
 \texttt{book} or \texttt{collection}.
-\end{info}
+\end{tip}
 
 \begin{bibexbox}<RX>{bnf2020}
   British National Formulary, 2020. 79th ed. London: Pharmaceutical Press.
@@ -879,7 +872,7 @@ automatically for you.
     Englund, D. and Soljacic, M. and Denz, C. and Miller, D. A. B. and
     Psaltis, D.},
   year = {2020},
-  title = {Inference in artificial intelligence with deep optics and photonics},
+  title = {Inference in Artificial Intelligence with Deep Optics and Photonics},
   journal = {Nature},
   volume = {588},
   number = {7836},
@@ -901,8 +894,8 @@ automatically for you.
 @article{devlin.etal2021ipp,
   author = {Devlin, S. M. and Martin, A. and Ostrovnaya, I.},
   year = {2021},
-  title = {Identifying prognostic pairwise relationships among bacterial
-    species in microbiome studies},
+  title = {Identifying Prognostic Pairwise Relationships Among Bacterial
+    Species in Microbiome Studies},
   journal = {{PLOS Computational Biology}},
   volume = {17},
   number = {11},
@@ -922,7 +915,7 @@ automatically for you.
 @article{steward.etal2020eys,
   author = {Steward, S. and Connelly, D. and Robinson, J.},
   year = {2020},
-  title = {Everything you should know about the coronavirus outbreak},
+  title = {Everything You Should Know About the Coronavirus Outbreak},
   journal = {The Pharmaceutical Journal},
   url = {https://www.pharmaceutical-journal.com/news-and-analysis/features/everything-you-should-know-about-the-coronavirus-outbreak/20207629.article},
   urldate = {2020-04-30}}
@@ -931,8 +924,7 @@ automatically for you.
 \end{Verbatim}
 \end{bibexbox}
 
-\begin{tips}
-\item
+\begin{tips}\item
 If citing an article yet to be officially published, use the \texttt{pubstate}
 field with the keyword \texttt{inpress} for `in press' and
 \texttt{inpreparation} or \texttt{submitted} (whichever is more accurate)
@@ -1006,8 +998,7 @@ for `preprint'.
 \end{Verbatim}
 \end{bibexbox}
 
-\begin{tips}
-\item
+\begin{tips}\item
 The Harvard (Bath) style treats preprints as grey literature, and so the
 \texttt{report} entry type is the best match semantically. Use \texttt{library}
 to specify the name of the preprint repository.
@@ -1187,7 +1178,7 @@ for the work and provide preprint details using the \texttt{eprinttype},
 \end{bibexbox}
 
 \begin{bibexbox}<RX>{deneulin.dinerstein2010hms}
-  Deneulin, S. and Dinerstein, A.C., 2010. \emph{Hope movements: social movements in the pursuit of human development.} (Bath papers in international development and wellbeing, no. 8). Bath: University of Bath.
+  Deneulin, S. and Dinerstein, A.C., 2010. \emph{Hope movements: social movements in the pursuit of human development}. (Bath papers in international development and wellbeing, no.~8). Bath: University of Bath.
   \tcblower
 \begin{Verbatim}
 %</driver>
@@ -1204,6 +1195,11 @@ for the work and provide preprint details using the \texttt{eprinttype},
 %<*driver>
 \end{Verbatim}
 \end{bibexbox}
+
+\begin{info}\item
+The style inserts a comma between the \texttt{series} and \texttt{number}
+fields, but does not insert one between \texttt{type} and \texttt{number}.
+\end{info}
 
 
 \subsubsection*{Standard}
@@ -1561,6 +1557,10 @@ You can also use \texttt{movie} as an alias for \texttt{video}.
 
 \subsubsection*{Television or radio broadcast}
 
+\begin{tips}\item
+Use \texttt{type} for the medium and \texttt{publisher} for the channel.
+\end{tips}
+
 \begin{bibexbox}<RX>{inn2021huw}
   Hurry up and wait, 2021. \emph{Inside no.9, Episode 6:4}. TV. BBC2, 31 May. 21.30 hrs.
   \tcblower
@@ -1596,10 +1596,6 @@ You can also use \texttt{movie} as an alias for \texttt{video}.
 \end{Verbatim}
 \end{bibexbox}
 
-\begin{tips}\item
-Use \texttt{type} for the medium and \texttt{publisher} for the channel.
-\end{tips}
-
 \begin{bibexbox}<RX>{archers20060823}
   The Archers, 2006. Radio. BBC Radio 4, 23 August. 19.02 hrs.
   \tcblower
@@ -1627,7 +1623,7 @@ You can also use \texttt{music} as an alias for \texttt{audio}.
 %</driver>
 %<*driver|bib>
 @video{tkmmm2020ts,
-  date = {2020},
+  year = {2020},
   title = {The Secret},
   series = {Tiger King: Murder, Mayhem and Madness},
   number = {{Episode} 3},
@@ -1739,7 +1735,7 @@ You can also use \texttt{music} as an alias for \texttt{audio}.
 \end{bibexbox}
 
 \begin{bibexbox}<RX>{ublib2021ip}
-  University of Bath Library [@unibathlib], 2021. \emph{Instagram post} [Online], 15 March. Available from: \url{https://www.instagram.com/p/CMb5GHjFv9A/?utm_source=ig_web_copy_link} [Accessed 7 May 2021]. 
+  University of Bath Library [@unibathlib], 2021. \emph{Instagram post} [Online], 15 March. Available from: \url{https://www.instagram.com/p/CMb5GHjFv9A/?utm_source=ig_web_copy_link} [Accessed 7 May 2021].
   \tcblower
 \begin{Verbatim}
 %</driver>
@@ -2014,7 +2010,7 @@ faithful to the original orthography), you can specify this using
 \end{bibexbox}
 
 
-\subsection{Legal or government document: UK parliamentary reports and legislation}
+\subsection{Legal or government document: UK parliamentary reports\slash legislation}
 
 % Parliamentary reports
 
@@ -2101,7 +2097,7 @@ years in \texttt{series} and the HL and HC numbers in \texttt{number}.
 
 % UK Primary Legislation
 
-\subsubsection*{House of Commons/House of Lords bill}
+\subsubsection*{House of Commons\slash House of Lords bill}
 
 \begin{bibexbox}<RX>{gb.bill1987/88-66}
   Great Britain.\@ Parliament.\@ House of Commons, 1988. \emph{Local government finance bill}. (Bills | 1987/88, 66). London:\@ HMSO.
@@ -2205,7 +2201,7 @@ Use the \texttt{entrysubtype} `secondary' to put the number in the right place.
 \end{tips}
 
 
-\subsection{Legal or government document: EU reports and legislation}
+\subsection{Legal or government document: EU reports\slash legislation}
 
 % European reports
 
@@ -2292,9 +2288,9 @@ By default, the style assumes the year is essential if and only if a volume numb
   , colback = white
   , fontupper = \footnotesize
   ]
-  \begin{Verbatim}
+\begin{Verbatim}
   options = {year-essential=true},
-  \end{Verbatim}
+\end{Verbatim}
 \end{tcolorbox}
 
 To use Scottish style for a case, you can either use the \key{scottish-style} option or
@@ -2305,10 +2301,10 @@ the keyword \texttt{sc}:
   , colback = white
   , fontupper = \footnotesize
   ]
-  \begin{Verbatim}
+\begin{Verbatim}
   options = {scottish-style},
   keywords = {sc},
-  \end{Verbatim}
+\end{Verbatim}
 \end{tcolorbox}
 \end{tips}
 
@@ -2324,11 +2320,11 @@ you may prefer to format the reference more-or-less by hand:
   , colback = white
   , fontupper = \footnotesize
   ]
-  \begin{Verbatim}
+\begin{Verbatim}
   title = {Seldon v.~{Clarkson} {Wright} \& {Jakes}},
   sortyear = {2012},
   note = {[2012]. UKSC 16}
-  \end{Verbatim}
+\end{Verbatim}
 \end{tcolorbox}
 \end{hacks}
 
