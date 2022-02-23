@@ -153,9 +153,6 @@ for line in lines:
     outputs[current_id] += buffer
     buffer = ""
 
-for line in lines:
-    print(line)
-
 for id, target in targets.items():
     if id not in outputs:
         print(f"Missing output for {id}.\n")
