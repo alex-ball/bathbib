@@ -33,15 +33,16 @@ def extract_dtx_targets(filepath: str) -> t.Mapping[str, str]:
                     continue
                 if targets[current_id]:
                     targets[current_id] += " "
-                targets[current_id] += line.strip().replace("\\@", "")
+                targets[current_id] += line.strip().replace("\\@", "").replace("~", " ")
 
     return targets
 
 
 def get_bibitems(filepath: str) -> t.List[str]:
-    """Return a list of lines in a recurring pattern such that there is a
-    `\\bibitem` line, followed by a line containing a formatted reference,
-    followed by a blank line signifying the end of the reference.
+    """From a text file, extracts and returns a list of lines in a
+    recurring pattern such that there is a `\\bibitem` line, followed
+    by a line containing a formatted reference, followed by a blank
+    line signifying the end of the reference.
     """
     biblatex = True if filepath.endswith(".bbi") else False
 
@@ -51,13 +52,18 @@ def get_bibitems(filepath: str) -> t.List[str]:
     if not os.path.isfile(filepath):
         subprocess.run(["make", filename], cwd=workdir, check=True)
         if not os.path.isfile(filepath):
-            print("Could not generate bbl file.")
-            sys.exit(1)
+            raise click.FileError(f"Could not generate {filename}.")
 
     # Process BBL file:
     preamble = True
     lines = list()
     current_line = list()
+
+    def finish_record():
+        lines.append(" ".join(current_line).replace("\\url {", "\\url{"))
+        lines.append("")
+        current_line.clear()
+
     with open(filepath) as f:
         for line in f:
             # Ignore first few lines:
@@ -67,20 +73,40 @@ def get_bibitems(filepath: str) -> t.List[str]:
                 else:
                     continue
 
-            # Combine most recent lines:
-            current_line.append(line.strip())
+            # Check for end of record
+            clean_line = line.strip()
+            is_eor = False
+            if not clean_line:
+                if biblatex:
+                    # In biblatex, empty lines mean PDF page break
+                    continue
+                else:
+                    is_eor = True
+            elif clean_line == "{}" and biblatex:
+                is_eor = True
+
+            if is_eor:
+                finish_record()
+                continue
+
+            current_line.append(clean_line)
             s = " ".join(current_line)
-            if s.count("[") == s.count("]") and s.count("{") == s.count("}"):
-                # Line is (probably!) syntactically complete
+            if (s.startswith("\\bibitem") and s.count("[") == s.count("]") and s.count("{") == s.count("}")):
+                # `\\bibitem` line is syntactically complete
                 lines.append(s)
                 current_line.clear()
                 continue
+
+        if current_line:
+            finish_record()
 
     return lines
 
 
 def parse_bibitems(lines: t.List[str]) -> t.Mapping[str, str]:
-    """Returns a mapping of IDs to actual bibitem output."""
+    """Parses the output from BibTeX and returns a mapping of IDs to
+    actual bibitem output.
+    """
 
     outputs = dict()
 
@@ -94,14 +120,10 @@ def parse_bibitems(lines: t.List[str]) -> t.Mapping[str, str]:
     buffer = ""
     current_id = None
     for line in lines:
-        line = line.strip()
-
         if current_id is None:
             if m := re.search(r"\\bibitem\[[^\]]*\]\{(?P<id>[^}]*)\}", line):
                 current_id = m.group("id")
                 outputs[current_id] = ""
-            continue
-        elif line == "\\newblock":
             continue
         elif line == "":
             if m := re.search(r"\\emph\{.*?\} \\emph\{.*?\}", outputs[current_id]):
@@ -178,6 +200,26 @@ def parse_bibitems(lines: t.List[str]) -> t.Mapping[str, str]:
     return outputs
 
 
+def parse_simple_bibitems(lines: t.List[str]) -> t.Mapping[str, str]:
+    """Parses the output from biblatex2bibitem and returns a mapping of
+    IDs to actual bibitem output.
+    """
+    outputs = dict()
+
+    current_id = None
+    for line in lines:
+        if current_id is None:
+            if m := re.search(r"\\bibitem\{(?P<id>[^}]*)\}", line):
+                current_id = m.group("id")
+        elif line == "":
+            current_id = None
+        else:
+            line = re.sub(r"‘(.*?)’", r"\\enquote{\1}", line)
+            outputs[current_id] = line.replace("’", "'").replace("–", "--")
+
+    return outputs
+
+
 def contrast_refs(**kwargs: t.Mapping[str, t.Mapping[str, str]]) -> None:
     """Performs a comparison between different sets of mappings from
     bib database IDs to formatted references.
@@ -187,9 +229,7 @@ def contrast_refs(**kwargs: t.Mapping[str, t.Mapping[str, str]]) -> None:
     reference text.
     """
     if not kwargs:
-        click.echo("No contrast to make.")
-        click.Abort
-        return
+        raise click.ClickException("No contrast to make.")
 
     labels = list(kwargs.keys())
 
@@ -215,6 +255,15 @@ def main():
     between the LaTeX and CSL styles.
     """
     pass
+
+
+@main.command(context_settings=CONTEXT_SETTINGS)
+def biblatex():
+    """Performs unit tests on output from the biblatex bath style."""
+    targets = extract_dtx_targets("biblatex/biblatex-bath.dtx")
+    lines = get_bibitems("biblatex/test-output.bbi")
+    outputs = parse_simple_bibitems(lines)
+    contrast_refs(Target=targets, Output=outputs)
 
 
 @main.command(context_settings=CONTEXT_SETTINGS)
