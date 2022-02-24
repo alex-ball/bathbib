@@ -98,9 +98,19 @@ sympy-plots-for-*.tex/
 /bst/custom-bib/
 
 ## Compiled files
+/biblatex/*bath.*bx
 /biblatex/biblatex-bath-*.zip
+/biblatex/biblatex-bath.pdf
+/biblatex/test-output.bbi
+/biblatex/test-output.pdf
 /bst/bath-bst-*.zip
-/bst/bath-bst-v1.bib
+/bst/bath-bst.pdf
+/bst/bath-bst-v1.pdf
 /bst/bath-bst-v1.tex
 /csl/tmp/
 /csl/bath-csl-test*.html
+_markdown*/
+*.bib
+*.bst
+*.markdown.in
+*.ins
