@@ -128,17 +128,17 @@ references:
   publisher: Pharmaceutical Press
   publisher-place: London
 
-- id: asprin2020bnf
+- id: aspirin2020bnf
   type: entry
   issued:
   - year: '2020'
-  title: Asprin
+  title: Aspirin
   container-title: <span class="nocase">British National Formulary</span>
   edition: '79'
   publisher: Pharmaceutical Press
   publisher-place: London
 
-- id: asprin2019bnf
+- id: aspirin2019bnf
   type: entry
   issued:
   - year: '2019'
@@ -146,7 +146,7 @@ references:
   - year: '2019'
     month: '11'
     day: '26'
-  title: Asprin
+  title: Aspirin
   container-title: <span class="nocase">British National Formulary</span>
   publisher: Pharmaceutical Press
   publisher-place: London
