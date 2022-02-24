@@ -5,9 +5,15 @@ import subprocess
 import sys
 import typing as t
 
+import click
 
-def extract_dtx_targets(filepath: str):
-    """Returns a mapping of IDs to target output from DTX file."""
+CONTEXT_SETTINGS = dict(help_option_names=['-h', '--help'])
+
+
+def extract_dtx_targets(filepath: str) -> t.Mapping[str, str]:
+    """Parses a DTX file and returns a mapping of IDs to target output
+    extracted from `bibexbox` environments.
+    """
 
     targets = dict()
 
@@ -32,14 +38,12 @@ def extract_dtx_targets(filepath: str):
     return targets
 
 
-def get_bibitems(filepath: str, biblatex: bool = False):
+def get_bibitems(filepath: str) -> t.List[str]:
     """Return a list of lines in a recurring pattern such that there is a
     `\\bibitem` line, followed by a line containing a formatted reference,
     followed by a blank line signifying the end of the reference.
-
-    Output from BibTeX is assumed unless the `biblatex` option is True,
-    in which case output from `biblatex2bibitem` is expected.
     """
+    biblatex = True if filepath.endswith(".bbi") else False
 
     # Ensure file exists:
     workdir = os.path.dirname(filepath)
@@ -174,21 +178,53 @@ def parse_bibitems(lines: t.List[str]) -> t.Mapping[str, str]:
     return outputs
 
 
+def contrast_refs(**kwargs: t.Mapping[str, t.Mapping[str, str]]) -> None:
+    """Performs a comparison between different sets of mappings from
+    bib database IDs to formatted references.
+
+    Arguments should be given in the form of label=mapping. The label
+    is used in the output printed to screen, to show the source of the
+    reference text.
+    """
+    if not kwargs:
+        click.echo("No contrast to make.")
+        click.Abort
+        return
+
+    labels = list(kwargs.keys())
+
+    for id, target in kwargs[labels[0]].items():
+        errors = list()
+        for label in labels[1:]:
+            if id not in kwargs[label]:
+                errors.append(f"{label} is missing ID {id}.")
+            elif kwargs[label][id] != target:
+                errors.append(f"{label}: {kwargs[label][id]}")
+        if errors:
+            click.secho(id, bold=True)
+            click.echo(f"{labels[0]}: {target}")
+            for error in errors:
+                click.echo(error)
+            print()
+
+
+
+@click.group(context_settings=CONTEXT_SETTINGS)
 def main():
+    """Performs unit tests on LaTeX output from the Bath (Harvard)
+    bibliography styles, and ensures the target output is aligned
+    between the LaTeX and CSL styles.
+    """
+    pass
+
+
+@main.command(context_settings=CONTEXT_SETTINGS)
+def bst():
+    """Performs unit tests on output from the bath.bst BibTeX style."""
     targets = extract_dtx_targets("bst/bath-bst.dtx")
     lines = get_bibitems("bst/bath-bst.bbl")
     outputs = parse_bibitems(lines)
-
-    for id, target in targets.items():
-        if id not in outputs:
-            print(f"Missing output for {id}.\n")
-            continue
-        elif outputs[id] == target:
-            continue
-
-        print(id)
-        print(f"Target: {target}")
-        print(f"Output: {outputs[id]}\n")
+    contrast_refs(Target=targets, Output=outputs)
 
 
 if __name__ == "__main__":
