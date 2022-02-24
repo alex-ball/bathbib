@@ -1,5 +1,6 @@
 STYLE = bath
 NAME  = biblatex-$(STYLE)
+TEST  = test-output
 SHELL = bash
 PWD   = $(shell pwd)
 TEMP := $(shell mktemp -d -t tmp.XXXXXXXXXX)
@@ -14,18 +15,25 @@ all:	$(NAME).pdf clean
 	@exit 0
 
 source:	$(NAME).dtx
-	luatex -interaction=batchmode $(NAME).dtx >/dev/null
+	luatex -interaction=batchmode $< >/dev/null
 
 $(STYLE).bbx $(STYLE).cbx $(STYLE).dbx english-$(STYLE).lbx british-$(STYLE).lbx $(NAME).bib: source
 
-$(NAME).pdf: source
-	latexmk -silent -lualatex -interaction=batchmode $(NAME).dtx >/dev/null
+$(NAME).pdf: $(NAME).dtx
+	latexmk -silent -lualatex -interaction=batchmode $< >/dev/null
 	@echo "Compilation complete."
+
+$(TEST).pdf: $(TEST).tex $(NAME).bib
+	latexmk -silent -lualatex -interaction=batchmode $< >/dev/null
+
+$(TEST).bbi: $(TEST).pdf
+	pdftotext $< $@
 
 clean:
 	rm -f $(NAME).{aux,bbl,bcf,blg,doc,fdb_latexmk,fls,glo,gls,hd,idx,ilg,ind,listing,log,nav,out,run.xml,snm,synctex.gz,tcbtemp,toc,vrb}
 	rm -f $(NAME).markdown.in
 	rm -rf _markdown_$(NAME)
+	rm -f $(TEST).{aux,bbi,bbl,bcf,blg,fdb_latexmk,fls,log,pdf,run.xml}
 
 distclean: clean
 	rm -f $(NAME).{pdf,bib,ins} $(STYLE).{b,c,d}bx {english,british}-$(STYLE).lbx

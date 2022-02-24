@@ -1,0 +1,24 @@
+\documentclass[a4paper]{article}
+\usepackage[british]{babel}
+\usepackage[hmargin=3cm,vmargin=2.5cm]{geometry}
+\frenchspacing
+\usepackage{iftex}
+\ifPDFTeX
+  \usepackage{CJKutf8}
+\else
+  \ifLuaTeX
+    \usepackage{luatexja-fontspec}
+  \else
+    \ifXeTeX
+    \usepackage{ctex}
+    \fi
+  \fi
+\fi
+\usepackage{csquotes}
+\usepackage[backend=biber,bibencoding=utf8,style=bath]{biblatex}
+\addbibresource{biblatex-bath.bib}
+\usepackage{biblatex2bibitem}
+\begin{document}
+\nocite{*}
+\printbibitembibliography
+\end{document}
