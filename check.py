@@ -208,7 +208,6 @@ def contrast_refs(**kwargs: t.Mapping[str, t.Mapping[str, str]]) -> None:
             print()
 
 
-
 @click.group(context_settings=CONTEXT_SETTINGS)
 def main():
     """Performs unit tests on LaTeX output from the Bath (Harvard)
@@ -220,9 +219,18 @@ def main():
 
 @main.command(context_settings=CONTEXT_SETTINGS)
 def bst():
-    """Performs unit tests on output from the bath.bst BibTeX style."""
+    """Performs unit tests on output from the bathx.bst BibTeX style."""
     targets = extract_dtx_targets("bst/bath-bst.dtx")
     lines = get_bibitems("bst/bath-bst.bbl")
+    outputs = parse_bibitems(lines)
+    contrast_refs(Target=targets, Output=outputs)
+
+
+@main.command(context_settings=CONTEXT_SETTINGS)
+def bst_old():
+    """Performs unit tests on output from the bath.bst BibTeX style."""
+    targets = extract_dtx_targets("bst/bath-bst.dtx")
+    lines = get_bibitems("bst/bath-bst-v1.bbl")
     outputs = parse_bibitems(lines)
     contrast_refs(Target=targets, Output=outputs)
 
