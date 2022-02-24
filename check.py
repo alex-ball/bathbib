@@ -1,13 +1,14 @@
 #! /usr/bin/env python3
+from collections import deque, defaultdict
+from gettext import ngettext
 import os
 import re
 import subprocess
-import sys
 import typing as t
 
 import click
 
-CONTEXT_SETTINGS = dict(help_option_names=['-h', '--help'])
+CONTEXT_SETTINGS = dict(help_option_names=["-h", "--help"])
 
 
 def extract_dtx_targets(filepath: str) -> t.Mapping[str, str]:
@@ -34,6 +35,40 @@ def extract_dtx_targets(filepath: str) -> t.Mapping[str, str]:
                 if targets[current_id]:
                     targets[current_id] += " "
                 targets[current_id] += line.strip().replace("\\@", "").replace("~", " ")
+
+    return targets
+
+
+def extract_csl_targets(filepath: str) -> t.Mapping[str, str]:
+    """Parses a TEX file and returns a mapping of IDs to target output
+    extracted from the specially spaced LaTeX format.
+    """
+
+    targets = dict()
+
+    current_ids = deque()
+    current_line = list()
+    with open(filepath) as f:
+        for line in f:
+            clean_line = line.strip()
+
+            if not clean_line:
+                if current_line:
+                    current_id = current_ids.popleft()
+                    targets[current_id] = " ".join(current_line)
+                    current_line.clear()
+                continue
+
+            if not current_ids:
+                matches = re.finditer(r"\\cite\{(?P<id>[^}]*)\}", line)
+                for m in matches:
+                    current_ids.append(m.group("id"))
+                continue
+
+            if clean_line == "...":
+                continue
+
+            current_line.append(clean_line.replace("\\@", "").replace("~", " "))
 
     return targets
 
@@ -91,7 +126,11 @@ def get_bibitems(filepath: str) -> t.List[str]:
 
             current_line.append(clean_line)
             s = " ".join(current_line)
-            if (s.startswith("\\bibitem") and s.count("[") == s.count("]") and s.count("{") == s.count("}")):
+            if (
+                s.startswith("\\bibitem")
+                and s.count("[") == s.count("]")
+                and s.count("{") == s.count("}")
+            ):
                 # `\\bibitem` line is syntactically complete
                 lines.append(s)
                 current_line.clear()
@@ -282,6 +321,36 @@ def bst_old():
     lines = get_bibitems("bst/bath-bst-v1.bbl")
     outputs = parse_bibitems(lines)
     contrast_refs(Target=targets, Output=outputs)
+
+
+@main.command(context_settings=CONTEXT_SETTINGS)
+def sync():
+    """Checks that the target texts for BibTeX, biblatex and CSL are
+    synchronised.
+    """
+    biblatex_targets = extract_dtx_targets("biblatex/biblatex-bath.dtx")
+    bibtex_targets = extract_dtx_targets("bst/bath-bst.dtx")
+    csl_targets = extract_csl_targets("csl/bath-csl-test.tex")
+    contrast_refs(
+        Biblatex=biblatex_targets,
+        BibTeX__=bibtex_targets,
+        CSL_____=csl_targets,
+    )
+    missing = defaultdict(set)
+    for key in bibtex_targets.keys():
+        if key not in biblatex_targets:
+            missing[key].add("Biblatex")
+        if key not in csl_targets:
+            missing[key].add("CSL")
+    for key in csl_targets.keys():
+        if key not in biblatex_targets:
+            missing[key].add("Biblatex")
+        if key not in bibtex_targets:
+            missing[key].add("BibTeX")
+    for key, sources in missing.items():
+        click.echo(
+            f"{' and '.join(sources)} {ngettext('is', 'are', sources)} missing ID {id}."
+        )
 
 
 if __name__ == "__main__":
