@@ -94,6 +94,9 @@ sympy-plots-for-*.tex/
 # xindy
 *.xdy
 
+# Python
+venv/
+
 ## Preliminary files
 /bst/custom-bib/
 
