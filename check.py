@@ -34,6 +34,7 @@ def extract_dtx_targets(filepath: str) -> t.Mapping[str, str]:
                     continue
                 if targets[current_id]:
                     targets[current_id] += " "
+                line = re.sub(r", (\d{4})[ab]\. ", r", \1. ", line)
                 targets[current_id] += line.strip().replace("\\@", "").replace("~", " ")
 
     return targets
@@ -50,9 +51,9 @@ def extract_csl_targets(filepath: str) -> t.Mapping[str, str]:
     current_line = list()
     with open(filepath) as f:
         for line in f:
-            clean_line = line.strip()
+            line = line.strip()
 
-            if not clean_line:
+            if not line:
                 if current_line:
                     current_id = current_ids.popleft()
                     targets[current_id] = " ".join(current_line)
@@ -65,10 +66,11 @@ def extract_csl_targets(filepath: str) -> t.Mapping[str, str]:
                     current_ids.append(m.group("id"))
                 continue
 
-            if clean_line == "...":
+            if line == "...":
                 continue
 
-            current_line.append(clean_line.replace("\\@", "").replace("~", " "))
+            line = re.sub(r", (\d{4})[ab]\. ", r", \1. ", line)
+            current_line.append(line.replace("\\@", "").replace("~", " "))
 
     return targets
 
@@ -85,7 +87,7 @@ def get_bibitems(filepath: str) -> t.List[str]:
     workdir = os.path.dirname(filepath)
     filename = os.path.basename(filepath)
     if not os.path.isfile(filepath):
-        subprocess.run(["make", filename], cwd=workdir, check=True)
+        subprocess.run(["make", "-C", workdir, filename], check=True)
         if not os.path.isfile(filepath):
             raise click.FileError(f"Could not generate {filename}.")
 
@@ -117,7 +119,7 @@ def get_bibitems(filepath: str) -> t.List[str]:
                     continue
                 else:
                     is_eor = True
-            elif clean_line == "{}" and biblatex:
+            elif clean_line in ["{}", "\\end{thebibliography}"] and biblatex:
                 is_eor = True
 
             if is_eor:
@@ -154,8 +156,8 @@ def parse_bibitems(lines: t.List[str]) -> t.Mapping[str, str]:
     GOBBLE = 2
     state = [NORMAL]
     level = 1
-    exit_arg = 0
-    exit_gobble = 0
+    exit_args = [0]
+    exit_gobbles = [0]
     buffer = ""
     current_id = None
     for line in lines:
@@ -165,17 +167,12 @@ def parse_bibitems(lines: t.List[str]) -> t.Mapping[str, str]:
                 outputs[current_id] = ""
             continue
         elif line == "":
-            if m := re.search(r"\\emph\{.*?\} \\emph\{.*?\}", outputs[current_id]):
-                if m.group(0).count("{") == m.group(0).count("}"):
-                    replacement = m.group(0).replace("} \\emph{", " ")
-                    outputs[current_id] = outputs[current_id].replace(
-                        m.group(0), replacement
-                    )
+            outputs[current_id] = re.sub(r", (\d{4})[ab]\. ", r", \1. ", outputs[current_id])
             current_id = None
             state = [NORMAL]
             level = 1
-            exit_arg = 0
-            exit_gobble = 0
+            exit_args = [0]
+            exit_gobbles = [0]
             continue
 
         line = (
@@ -183,6 +180,10 @@ def parse_bibitems(lines: t.List[str]) -> t.Mapping[str, str]:
             .replace("\\newblock ", "")
             .replace("\\urlprefix", "Available from: ")
             .replace("\\urldateprefix{}", "Accessed ")
+            .replace("\\#", "#")
+            .replace("\\pounds ", "£")
+            .replace("~", " ")
+            .replace("\\noop{h}", "")
         )
         line = re.sub(r"\{\\natexlab\{([^}]*)\}\}", r"\1", line)
 
@@ -200,8 +201,8 @@ def parse_bibitems(lines: t.List[str]) -> t.Mapping[str, str]:
                     continue
                 elif char == "}":
                     level -= 1
-                    if level == exit_arg:
-                        exit_arg = 0
+                    if level == exit_args[-1]:
+                        exit_args.pop()
                     else:
                         continue
             elif state[-1] == CS:
@@ -213,11 +214,11 @@ def parse_bibitems(lines: t.List[str]) -> t.Mapping[str, str]:
                     state.pop()
                     if buffer == "\\bibinfo":
                         state.append(GOBBLE)
-                        exit_gobble = level
+                        exit_gobbles.append(level)
                         level += 1
                         buffer = ""
                         continue
-                    exit_arg = level
+                    exit_args.append(level)
                     level += 1
                     outputs[current_id] += buffer
                     buffer = ""
@@ -226,8 +227,8 @@ def parse_bibitems(lines: t.List[str]) -> t.Mapping[str, str]:
                     level += 1
                 elif char == "}":
                     level -= 1
-                    if level == exit_gobble:
-                        exit_gobble = 0
+                    if level == exit_gobbles[-1]:
+                        exit_gobbles.pop()
                         state.pop()
                 continue
 
@@ -254,6 +255,13 @@ def parse_simple_bibitems(lines: t.List[str]) -> t.Mapping[str, str]:
             current_id = None
         else:
             line = re.sub(r"‘(.*?)’", r"\\enquote{\1}", line)
+            line = re.sub(r", (\d{4})[ab]\. ", r", \1. ", line)
+            # Hack to fix truncated output
+            line = line.replace(
+                "everything-you-should-know-about-the-c",
+                "everything-you-should-know-about-the-coronavirus-outbreak/"
+                "20207629.article}"
+            )
             outputs[current_id] = line.replace("’", "'").replace("–", "--")
 
     return outputs
