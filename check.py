@@ -256,12 +256,6 @@ def parse_simple_bibitems(lines: t.List[str]) -> t.Mapping[str, str]:
         else:
             line = re.sub(r"‘(.*?)’", r"\\enquote{\1}", line)
             line = re.sub(r", (\d{4})[ab]\. ", r", \1. ", line)
-            # Hack to fix truncated output
-            line = line.replace(
-                "everything-you-should-know-about-the-c",
-                "everything-you-should-know-about-the-coronavirus-outbreak/"
-                "20207629.article}"
-            )
             outputs[current_id] = line.replace("’", "'").replace("–", "--")
 
     return outputs
