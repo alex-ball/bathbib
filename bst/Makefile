@@ -19,12 +19,16 @@ source:	$(BST1) $(BST2) $(NAME).bib $(NAME)-v1.tex $(NAME)-v1.bib
 $(BST1) $(BST2) $(NAME).bib  $(NAME)-v1.tex $(NAME)-v1.bib: $(NAME).dtx
 	luatex -interaction=batchmode $(NAME).dtx >/dev/null
 
-$(NAME).pdf $(NAME).bbl: $(NAME).dtx $(BST2) $(NAME).bib
+$(NAME).bbl: $(NAME).dtx $(BST2) $(NAME).bib
 	latexmk -silent -lualatex -synctex=1 -interaction=batchmode $< >/dev/null
+
+$(NAME).pdf: $(NAME).bbl
 	@echo "Compilation of main PDF complete."
 
-$(NAME)-v1.pdf $(NAME)-v1.bbl: $(NAME)-v1.tex $(BST1) $(NAME)-v1.bib
+$(NAME)-v1.bbl: $(NAME)-v1.tex $(BST1) $(NAME)-v1.bib
 	latexmk -silent -lualatex -synctex=1 -interaction=batchmode $< >/dev/null
+
+$(NAME)-v1.pdf: $(NAME)-v1.bbl
 	@echo "Compilation of test PDF complete."
 
 clean:
