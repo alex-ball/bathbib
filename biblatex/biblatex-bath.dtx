@@ -2060,7 +2060,7 @@ Use this form for reports of House of Lords select committees.
   address = {London},
   publisher = {HMSO},
   series = {{HL} 1986/87},
-  number = {66}}
+  number = {(66)}}
 %</driver|bib>
 %<*driver>
 \end{Verbatim}
@@ -3614,10 +3614,24 @@ This work is `maintained' (as per LPPL maintenance status) by [Alex Ball][me].
     \printlist{institution}%
     \newunit
     \usebibmacro{publisher+location+date}}}
-\letbibmacro{plain:organization+location+date}{organization+location+date}
+%    \end{macrocode}
+%
+% As an additional hack for social media entries where the date is preceded by a
+% comma, we tweak the punctuation logic for \texttt{organization+location+date}.
+%
+%    \begin{macrocode}
 \renewbibmacro*{organization+location+date}{%
   \iflistundef{publisher}{%
-    \usebibmacro{plain:organization+location+date}%
+    \printlist{location}%
+    \iflistundef{organization}
+      {\setunit*{\addcomma\space}}
+      {\setunit*{\addcolon\space}}%
+    \printlist{organization}%
+    \iflistundef{location}
+      {\setunit{\addcomma\space}}%
+      {\setunit*{\addcomma\space}}%
+    \usebibmacro{date}%
+    \newunit
   }{%
     \printlist{organization}%
     \newunit

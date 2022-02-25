@@ -23,7 +23,7 @@ $(NAME).pdf: $(NAME).dtx
 	latexmk -silent -lualatex -interaction=batchmode $< >/dev/null
 	@echo "Compilation complete."
 
-$(TEST).pdf: $(TEST).tex $(NAME).bib
+$(TEST).pdf: $(TEST).tex $(STYLE).bbx $(NAME).bib
 	latexmk -silent -lualatex -interaction=batchmode $< >/dev/null
 
 $(TEST).bbi: $(TEST).pdf
