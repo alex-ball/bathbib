@@ -18,6 +18,9 @@
 \usepackage[backend=biber,bibencoding=utf8,style=bath]{biblatex}
 \addbibresource{biblatex-bath.bib}
 \usepackage{biblatex2bibitem}
+\AtBeginBibliography{%
+   \renewcommand*{\textup}[1]{\textbackslash textup\{#1\}}%
+}
 \begin{document}
 \nocite{*}
 \printbibitembibliography
