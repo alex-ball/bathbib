@@ -1,12 +1,14 @@
 #! /usr/bin/env python3
 from collections import deque, defaultdict
 from gettext import ngettext
+import html
 import os
 import re
 import subprocess
 import typing as t
 
 import click
+from lxml import html as lhtml
 
 CONTEXT_SETTINGS = dict(help_option_names=["-h", "--help"])
 
@@ -261,6 +263,47 @@ def parse_simple_bibitems(lines: t.List[str]) -> t.Mapping[str, str]:
     return outputs
 
 
+def parse_csl_refs(filepath: str) -> t.List[t.Mapping[str, str]]:
+    """Extracts failed tests from CSL comparison document in a form
+    that can be used by the `contrast_refs()` function.
+    """
+    # Ensure file exists:
+    workdir = os.path.dirname(filepath)
+    filename = os.path.basename(filepath)
+    if not os.path.isfile(filepath):
+        subprocess.run(["make", "-C", workdir, filename], check=True)
+        if not os.path.isfile(filepath):
+            raise click.FileError(f"Could not generate {filename}.")
+
+    targets = dict()
+    outputs = dict()
+
+    tree = lhtml.parse(filepath)
+    root = tree.getroot()
+    tests = root.find_class("test")
+
+    for test in tests:
+        target_div = test.find("./div[@class='target failure']")
+        if target_div is None:
+            continue
+        target_p = target_div[0]
+        target = html.unescape(lhtml.tostring(target_p).decode("utf-8").strip()[3:-4])
+
+        output_div = test.find("./div[@class='references failure']")
+        if output_div is None:
+            continue
+
+        output_div_div = output_div[0]
+        current_id = output_div_div.get("id")[4:]
+        output_p = output_div_div[0]
+        output = html.unescape(lhtml.tostring(output_p).decode("utf-8").strip()[3:-4])
+
+        targets[current_id] = target
+        outputs[current_id] = output
+
+    return (targets, outputs)
+
+
 def contrast_refs(**kwargs: t.Mapping[str, t.Mapping[str, str]]) -> None:
     """Performs a comparison between different sets of mappings from
     bib database IDs to formatted references.
@@ -326,10 +369,15 @@ def bst_old():
 
 
 @main.command(context_settings=CONTEXT_SETTINGS)
+def csl():
+    """Shows results of CSL unit tests."""
+    targets, outputs = parse_csl_refs("csl/bath-csl-test.html")
+    contrast_refs(Target=targets, Output=outputs)
+
+
+@main.command(context_settings=CONTEXT_SETTINGS)
 def sync():
-    """Checks that the target texts for BibTeX, biblatex and CSL are
-    synchronised.
-    """
+    """Contrasts the target texts for BibTeX, biblatex and CSL."""
     biblatex_targets = extract_dtx_targets("biblatex/biblatex-bath.dtx")
     bibtex_targets = extract_dtx_targets("bst/bath-bst.dtx")
     csl_targets = extract_csl_targets("csl/bath-csl-test.tex")
