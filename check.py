@@ -85,13 +85,13 @@ def get_bibitems(filepath: str) -> t.List[str]:
     """
     biblatex = True if filepath.endswith(".bbi") else False
 
-    # Ensure file exists:
+    # Ensure file exists and is up to date:
     workdir = os.path.dirname(filepath)
     filename = os.path.basename(filepath)
+    subprocess.run(["make", "-C", workdir, filename], check=True)
     if not os.path.isfile(filepath):
-        subprocess.run(["make", "-C", workdir, filename], check=True)
-        if not os.path.isfile(filepath):
-            raise click.FileError(f"Could not generate {filename}.")
+        raise click.FileError(f"Could not generate {filename}.")
+    print()
 
     # Process BBL file:
     preamble = True
@@ -267,13 +267,13 @@ def parse_csl_refs(filepath: str) -> t.List[t.Mapping[str, str]]:
     """Extracts failed tests from CSL comparison document in a form
     that can be used by the `contrast_refs()` function.
     """
-    # Ensure file exists:
+    # Ensure file exists and is up to date:
     workdir = os.path.dirname(filepath)
     filename = os.path.basename(filepath)
+    subprocess.run(["make", "-C", workdir, filename], check=True)
     if not os.path.isfile(filepath):
-        subprocess.run(["make", "-C", workdir, filename], check=True)
-        if not os.path.isfile(filepath):
-            raise click.FileError(f"Could not generate {filename}.")
+        raise click.FileError(f"Could not generate {filename}.")
+    print()
 
     targets = dict()
     outputs = dict()
