@@ -3764,11 +3764,12 @@ FUNCTION {date.block}
 %    \end{macrocode}
 %
 % The |bibinfo| functions consume two tokens: the value and name of a field
-% respectively. If the value is non-null, it is written out to the .bbl file in
-% the form |\bibinfo{field name}| |{field value}|. If the value is missing, the
-% tokens are replaced with an empty string; if the value is empty, it is put
-% back on the stack. The |check| version does this silently, while the |warn|
-% version issues warnings in the log file if the value is missing or empty.
+% respectively. If the value is non-null, the tokens are concatenated in
+% the form |\bibinfo{field name}| |{field value}|. Otherwise, the field name
+% is removed from the stack; if the value is missing rather than empty, it is
+% replaced with an empty string. The |check| version does this silently, while
+% the |warn| version issues a warning in the log file if the value is missing
+% or empty.
 %
 %    \begin{macrocode}
 FUNCTION {bibinfo.check}
@@ -4764,7 +4765,7 @@ FUNCTION {format.eu.date}
 %
 % \subsection{Series, volumes, editions}
 %
-% |format.series| returns case-altered series field.
+% |format.series| returns the case-altered series field.
 %
 %    \begin{macrocode}
 FUNCTION {format.series}
@@ -4813,6 +4814,30 @@ FUNCTION {format.number.series}
       if$
     }
     { "" }
+  if$
+}
+%    \end{macrocode}
+%
+% |format.series.episode| returns the case-altered series and the number,
+% separated by a space and both emphasised.
+%
+%    \begin{macrocode}
+FUNCTION {format.series.episode}
+{ series
+  duplicate$ empty$
+    'skip$
+    { "t" change.case$ }
+  if$
+  "series" bibinfo.check emphasize
+  number "number" bibinfo.check emphasize
+  duplicate$ empty$
+    { * }
+    { swap$
+      duplicate$ empty$
+        { * }
+        { ", " * swap$ * }
+      if$
+    }
   if$
 }
 %    \end{macrocode}
@@ -5860,6 +5885,16 @@ FUNCTION {booklet}
       get.title.addenda
     }
   if$
+  new.block
+  format.series.episode output
+%<*bst2>
+  is.online
+    { continue.clause bbl.online output
+      #1 'online.shown :=
+    }
+    'skip$
+  if$
+%</bst2>
   new.block
   type "type" bibinfo.check output
   new.block
