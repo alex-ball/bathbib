@@ -537,7 +537,7 @@ common. The main differences between two versions are as follows:
 \end{itemize}
 
 One other change worth noting regards URL access dates. In version 1, the
-advice was to put them in \texttt{urldate}. With version 2 the advice is now
+advice was to put them in \texttt{urldate}. From version 2, the advice is
 to put them, perhaps counter-intuitively, in \texttt{urlyear}. The reason is that
 \textsf{biblatex} will complain if the value of \texttt{urldate} is in the wrong
 format, but will happily print the contents of \texttt{urlyear} literally. If
@@ -549,7 +549,8 @@ you don't care about \textsf{biblatex} compatibility, you can continue to use
 %</driver>
 %<*tex1>
 This document provides a suite of examples that demonstrate and test the
-bibliography format that was recommended for version 1.0 of the style.
+\texttt{bath} bibliography style with mostly standard Bib\TeX entry types
+and fields.
 %</tex1>
 %<*driver>
 \fi
@@ -603,10 +604,18 @@ for the full range of commands available for in-text citations. Be aware that th
 \textsf{natbib} option \texttt{sort} will sort citations in bibliography order,
 rather than the chronological order demanded by Harvard (Bath) -- so don't use it!
 
-\subsection{Migrating from version 2 to version 3}
 
-If you have previously used version 2 of the style, you may need to update your
-.bib file to accommodate the following changes in version 3:
+\section{Breaking changes between versions}
+
+The following sections list implementation changes that might affect the way
+in which you write your bibliography database files.
+
+In addition to the changes listed, when upgrading between major versions,
+you should expect some changes in formatting relating to the evolution of the
+Harvard (Bath) style itself. Some of the style's internal settings and
+structures may also change without warning.
+
+\subsection{Version 3}
 
 \begin{itemize}
 \item
@@ -624,6 +633,28 @@ If you have previously used version 2 of the style, you may need to update your
   (e.g.~the update to how standards are referenced), so you may need to update
   your .bib file accordingly.
 \end{itemize}
+
+\subsection{Version 5}
+
+\begin{itemize}
+\item
+  In the 2021 revision of the style, the titles of broadcast media (TV, radio)
+  became upright, with series information for titled episodes being italic.
+%<driver>  To get this new formatting, you must use the \texttt{type} field as shown.
+%<tex1>  If you have been using \texttt{booklet} for such entries, you should now use \texttt{misc} instead.
+\item
+  Series names (except those in \texttt{legislation} and \texttt{jurisdiction}
+  entries) are now coerced to sentence case, so any capital letters you
+  want to keep need to be protected with braces.
+\item
+  The `[Online]' tag is now also triggered by \texttt{urldate}\slash
+  \texttt{urlyear}. In cases where it occurs directly after the title, it is no longer
+  left behind (after the year) if the title is moved to the head of the reference.
+\item
+  The style now sets \lstinline{\bibhang} to 0pt instead of
+  \lstinline{\parindent} (or 1em).
+\end{itemize}
+
 
 
 \section{Examples}
@@ -896,9 +927,13 @@ Similarly, to achieve the following formats you must use the non-standard
 \begin{info}\item
 Internally, \texttt{inreference} is an alias for \texttt{incollection}.
 %<driver>Use \texttt{inreference} if you need compatibility with \textsf{biblatex-bath}.
+\item
+The style ensures the \texttt{booktitle} is used in title citation commands.
 \end{info}
 
-\citet{bnf2020}, \cite{aspirin2019bnf}, \citet{aspirin2020bnf}.
+\begin{tcblisting}{}
+  \cite{aspirin2019bnf}, \citet{bnf2020}, \citet{aspirin2020bnf}.
+\end{tcblisting}
 
 \subsubsection*{Chapter\slash paper from a collection (by different authors) in an edited book}
 
@@ -1988,9 +2023,7 @@ The \texttt{book} entry type would also work for this reference.
 @booklet{macbeth1948,
   year = {1948},
   title = {Macbeth},
-  howpublished = {Film. Directed by Orson Welles},
-  address = {USA},
-  publisher = {Republic Pictures}}
+  howpublished = {Film. Directed by Orson Welles. USA: Republic Pictures}}
 %</tex1|bib1>
 %<*driver|tex1>
 \end{Verbatim}
@@ -2028,10 +2061,8 @@ Internally, \texttt{movie} and \texttt{video} are aliases for \texttt{booklet}.
   year = {1980},
   title = {The elephant man},
   titleaddon = {[Online]},
-  howpublished = {Film. Directed by David Lynch},
-  address = {USA},
-  publisher = {Brooksfilms. Available from: BBC iPlayer},
-  urldate = {4 May 2021}}
+  howpublished = {Film. Directed by David Lynch. USA: Brooksfilms},
+  note = {Available from: BBC iPlayer [Accessed 4 May 2021]}}
 %</tex1|bib1>
 %<*driver|tex1>
 \end{Verbatim}
@@ -2039,6 +2070,21 @@ Internally, \texttt{movie} and \texttt{video} are aliases for \texttt{booklet}.
 \fi
 %</driver>
 \end{bibexbox}
+
+%<*driver>
+\iffalse
+%</driver>
+%<*tex1>
+\begin{hacks}\item
+  There's no standardised way to provide a descriptor instead of a URL,
+  so to get exactly the right formatting you need to put the whole
+  availability statement as a \texttt{note}. If you don't mind an extra
+  full stop, you could used \texttt{urldate} (or \texttt{urlyear}) as normal.
+\end{hacks}
+%</tex1>
+%<*driver>
+\fi
+%</driver>
 
 
 \subsubsection*{Online video\slash audio}
@@ -2115,6 +2161,9 @@ Internally, \texttt{movie} and \texttt{video} are aliases for \texttt{booklet}.
 %<*driver>
 \begin{tips}\item
 Use \texttt{type} for the medium and \texttt{note} for the channel, date and time.
+\item
+If the episode has an individual title, use \texttt{series} for the series and \texttt{number} for the episode number.
+Otherwise, give both series and episode number as the \texttt{title}.
 \end{tips}
 %</driver>
 
@@ -2137,12 +2186,11 @@ Use \texttt{type} for the medium and \texttt{note} for the channel, date and tim
 \iffalse
 %</driver>
 %<*tex1|bib1>
-@booklet{inn2021huw,
+@misc{inn2021huw,
   year = {2021},
   title = {Hurry up and wait},
-  series = {Inside No.9},
-  number = {{Episode} 6:4},
-  howpublished = {TV. BBC2, 31 May. 21.30 hrs}}
+  howpublished = {\emph{Inside no.9}, \emph{Episode 6:4}. TV. BBC2, 31 May.
+    21.30 hrs}}
 %</tex1|bib1>
 %<*driver|tex1>
 \end{Verbatim}
@@ -2168,7 +2216,7 @@ Use \texttt{type} for the medium and \texttt{note} for the channel, date and tim
 \iffalse
 %</driver>
 %<*tex1|bib1>
-@booklet{rsfo2006ep5,
+@misc{rsfo2006ep5,
   year = {2006},
   title = {Rick {Stein's} {French} Odyssey: Episode 5},
   howpublished = {TV. BBC2, 23 August. 20.30 hrs}}
@@ -2197,7 +2245,7 @@ Use \texttt{type} for the medium and \texttt{note} for the channel, date and tim
 \iffalse
 %</driver>
 %<*tex1|bib1>
-@booklet{archers20060823,
+@misc{archers20060823,
   year = {2006},
   title = {The {Archers}},
   howpublished = {Radio. BBC Radio 4, 23 August. 19.02 hrs}}
@@ -2233,12 +2281,12 @@ Internally, \texttt{audio} and \texttt{music} are aliases for \texttt{booklet}.
 \iffalse
 %</driver>
 %<*tex1|bib1>
-@booklet{tkmmm2020ts,
+@misc{tkmmm2020ts,
   year = {2020},
   title = {The Secret},
-  howpublished = {\emph{Tiger king: murder, mayhem and madness, Episode 3}
-    [Online]. TV. Available from: Netflix},
-  urldate = {4 May 2021}}
+  howpublished = {\emph{Tiger king: murder, mayhem and madness}, \emph{Episode 3}
+    [Online]. TV},
+  note = {Available from: Netflix [Accessed 4 May 2021]}}
 %</tex1|bib1>
 %<*driver|tex1>
 \end{Verbatim}
@@ -3576,7 +3624,10 @@ ENTRY
 % We define five states which trigger increasingly strong delimiters.
 %
 %    \begin{macrocode}
-INTEGERS { output.state before.all mid.clause mid.sentence after.sentence after.block }
+INTEGERS {
+  output.state before.all mid.clause mid.sentence after.sentence after.block
+  online.shown
+}
 FUNCTION {init.state.consts}
 { #0 'before.all :=
   #1 'mid.clause :=
@@ -3868,13 +3919,20 @@ FUNCTION {either.or.check}
 %
 %    \begin{macrocode}
 FUNCTION {is.online}
-{ url empty$ doi empty$ and
-    { type$ "online" =
+{ online.shown
+    { #0 }
+    { url empty$
+      doi empty$ and
+      urldate empty$ and
+      urlyear empty$ and
+        { type$ "online" =
+            { #1 }
+            { #0 }
+          if$
+        }
         { #1 }
-        { #0 }
       if$
     }
-    { #1 }
   if$
 }
 %    \end{macrocode}
@@ -4337,6 +4395,7 @@ FUNCTION {output.bibitem}
   "}" write$
   newline$
   ""
+  #0 'online.shown :=
   before.all 'output.state :=
 }
 %    \end{macrocode}
@@ -4400,8 +4459,33 @@ FUNCTION {format.btitle}
     { "t" change.case$ }
   if$
   "title" bibinfo.check
+  duplicate$ empty$
+    'skip$
+    { emphasize select.language }
+  if$
+}
+%    \end{macrocode}
+%
+% |format.avtitle| returns the title and language fields, where the shape
+% of the title (upright or italic) depends on the type.
+%
+%    \begin{macrocode}
+FUNCTION {format.avtitle}
+{ title
   duplicate$ empty$ 'skip$
-    { emphasize
+    { "t" change.case$ }
+  if$
+  "title" bibinfo.check
+  duplicate$ empty$
+    'skip$
+    { type duplicate$ empty$
+        { pop$ emphasize }
+        { duplicate$ "TV" = swap$ "Radio" = or
+            'skip$
+            'emphasize
+          if$
+        }
+      if$
       select.language
     }
   if$
@@ -4434,18 +4518,14 @@ FUNCTION {format.version}
 }
 %    \end{macrocode}
 %
-% |get.title.addenda| is a convenience for writing out the elements that
-% normally follow the title in |mid.clause| state.
+% |get.title.online| is a special function for writing `[Online]' after
+% a title. It is the only title addendum that follows the title to the
+% head of a reference (before the year).
 %
 %    \begin{macrocode}
-FUNCTION {get.title.addenda}
-{ continue.clause
-  format.version output
-  continue.clause
-  format.titleaddon output
-  continue.clause
 %<*bst2>
-  is.online
+FUNCTION {get.title.online}
+{ is.online
   journal empty$
   and
     booktitle empty$
@@ -4455,28 +4535,54 @@ FUNCTION {get.title.addenda}
     or
   and
     library empty$
-    type$ "image" =
+    type$ duplicate$ "image" =
+    swap$ duplicate$ "booklet" =
+    swap$ duplicate$ "audio" =
+    swap$ duplicate$ "video" =
+    swap$ duplicate$ "music" =
+    swap$ "movie" =
+    or
+    or
+    or
+    or
+    or
     or
   and
   type$ "software" = not
   and
-    type empty$
-      type$ "booklet" = not
-      type$ "audio" = not
-      and
-      type$ "video" = not
-      and
-      type$ "music" = not
-      and
-      type$ "movie" = not
-      and
+    series empty$
+      type duplicate$ empty$
+        { pop$ #1 }
+        { duplicate$ "TV" =
+          swap$ "Radio" =
+          or not
+        }
+      if$
     or
   and
-    { bbl.online output }
+    { continue.clause
+      bbl.online output
+      #1 'online.shown :=
+    }
     'skip$
   if$
-  continue.clause
+}
 %</bst2>
+%    \end{macrocode}
+%
+% |get.title.addenda| is a convenience for writing out the elements that
+% normally follow the title in |mid.clause| state.
+%
+%    \begin{macrocode}
+FUNCTION {get.title.addenda}
+{ continue.clause
+  format.version output
+  continue.clause
+  format.titleaddon output
+%<*bst2>
+  get.title.online
+%</bst2>
+  continue.clause
   type$ "reference" =
     { format.byeditors output }
     'skip$
@@ -4528,6 +4634,7 @@ FUNCTION {format.in.ed.booktitle}
       is.online
         { " " *
           bbl.online *
+          #1 'online.shown :=
         }
         'skip$
       if$
@@ -4806,25 +4913,6 @@ FUNCTION {format.thesis.type}
     'pop$
     { swap$ pop$
       "t" change.case$ "type" bibinfo.check
-    }
-  if$
-}
-%    \end{macrocode}
-%
-% If the type is provided, |format.booklet.type| writes the type field
-% with an initial capital. Then, if this is an online work with no author/editor,
-% the online label is added. If the type is not provided, it
-% returns an empty string.
-%
-%    \begin{macrocode}
-FUNCTION {format.booklet.type}
-{ type duplicate$ empty$
-    { pop$ "" }
-    { "type" bibinfo.check
-      is.online author empty$ and editor empty$ and
-        { " " * bbl.online * }
-        'skip$
-      if$
     }
   if$
 }
@@ -5221,7 +5309,9 @@ FUNCTION {format.library}
   and
   journal empty$
   and
-    { " " * bbl.online * }
+    { " " * bbl.online *
+      #1 'online.shown :=
+    }
     'skip$
   if$
 %</bst2>
@@ -5534,7 +5624,9 @@ FUNCTION {format.journal.series.vol.pages}
         { "journal" bibinfo.check
 %<*bst2>
           is.online
-            { " " * bbl.online * }
+            { " " * bbl.online *
+              #1 'online.shown :=
+            }
             'skip$
           if$
 %</bst2>
@@ -5666,6 +5758,7 @@ FUNCTION {article}
       is.online
         { continue.clause
           bbl.online output
+          #1 'online.shown :=
         }
         'skip$
       if$
@@ -5698,6 +5791,9 @@ FUNCTION {book}
             { format.title "title" output.check }
             { format.btitle "title" output.check }
           if$
+%<*bst2>
+          get.title.online
+%</bst2>
           format.date "year" output.check
           year empty$ 'skip$ { date.block } if$
           get.title.addenda
@@ -5748,7 +5844,10 @@ FUNCTION {book}
 FUNCTION {booklet}
 { output.bibitem
   author empty$
-    { format.btitle "title" output.check
+    { format.avtitle "title" output.check
+%<*bst2>
+      get.title.online
+%</bst2>
       format.date "year" output.check
       year empty$ 'skip$ { date.block } if$
       get.title.addenda
@@ -5757,12 +5856,12 @@ FUNCTION {booklet}
       author format.key output
       format.date "year" output.check
       date.block
-      format.btitle "title" output.check
+      format.avtitle "title" output.check
       get.title.addenda
     }
   if$
   new.block
-  format.booklet.type output
+  type "type" bibinfo.check output
   new.block
   howpublished "howpublished" bibinfo.check output
   new.block
@@ -5829,8 +5928,12 @@ FUNCTION {incollection}
 { output.bibitem
   author empty$
     { type$ "inreference" =
-        { format.label.booktitle output }
-        { format.title "title" output.check }
+        { format.label.booktitle output}
+        { format.title "title" output.check
+%<*bst2>
+          get.title.online
+%</bst2>
+        }
       if$
       format.date "year" output.check
       year empty$ 'skip$ { date.block } if$
@@ -5940,6 +6043,9 @@ FUNCTION {jurisdiction}
         'new.sentence
         'continue.clause
       if$
+%<*bst2>
+      get.title.online
+%</bst2>
       format.jur.date "year" output.check
       year empty$ 'skip$ { eu.case.check } if$
       get.title.addenda
@@ -6084,6 +6190,9 @@ FUNCTION {manual}
 { output.bibitem
   author empty$
     { format.btitle "title" output.check
+%<*bst2>
+      get.title.online
+%</bst2>
       format.date "year" output.check
       year empty$ 'skip$ { date.block } if$
       get.title.addenda
@@ -6119,6 +6228,9 @@ FUNCTION {image}
 { output.bibitem
   author empty$
   { format.btitle "title" output.check
+%<*bst2>
+    get.title.online
+%</bst2>
     format.date "year" output.check
     year empty$ 'skip$ { date.block } if$
     get.title.addenda
@@ -6177,6 +6289,9 @@ FUNCTION {misc}
 { output.bibitem
   author empty$
     { format.title "title" output.check
+%<*bst2>
+      get.title.online
+%</bst2>
       format.date "year" output.check
       year empty$ 'skip$ { date.block } if$
       get.title.addenda
@@ -6232,6 +6347,9 @@ FUNCTION {proceedings}
 { output.bibitem
   editor empty$
     { format.btitle "title" output.check
+%<*bst2>
+      get.title.online
+%</bst2>
       format.date "year" output.check
       year empty$ 'skip$ { date.block } if$
       get.title.addenda
@@ -6269,6 +6387,9 @@ FUNCTION {techreport}
 { output.bibitem
   author empty$
     { format.btitle "title" output.check
+%<*bst2>
+      get.title.online
+%</bst2>
       format.date "year" output.check
       year empty$ 'skip$ { date.block } if$
       get.title.addenda
@@ -6308,6 +6429,9 @@ FUNCTION {unpublished}
 { output.bibitem
   author empty$
     { booktitle empty$ 'format.btitle 'format.title if$ "title" output.check
+%<*bst2>
+      get.title.online
+%</bst2>
       format.date "year" output.check
       year empty$ 'skip$ { date.block } if$
       get.title.addenda
