@@ -19,16 +19,24 @@ source:	$(BST1) $(BST2) $(NAME).bib $(NAME)-v1.tex $(NAME)-v1.bib
 $(BST1) $(BST2) $(NAME).bib  $(NAME)-v1.tex $(NAME)-v1.bib: $(NAME).dtx
 	luatex -interaction=batchmode $(NAME).dtx >/dev/null
 
-$(NAME).bbl: $(NAME).dtx $(BST2) $(NAME).bib
-	latexmk -silent -lualatex -synctex=1 -interaction=batchmode $< >/dev/null
+$(NAME).aux: $(NAME).dtx $(NAME).bib
+	lualatex -interaction=batchmode $< >/dev/null
 
-$(NAME).pdf: $(NAME).bbl
+$(NAME).bbl: $(NAME).aux $(BST2) $(NAME).bib
+	bibtex $(NAME) >/dev/null
+
+$(NAME).pdf: $(NAME).dtx
+	latexmk -silent -lualatex -interaction=batchmode $< >/dev/null
 	@echo "Compilation of main PDF complete."
 
-$(NAME)-v1.bbl: $(NAME)-v1.tex $(BST1) $(NAME)-v1.bib
-	latexmk -silent -lualatex -synctex=1 -interaction=batchmode $< >/dev/null
+$(NAME)-v1.aux: $(NAME)-v1.tex $(NAME)-v1.bib
+	lualatex -interaction=batchmode $< >/dev/null
 
-$(NAME)-v1.pdf: $(NAME)-v1.bbl
+$(NAME)-v1.bbl: $(NAME)-v1.aux $(BST1) $(NAME)-v1.bib
+	bibtex $(NAME)-v1 >/dev/null
+
+$(NAME)-v1.pdf: $(NAME)-v1.tex $(BST1) $(NAME)-v1.bib
+	latexmk -silent -lualatex -interaction=batchmode $< >/dev/null
 	@echo "Compilation of test PDF complete."
 
 clean:

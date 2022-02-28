@@ -646,10 +646,23 @@ structures may also change without warning.
   Series names (except those in \texttt{legislation} and \texttt{jurisdiction}
   entries) are now coerced to sentence case, so any capital letters you
   want to keep need to be protected with braces.
+%<*driver>
 \item
   The `[Online]' tag is now also triggered by \texttt{urldate}\slash
   \texttt{urlyear}. In cases where it occurs directly after the title, it is no longer
   left behind (after the year) if the title is moved to the head of the reference.
+\iffalse
+%</driver>
+%<*tex1>
+\item
+  If the title is moved to the head of the reference (before the year),
+  the \texttt{titleaddon} field is now printed directly after it instead of after the year.
+  This supports cases where `[Online]' needs to be printed before the year,
+  but may mean different workarounds are needed for other entries such as anonymous works with translated titles.
+%</tex1>
+%<*driver>
+\fi
+%</driver>
 \item
   The style now sets \lstinline{\bibhang} to 0pt instead of
   \lstinline{\parindent} (or 1em).
@@ -3555,6 +3568,7 @@ This work is ‘maintained’ (as per LPPL maintenance status) by [Alex Ball][me
 %
 % The line numbers for the listings below match |bathx.bst|.
 % \setcounter{lstnumber}{16}
+% \newcounter{mismatch}
 %
 % \subsection{Data model}
 %
@@ -4493,17 +4507,38 @@ FUNCTION {format.avtitle}
 }
 %    \end{macrocode}
 %
-% |format.titleaddon| returns the titleaddon field.
+% |format.titleaddon| returns the titleaddon field. This is the
+% |bath.bst| version:
+%
+% \iffalse
+%<*bst1>
+% \fi
+%    \begin{macrocode}
+FUNCTION {format.titleaddon}
+{ titleaddon
+  duplicate$ empty$ 'skip$
+    { "titleaddon" bibinfo.check }
+  if$
+}
+%    \end{macrocode}
+% \iffalse
+%</bst1>
+%<*bst2>
+% \fi\addtocounter{lstnumber}{-6}
+%
+% This is the |bathx.bst| version:
 %
 %    \begin{macrocode}
 FUNCTION {format.titleaddon}
 { titleaddon
   duplicate$ empty$ 'skip$
-%<bst1>    { "titleaddon" bibinfo.check }
-%<bst2>    { "[" swap$ "titleaddon" bibinfo.check * "]" * }
+    { "[" swap$ "titleaddon" bibinfo.check * "]" * }
   if$
 }
 %    \end{macrocode}
+% \iffalse
+%</bst2>
+% \fi
 %
 % |format.version| returns the version field.
 %
@@ -4519,12 +4554,31 @@ FUNCTION {format.version}
 }
 %    \end{macrocode}
 %
-% |get.title.online| is a special function for writing `[Online]' after
-% a title. It is the only title addendum that follows the title to the
-% head of a reference (before the year).
+% |get.title.online| is a the function for writing `[Online]' after
+% a title. In \texttt{bath.bst} it prints the titleaddon field:
+%
+% \iffalse
+%<*bst1>
+% \fi
+%    \begin{macrocode}
+FUNCTION {get.title.online}
+{ online.shown
+    'skip$
+    { continue.clause
+      format.titleaddon output
+      #1 'online.shown :=
+    }
+  if$
+}
+%    \end{macrocode}
+%\iffalse
+%</bst1>
+%<*bst2>
+%\fi\addtocounter{lstnumber}{-9}
+%
+% In \texttt{bathx.bst} it conditionally prints the |bbl.online| string:
 %
 %    \begin{macrocode}
-%<*bst2>
 FUNCTION {get.title.online}
 { is.online
   journal empty$
@@ -4568,8 +4622,10 @@ FUNCTION {get.title.online}
     'skip$
   if$
 }
-%</bst2>
 %    \end{macrocode}
+%\iffalse
+%</bst2>
+%\fi\addtocounter{mismatch}{34}
 %
 % |get.title.addenda| is a convenience for writing out the elements that
 % normally follow the title in |mid.clause| state.
@@ -4578,11 +4634,22 @@ FUNCTION {get.title.online}
 FUNCTION {get.title.addenda}
 { continue.clause
   format.version output
+%    \end{macrocode}
+%
+% These two lines are peculiar to |bathx.bst|, where |titleaddon| doesn't get moved:
+%
+% \iffalse
+%<*bst2>
+% \fi
+%    \begin{macrocode}
   continue.clause
   format.titleaddon output
-%<*bst2>
-  get.title.online
+%    \end{macrocode}
+% \iffalse
 %</bst2>
+% \fi\addtocounter{mismatch}{2}
+%    \begin{macrocode}
+  get.title.online
   continue.clause
   type$ "reference" =
     { format.byeditors output }
@@ -4631,7 +4698,14 @@ FUNCTION {format.in.ed.booktitle}
   duplicate$ empty$
     'skip$
     {
+%    \end{macrocode}
+%
+% In |bathx.bst|, we conditionally include the |bbl.online| string:
+%
+% \iffalse
 %<*bst2>
+% \fi
+%    \begin{macrocode}
       is.online
         { " " *
           bbl.online *
@@ -4639,7 +4713,11 @@ FUNCTION {format.in.ed.booktitle}
         }
         'skip$
       if$
+%    \end{macrocode}
+% \iffalse
 %</bst2>
+% \fi\addtocounter{mismatch}{7}
+%    \begin{macrocode}
       editor "editor" format.names.ed duplicate$ empty$ 'pop$
         { "," *
           " " *
@@ -4669,14 +4747,28 @@ FUNCTION {legal.journal.shape}
 %
 % \subsection{Dates}
 %
-% |nodate.check| looks at the most recent token. If it is empty, replaces it
-% with `n.d.' unless either |sortyear| or the |nonodate| option is present.
+% In |bath.bst|, |nodate.check| doesn't do anything:
+%
+% \iffalse
+%<*bst1>
+% \fi\addtocounter{lstnumber}{-\value{mismatch}}
+%    \begin{macrocode}
+FUNCTION {nodate.check}
+{
+  skip$
+}
+%    \end{macrocode}
+% \iffalse
+%</bst1>
+%<*bst2>
+% \fi\addtocounter{lstnumber}{\numexpr\value{mismatch}-4\relax}
+%
+% In |bathx.bst|, it looks at the most recent token. If it is empty, replaces
+% it with `n.d.' unless either |sortyear| or the |nonodate| option is present.
 %
 %    \begin{macrocode}
 FUNCTION {nodate.check}
 {
-%<bst1>  skip$
-%<*bst2>
 duplicate$ empty$
   sortyear empty$
   and
@@ -4687,9 +4779,11 @@ duplicate$ empty$
     }
     'skip$
   if$
-%</bst2>
 }
 %    \end{macrocode}
+% \iffalse
+%</bst2>
+% \fi\addtocounter{mismatch}{9}
 %
 % |format.date| returns the year and any disambiguation label.
 %
@@ -5328,7 +5422,14 @@ FUNCTION {format.institution.address}
 FUNCTION {format.library}
 { library "library" bibinfo.check
   emphasize
+%    \end{macrocode}
+%
+% In |bathx.bst|, we conditionally include the |bbl.online| string:
+%
+% \iffalse
 %<*bst2>
+% \fi
+%    \begin{macrocode}
   duplicate$ empty$ not
   is.online
   and
@@ -5339,9 +5440,10 @@ FUNCTION {format.library}
     }
     'skip$
   if$
-%</bst2>
-}
 %    \end{macrocode}
+% \iffalse
+%</bst2>
+% \fi\addtocounter{mismatch}{10}
 %
 % The library field is also used for where a physical image is kept.
 % As we have only one address field, it will attach to whichever is
@@ -5350,6 +5452,7 @@ FUNCTION {format.library}
 % |library| and |library| in preference to |organization|.
 %
 %    \begin{macrocode}
+}
 FUNCTION {format.img.library}
 { library duplicate$ empty$
     { pop$ "" }
@@ -5647,14 +5750,25 @@ FUNCTION {format.journal.series.vol.pages}
           if$
         }
         { "journal" bibinfo.check
+%    \end{macrocode}
+%
+% In |bathx.bst|, we conditionally include the |bbl.online| string:
+%
+% \iffalse
 %<*bst2>
+% \fi
+%    \begin{macrocode}
           is.online
             { " " * bbl.online *
               #1 'online.shown :=
             }
             'skip$
           if$
+%    \end{macrocode}
+% \iffalse
 %</bst2>
+% \fi\addtocounter{mismatch}{6}
+%    \begin{macrocode}
           volume "volume" bibinfo.check
           duplicate$ empty$
             'pop$
@@ -5697,6 +5811,7 @@ FUNCTION {format.eprint}
 %    \end{macrocode}
 %
 % |format.url| constructs a string |Available from: \url{url} [Accessed urldate]|.
+% We also allow the \texttt{library} field to be used as a fallback URL.
 %
 %    \begin{macrocode}
 FUNCTION {format.url}
@@ -5707,6 +5822,18 @@ FUNCTION {format.url}
   duplicate$ empty$
     { pop$ "" }
     { "\urlprefix\url{" swap$ * "}" * }
+  if$
+  duplicate$ empty$
+    urlyear empty$ not
+    urldate empty$ not
+    or
+  and
+    { library duplicate$ empty$
+        'pop$
+        { "\urlprefix{}" swap$ * * }
+      if$
+    }
+    'skip$
   if$
   urlyear empty$
     { urldate empty$
@@ -5779,7 +5906,14 @@ FUNCTION {article}
       "journal" bibinfo.check
       emphasize
       "journal" output.check
+%    \end{macrocode}
+%
+% In |bathx.bst|, we conditionally include the |bbl.online| string:
+%
+% \iffalse
 %<*bst2>
+% \fi
+%    \begin{macrocode}
       is.online
         { continue.clause
           bbl.online output
@@ -5787,7 +5921,11 @@ FUNCTION {article}
         }
         'skip$
       if$
+%    \end{macrocode}
+% \iffalse
 %</bst2>
+% \fi\addtocounter{mismatch}{7}
+%    \begin{macrocode}
       format.vol.num.pages output
     }
     { format.article.crossref output.nonnull
@@ -5816,9 +5954,7 @@ FUNCTION {book}
             { format.title "title" output.check }
             { format.btitle "title" output.check }
           if$
-%<*bst2>
           get.title.online
-%</bst2>
           format.date "year" output.check
           year empty$ 'skip$ { date.block } if$
           get.title.addenda
@@ -5870,9 +6006,7 @@ FUNCTION {booklet}
 { output.bibitem
   author empty$
     { format.avtitle "title" output.check
-%<*bst2>
       get.title.online
-%</bst2>
       format.date "year" output.check
       year empty$ 'skip$ { date.block } if$
       get.title.addenda
@@ -5887,14 +6021,26 @@ FUNCTION {booklet}
   if$
   new.block
   format.series.episode output
+%    \end{macrocode}
+%
+% In |bathx.bst|, we conditionally include the |bbl.online| string:
+%
+% \iffalse
 %<*bst2>
+% \fi
+%    \begin{macrocode}
   is.online
-    { continue.clause bbl.online output
+    { continue.clause
+      bbl.online output
       #1 'online.shown :=
     }
     'skip$
   if$
+%    \end{macrocode}
+% \iffalse
 %</bst2>
+% \fi\addtocounter{mismatch}{7}
+%    \begin{macrocode}
   new.block
   type "type" bibinfo.check output
   new.block
@@ -5965,9 +6111,7 @@ FUNCTION {incollection}
     { type$ "inreference" =
         { format.label.booktitle output}
         { format.title "title" output.check
-%<*bst2>
           get.title.online
-%</bst2>
         }
       if$
       format.date "year" output.check
@@ -6078,9 +6222,7 @@ FUNCTION {jurisdiction}
         'new.sentence
         'continue.clause
       if$
-%<*bst2>
       get.title.online
-%</bst2>
       format.jur.date "year" output.check
       year empty$ 'skip$ { eu.case.check } if$
       get.title.addenda
@@ -6225,9 +6367,7 @@ FUNCTION {manual}
 { output.bibitem
   author empty$
     { format.btitle "title" output.check
-%<*bst2>
       get.title.online
-%</bst2>
       format.date "year" output.check
       year empty$ 'skip$ { date.block } if$
       get.title.addenda
@@ -6263,9 +6403,7 @@ FUNCTION {image}
 { output.bibitem
   author empty$
   { format.btitle "title" output.check
-%<*bst2>
     get.title.online
-%</bst2>
     format.date "year" output.check
     year empty$ 'skip$ { date.block } if$
     get.title.addenda
@@ -6324,9 +6462,7 @@ FUNCTION {misc}
 { output.bibitem
   author empty$
     { format.title "title" output.check
-%<*bst2>
       get.title.online
-%</bst2>
       format.date "year" output.check
       year empty$ 'skip$ { date.block } if$
       get.title.addenda
@@ -6382,9 +6518,7 @@ FUNCTION {proceedings}
 { output.bibitem
   editor empty$
     { format.btitle "title" output.check
-%<*bst2>
       get.title.online
-%</bst2>
       format.date "year" output.check
       year empty$ 'skip$ { date.block } if$
       get.title.addenda
@@ -6422,9 +6556,7 @@ FUNCTION {techreport}
 { output.bibitem
   author empty$
     { format.btitle "title" output.check
-%<*bst2>
       get.title.online
-%</bst2>
       format.date "year" output.check
       year empty$ 'skip$ { date.block } if$
       get.title.addenda
@@ -6464,9 +6596,7 @@ FUNCTION {unpublished}
 { output.bibitem
   author empty$
     { booktitle empty$ 'format.btitle 'format.title if$ "title" output.check
-%<*bst2>
       get.title.online
-%</bst2>
       format.date "year" output.check
       year empty$ 'skip$ { date.block } if$
       get.title.addenda
