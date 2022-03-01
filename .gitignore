@@ -102,9 +102,9 @@ venv/
 
 ## Compiled files
 /biblatex/*bath.*bx
+/biblatex/*.bbi
 /biblatex/biblatex-bath-*.zip
 /biblatex/biblatex-bath.pdf
-/biblatex/test-output.bbi
 /biblatex/test-output.pdf
 /bst/bath-bst-*.zip
 /bst/bath-bst.pdf

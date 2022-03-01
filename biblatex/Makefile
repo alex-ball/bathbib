@@ -1,6 +1,7 @@
 STYLE = bath
 NAME  = biblatex-$(STYLE)
 TEST  = test-output
+COMP  = test-compat
 SHELL = bash
 PWD   = $(shell pwd)
 TEMP := $(shell mktemp -d -t tmp.XXXXXXXXXX)
@@ -8,8 +9,10 @@ TDIR  = $(TEMP)/$(NAME)
 VERS  = $(shell ltxfileinfo -v $(NAME).dtx)
 LOCAL = $(shell kpsewhich --var-value TEXMFLOCAL)
 UTREE = $(shell kpsewhich --var-value TEXMFHOME)
+AUX   = aux bbl bcf blg fdb_latexmk fls listing log out run.xml
 
 .PHONY: source clean distclean inst install uninst uninstall zip ctan
+.INTERMEDIATE: $(TEST).pdf $(COMP).tex $(COMP).pdf
 
 all:	$(NAME).pdf clean
 	@exit 0
@@ -29,14 +32,22 @@ $(TEST).pdf: $(TEST).tex $(STYLE).bbx $(NAME).bib
 $(TEST).bbi: $(TEST).pdf
 	pdftotext $< $@
 
+$(COMP).tex: $(TEST).tex
+	sed 's/biblatex-bath.bib/..\/bst\/bath-bst.bib/' $< > $@
+
+$(COMP).pdf: $(COMP).tex $(STYLE).bbx
+	latexmk -silent -lualatex -interaction=batchmode $< >/dev/null
+
+$(COMP).bbi: $(COMP).pdf
+	pdftotext $< $@
+
 clean:
-	rm -f $(NAME).{aux,bbl,bcf,blg,doc,fdb_latexmk,fls,glo,gls,hd,idx,ilg,ind,listing,log,nav,out,run.xml,snm,synctex.gz,tcbtemp,toc,vrb}
-	rm -f $(NAME).markdown.in
+	rm -f $(AUX:%=$(NAME).%) $(NAME).markdown.in
 	rm -rf _markdown_$(NAME)
-	rm -f $(TEST).{aux,bbi,bbl,bcf,blg,fdb_latexmk,fls,log,pdf,run.xml}
+	rm -f $(AUX:%=$(TEST).%) $(AUX:%=$(COMP).%)
 
 distclean: clean
-	rm -f $(NAME).{pdf,bib,ins} $(STYLE).{b,c,d}bx {english,british}-$(STYLE).lbx
+	rm -f $(NAME).{pdf,bib,ins} $(STYLE).{b,c,d}bx {english,british}-$(STYLE).lbx {$(TEST),$(COMP)}.bbi
 
 
 inst: all
