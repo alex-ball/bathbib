@@ -342,6 +342,7 @@ Copyright (C) 2016-2021 by University of Bath
 % Documentation
 
 \usepackage{natbib}
+\setlength{\bibhang}{0pt}
 \newcommand*{\urlprefix}{Available from: }
 \newcommand*{\urldateprefix}{Accessed }
 
@@ -564,6 +565,7 @@ To use the style, add these lines to your preamble:
 %<*driver>
 \begin{tcblisting}{listing only}
 \usepackage{natbib}
+\setlength{\bibhang}{0pt}
 \newcommand*{\urlprefix}{Available from: }
 \newcommand*{\urldateprefix}{Accessed }
 \bibliographystyle{bathx}
@@ -670,9 +672,6 @@ structures may also change without warning.
   The \texttt{article} and \texttt{manual} entry types now support the \texttt{month} field.
 \item
   Maps need to be given the \texttt{book} entry type; previously \texttt{manual} was recommended.
-\item
-  The style now sets \lstinline{\bibhang} to 0pt instead of
-  \lstinline{\parindent} (or 1em).
 \end{itemize}
 
 
