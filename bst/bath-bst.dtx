@@ -651,6 +651,9 @@ structures may also change without warning.
   The `[Online]' tag is now also triggered by \texttt{urldate}\slash
   \texttt{urlyear}. In cases where it occurs directly after the title, it is no longer
   left behind (after the year) if the title is moved to the head of the reference.
+\item
+  The \texttt{nameaddon} field is now supported for annotating author lists with,
+  say, a social media handle.
 \iffalse
 %</driver>
 %<*tex1>
@@ -663,6 +666,10 @@ structures may also change without warning.
 %<*driver>
 \fi
 %</driver>
+\item
+  The \texttt{article} and \texttt{manual} entry types now support the \texttt{month} field.
+\item
+  Maps need to be given the \texttt{book} entry type; previously \texttt{manual} was recommended.
 \item
   The style now sets \lstinline{\bibhang} to 0pt instead of
   \lstinline{\parindent} (or 1em).
@@ -937,7 +944,15 @@ Similarly, to achieve the following formats you must use the non-standard
 %</driver>
 \end{bibexbox}
 
-\begin{info}\item
+\begin{info}
+%<*driver>
+\item
+If you are using the same .bib file with Bib\TeX\ and \textsf{biblatex},
+one unfortunate difference is that you must escape the hash symbol inside
+URLs with Bib\TeX\, but you must not escape it inside a URL with
+\textsf{biblatex}.
+%</driver>
+\item
 Internally, \texttt{inreference} is an alias for \texttt{incollection}.
 %<driver>Use \texttt{inreference} if you need compatibility with \textsf{biblatex-bath}.
 \item
@@ -1323,7 +1338,7 @@ semantically. Use \texttt{library} to specify the name of the preprint repositor
 \subsubsection*{Newspaper article}
 
 \begin{hacks}\item
-Give the issue's day and month as the \texttt{volume}.
+Give the issue's day and month as the \texttt{month} or \texttt{volume}.
 \end{hacks}
 
 \begin{bibexbox}(hacked)<RX>{haurant2004bbh}
@@ -1337,12 +1352,20 @@ Give the issue's day and month as the \texttt{volume}.
   year = {2004},
   title = {Britain's Borrowing Hits \pounds 1 Trillion},
   journal = {The {Guardian}},
-  volume = {29 July},
+  month = {{29 July}},
   pages = {16c}}
 %</driver|bib|tex1|bib1>
 %<*driver|tex1>
 \end{Verbatim}
 \end{bibexbox}
+
+%<*driver>
+\begin{info}\item
+The extra braces around the \texttt{month} field aren't necessary with Bib\TeX,
+but are needed if you want compatibility with \textsf{biblatex}.
+\end{info}
+%</driver>
+
 
 \begin{bibexbox}(hacked)<RX>{independent1992pub}
   The Independent, 1992. Picking up the bills. \emph{The Independent}, 4 June, p.28a.
@@ -1355,7 +1378,7 @@ Give the issue's day and month as the \texttt{volume}.
   year = {1992},
   title = {Picking Up the Bills},
   journal = {The {Independent}},
-  volume = {4 June},
+  month = {{4 June}},
   pages = {28a}}
 %</driver|bib|tex1|bib1>
 %<*driver|tex1>
@@ -1516,7 +1539,6 @@ As in the standard Bib\TeX\ styles, \texttt{conference} is a legacy (and highly 
 Internally, \texttt{thesis} is an alias for \texttt{phdthesis}.
 %<driver>If you need compatibility with \textsf{biblatex-bath} and don't want to display a thesis type, use \texttt{thesis}.
 \end{info}
-
 
 \subsubsection*{Report, working paper, or research briefing}
 
@@ -1925,7 +1947,7 @@ but the \texttt{organization} field if the location relates to the archive.
 \begin{Verbatim}
 %</driver|tex1>
 %<*driver|bib|tex1|bib1>
-@manual{andrews.dury1773wilts,
+@book{andrews.dury1773wilts,
   author = {Andrews, J. and Dury, A.},
   year = {1773},
   title = {Map of {Wiltshire}},
@@ -1937,17 +1959,13 @@ but the \texttt{organization} field if the location relates to the archive.
 \end{Verbatim}
 \end{bibexbox}
 
-\begin{tips}\item
-The \texttt{book} entry type would also work for this reference.
-\end{tips}
-
 \begin{bibexbox}<RX>{os2020bath}
   Ordnance Survey, 2020. \emph{Street view map of University of Bath} [Online], 1:5000, OS VectorMap® Local. Available from: \url{https://digimap.edina.ac.uk/roam/map/os} [Accessed 30 April 2020].
   \tcblower
 \begin{Verbatim}
 %</driver|tex1>
 %<*driver|bib>
-@manual{os2020bath,
+@book{os2020bath,
   author = {{Ordnance Survey}},
   year = {2020},
   title = {Street view map of {University of Bath}},
@@ -1960,7 +1978,7 @@ The \texttt{book} entry type would also work for this reference.
 \iffalse
 %</driver>
 %<*tex1|bib1>
-@manual{os2020bath,
+@book{os2020bath,
   author = {{Ordnance Survey}},
   year = {2020},
   title = {Street view map of {University of Bath}},
@@ -1982,7 +2000,7 @@ The \texttt{book} entry type would also work for this reference.
 \begin{Verbatim}
 %</driver|tex1>
 %<*driver|bib>
-@manual{google2020harbourside,
+@book{google2020harbourside,
   author = {{Google}},
   year = {2020},
   title = {{Harbourside, Bristol}},
@@ -1995,7 +2013,7 @@ The \texttt{book} entry type would also work for this reference.
 \iffalse
 %</driver>
 %<*tex1|bib1>
-@manual{google2020harbourside,
+@book{google2020harbourside,
   author = {{Google}},
   year = {2020},
   title = {{Harbourside, Bristol}},
@@ -2220,7 +2238,7 @@ Otherwise, give both series and episode number as the \texttt{title}.
 %<*driver|bib>
 @video{rsfo2006ep5,
   year = {2006},
-  title = {Rick {Stein's} {French} Odyssey: Episode 5},
+  title = {Rick {Stein's} {French} Odyssey: {Episode} 5},
   type = {TV},
   note = {BBC2, 23 August. 20.30 hrs}}
 %</driver|bib>
@@ -2231,7 +2249,7 @@ Otherwise, give both series and episode number as the \texttt{title}.
 %<*tex1|bib1>
 @misc{rsfo2006ep5,
   year = {2006},
-  title = {Rick {Stein's} {French} Odyssey: Episode 5},
+  title = {Rick {Stein's} {French} Odyssey: {Episode} 5},
   howpublished = {TV. BBC2, 23 August. 20.30 hrs}}
 %</tex1|bib1>
 %<*driver|tex1>
@@ -2420,7 +2438,7 @@ Internally these are all aliases for \texttt{manual}.
   author = {Gaiman, N.},
   year = {2021},
   title = {Facebook post},
-  note = {21 April},
+  month = {{21 April}},
   url = {https://www.facebook.com/neilgaiman/posts/305187897642814},
   urlyear = {13 May 2021}}
 %</driver|bib>
@@ -2434,7 +2452,7 @@ Internally these are all aliases for \texttt{manual}.
   year = {2021},
   title = {Facebook post},
   titleaddon = {[Online]},
-  note = {21 April},
+  month = {21 April},
   url = {https://www.facebook.com/neilgaiman/posts/305187897642814},
   urldate = {13 May 2021}}
 %</tex1|bib1>
@@ -2456,7 +2474,7 @@ Internally these are all aliases for \texttt{manual}.
   nameaddon = {@bathunilibrary},
   year = {2021},
   title = {Twitter post},
-  note = {10 May},
+  month = {{10 May}},
   url = {https://twitter.com/BathUniLibrary/status/1391774402618998795?s=20},
   urlyear = {12 May 2021}}
 %</driver|bib>
@@ -2470,7 +2488,7 @@ Internally these are all aliases for \texttt{manual}.
   year = {2021},
   title = {Twitter post},
   titleaddon = {[Online]},
-  note = {10 May},
+  month = {10 May},
   url = {https://twitter.com/BathUniLibrary/status/1391774402618998795?s=20},
   urldate = {12 May 2021}}
 %</tex1|bib1>
@@ -2492,7 +2510,7 @@ Internally these are all aliases for \texttt{manual}.
   nameaddon = {@unibathlib},
   year = {2021},
   title = {Instagram post},
-  note = {15 March},
+  month = {{15 March}},
   url = {https://www.instagram.com/p/CMb5GHjFv9A/?utm_source=ig_web_copy_link},
   urlyear = {7 May 2021}}
 %</driver|bib>
@@ -2506,7 +2524,7 @@ Internally these are all aliases for \texttt{manual}.
   year = {2021},
   title = {Instagram post},
   titleaddon = {[Online]},
-  note = {15 March},
+  month = {15 March},
   url = {https://www.instagram.com/p/CMb5GHjFv9A/?utm_source=ig_web_copy_link},
   urlyear = {7 May 2021}}
 %</tex1|bib1>
@@ -2517,6 +2535,9 @@ Internally these are all aliases for \texttt{manual}.
 %</driver>
 \end{bibexbox}
 
+%<*driver>
+\iffalse
+%</driver>
 %<*tex1>
 \begin{hacks}\item
 Unfortunately, the handle will also show up in your citations, e.g.\@
@@ -2526,6 +2547,9 @@ University of Bath Library \citeyearpar{ublib2021ip}
 \end{tcblisting}
 \end{hacks}
 %</tex1>
+%<*driver>
+\fi
+%</driver>
 
 \subsubsection*{Email discussion lists (jiscmail\slash listserv etc.)}
 
@@ -2609,7 +2633,7 @@ unfortunately this means you have to put in extra work to show only the year in 
   author = {{Bureau van Dijk}},
   year = {2008},
   title = {{BT} {Group} PLC Company Report},
-  series = {\emph{FAME} [Online]},
+  series = {\emph{FAME} {[Online]}},
   address = {London},
   organization = {Bureau van Dijk},
   url = {http://www.portal.euromonitor.com},
@@ -2845,6 +2869,7 @@ yourself:
 
 For the trick to work, the argument you give to \lstinline[style=dtxlatex]|\noop|
 must be lowercase, but otherwise it can be anything you like.
+%<driver>The trick is not portable to \textsf{biblatex-bath}.
 \end{tips}
 
 \newcommand*{\noop}[1]{}
@@ -2991,6 +3016,7 @@ Use this form for reports of House of Commons select committees.
   address = {London},
   publisher = {National Audit Office},
   series = {{HC} 2003/04},
+  type = {},
   number = {30}}
 %</driver|bib>
 %<*driver>
@@ -3014,6 +3040,13 @@ Use this form for reports of House of Commons select committees.
 %</driver>
 \end{bibexbox}
 
+%<*driver>
+\begin{tips}\item
+To achieve compatibility with \textsf{biblatex-bath}, you can either set the
+\texttt{type} field to the empty string or use the \texttt{report} entry type,
+which is an alias for \texttt{techreport}.
+\end{tips}
+%</driver>
 
 \subsubsection*{House of Lords paper}
 
@@ -3034,6 +3067,7 @@ Use this form for reports of House of Lords select committees.
   address = {London},
   publisher = {HMSO},
   series = {{HL} 1986/87},
+  type = {},
   number = {66}}
 %</driver|bib>
 %<*driver>
@@ -3080,6 +3114,7 @@ years in \texttt{series} and the HL and HC numbers in \texttt{number}.
   address = {London},
   publisher = {TSO},
   series = {Cm},
+  type = {},
   number = {6041}}
 %</driver|bib>
 %<*driver>
@@ -3602,6 +3637,7 @@ ENTRY
     language
     library
     month
+    nameaddon
     note
     number
     options
@@ -4426,6 +4462,16 @@ FUNCTION {format.key}
     { key field.or.null }
     { "" }
   if$
+  nameaddon duplicate$ empty$
+    'pop$
+    { swap$ duplicate$ empty$
+        'skip$
+        { " " * }
+      if$
+      swap$ "[" swap$ * * "]" *
+      continue.clause
+    }
+  if$
 }
 %    \end{macrocode}
 %
@@ -5142,8 +5188,6 @@ FUNCTION {format.tr.number}
 %
 % |format.manual.number| returns the series, type and number fields as one of
 % `number', `type number', `series number', or `series number, type'.
-% For map entries, we change the output state to |mid.sentence| if series is
-% present but there is no type or number.
 %
 %    \begin{macrocode}
 FUNCTION {format.manual.number}
@@ -5172,11 +5216,6 @@ FUNCTION {format.manual.number}
     { "t" change.case$ 
       number duplicate$ empty$
         { pop$
-          type empty$
-            { mid.sentence 'output.state :=
-            }
-            'skip$
-          if$
         }
         { tie.or.space.prefix
           "number" bibinfo.check
@@ -5676,6 +5715,14 @@ FUNCTION {format.vol.num.pages}
           "(" swap$ * ")" *
         }
       if$ *
+      month "month" bibinfo.check duplicate$ empty$
+        'pop$
+        { swap$ duplicate$ empty$
+            'pop$
+            { ", " * swap$ * }
+          if$
+        }
+      if$
       eid empty$
         { format.journal.pages }
         { format.journal.eid }
@@ -6380,6 +6427,7 @@ FUNCTION {manual}
       get.title.addenda
     }
   if$
+  month "month" bibinfo.check output
   format.edition output
   new.block
   format.manual.number output

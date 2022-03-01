@@ -35,7 +35,7 @@ $(TEST).bbi: $(TEST).pdf
 $(COMP).tex: $(TEST).tex
 	sed 's/biblatex-bath.bib/..\/bst\/bath-bst.bib/' $< > $@
 
-$(COMP).pdf: $(COMP).tex $(STYLE).bbx
+$(COMP).pdf: $(COMP).tex $(STYLE).bbx ../bst/bath-bst.bib
 	latexmk -silent -lualatex -interaction=batchmode $< >/dev/null
 
 $(COMP).bbi: $(COMP).pdf

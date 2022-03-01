@@ -105,7 +105,8 @@ venv/
 /biblatex/*.bbi
 /biblatex/biblatex-bath-*.zip
 /biblatex/biblatex-bath.pdf
-/biblatex/test-output.pdf
+/biblatex/test-*.pdf
+/biblatex/test-compat.tex
 /bst/bath-bst-*.zip
 /bst/bath-bst.pdf
 /bst/bath-bst-v1.pdf

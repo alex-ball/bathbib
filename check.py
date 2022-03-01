@@ -226,6 +226,15 @@ def parse_bibitems(lines: t.List[str]) -> t.Mapping[str, str]:
                     level += 1
                     outputs[current_id] += buffer
                     buffer = ""
+                elif char == "}":
+                    if buffer == "\\relax":
+                        buffer = ""
+                    state.pop()
+                    level -= 1
+                    if level == exit_args[-1]:
+                        exit_args.pop()
+                    else:
+                        continue
             elif state[-1] == GOBBLE:
                 if char == "{":
                     level += 1
@@ -399,6 +408,23 @@ def bst_old():
     targets = extract_dtx_targets("bst/bath-bst.dtx")
     lines = get_bibitems("bst/bath-bst-v1.bbl")
     outputs = ignore_unfixable(parse_bibitems(lines))
+    contrast_refs(Target=targets, Output=outputs)
+
+
+@main.command(context_settings=CONTEXT_SETTINGS)
+def compat():
+    """Checks biblatex bath style using BibTeX bib file."""
+    targets = extract_dtx_targets("biblatex/biblatex-bath.dtx")
+
+    filepath = "bst/bath-bst.bib"
+    workdir = os.path.dirname(filepath)
+    filename = os.path.basename(filepath)
+    subprocess.run(["make", "-C", workdir, filename], check=True)
+    if not os.path.isfile(filepath):
+        raise click.FileError(f"Could not generate {filename}.")
+
+    lines = get_bibitems("biblatex/test-compat.bbi")
+    outputs = parse_simple_bibitems(lines)
     contrast_refs(Target=targets, Output=outputs)
 
 

@@ -2511,6 +2511,28 @@ This work is `maintained' (as per LPPL maintenance status) by [Alex Ball][me].
       (test {\iffieldequalstr{labeldatesource}{}}
       or test {\iffieldequalstr{labeldatesource}{year}})}}%
 }
+%    \end{macrocode}
+%
+% This makes \textsf{biblatex} take notice of parentheses, brackets
+% and angle brackets when deciding whether to suppress double punctuation.
+%
+%    \begin{macrocode}
+\def\blx@setsfcodes{%
+  \let\blx@setsfcodes\relax
+  \let\frenchspacing\blx@setfrcodes
+  \let\nonfrenchspacing\blx@setencodes
+  \ifnum\sfcode`\.>2000
+    \blx@setencodes
+  \else
+    \blx@setfrcodes
+  \fi
+  \@setquotesfcodes
+  \sfcode`\(=\@m
+  \sfcode`\)=\@m
+  \sfcode`\[=\@m
+  \sfcode`\]=\@m
+  \sfcode`\<=\@m
+  \sfcode`\>=\@m}
 
 %    \end{macrocode}
 %
