@@ -609,7 +609,7 @@ references:
   - family: Anon.
   issued:
   - year: '1946'
-  title: Prototype electric bicycle displayed at the <span class="nocase">“Britain Can Make It”</span> exhibition
+  title: Prototype electric bicycle displayed at the <span class="nocase">‘Britain Can Make It’</span> exhibition
     organised by the <span class="nocase">Council of Industrial Design</span> and held at the <span class="nocase">Victoria and Albert
     Museum, London,</span> 1946. <span class="nocase">Designed</span> by <span class="nocase">B. G. Bowden</span>
   genre: Photograph
@@ -665,7 +665,7 @@ references:
   title: Macbeth
   publisher: Republic Pictures
   publisher-place: USA
-  genre: Film
+  medium: Film
   director:
   - family: Welles
     given: Orson
@@ -679,11 +679,12 @@ references:
     month: '5'
     day: '4'
   title: The elephant man
+  publisher: Brooksfilms
+  publisher-place: USA
+  medium: Film
   director:
   - family: Lynch
     given: David
-  publisher: Brooksfilms
-  publisher-place: USA
   archive: BBC iPlayer
 
 - id: moran2016sol
