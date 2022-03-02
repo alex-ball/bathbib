@@ -336,14 +336,20 @@ def ignore_unfixable(
             outputs[key] = outputs[key].replace(
                 "Tiger king: Murder", "Tiger king: murder"
             )
-    for key in ["devlin.etal2021ipp", "steward.etal2020eys", "liontou.etal2019dra", "cogley2020ccs", "clark2004euk"]:
+    for key in [
+        "devlin.etal2021ipp",
+        "steward.etal2020eys",
+        "liontou.etal2019dra",
+        "cogley2020ccs",
+        "clark2004euk",
+    ]:
         if key in outputs:
-            outputs[key] = outputs[key].replace(
-                " \\textup{[Online]}}", "} [Online]"
-            )
+            outputs[key] = outputs[key].replace(" \\textup{[Online]}}", "} [Online]")
     for key in ["gb.wa1735", "gb.pa2014", "gb.hmr2012"]:
         if key in outputs:
-            outputs[key] = re.sub(r"\\emph\{(.*?) (\d{4})\}", r"\\emph{\1} \\emph{\2}", outputs[key])
+            outputs[key] = re.sub(
+                r"\\emph\{(.*?) (\d{4})\}", r"\\emph{\1} \\emph{\2}", outputs[key]
+            )
     return outputs
 
 
