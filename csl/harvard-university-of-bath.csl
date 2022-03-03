@@ -141,10 +141,10 @@
   </macro>
   <macro name="title">
     <choose>
-      <if type="bill book dataset graphic legal_case map motion_picture musical_score patent report song speech webpage thesis" match="any">
+      <if type="bill book dataset entry graphic legal_case map motion_picture musical_score patent report software song speech webpage thesis" match="any">
         <text variable="title" font-style="italic"/>
       </if>
-      <else-if type="legislation legal_case" match="any">
+      <else-if type="legislation legal_case post" match="any">
         <choose>
           <if variable="container-title">
             <text variable="title"/>
@@ -172,28 +172,31 @@
         <text variable="genre" prefix=" [" suffix="]"/>
       </else>
     </choose>
-  </macro>
-  <macro name="title-short">
     <choose>
-      <if type="bill dataset graphic map motion_picture musical_score patent report song webpage thesis" match="any">
-        <text variable="title" form="short" font-style="italic"/>
+      <if type="book entry graphic legal_case legislation map motion_picture musical_score patent song speech" match="any">
+        <text macro="online" prefix=" "/>
       </if>
-      <else-if type="legislation legal_case" match="any">
+      <else-if type="bill report webpage" match="any">
         <choose>
-          <if variable="container-title">
-            <text variable="title" form="short"/>
+          <if variable="archive" match="none">
+            <text macro="online" prefix=" "/>
           </if>
-          <else>
-            <text variable="title" form="short" font-style="italic"/>
-          </else>
         </choose>
       </else-if>
-      <else-if type="entry">
-        <text variable="container-title" form="short"/>
+      <else-if type="dataset post" match="any">
+        <choose>
+          <if variable="container-title" match="none">
+            <text macro="online" prefix=" "/>
+          </if>
+        </choose>
       </else-if>
-      <else>
-        <text variable="title" form="short"/>
-      </else>
+      <else-if type="article-journal article-magazine article-newspaper chapter paper-conference" match="none">
+        <choose>
+          <if variable="collection-title" match="none">
+            <text macro="online" prefix=" "/>
+          </if>
+        </choose>
+      </else-if>
     </choose>
   </macro>
   <macro name="title-label">
@@ -224,21 +227,40 @@
           <choose>
             <if variable="collection-title" match="none">
               <choose>
-                <if variable="collection-title" match="none">
-                  <choose>
-                    <if type="legal_case legislation regulation software" match="any"/>
-                    <else-if type="broadcast graphic motion_picture song" match="any">
-                      <text macro="online"/>
-                    </else-if>
-                    <else-if variable="archive" match="none">
-                      <text macro="online"/>
-                    </else-if>
-                  </choose>
-                </if>
+                <if type="legal_case legislation regulation software" match="any"/>
+                <else-if type="broadcast graphic motion_picture song" match="any">
+                  <text macro="online"/>
+                </else-if>
+                <else-if variable="archive" match="none">
+                  <text macro="online"/>
+                </else-if>
               </choose>
             </if>
           </choose>
         </group>
+      </else>
+    </choose>
+  </macro>
+  <macro name="title-short">
+    <choose>
+      <if type="bill dataset graphic map motion_picture musical_score patent report song webpage thesis" match="any">
+        <text variable="title" form="short" font-style="italic"/>
+      </if>
+      <else-if type="legislation legal_case" match="any">
+        <choose>
+          <if variable="container-title">
+            <text variable="title" form="short"/>
+          </if>
+          <else>
+            <text variable="title" form="short" font-style="italic"/>
+          </else>
+        </choose>
+      </else-if>
+      <else-if type="entry">
+        <text variable="container-title" form="short"/>
+      </else-if>
+      <else>
+        <text variable="title" form="short"/>
       </else>
     </choose>
   </macro>
@@ -266,11 +288,20 @@
       <if variable="issued">
         <choose>
           <if type="post">
-            <date variable="issued">
-              <date-part name="day" suffix=" "/>
-              <date-part name="month" suffix=" "/>
-              <date-part name="year"/>
-            </date>
+            <choose>
+              <if variable="container-title">
+                <date variable="issued">
+                  <date-part name="day" suffix=" "/>
+                  <date-part name="month" suffix=" "/>
+                  <date-part name="year"/>
+                </date>
+              </if>
+              <else>
+                <date variable="issued">
+                  <date-part name="year"/>
+                </date>
+              </else>
+            </choose>
           </if>
           <else>
             <date variable="issued">
@@ -361,7 +392,6 @@
               </choose>
             </group>
             <text macro="title" prefix=", "/>
-            <text macro="online" prefix=" "/>
             <choose>
               <if variable="container-title">
                 <group prefix=" " delimiter=" ">
@@ -417,7 +447,6 @@
                 <text variable="number" prefix="(" suffix=")"/>
                 <text macro="year-date" prefix="[" suffix="]"/>
                 <text macro="title"/>
-                <text macro="online"/>
                 <choose>
                   <if variable="container-title">
                     <text variable="container-title" font-style="italic"/>
@@ -450,10 +479,7 @@
                     <text macro="year-date" prefix="[" suffix="]"/>
                   </else>
                 </choose>
-                <group delimiter=" ">
-                  <text macro="title"/>
-                  <text macro="online"/>
-                </group>
+                <text macro="title"/>
                 <choose>
                   <if variable="container-title">
                     <group delimiter=" ">
@@ -489,11 +515,6 @@
         <else-if type="book motion_picture musical_score song speech" match="any">
           <group prefix=" " suffix="." delimiter=" ">
             <text macro="title"/>
-            <choose>
-              <if variable="author editor" match="any">
-                <text macro="online"/>
-              </if>
-            </choose>
             <text macro="translator"/>
           </group>
           <group prefix=" " suffix="." delimiter=". ">
@@ -514,10 +535,7 @@
           <group prefix=" " suffix="." delimiter=". ">
             <text macro="byeditor"/>
             <text macro="edition"/>
-            <group delimiter=" ">
-              <text variable="title" font-style="italic"/>
-              <text macro="online"/>
-            </group>
+            <text macro="title"/>
             <text macro="series"/>
             <text macro="status"/>
             <text macro="publisher"/>
@@ -564,15 +582,8 @@
           </group>
         </else-if>
         <else-if type="bill report webpage" match="any">
-          <group prefix=" " suffix="." delimiter=" ">
-            <text macro="title"/>
-            <choose>
-              <if variable="archive" match="none">
-                <text macro="online"/>
-              </if>
-            </choose>
-          </group>
           <group prefix=" " suffix="." delimiter=". ">
+            <text macro="title"/>
             <text macro="edition"/>
             <choose>
               <if variable="number" match="none">
@@ -597,12 +608,11 @@
           </choose>
         </else-if>
         <else-if type="patent" match="any">
-          <group prefix=" " suffix="." delimiter=" ">
+          <group  prefix=" " suffix="." delimiter=". ">
             <text macro="title"/>
-            <text macro="online"/>
+            <text macro="series-genre"/>
+            <text macro="publisher"/>
           </group>
-          <text macro="series-genre" prefix=" " suffix="."/>
-          <text macro="publisher" prefix=" " suffix="."/>
         </else-if>
         <else-if type="chapter paper-conference" match="any">
           <text macro="title" prefix=" " suffix="."/>
@@ -640,10 +650,7 @@
         </else-if>
         <else-if type="graphic map" match="any">
           <group prefix=" " suffix="." delimiter=", ">
-            <group delimiter=" ">
-              <text macro="title"/>
-              <text macro="online"/>
-            </group>
+            <text macro="title"/>
             <text variable="scale"/>
           </group>
           <group prefix=" " suffix="." delimiter=". ">
@@ -656,18 +663,7 @@
         </else-if>
         <else-if type="broadcast">
           <group prefix=" " suffix="." delimiter=". ">
-            <group delimiter=" ">
-              <text macro="title"/>
-              <choose>
-                <if variable="author editor" match="any">
-                  <choose>
-                    <if variable="collection-title" match="none">
-                      <text macro="online"/>
-                    </if>
-                  </choose>
-                </if>
-              </choose>
-            </group>
+            <text macro="title"/>
             <group delimiter=" ">
               <group delimiter=", ">
                 <text variable="collection-title" font-style="italic"/>
@@ -689,16 +685,32 @@
             </date>
           </group>
         </else-if>
+        <else-if type="post">
+          <choose>
+            <if variable="container-title">
+              <group prefix=" " suffix="." delimiter=". ">
+                <text macro="title"/>
+                <group delimiter=" ">
+                  <text variable="container-title" font-style="italic"/>
+                  <text macro="online"/>
+                </group>
+              </group>
+            </if>
+            <else>
+              <group prefix=" " suffix="." delimiter=", ">
+                <text macro="title"/>
+                <date variable="issued">
+                  <date-part name="day" suffix=" "/>
+                  <date-part name="month"/>
+                </date>
+              </group>
+            </else>
+          </choose>
+          <text prefix=" " suffix="." macro="publisher"/>
+        </else-if>
         <else>
-          <group prefix=" " suffix="." delimiter=" ">
-            <text macro="title"/>
-            <choose>
-              <if variable="container-title" match="none">
-                <text macro="online"/>
-              </if>
-            </choose>
-          </group>
           <group prefix=" " suffix="." delimiter=". ">
+            <text macro="title"/>
             <text macro="editor"/>
             <text macro="edition"/>
             <text macro="series"/>
