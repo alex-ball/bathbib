@@ -11,9 +11,10 @@ Haskell `citeproc` library, so this code now requires pandoc version 2.11+
 
 """
 
+from collections import deque
 import os
-import sys
 import re
+import sys
 
 infile = "bath-csl-test-raw.html"
 outfile = "bath-csl-test.html"
@@ -34,7 +35,7 @@ state_s = "generated"
 
 state = state_n
 
-target_strings = list()
+target_strings = deque()
 output_string = ""
 
 with open(infile, "r") as f:
@@ -95,7 +96,7 @@ with open(infile, "r") as f:
                         output += output_string
                         break
                 else:
-                    target = target_strings.pop(0)
+                    target = target_strings.popleft()
                     output += '<div class="target failure">\n'
                     output += target
                     output += "</div>\n"
