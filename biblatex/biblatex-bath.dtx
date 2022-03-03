@@ -3403,26 +3403,26 @@ This work is `maintained' (as per LPPL maintenance status) by [Alex Ball][me].
 %    \begin{macrocode}
 \newrobustcmd*{\mknoyeardaterangefull}[2]{%
   \iffieldundef{#2month}{}{%
-    \datecircaprint
-    \printtext[#2date]{%
-    \iffieldundef{#2season}{%
-      \csuse{mkbibdate#1}{}{#2month}{#2day}%
-      \blx@printtime{#2}{}%
-    }{%
-      \csuse{mkbibseasondate#1}{}{#2season}}%
-    \dateuncertainprint
-    \iffieldundef{#2endmonth}{}{%
-      \iffieldequalstr{#2endmonth}{}{%
-        \mbox{\bibdaterangesep}%
+    \printtext[{#2date}]{%
+      \datecircaprint
+      \iffieldundef{#2yeardivision}{%
+        \csuse{mkbibdate#1}{}{#2month}{#2day}%
+        \blx@printtime{#2}{}%
       }{%
-        \bibdaterangesep
-        \enddatecircaprint
-        \iffieldundef{#2season}{%
-          \csuse{mkbibdate#1}{}{#2endmonth}{#2endday}%
-          \blx@printtime{#2}{end}%
+        \csuse{mkbibyeardivisiondate#1}{}{#2yeardivision}}%
+      \dateuncertainprint
+      \iffieldundef{#2endmonth}{}{%
+        \iffieldequalstr{#2endmonth}{}{%
+          \mbox{\bibdaterangesep}%
         }{%
-          \csuse{mkbibseasondate#1}{}{#2endseason}}%
-        \enddateuncertainprint}}}}}
+          \bibdaterangesep
+          \enddatecircaprint
+          \iffieldundef{#2yeardivision}{%
+            \csuse{mkbibdate#1}{}{#2endmonth}{#2endday}%
+            \blx@printtime{#2}{end}%
+          }{%
+            \csuse{mkbibyeardivisiondate#1}{}{#2endyeardivision}}%
+          \enddateuncertainprint}}}}}
 %    \end{macrocode}
 %
 % There is a potential problem for |\mknoyeardaterangetrunc|, in that if
@@ -3434,11 +3434,11 @@ This work is `maintained' (as per LPPL maintenance status) by [Alex Ball][me].
 %    \begin{macrocode}
 \newrobustcmd*{\mknoyeardaterangetrunc}[2]{%
   \iffieldundef{#2month}{}{%
-    \datecircaprint
-    \printtext[#2date]{%
-      \iffieldundef{#2season}{%
+    \printtext[{#2date}]{%
+      \datecircaprint
+      \iffieldundef{#2yeardivision}{%
         \ifboolexpr{
-          test {\iffieldsequal{labelyear}{labelendyear}}
+          test {\ifdateyearsequal{label}{labelend}}
           and
           test {\iffieldsequal{#2month}{#2endmonth}}
         }{%
@@ -3446,7 +3446,7 @@ This work is `maintained' (as per LPPL maintenance status) by [Alex Ball][me].
         }{%
           \csuse{mkbibdate#1}{}{#2month}{#2day}}%
       }{%
-        \csuse{mkbibseasondate#1}{}{#2season}}%
+        \csuse{mkbibyeardivisiondate#1}{}{#2yeardivision}}%
       \dateuncertainprint
       \iffieldundef{#2endmonth}{}{%
         \iffieldequalstr{#2endmonth}{}{%
@@ -3454,10 +3454,10 @@ This work is `maintained' (as per LPPL maintenance status) by [Alex Ball][me].
         }{%
           \bibdaterangesep
           \enddatecircaprint
-          \iffieldundef{#2season}{%
+          \iffieldundef{#2yeardivision}{%
             \csuse{mkbibdate#1}{}{#2endmonth}{#2endday}%
           }{%
-            \csuse{mkbibseasondate#1}{}{#2endseason}}%
+            \csuse{mkbibyeardivisiondate#1}{}{#2endyeardivision}}%
           \enddateuncertainprint}}}}}
 %    \end{macrocode}
 %
