@@ -173,9 +173,10 @@
       </else>
     </choose>
     <choose>
-      <if type="book entry graphic legal_case legislation map motion_picture musical_score patent song speech" match="any">
+      <if type="software"/>
+      <else-if type="book entry graphic legal_case legislation map motion_picture musical_score patent song speech" match="any">
         <text macro="online" prefix=" "/>
-      </if>
+      </else-if>
       <else-if type="bill report webpage" match="any">
         <choose>
           <if variable="archive" match="none">
@@ -207,7 +208,7 @@
       <else>
         <group delimiter=" ">
           <choose>
-            <if type="bill dataset graphic legal_case map motion_picture musical_score patent report song speech webpage thesis" match="any">
+            <if type="bill dataset graphic legal_case map motion_picture musical_score patent report software song speech webpage thesis" match="any">
               <text variable="title" font-style="italic"/>
             </if>
             <else-if type="legislation legal_case" match="any">

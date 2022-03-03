@@ -918,7 +918,7 @@ references:
   DOI: 10.15125/BATH-00069
 
 - id: screencasto
-  type: dataset
+  type: software
   author:
   - family: '@screencasto'
   accessed:
