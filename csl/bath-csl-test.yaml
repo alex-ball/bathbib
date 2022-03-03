@@ -826,7 +826,7 @@ references:
   type: post
   author:
   - family: Library at University of Bath
-    suffix: '[@bathunilibrary]'
+    dropping-particle: '[@bathunilibrary]'
   issued:
   - year: '2021'
     month: '5'
@@ -842,7 +842,7 @@ references:
   type: post
   author:
   - family: University of Bath Library
-    suffix: '[@unibathlib]'
+    dropping-particle: '[@unibathlib]'
   issued:
   - year: '2021'
     month: '3'

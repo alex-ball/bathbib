@@ -42,13 +42,12 @@ for CSL styles.
 
 ### Tips when using the style
 
-  - Things will automatically get tagged ‘\[Online]’ if you include a URL or
-    DOI.
+  - Things will automatically get tagged ‘\[Online]’ if you include a URL,
+    DOI, or access date.
 
   - For many resource types, you can use `genre` to put something in square
-    brackets after the title, e.g. the Kindle version in the Hodds reference.
-    The exceptions are `thesis`, `report`, `patent`, `motion_picture` and
-    `bill`.
+    brackets after the title. The exceptions are `thesis`, `report`, `patent`,
+    `motion_picture` and `bill`.
 
   - For preprints, use resource type `report` and put the repository name under
     `archive`.
@@ -75,14 +74,25 @@ for CSL styles.
 
   - With a `map`, use `scale` for the scale.
 
-  - With a `motion_picture`, use `genre` to specify the type, e.g. ‘Film’.
+  - With a `motion_picture`, use `medium` or `genre` to specify the type, e.g.
+    ‘Film’.
 
   - With a `broadcast`, use `publisher` for the channel, `medium` for ‘Radio’ or
     ‘TV’, and `annote` for the time.
 
-  - Use `dataset` for database entries, datasets and software. Give the name of
-    a containing database in `container-title`. Unfortunately there is no way to
-    prevent ‘\[Online]’ appearing for software specifically.
+  - Use `dataset` for database entries and datasets. Give the name of a containing
+    database in `container-title`.
+  
+  - Use `software` for software. This type was introduced in CSL v1.0.2, so if
+    your toolset doesn't support it, use `dataset` instead; unfortunately the
+    ‘\[Online]’ won't be suppressed in this case.
+
+  - When citing social media posts, there is no standard way of including the
+    author's social media handle. As a workaround, you can include it as the
+    `dropping-particle` component, but you must supply the surrounding square
+    brackets as part of the value. This works best with personal accounts;
+    with corporate accounts you would have to use `family` instead of `literal`
+    for the real name, and you get a stray comma between the name and handle.
 
   - When citing works in non-English languages, use `original-title` for the
     English translation of the non-English title. This reverses the intended
