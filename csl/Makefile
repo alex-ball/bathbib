@@ -3,7 +3,7 @@ NAME     = bath-csl-test
 CSL      = harvard-university-of-bath.csl
 
 .PHONY: clean distclean
-#.INTERMEDIATE: $(NAME)-raw.html $(NAME)-tmp.yaml
+.INTERMEDIATE: $(NAME)-raw.html $(NAME)-tmp.yaml
 
 all: $(NAME).html
 
