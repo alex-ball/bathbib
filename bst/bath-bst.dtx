@@ -39,7 +39,7 @@ See:     http://www.latex-project.org/lppl.txt
 \endpreamble
 \postamble
 
-Copyright (C) 2016-2021 by University of Bath
+Copyright (C) 2016-2022 by University of Bath
 \endpostamble
 
 \usedir{bibtex/bst/\jobname}
@@ -74,7 +74,7 @@ Copyright (C) 2016-2021 by University of Bath
 \ProvidesFile{bath-bst.dtx}
 %</driver>
 %<*driver|tex1>
-    [2021/02/25 v4.0 Harvard referencing style as recommended by the University of Bath Library]
+    [2022/03/04 v5.0 Harvard referencing style as recommended by the University of Bath Library]
 
 \documentclass[10pt,a4paper]{article}
 \usepackage[british]{babel}
@@ -642,7 +642,9 @@ structures may also change without warning.
 \item
   In the 2021 revision of the style, the titles of broadcast media (TV, radio)
   became upright, with series information for titled episodes being italic.
-%<driver>  To get this new formatting, you must use the \texttt{type} field as shown.
+%<*driver> 
+  To get this new formatting, you must use the \texttt{type} field as shown.
+%</driver> 
 %<tex1>  If you have been using \texttt{booklet} for such entries, you should now use \texttt{misc} instead.
 \item
   Series names (except those in \texttt{legislation} and \texttt{jurisdiction}
@@ -953,7 +955,9 @@ URLs with Bib\TeX\, but you must not escape it inside a URL with
 %</driver>
 \item
 Internally, \texttt{inreference} is an alias for \texttt{incollection}.
-%<driver>Use \texttt{inreference} if you need compatibility with \textsf{biblatex-bath}.
+%<*driver>
+Use \texttt{inreference} if you need compatibility with \textsf{biblatex-bath}.
+%</driver>
 \item
 The style ensures the \texttt{booktitle} is used in title citation commands.
 \end{info}
@@ -1536,7 +1540,9 @@ As in the standard Bib\TeX\ styles, \texttt{conference} is a legacy (and highly 
 
 \begin{info}\item
 Internally, \texttt{thesis} is an alias for \texttt{phdthesis}.
-%<driver>If you need compatibility with \textsf{biblatex-bath} and don't want to display a thesis type, use \texttt{thesis}.
+%<*driver>
+If you need compatibility with \textsf{biblatex-bath} and don't want to display a thesis type, use \texttt{thesis}.
+%</driver>
 \end{info}
 
 \subsubsection*{Report, working paper, or research briefing}
@@ -2856,21 +2862,6 @@ Use the \texttt{titleaddon} field to supply the English translation of the title
 
 \subsubsection*{Work in a non-Roman alphabet}
 
-\begin{tips}\item
-The following example tricks Bib\TeX\ into treating the original rendering of
-the author's name as the `von' part of a Roman-alphabet name. This requires the
-use of a command that simply gobbles its argument, which you have to define
-yourself:
-
-\begin{tcblisting}{listing only}
-\newcommand*{\noop}[1]{}
-\end{tcblisting}
-
-For the trick to work, the argument you give to \lstinline[style=dtxlatex]|\noop|
-must be lowercase, but otherwise it can be anything you like.
-%<driver>The trick is not portable to \textsf{biblatex-bath}.
-\end{tips}
-
 \newcommand*{\noop}[1]{}
 \begin{bibexbox}(hacked)<RX>{hua1999qys1}
   Hua, L. 華林甫, 1999. Qingdai yilai Sanxia diqu shuihan zaihai de chubu yanjiu 清代以來三峽地區水旱災害的初步硏 [A preliminary study of floods and droughts in the Three Gorges region since the Qing dynasty]. \emph{Zhongguo shehui kexue \textup{中國社會科學}}, 1, pp.168--79.
@@ -2913,6 +2904,21 @@ must be lowercase, but otherwise it can be anything you like.
 \end{bibexbox}
 
 \begin{tips}\item
+The above example tricks Bib\TeX\ into treating the original rendering of
+the author's name as the `von' part of a Roman-alphabet name. This requires the
+use of a command that simply gobbles its argument, which you have to define
+yourself:
+
+\begin{tcblisting}{listing only}
+\newcommand*{\noop}[1]{}
+\end{tcblisting}
+
+For the trick to work, the argument you give to \lstinline[style=dtxlatex]|\noop|
+must be lowercase, but otherwise it can be anything you like.
+%<*driver>
+The trick is not portable to \textsf{biblatex-bath}.
+%</driver>
+\item
 If the name is due to appear initial first (e.g.~after `In:'), you can append
 the non-Roman characters to the author's surname; to do this, use inverted name
 order as you would for English double-barrelled names without hyphens, e.g.\@
@@ -3533,7 +3539,7 @@ Commission case number, \texttt{number} for the formal decision number, and give
 %<readme>## Licence
 %<readme>
 %<*driver|readme>
-Copyright 2016-2021 University of Bath.
+Copyright 2016-2022 University of Bath.
 
 This work consists of the documented LaTeX file bath-bst.dtx and a Makefile.
 

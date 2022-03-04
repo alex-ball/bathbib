@@ -11,14 +11,14 @@
       <name>Alex Ball</name>
       <email>ab318@bath.ac.uk</email>
     </author>
-    <author>
+    <contributor>
       <name>Rob Fuller</name>
       <email>rob.fuller1@gmail.com</email>
-    </author>
+    </contributor>
     <category citation-format="author-date"/>
     <category field="generic-base"/>
     <summary>Adaptation of Harvard referencing style used at the University of Bath.</summary>
-    <updated>2021-10-05T08:20:00+00:00</updated>
+    <updated>2022-03-04T14:00:00+00:00</updated>
     <rights license="http://creativecommons.org/licenses/by-sa/3.0/">This work is licensed under a Creative Commons Attribution-ShareAlike 3.0 License</rights>
   </info>
   <locale xml:lang="en">
@@ -142,10 +142,10 @@
   <macro name="title">
     <group delimiter=" ">
       <choose>
-        <if type="bill book dataset entry graphic legal_case map motion_picture musical_score patent report software song speech webpage thesis" match="any">
+        <if type="bill book dataset entry graphic legal_case map motion_picture musical_score patent report software song speech standard webpage thesis" match="any">
           <text variable="title" font-style="italic"/>
         </if>
-        <else-if type="legislation legal_case post" match="any">
+        <else-if type="legislation pamphlet post regulation" match="any">
           <choose>
             <if variable="container-title">
               <text variable="title"/>
@@ -165,8 +165,9 @@
         <text variable="version"/>
       </group>
       <choose>
-        <if type="thesis motion_picture broadcast" match="any"/>
+        <if type="broadcast motion_picture thesis" match="any"/>
         <else-if type="report" variable="number"/>
+        <else-if type="standard" variable="number"/>
         <else-if type="patent" variable="number"/>
         <else-if type="bill" variable="number"/>
         <else>
@@ -217,10 +218,10 @@
       <else>
         <group delimiter=" ">
           <choose>
-            <if type="bill dataset graphic legal_case map motion_picture musical_score patent report software song speech webpage thesis" match="any">
+            <if type="bill dataset graphic legal_case map motion_picture musical_score patent report software song speech standard webpage thesis" match="any">
               <text variable="title" font-style="italic"/>
             </if>
-            <else-if type="legislation regulation legal_case" match="any">
+            <else-if type="legislation pamphlet post regulation" match="any">
               <choose>
                 <if variable="container-title">
                   <text variable="title"/>
@@ -260,10 +261,10 @@
   </macro>
   <macro name="title-short">
     <choose>
-      <if type="bill dataset graphic map motion_picture musical_score patent report song webpage thesis" match="any">
+      <if type="bill dataset graphic legal_case map motion_picture musical_score patent report software song speech standard webpage thesis" match="any">
         <text variable="title" form="short" font-style="italic"/>
       </if>
-      <else-if type="legislation legal_case" match="any">
+      <else-if type="legislation pamphlet post regulation" match="any">
         <choose>
           <if variable="container-title">
             <text variable="title" form="short"/>
@@ -395,7 +396,7 @@
     </sort>
     <layout>
       <choose>
-        <if type="legislation">
+        <if type="legislation regulation" match="any">
           <group suffix=".">
             <group delimiter=" ">
               <text macro="author"/>
@@ -528,7 +529,7 @@
         </else>
       </choose>
       <choose>
-        <if type="legislation legal_case" match="any"/>
+        <if type="legal_case legislation regulation" match="any"/>
         <else-if type="book motion_picture musical_score song speech" match="any">
           <group prefix=" " suffix="." delimiter=" ">
             <text macro="title"/>
@@ -598,7 +599,7 @@
             </group>
           </group>
         </else-if>
-        <else-if type="bill report webpage" match="any">
+        <else-if type="bill report standard webpage" match="any">
           <group prefix=" " suffix="." delimiter=". ">
             <text macro="title"/>
             <text macro="edition"/>

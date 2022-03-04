@@ -507,7 +507,7 @@ references:
   number: no. 8
 
 - id: bs5605:1990
-  type: report
+  type: standard
   title: '<span class="nocase">BS 5605:1990 Recommendations</span> for citing and referencing published material'
   publisher: BSI
   publisher-place: London
@@ -517,7 +517,7 @@ references:
   - year: '1990'
 
 - id: astm.d1655
-  type: report
+  type: standard
   author:
   - literal: ASTM
   issued:
@@ -548,7 +548,7 @@ references:
   annote: Unpublished
 
 - id: hadley2015bir
-  type: report
+  type: pamphlet
   author:
   - family: Hadley
     given: S.
@@ -1049,7 +1049,7 @@ references:
   number: '66'
 
 - id: gb.hmr2012
-  type: legislation
+  type: regulation
   issued:
   - year: '2012'
   accessed:

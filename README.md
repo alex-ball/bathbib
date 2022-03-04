@@ -63,11 +63,12 @@ for CSL styles.
     followed by a comma, while a type is typically singular and followed by a
     space.
 
-  - Record a standard as a `report`, with the identifier included at the
-    beginning of the `title`.
+  - Record a standard as a `standard` or, failing that, `report`. Include the
+    identifier at the beginning of the `title`.
 
   - For unpublished materials, use the closest applicable entry type and put
-    ‘Unpublished’ under `annote`.
+    ‘Unpublished’ under `annote`. The `pamphlet` type is useful for many
+    materials of this sort.
 
   - With a `graphic`, you can specify `archive` and `archive-place`, as in the
     Bowden bicycle example.
@@ -89,10 +90,13 @@ for CSL styles.
 
   - When citing social media posts, there is no standard way of including the
     author's social media handle. As a workaround, you can include it as the
-    `dropping-particle` component, but you must supply the surrounding square
+    `dropping-particle` name part, but you must supply the surrounding square
     brackets as part of the value. This works best with personal accounts;
-    with corporate accounts you would have to use `family` instead of `literal`
-    for the real name, and you get a stray comma between the name and handle.
+    with corporate accounts you would have to use the `family` name part
+    instead of `literal`, and you get a stray comma between the name and
+    handle. Alternatively, you could include the handle as part of the
+    `literal` name part, but depending on your software you might not be able
+    to work around including it in your citations as well.
 
   - When citing works in non-English languages, use `original-title` for the
     English translation of the non-English title. This reverses the intended
@@ -104,8 +108,10 @@ for CSL styles.
     reference and as the `suffix` for later (natural order) names. Provide
     transliterated titles directly within the respective `title` field.
 
-  - Use the `legislation` type for Acts of Parliament, Statutory Instruments and
-    EU Directives. With Acts, use `chapter-number` for the chapter and, for
+  - Use the `legislation` type for primary legislation such as Acts of
+    Parliament and EU Directives. For secondary legislation such as Statutory
+    Instruments, use the `regulation` type if available, otherwise
+    `legislation`. With Acts, use `chapter-number` for the chapter and, for
     statutes before 1963, use `collection-title` for the series. With
     directives, use `container-title` for the journal (OJ), `collection-title`
     for the series, `volume` for the volume and `page` for the starting page.

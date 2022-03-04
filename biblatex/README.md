@@ -96,7 +96,7 @@ documentation.
 
 ## Licence
 
-Copyright 2016-2021 University of Bath.
+Copyright 2016-2022 University of Bath.
 
 This work consists of the documented LaTeX file biblatex-bath.dtx and a Makefile.
 
