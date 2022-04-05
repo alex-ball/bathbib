@@ -14,7 +14,7 @@ references:
   - family: Henderson
     given: G.
   issued:
-  - year: '2012'
+    date-parts: [[2012]]
   title: Rang and <span class="nocase">Dale’s</span> pharmacology
   publisher: Elsevier Churchill Livingstone
   publisher-place: Edinburgh
@@ -25,7 +25,7 @@ references:
   author:
   - literal: Open University
   issued:
-  - year: '1972'
+    date-parts: [[1972]]
   title: Electricity and magnetism
   publisher: Open University Press
   publisher-place: Bletchley
@@ -42,7 +42,7 @@ references:
   - family: Bamossy
     given: G. J.
   issued:
-  - year: '2019'
+    date-parts: [[2019]]
   title: 'Consumer behaviour: a <span class="nocase">European</span> perspective'
   title-short: Consumer behaviour
   publisher: Pearson
@@ -59,7 +59,7 @@ references:
   - family: Lash
     given: Timothy L.
   issued:
-  - year: '2008'
+    date-parts: [[2008]]
   title: Modern epidemiology
   publisher: Lippincott Williams & Wilkins
   publisher-place: Philadelphia, Pa.
@@ -68,7 +68,7 @@ references:
 - id: oed1989
   type: book
   issued:
-  - year: '1989'
+    date-parts: [[1989]]
   title: Oxford <span class="nocase">English</span> dictionary
   publisher: Clarendon Press
   publisher-place: Oxford
@@ -77,9 +77,7 @@ references:
 - id: merckNDidx
   type: book
   accessed:
-  - year: '2016'
-    month: '6'
-    day: '16'
+    date-parts: [[2016, 6, 16]]
   title: The <span class="nocase">Merck</span> index online
   publisher: RSC Publishing
   publisher-place: London
@@ -91,11 +89,9 @@ references:
   - family: Haynes
     given: W. M.
   issued:
-  - year: '2014'
+    date-parts: [[2014]]
   accessed:
-  - year: '2016'
-    month: '6'
-    day: '16'
+    date-parts: [[2016, 6, 16]]
   title: <span class="nocase">CRC</span> handbook of chemistry and physics
   publisher: CRC Press/Taylor and Francis
   publisher-place: Boca Raton, Fla.
@@ -108,11 +104,9 @@ references:
   - family: Blockley
     given: D.
   issued:
-  - year: '2021'
+    date-parts: [[2021]]
   accessed:
-  - year: '2021'
-    month: '6'
-    day: '30'
+    date-parts: [[2021, 6, 30]]
   title: 'Engineering: a very short introduction'
   short-title: Engineering
   publisher: Oxford University Press
@@ -122,7 +116,7 @@ references:
 - id: bnf2020
   type: book
   issued:
-  - year: '2020'
+    date-parts: [[2020]]
   title: <span class="nocase">British National Formulary</span>
   edition: '79'
   publisher: Pharmaceutical Press
@@ -131,7 +125,7 @@ references:
 - id: aspirin2020bnf
   type: entry
   issued:
-  - year: '2020'
+    date-parts: [[2020]]
   title: Aspirin
   container-title: <span class="nocase">British National Formulary</span>
   edition: '79'
@@ -141,11 +135,9 @@ references:
 - id: aspirin2019bnf
   type: entry
   issued:
-  - year: '2019'
+    date-parts: [[2019]]
   accessed:
-  - year: '2019'
-    month: '11'
-    day: '26'
+    date-parts: [[2019, 11, 26]]
   title: Aspirin
   container-title: <span class="nocase">British National Formulary</span>
   publisher: Pharmaceutical Press
@@ -163,7 +155,7 @@ references:
   - family: Harman
     given: J. R.
   issued:
-  - year: '1965'
+    date-parts: [[1965]]
   title: How humanists use a library
   container-title: 'Intrex: report on a planning conference and information transfer
     experiments'
@@ -180,7 +172,7 @@ references:
   - family: Pinner
     given: S. H.
   issued:
-  - year: '1967'
+    date-parts: [[1967]]
   title: Physical testing of polymer films
   container-title: Modern packaging films
   publisher: Butterworths
@@ -193,7 +185,7 @@ references:
   - family: Stieg
     given: M. F.
   issued:
-  - year: '1981'
+    date-parts: [[1981]]
   title: Continuing education and the reference librarian in the academic and research
     library
   container-title: Library journal
@@ -207,7 +199,7 @@ references:
   - family: Stieg
     given: M. F.
   issued:
-  - year: '1981'
+    date-parts: [[1981]]
   title: The information needs of historians
   container-title: College and research libraries
   page: '549-560'
@@ -220,7 +212,7 @@ references:
   - family: Newman
     given: R.
   issued:
-  - year: '2010'
+    date-parts: [[2010]]
   title: Malaria control beyond 2010
   container-title: <span class="nocase">Brit. Med. J.</span>
   page: '157-208'
@@ -249,7 +241,7 @@ references:
   - family: Psaltis
     given: D.
   issued:
-  - year: '2020'
+    date-parts: [[2020]]
   title: Inference in artificial intelligence with deep optics and photonics
   container-title: Nature
   page: '39-47'
@@ -266,11 +258,9 @@ references:
   - family: Ostrovnaya
     given: I.
   issued:
-  - year: '2021'
+    date-parts: [[2021]]
   accessed:
-  - year: '2021'
-    month: '12'
-    day: '9'
+    date-parts: [[2021, 12, 9]]
   title: Identifying prognostic pairwise relationships among bacterial species in microbiome studies
   container-title: <span class="nocase">PLOS Computational Biology</span>
   volume: '17'
@@ -287,11 +277,9 @@ references:
   - family: Robinson
     given: J.
   issued:
-  - year: '2020'
+    date-parts: [[2020]]
   accessed:
-  - year: '2020'
-    month: '4'
-    day: '30'
+    date-parts: [[2020, 4, 30]]
   title: Everything you should know about the coronavirus outbreak
   container-title: The pharmaceutical journal
   URL: https://www.pharmaceutical-journal.com/news-and-analysis/features/everything-you-should-know-about-the-coronavirus-outbreak/20207629.article
@@ -316,7 +304,7 @@ references:
   - family: Koutouzis
     given: M.
   issued:
-  - year: '2019'
+    date-parts: [[2019]]
   title: 'Distal radial access: a review article'
   title-short: Distal radial access
   container-title: Cardiovascular revascularization medicine
@@ -335,11 +323,9 @@ references:
   - family: Corrick
     given: I.
   issued:
-  - year: '2016'
+    date-parts: [[2016]]
   accessed:
-  - year: '2016'
-    month: '5'
-    day: '4'
+    date-parts: [[2016, 5, 4]]
   title: How should central banks respond to non-neutral inflation expectations?
   publisher: University of Bath
   publisher-place: Bath
@@ -352,11 +338,9 @@ references:
   - family: Ganju
     given: V.
   issued:
-  - year: '2021'
+    date-parts: [[2021]]
   accessed:
-  - year: '2021'
-    month: '4'
-    day: '29'
+    date-parts: [[2021, 4, 29]]
   title: A study of EnGeneIC Dream Vectors (EDV's) packaged with the chemotherapy,
     E-EDV-D682 given simultaneously as non-targeted EDVs carrying an immune enhancer
     called EDV-GC, in participants with advanced pancreatic and other cancers whose
@@ -373,9 +357,7 @@ references:
   - family: Haurant
     given: S.
   issued:
-  - year: '2004'
-    month: '7'
-    day: '29'
+    date-parts: [[2004, 7, 29]]
   title: Britain’s borrowing hits £1 trillion
   container-title: The <span class="nocase">Guardian</span>
   page: 16c
@@ -385,9 +367,7 @@ references:
   author:
   - literal: The Independent
   issued:
-  - year: '1992'
-    month: '6'
-    day: '4'
+    date-parts: [[1992, 6, 4]]
   title: Picking up the bills
   container-title: The <span class="nocase">Independent</span>
   page: 28a
@@ -398,13 +378,9 @@ references:
   - family: Cogley
     given: M.
   issued:
-  - year: '2020'
-    month: '5'
-    day: '4'
+    date-parts: [[2020, 5, 4]]
   accessed:
-  - year: '2020'
-    month: '5'
-    day: '5'
+    date-parts: [[2020, 5, 5]]
   title: Corporate confidence slumps to record low.
   container-title: The Telegraph
   URL: https://www.telegraph.co.uk/business/2020/05/03/corporate-confidence-slumps-all-time-low/
@@ -420,14 +396,9 @@ references:
   - family: Thompson
     given: S. J.
   issued:
-  - year: '1965'
+    date-parts: [[1965]]
   event-date:
-  - year: '1964'
-    month: '8'
-    day: '2'
-  - year: '1964'
-    month: '8'
-    day: '4'
+    date-parts: [[1964, 8, 2], [1964, 8, 4]]
   title: Oxygen in metals
   container-title: 'Activation analysis: proceedings of a <span class="nocase">NATO Advanced Study Institute</span>'
   publisher: Academic Press
@@ -441,14 +412,9 @@ references:
   - family: Soper
     given: D.
   issued:
-  - year: '1972'
+    date-parts: [[1972]]
   event-date:
-  - year: '1972'
-    month: '11'
-    day: '15'
-  - year: '1972'
-    month: '11'
-    day: '17'
+    date-parts: [[1972, 11, 15], [1972, 11, 17]]
   title: Review of bracken control experiments with asulam
   container-title: Proceedings of the 11th <span class="nocase">British Weed Control Conference</span>
   publisher: University of Sussex
@@ -462,7 +428,7 @@ references:
   - family: Burrell
     given: J. G.
   issued:
-  - year: '1973'
+    date-parts: [[1973]]
   title: The importance of school tours in education
   publisher: Queen’s University, Belfast
   genre: Thesis (M.A.)
@@ -472,7 +438,7 @@ references:
   author:
   - literal: UNESCO
   issued:
-  - year: '1993'
+    date-parts: [[1993]]
   title: General information programme and <span class="nocase">UNISIST</span>
   publisher: UNESCO
   publisher-place: Paris
@@ -483,7 +449,7 @@ references:
   author:
   - literal: BRE
   issued:
-  - year: '2007'
+    date-parts: [[2007]]
   title: 'Designing quality buildings: a <span class="nocase">BRE</span> guide'
   title-short: Designing quality buildings
   publisher: BRE
@@ -499,7 +465,7 @@ references:
   - family: Dinerstein
     given: A. C.
   issued:
-  - year: '2010'
+    date-parts: [[2010]]
   title: 'Hope movements: social movements in the pursuit of human development'
   publisher: University of Bath
   publisher-place: Bath
@@ -514,14 +480,14 @@ references:
   author:
   - literal: BSI
   issued:
-  - year: '1990'
+    date-parts: [[1990]]
 
 - id: astm.d1655
   type: standard
   author:
   - literal: ASTM
   issued:
-  - year: '2019'
+    date-parts: [[2019]]
   title: <span class="nocase">ASTM D1655 - 19 Standard</span> specification for aviation turbine fuels
   publisher-place: West Conshohocken, Pa.
   publisher: ASTM
@@ -531,7 +497,7 @@ references:
   author:
   - literal: Phillipp Morris Inc.
   issued:
-  - year: '1981'
+    date-parts: [[1981]]
   title: Optical perforating apparatus and system
   genre: European patent application
   number: 0021165A1. 1981-01-07
@@ -542,7 +508,7 @@ references:
   - family: Harris
     given: G.
   issued:
-  - year: 2013
+    date-parts: [[2013]]
   title: 'Focus group recommendations: internal task group report'
   title-short: 'Focus group recommendations'
   annote: Unpublished
@@ -553,7 +519,7 @@ references:
   - family: Hadley
     given: S.
   issued:
-  - year: 2015
+    date-parts: [[2015]]
   title: 'Biomechanics: introductory reading, BM289: sport biomechanics'
   title-short: 'Biomechanics'
   publisher: University of Bath
@@ -565,7 +531,7 @@ references:
   - family: Thomas
     given: D.
   issued:
-  - year: 2015
+    date-parts: [[2015]]
   title: Word count and referencing style
   container-title: 'Frequently asked questions discussion board: PHYS 2011: housing studies'
   container-title-short: 'Frequently asked questions discussion board'
@@ -577,11 +543,9 @@ references:
   author:
   - literal: NASA
   issued:
-  - year: '2015'
+    date-parts: [[2015]]
   accessed:
-  - year: '2015'
-    month: '1'
-    day: '7'
+    date-parts: [[2015, 1, 7]]
   title: <span class="nocase">NASA</span> astronaut <span class="nocase">Tim Kopra</span> on <span class="nocase">Dec.</span> 21 spacewalk
   publisher: NASA
   publisher-place: Washington
@@ -593,11 +557,9 @@ references:
   - family: Iliff
     given: D.
   issued:
-  - year: '2006'
+    date-parts: [[2006]]
   accessed:
-  - year: '2016'
-    month: '1'
-    day: '7'
+    date-parts: [[2016, 1, 7]]
   title: <span class="nocase">Royal Crescent</span> in <span class="nocase">Bath, England - July</span> 2006
   publisher: Wikimedia Foundation
   publisher-place: San Francisco
@@ -608,7 +570,7 @@ references:
   author:
   - family: Anon.
   issued:
-  - year: '1946'
+    date-parts: [[1946]]
   title: Prototype electric bicycle displayed at the <span class="nocase">‘Britain Can Make It’</span> exhibition
     organised by the <span class="nocase">Council of Industrial Design</span> and held at the <span class="nocase">Victoria and Albert
     Museum, London,</span> 1946. <span class="nocase">Designed</span> by <span class="nocase">B. G. Bowden</span>
@@ -624,7 +586,7 @@ references:
   - family: Dury
     given: A.
   issued:
-  - year: '1773'
+    date-parts: [[1773]]
   title: Map of <span class="nocase">Wiltshire</span>
   scale: 1 inch to 2 miles
   publisher: Wiltshire Record Society
@@ -635,11 +597,9 @@ references:
   author:
   - literal: Ordnance Survey
   issued:
-  - year: '2020'
+    date-parts: [[2020]]
   accessed:
-  - year: '2020'
-    month: '4'
-    day: '30'
+    date-parts: [[2020, 4, 30]]
   title: Street view map of <span class="nocase">University of Bath</span>
   scale: 1:5000, OS VectorMap® Local
   URL: https://digimap.edina.ac.uk/roam/map/os
@@ -649,11 +609,9 @@ references:
   author:
   - literal: Google
   issued:
-  - year: '2020'
+    date-parts: [[2020]]
   accessed:
-  - year: '2020'
-    month: '4'
-    day: '30'
+    date-parts: [[2020, 4, 30]]
   title: <span class="nocase">Harbourside, Bristol</span>
   scale: Google Maps
   URL: https://www.google.co.uk/maps/place/Harbourside,+Bristol/
@@ -661,7 +619,7 @@ references:
 - id: macbeth1948
   type: motion_picture
   issued:
-  - year: '1948'
+    date-parts: [[1948]]
   title: Macbeth
   publisher: Republic Pictures
   publisher-place: USA
@@ -673,11 +631,9 @@ references:
 - id: elephant-man1980
   type: motion_picture
   issued:
-  - year: '1980'
+    date-parts: [[1980]]
   accessed:
-  - year: '2021'
-    month: '5'
-    day: '4'
+    date-parts: [[2021, 5, 4]]
   title: The elephant man
   publisher: Brooksfilms
   publisher-place: USA
@@ -693,11 +649,9 @@ references:
   - family: Moran
     given: C.
   issued:
-  - year: '2016'
+    date-parts: [[2016]]
   accessed:
-  - year: '2016'
-    month: '4'
-    day: '29'
+    date-parts: [[2016, 4, 29]]
   title: Save our libraries
   URL: https://www.youtube.com/watch?v=gKTfCz4JtVE&feature=youtu.be
 
@@ -707,20 +661,16 @@ references:
   - family: Chakrabarti
     given: V.
   issued:
-  - year: '2016'
+    date-parts: [[2016]]
   accessed:
-  - year: '2019'
-    month: '3'
-    day: '28'
+    date-parts: [[2019, 3, 28]]
   title: How architecture and city planning can combat social inequality
   URL: https://www.curbed.com/2016/5/5/11593058/vishaan-chakrabarti-pau-curbed-appeal-podcast
 
 - id: inn2021huw
   type: broadcast
   issued:
-  - year: '2021'
-    month: '5'
-    day: '31'
+    date-parts: [[2021, 5, 31]]
   title: Hurry up and wait
   collection-title: Inside no.9
   number: Episode 6:4
@@ -731,9 +681,7 @@ references:
 - id: rsfo2006ep5
   type: broadcast
   issued:
-  - year: '2006'
-    month: '8'
-    day: '23'
+    date-parts: [[2006, 8, 23]]
   title: 'Rick <span class="nocase">Stein’s</span> <span class="nocase">French</span> odyssey: Episode 5'
   title-short: Rick <span class="nocase">Stein’s</span> <span class="nocase">French</span> odyssey
   publisher: BBC2
@@ -743,9 +691,7 @@ references:
 - id: archers20060823
   type: broadcast
   issued:
-  - year: '2006'
-    month: '8'
-    day: '23'
+    date-parts: [[2006, 8, 23]]
   title: The <span class="nocase">Archers</span>
   publisher: BBC Radio 4
   medium: Radio
@@ -754,11 +700,9 @@ references:
 - id: tkmmm2020ts
   type: broadcast
   issued:
-  - year: '2020'
+    date-parts: [[2020]]
   accessed:
-  - year: '2021'
-    month: '5'
-    day: '4'
+    date-parts: [[2021, 5, 4]]
   title: The secret
   collection-title: 'Tiger king: murder, mayhem and madness'
   number: Episode 3
@@ -772,7 +716,7 @@ references:
     given: Ludwig
     dropping-particle: van
   issued:
-  - year: '1950'
+    date-parts: [[1950]]
   title: Symphony no.1 in <span class="nocase">C, Op.21</span>
   publisher: Penguin
   publisher-place: Harmondsworth
@@ -782,11 +726,9 @@ references:
   author:
   - literal: World Health Organization
   issued:
-  - year: '2018'
+    date-parts: [[2018]]
   accessed:
-  - year: '2020'
-    month: '6'
-    day: '29'
+    date-parts: [[2020, 6, 29]]
   title: The top 10 causes of death
   publisher: World Health Organization
   publisher-place: Geneva
@@ -798,11 +740,9 @@ references:
   - family: Manco
     given: J.
   issued:
-  - year: '2013'
+    date-parts: [[2013]]
   accessed:
-  - year: '2020'
-    month: '2'
-    day: '20'
+    date-parts: [[2020, 2, 20]]
   title: Vernacular architecture
   URL: https://www.buildinghistory.org/style/vernacular.shtml
 
@@ -812,13 +752,9 @@ references:
   - family: Gaiman
     given: N.
   issued:
-  - year: '2021'
-    month: '4'
-    day: '21'
+    date-parts: [[2021, 4, 21]]
   accessed:
-  - year: '2021'
-    month: '5'
-    day: '13'
+    date-parts: [[2021, 5, 13]]
   title: Facebook post
   URL: https://www.facebook.com/neilgaiman/posts/305187897642814
 
@@ -828,13 +764,9 @@ references:
   - family: Library at University of Bath
     dropping-particle: '[@bathunilibrary]'
   issued:
-  - year: '2021'
-    month: '5'
-    day: '10'
+    date-parts: [[2021, 5, 10]]
   accessed:
-  - year: '2021'
-    month: '5'
-    day: '12'
+    date-parts: [[2021, 5, 12]]
   title: Twitter post
   URL: https://twitter.com/BathUniLibrary/status/1391774402618998795?s=20
 
@@ -844,13 +776,9 @@ references:
   - family: University of Bath Library
     dropping-particle: '[@unibathlib]'
   issued:
-  - year: '2021'
-    month: '3'
-    day: '15'
+    date-parts: [[2021, 3, 15]]
   accessed:
-  - year: '2021'
-    month: '5'
-    day: '7'
+    date-parts: [[2021, 5, 7]]
   title: Instagram post
   URL: https://www.instagram.com/p/CMb5GHjFv9A/?utm_source=ig_web_copy_link
 
@@ -860,13 +788,9 @@ references:
   - family: Clark
     given: T.
   issued:
-  - year: '2004'
-    month: '7'
-    day: '5'
+    date-parts: [[2004, 7, 5]]
   accessed:
-  - year: '2004'
-    month: '7'
-    day: '30'
+    date-parts: [[2004, 7, 30]]
   title: A <span class="nocase">European UK Libraries Plus?</span>
   container-title: Lis-link
   URL: lis-link@jiscmail.ac.uk
@@ -877,9 +801,7 @@ references:
   - family: Alston
     given: S.
   issued:
-  - year: '2004'
-    month: '7'
-    day: '19'
+    date-parts: [[2004, 7, 19]]
   title: Society of <span class="nocase">Architectural Historians of GB</span>
   publisher: Email to K.M. Jordan
 
@@ -888,11 +810,9 @@ references:
   author:
   - literal: Bureau van Dijk
   issued:
-  - year: '2008'
+    date-parts: [[2008]]
   accessed:
-  - year: '2014'
-    month: '11'
-    day: '6'
+    date-parts: [[2014, 11, 6]]
   title: BT Group plc company report
   publisher: Bureau van Dijk
   publisher-place: London
@@ -905,11 +825,9 @@ references:
   - family: Wilson
     given: D.
   issued:
-  - year: '2013'
+    date-parts: [[2013]]
   accessed:
-  - year: '2016'
-    month: '4'
-    day: '20'
+    date-parts: [[2016, 4, 20]]
   title: 'Real geometry and connectedness via triangular description: <span class="nocase">CAD</span> example
     bank'
   title-short: Real geometry and connectedness via triangular description
@@ -922,9 +840,7 @@ references:
   author:
   - family: '@screencasto'
   accessed:
-  - year: '2016'
-    month: '5'
-    day: '16'
+    date-parts: [[2016, 5, 16]]
   title: <span class="nocase">Screencast-O-Matic</span>
   genre: computer program
   version: '2'
@@ -938,7 +854,7 @@ references:
   - family: Ross
     given: W. D.
   issued:
-  - year: '2007'
+    date-parts: [[2007]]
   title: Nicomachean ethics
   publisher: NuVisions
   publisher-place: South Dakota
@@ -949,7 +865,7 @@ references:
   - family: Esquivel
     given: L.
   issued:
-  - year: '2003'
+    date-parts: [[2003]]
   title: Como agua para chocolate
   original-title: Like water for chocolate
   publisher: Debolsillo
@@ -961,7 +877,7 @@ references:
   - family: Thurfjell
     given: W.
   issued:
-  - year: '1975'
+    date-parts: [[1975]]
   title: Vart har våran doktor tagit vägen?
   original-title: Where has our doctor gone?
   container-title: Läkartidningen
@@ -975,7 +891,7 @@ references:
     given: Linfu
     dropping-particle: 華林甫
   issued:
-  - year: '1999'
+    date-parts: [[1999]]
   title: Qingdai yilai Sanxia diqu shuihan zaihai de chubu yanjiu 清代以來三峽地區水旱災害的初步硏
   original-title: A preliminary study of floods and droughts in the <span class="nocase">Three Gorges</span> region since the
     <span class="nocase">Qing</span> dynasty
@@ -989,7 +905,7 @@ references:
   - family: Hua
     given: Linfu
   issued:
-  - year: '1999'
+    date-parts: [[1999]]
   title: Qingdai yilai Sanxia diqu shuihan zaihai de chubu yanjiu
   original-title: A preliminary study
     of floods and droughts in the <span class="nocase">Three Gorges</span> region since the <span class="nocase">Qing</span> dynasty
@@ -1004,7 +920,7 @@ references:
     given: Linfu
     dropping-particle: 華林甫
   issued:
-  - year: '2001'
+    date-parts: [[2001]]
   title: Lorem ipsum
 
 - id: pamporov2006rvb
@@ -1013,7 +929,7 @@ references:
   - family: Pamporov
     given: A.
   issued:
-  - year: 2006
+    date-parts: [[2006]]
   title: <span class="nocase">Romskoto vsekidnevie v Balgariya</span>
   original-title: Roma everyday life in <span class="nocase">Bulgaria</span>
   publisher-place: Veliko Tarnovo
@@ -1022,7 +938,7 @@ references:
 - id: gb.wa1735
   type: legislation
   issued:
-  - year: '1735'
+    date-parts: [[1735]]
   title: <span class="nocase">Witchcraft Act</span>
   collection-title: 9 <span class="nocase">Geo.2</span>
   chapter-number: '5'
@@ -1030,7 +946,7 @@ references:
 - id: gb.pa2014
   type: legislation
   issued:
-  - year: '2014'
+    date-parts: [[2014]]
   title: <span class="nocase">Pensions Act</span>
   publisher: TSO
   publisher-place: London
@@ -1041,7 +957,7 @@ references:
   author:
   - literal: Great Britain. Parliament. House of Commons
   issued:
-  - year: '1988'
+    date-parts: [[1988]]
   title: Local government finance bill
   collection-title: Bills \| 1987/88
   publisher: HMSO
@@ -1051,11 +967,9 @@ references:
 - id: gb.hmr2012
   type: regulation
   issued:
-  - year: '2012'
+    date-parts: [[2012]]
   accessed:
-  - year: '2016'
-    month: '4'
-    day: '17'
+    date-parts: [[2016, 4, 17]]
   title: The Human Medicines Regulations
   publisher: HMSO
   publisher-place: United Kingdom
@@ -1067,7 +981,7 @@ references:
   author:
   - literal: Great Britain. Parliament. House of Commons
   issued:
-  - year: '2004'
+    date-parts: [[2004]]
   title: '<span class="nocase">National Savings</span> investment deposits: account 2002–2003'
   title-short: <span class="nocase">National Savings</span> investment deposits
   collection-title: <span class="nocase">HC</span> 2003/04
@@ -1080,7 +994,7 @@ references:
   author:
   - literal: Great Britain. Parliament. House of Lords
   issued:
-  - year: '1987'
+    date-parts: [[1987]]
   title: Social fund (maternity and funeral expenses) bill
   collection-title: <span class="nocase">HL</span> 1986/87
   publisher: HMSO
@@ -1092,7 +1006,7 @@ references:
   author:
   - literal: Great Britain. Ministry of Defence
   issued:
-  - year: '2004'
+    date-parts: [[2004]]
   title: 'Delivering security in a changing world: defence white paper'
   title-short: Delivering security in a changing world
   genre: Cm.
@@ -1103,7 +1017,7 @@ references:
 - id: eu.dir1984/2003
   type: legislation
   issued:
-  - year: '2003'
+    date-parts: [[2003]]
   title: <span class="nocase">Council Regulation (EC)</span> 1984/2003 of 8 <span class="nocase">April</span> 2003 introducing a system
     for the statistical monitoring of trade in bluefin tuna, swordfish and big
     eye tuna within the <span class="nocase">Community</span>
@@ -1117,7 +1031,7 @@ references:
   author:
   - literal: European Commission
   issued:
-  - year: '2015'
+    date-parts: [[2015]]
   title: General report on the activities of the <span class="nocase">European Union</span> 2014
   publisher: Publications Office of the European Union
   publisher-place: Luxembourg
@@ -1125,7 +1039,7 @@ references:
 - id: seldon-v-c.w.j2012
   type: legal_case
   issued:
-  - year: '2012'
+    date-parts: [[2012]]
   title: <span class="nocase">Seldon v. Clarkson Wright & Jakes</span>
   collection-title: <span class="nocase">UKSC</span>
   page: '16'
@@ -1133,7 +1047,7 @@ references:
 - id: srl.etal-v-comm2005
   type: legal_case
   issued:
-  - year: '2005'
+    date-parts: [[2005]]
   title: <span class="nocase">Alessandrini Srl</span> and others v. <span class="nocase">Commission</span>
   collection-title: <span class="nocase">ECR</span>
   page: '5700'
@@ -1146,7 +1060,7 @@ references:
   - family: Adams
     given: Gomez
   issued:
-  - year: '2009'
+    date-parts: [[2009]]
   title: Test citation one
   publisher: Imperial College Bookstall
   publisher-place: London
@@ -1157,7 +1071,7 @@ references:
   - family: Adams
     given: Gomez
   issued:
-  - year: '2014'
+    date-parts: [[2014]]
   title: Test citation two
   publisher: Oxford University Press
   publisher-place: Oxford
@@ -1168,7 +1082,7 @@ references:
   - family: Adams
     given: Gomez
   issued:
-  - year: '2017'
+    date-parts: [[2017]]
   title: Test citation three
   publisher: Cambridge University Press
   publisher-place: Cambridge
