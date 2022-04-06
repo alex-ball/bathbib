@@ -99,3 +99,74 @@ the same principles as [CSL-JSON].
     journal in `collection-title` with the first `page`. For cases reported in
     the EU Official Journal, put ‘OJ’ in `container-title` instead, and
     OJ-specific formatting will be used.
+
+## Testing the style
+
+The technique used here to test the CSL style follows these steps:
+
+ 1. Use `pandoc` to convert the reference examples from the companion LaTeX
+    styles into HTML.
+
+ 2. Use `pandoc` and its built-in `citeproc` library to convert
+    `bath-csl-test.yaml` into HTML formatted references.
+
+ 3. Convert `bath-csl-test.yaml` into JSON and use `citeproc-js-server`
+    (hence `citeproc-js`) to convert it again into HTML formatted references.
+
+ 4. Compare the target (LaTeX-derived) references against the
+    `pandoc`-generated references, and the `pandoc`-generated references against
+    the `citeproc-js`-generated references.
+
+This process is automated as much as possible, which unfortunately means
+a dependency on a wide range of utilities. Some trivial or irreconcilable
+discrepancies are erased at different points in this process, so some
+potential quirks with real-life implementations won't show up.
+
+
+### Pandoc-based testing
+
+Dependencies:
+
+- GNU Make
+- `bash`, `awk`, `sed`
+- `pandoc` v2.11+
+- Python v3.8+
+
+An HTML document comparing the expected and actual output from `pandoc`
+can be generated like so:
+
+```bash
+make bath-csl-test.html
+```
+
+This invokes the `check-output.py` script to tidy up the raw output and perform
+the comparison.
+
+
+### Citeproc-js testing
+
+Dependencies
+
+- GNU Make
+- `bash`, `curl`
+- `citeproc-js-server` running at <http://127.0.0.1:8085>
+- Python v3.8+ and the Python packages `click` and `pyyaml`
+- LibYAML
+
+An HTML fragment containing the output from `citeproc-js` can be generated
+like so:
+
+```bash
+make bath-csl-test-js.html
+```
+
+This invokes the `yaml2json.py` script to generate the correct input to
+`citeproc-js-server`.
+
+
+## Validating the style
+
+CSL processors can be quite forgiving, so before submitting changes upstream,
+the style should be checked with the official [CSL Validator].
+
+[CSL Validator]: https://validator.citationstyles.org
