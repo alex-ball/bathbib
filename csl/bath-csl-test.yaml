@@ -122,6 +122,17 @@ references:
   publisher: Pharmaceutical Press
   publisher-place: London
 
+- id: bnf2019online
+  type: book
+  issued:
+    date-parts: [[2019]]
+  accessed:
+    date-parts: [[2019, 11, 26]]
+  title: <span class="nocase">British National Formulary</span>
+  publisher: Pharmaceutical Press
+  publisher-place: London
+  URL: https://www.medicinescomplete.com/#/browse/bnf
+
 - id: aspirin2020bnf
   type: entry
   issued:
@@ -311,9 +322,7 @@ references:
   volume: in press
   URL: https://www.sciencedirect.com/science/article/pii/S1553838919303367
   accessed:
-  - day: '19'
-    month: '6'
-    year: '2019'
+    date-parts: [[2019, 6, 19]]
 
 - id: shah.corrick2016hsc
   type: report
@@ -895,7 +904,7 @@ references:
   title: Qingdai yilai Sanxia diqu shuihan zaihai de chubu yanjiu 清代以來三峽地區水旱災害的初步硏
   original-title: A preliminary study of floods and droughts in the <span class="nocase">Three Gorges</span> region since the
     <span class="nocase">Qing</span> dynasty
-  container-title: Zhongguo shehui kexue <span class="roman">中國社會科學</span>
+  container-title: Zhongguo shehui kexue <i>中國社會科學</i>
   page: '168-79'
   volume: '1'
 
@@ -959,7 +968,7 @@ references:
   issued:
     date-parts: [[1988]]
   title: Local government finance bill
-  collection-title: Bills \| 1987/88
+  collection-title: 'Bills | 1987/88'
   publisher: HMSO
   publisher-place: London
   number: '66'

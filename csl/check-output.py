@@ -84,6 +84,11 @@ with open(infile, "r") as f:
                 line = re.sub(r"<span>([“‘].*?[’”])</span>", r"\1", line)
                 line = re.sub(r'<span class="nocase">([^<]*)</span>', r"\1", line)
                 line = re.sub(r'<a href="(.*?)">', r'<a href="\1" class="uri">', line)
+                line = re.sub(
+                    r"<em>([^<]*)<i>([^<]*)</i>([^<]*)</em>",
+                    r"<em>\1<em>\2</em>\3</em>",
+                    line,
+                )
                 line = f"<p>{line.strip()}</p>\n"
                 output_string += line
                 for target in target_strings:

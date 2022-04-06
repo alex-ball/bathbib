@@ -42,6 +42,8 @@ div.citation {
 	margin: 0;
 }
 
-.roman {
+.roman,
+em i,
+em em {
 	font-style: normal;
 }
