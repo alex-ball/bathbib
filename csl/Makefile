@@ -24,6 +24,12 @@ $(NAME)-raw.html: tmp/example_01.tex $(NAME)-tmp.yaml $(CSL)
 $(NAME).html: $(NAME)-raw.html check-output.py
 	./check-output.py
 
+$(NAME).json: $(NAME).yaml $(CSL) yaml2json.py
+	./yaml2json.py -o $@ -s $(CSL) $<
+
+$(NAME)-js.html: $(NAME).json
+	curl --header "Content-type: application/json" --data @$(NAME).json -X POST 'http://127.0.0.1:8085?responseformat=html&locale=en-GB&linkwrap=1' > $@
+
 clean:
 	rm -rf tmp/
 	rm $(NAME)-raw.html

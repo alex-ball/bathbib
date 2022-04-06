@@ -112,6 +112,7 @@ venv/
 /bst/bath-bst-v1.pdf
 /bst/bath-bst-v1.tex
 /csl/tmp/
+/csl/bath-csl-test.json
 /csl/bath-csl-test*.html
 /csl/bath-csl-test-tmp.yaml
 _markdown*/
