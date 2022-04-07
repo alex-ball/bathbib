@@ -27,7 +27,9 @@ package pages on CTAN.
 ## Citation Style Language
 
 This repository also contains a [development area](csl/) for maintaining an
-implementation of the Bath Harvard style in [Citation Style Language].
+implementation of the Bath Harvard style in [Citation Style Language]. Please
+look there for [tips on how to arrange your CSL database](csl/README.md)
+to make best use of the style.
 
 Changes made here are submitted upstream to the [official repository][CSL Styles]
 for CSL styles.
@@ -48,7 +50,7 @@ for all tests.
 - `pandoc` v2.11+
 - Python v3.8+ and the Python packages `click`, `lxml` and `pyyaml`
 - LibYAML
-- `citeproc-js-server` running at <http://127.0.0.1:8085>
+- `citeproc-js-server` running at `http://127.0.0.1:8085`
 
 You can find [`pandoc`] and [`citeproc-js-server`] on GitHub.
 

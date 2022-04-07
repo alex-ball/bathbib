@@ -16,8 +16,9 @@ the same principles as [CSL-JSON].
     DOI, or access date.
 
   - For many resource types, you can use `genre` to put something in square
-    brackets after the title. The exceptions are `thesis`, `report`, `patent`,
-    `motion_picture` and `bill`.
+    brackets after the title. The exceptions are `broadcast`, `motion_picture`,
+    `thesis` and, if you supply a `number`, `bill`, `patent`, `report`, and
+    `standard`.
 
   - For preprints, use resource type `report` and put the repository name under
     `archive`.
@@ -53,7 +54,7 @@ the same principles as [CSL-JSON].
 
   - Use `dataset` for database entries and datasets. Give the name of a containing
     database in `container-title`.
-  
+
   - Use `software` for software. This type was introduced in CSL v1.0.2, so if
     your toolset doesn't support it, use `dataset` instead; unfortunately the
     ‘\[Online]’ won't be suppressed in this case.
@@ -149,7 +150,7 @@ Dependencies
 
 - GNU Make
 - `bash`, `curl`
-- `citeproc-js-server` running at <http://127.0.0.1:8085>
+- `citeproc-js-server` running at `http://127.0.0.1:8085`
 - Python v3.8+ and the Python packages `click` and `pyyaml`
 - LibYAML
 
@@ -169,4 +170,4 @@ This invokes the `yaml2json.py` script to generate the correct input to
 CSL processors can be quite forgiving, so before submitting changes upstream,
 the style should be checked with the official [CSL Validator].
 
-[CSL Validator]: https://validator.citationstyles.org
+[CSL Validator]: https://validator.citationstyles.org/
