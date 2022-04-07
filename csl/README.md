@@ -49,8 +49,11 @@ the same principles as [CSL-JSON].
   - With a `motion_picture`, use `medium` or `genre` to specify the type, e.g.
     ‘Film’.
 
-  - With a `broadcast`, use `publisher` for the channel, `medium` for ‘Radio’ or
-    ‘TV’, and `annote` for the time.
+  - With a `broadcast`, use `publisher` for the channel, `medium` or `genre` for
+    ‘Radio’ or ‘TV’, and `annote` for the time. If it is an untitled episode of
+    a series, put the series and episode number as the `title`, otherwise put
+    the series in `container-title` and the episode number as ‘Episode
+    *series:episode*’ in `number`.
 
   - Use `dataset` for database entries and datasets. Give the name of a containing
     database in `container-title`.

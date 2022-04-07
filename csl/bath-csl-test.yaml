@@ -681,7 +681,7 @@ references:
   issued:
     date-parts: [[2021, 5, 31]]
   title: Hurry up and wait
-  collection-title: Inside no.9
+  container-title: Inside no.9
   number: Episode 6:4
   publisher: BBC2
   medium: TV
@@ -713,7 +713,7 @@ references:
   accessed:
     date-parts: [[2021, 5, 4]]
   title: The secret
-  collection-title: 'Tiger king: murder, mayhem and madness'
+  container-title: 'Tiger king: murder, mayhem and madness'
   number: Episode 3
   archive: Netflix
   medium: TV
