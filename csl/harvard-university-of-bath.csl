@@ -701,8 +701,10 @@
               </if>
             </choose>
             <group suffix="." delimiter=", ">
-              <text variable="container-title" font-style="italic"/>
-              <text macro="online" prefix=" "/>
+              <group delimiter=" ">
+                <text variable="container-title" font-style="italic"/>
+                <text macro="online" prefix=" "/>
+              </group>
               <text variable="event"/>
               <date variable="event-date">
                 <date-part name="day" suffix=" "/>
