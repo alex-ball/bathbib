@@ -64,6 +64,39 @@
       </if>
     </choose>
   </macro>
+  <macro name="archive">
+    <choose>
+      <if variable="archive">
+        <choose>
+          <if type="graphic manuscript map pamphlet" match="any">
+            <group delimiter=". ">
+              <group delimiter=": ">
+                <text term="at" text-case="capitalize-first"/>
+                <group delimiter=", ">
+                  <text variable="archive"/>
+                  <text variable="archive-place"/>
+                </group>
+              </group>
+              <group delimiter=" ">
+                <text variable="archive_collection"/>
+                <text variable="archive_location"/>
+              </group>
+            </group>
+          </if>
+          <else>
+            <group delimiter=" ">
+              <text variable="archive" font-style="italic"/>
+              <choose>
+                <if type="bill report standard webpage" match="any">
+                  <text macro="online"/>
+                </if>
+              </choose>
+            </group>
+          </else>
+        </choose>
+      </if>
+    </choose>
+  </macro>
   <macro name="author">
     <names variable="author">
       <name and="text" delimiter-precedes-last="never" initialize-with="." name-as-sort-order="all"/>
@@ -305,7 +338,14 @@
               </group>
             </if>
           </choose>
-          <text macro="series"/>
+          <choose>
+            <if type="report bill" match="any">
+              <text macro="series-genre" prefix="(" suffix=")"/>
+            </if>
+            <else>
+              <text macro="series"/>
+            </else>
+          </choose>
           <text macro="status"/>
           <text macro="publisher"/>
         </group>
@@ -488,6 +528,12 @@
           <text variable="scale"/>
         </group>
       </else-if>
+      <else-if type="book motion_picture musical_score song speech" match="any">
+        <group delimiter=" ">
+          <text macro="title"/>
+          <text macro="translator"/>
+        </group>
+      </else-if>
       <else-if type="post">
         <choose>
           <if variable="container-title" match="none">
@@ -600,6 +646,12 @@
       </else>
     </choose>
   </macro>
+  <macro name="translator">
+    <names variable="translator" prefix="(" suffix=")">
+      <name and="text" delimiter-precedes-last="never" initialize-with="."/>
+      <label form="short" prefix=", " text-case="capitalize-first"/>
+    </names>
+  </macro>
   <macro name="year-date">
     <choose>
       <if variable="issued">
@@ -666,6 +718,7 @@
             </group>
             <text macro="title-block"/>
             <text macro="publication"/>
+            <text macro="archive"/>
           </else>
         </choose>
         <text variable="annote"/>

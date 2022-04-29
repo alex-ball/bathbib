@@ -583,7 +583,7 @@ references:
   title: Prototype electric bicycle displayed at the <span class="nocase">‘Britain Can Make It’</span> exhibition
     organised by the <span class="nocase">Council of Industrial Design</span> and held at the <span class="nocase">Victoria and Albert
     Museum, London,</span> 1946. <span class="nocase">Designed</span> by <span class="nocase">B. G. Bowden</span>
-  genre: Photograph
+  medium: Photograph
   archive-place: London
   archive: Design Council Slide Collection
 
@@ -684,7 +684,7 @@ references:
   container-title: Inside no.9
   number: Episode 6:4
   publisher: BBC2
-  medium: TV
+  genre: TV
   annote: 21.30 hrs
 
 - id: rsfo2006ep5
@@ -694,7 +694,7 @@ references:
   title: 'Rick <span class="nocase">Stein’s</span> <span class="nocase">French</span> odyssey: Episode 5'
   title-short: Rick <span class="nocase">Stein’s</span> <span class="nocase">French</span> odyssey
   publisher: BBC2
-  medium: TV
+  genre: TV
   annote: 20.30 hrs
 
 - id: archers20060823
@@ -703,7 +703,7 @@ references:
     date-parts: [[2006, 8, 23]]
   title: The <span class="nocase">Archers</span>
   publisher: BBC Radio 4
-  medium: Radio
+  genre: Radio
   annote: 19.02 hrs
 
 - id: tkmmm2020ts
@@ -716,7 +716,7 @@ references:
   container-title: 'Tiger king: murder, mayhem and madness'
   number: Episode 3
   archive: Netflix
-  medium: TV
+  genre: TV
 
 - id: beethoven1950symph1
   type: musical_score
