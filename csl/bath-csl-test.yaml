@@ -574,18 +574,17 @@ references:
   publisher-place: San Francisco
   URL: https://commons.wikimedia.org/wiki/File:Royal_Crescent_in_Bath,\_England\_-_July_2006.jpg
 
-- id: anon1946peb
+- id: brbr1965gph
   type: graphic
   author:
-  - family: Anon.
+  - family: Bristol Region Building Record
   issued:
-    date-parts: [[1946]]
-  title: Prototype electric bicycle displayed at the <span class="nocase">‘Britain Can Make It’</span> exhibition
-    organised by the <span class="nocase">Council of Industrial Design</span> and held at the <span class="nocase">Victoria and Albert
-    Museum, London,</span> 1946. <span class="nocase">Designed</span> by <span class="nocase">B. G. Bowden</span>
+    date-parts: [[1965]]
+  title: <span class="nocase">Green Park House </span>(since demolished), viewed from southwest
   medium: Photograph
-  archive-place: London
-  archive: Design Council Slide Collection
+  archive_collection: BRBR
+  archive_location: D/877/1
+  archive: Archives & Research Collections, University of Bath Library
 
 - id: andrews.dury1773wilts
   type: map
