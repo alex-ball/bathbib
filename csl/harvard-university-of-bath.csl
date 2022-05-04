@@ -234,7 +234,12 @@
               </if>
             </choose>
             <text variable="container-title" font-style="italic"/>
-            <text macro="online"/>
+            <choose>
+              <if type="entry" variable="title"/>
+              <else>
+                <text macro="online"/>
+              </else>
+            </choose>
           </group>
           <choose>
             <if type="paper-conference">
@@ -548,6 +553,20 @@
           </choose>
         </if>
         <else-if type="regulation"/>
+        <else-if type="entry" variable="title">
+          <choose>
+            <if variable="genre">
+              <text variable="genre" prefix="[" suffix="]"/>
+            </if>
+            <else>
+              <choose>
+                <if variable="URL DOI accessed" match="any">
+                  <text term="online" text-case="capitalize-first" prefix="[" suffix="]"/>
+                </if>      
+              </choose>
+            </else>
+          </choose>
+        </else-if>
         <else-if variable="container-title" match="none">
           <choose>
             <if variable="genre">
