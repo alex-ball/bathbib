@@ -1896,35 +1896,31 @@ record the source of the image.
 %</driver>
 \end{bibexbox}
 
-\begin{bibexbox}<RI>{anon1946peb}
-  Anon., 1946. \emph{Prototype electric bicycle displayed at the \enquote{Britain Can Make It} exhibition organised by the Council of Industrial Design and held at the Victoria and Albert Museum, London, 1946. Designed by B.~G. Bowden} [Photograph]. At: London. Design Council Slide Collection.
+\begin{bibexbox}<RI>{brbr1965gph}
+  Bristol Region Building Record, 1965. \emph{Green Park House (since demolished), viewed from southwest} [Photograph]. BRBR, D/877/1. Archives \& Research Collections, University of Bath Library.
   \tcblower
 \begin{Verbatim}
 %</driver|tex1>
 %<*driver|bib>
-@image{anon1946peb,
-  author = {Anon.},
-  year = {1946},
-  title = {Prototype electric bicycle displayed at the \enquote{Britain Can Make It} exhibition
-    organised by the {Council} of {Industrial} {Design} and held at the {Victoria} and {Albert}
-    {Museum}, {London}, 1946. {Designed} by {B.~G.} {Bowden}},
+@image{brbr1965gph,
+  author = {{Bristol Region Building Record}},
+  year = {1965},
+  title = {{Green} {Park} {House} (since demolished), viewed from southwest},
   titleaddon = {Photograph},
-  address = {London},
-  library = {Design Council Slide Collection}}
+  number = {BRBR, D/877/1},
+  library = {Archives \& Research Collections, University of Bath Library}}
 %</driver|bib>
 %<*driver>
 \end{Verbatim}
 \iffalse
 %</driver>
 %<*tex1|bib1>
-@manual{anon1946peb,
-  author = {Anon.},
-  year = {1946},
-  title = {Prototype electric bicycle displayed at the \enquote{Britain Can Make It} exhibition
-    organised by the {Council} of {Industrial} {Design} and held at the {Victoria} and {Albert}
-    {Museum}, {London}, 1946. {Designed} by {B.~G.} {Bowden}},
+@manual{brbr1965gph,
+  author = {{Bristol Region Building Record}},
+  year = {1965},
+  title = {{Green} {Park} {House} (since demolished), viewed from southwest},
   titleaddon = {[Photograph]},
-  note = {At: London. Design Council Slide Collection}}
+  note = {BRBR, D/877/1. Archives \& Research Collections, University of Bath Library}}
 %</tex1|bib1>
 %<*driver|tex1>
 \end{Verbatim}
@@ -5511,21 +5507,22 @@ FUNCTION {format.img.library.address}
     { "At: "
       address "address" bibinfo.check *
       library duplicate$ empty$
-        { institution duplicate$ empty$
-            { pop$ "" }
+        { pop$
+          institution duplicate$ empty$
+            'pop$
             { address empty$
               'skip$
-              { ". " swap$ }
+              { swap$ ". " * swap$ }
               if$
-              "institution" bibinfo.check * *
+              "institution" bibinfo.check *
             }
           if$
         }
         { address empty$
             'skip$
-            { ". " swap$ }
+            { swap$ ". " * swap$ }
           if$
-          "library" bibinfo.check * *
+          "library" bibinfo.check *
         }
       if$
     }

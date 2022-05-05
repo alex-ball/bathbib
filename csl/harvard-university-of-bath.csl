@@ -100,7 +100,7 @@
       <name and="text" delimiter-precedes-last="never" initialize-with="." name-as-sort-order="all"/>
       <substitute>
         <choose>
-          <if type="entry" variable="title container-title" match="all">
+          <if type="entry" variable="title container-title">
             <text variable="container-title"/>
           </if>
           <else-if variable="editor">
