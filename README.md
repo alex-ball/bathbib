@@ -76,7 +76,7 @@ Testing the CSL style:
 
   - `./check.py csl`: tests the output of the Haskell `citeproc` library
     using `harvard-university-of-bath.csl` via `pandoc`.
-  - `./check.py csl-sync`: tests for variance between the output of the
+  - `./check.py csl-impl`: tests for variance between the output of the
     Haskell `citeproc` library and `citeproc-js` when using
     `harvard-university-of-bath.csl`.
 

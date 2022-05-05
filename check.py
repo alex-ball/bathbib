@@ -492,42 +492,65 @@ def format_diff(label: str, primary: str, secondary: str) -> str:
     return diff
 
 
-def contrast_refs(**kwargs: t.Dict[str, t.Dict[str, str]]) -> None:
+def contrast_refs(
+    **kwargs: t.Dict[str, t.Dict[str, str]]
+) -> t.DefaultDict[str, t.Set[str]]:
     """Performs a comparison between different sets of mappings from
     bib database IDs to formatted references.
 
     Arguments should be given in the form of label=mapping. The label
     is used in the output printed to screen, to show the source of the
     reference text.
+
+    Returns a defaultdict that maps keys from the first source that
+    do not appear in at least one of the other sources; but keys are
+    only added if no contrast between available outputs is found.
     """
     if not kwargs:
         raise click.ClickException("No contrast to make.")
 
     labels = list(kwargs.keys())
+    label_width = max([len(s) for s in labels])
 
-    for id, target in kwargs[labels[0]].items():
+    missing = defaultdict(set)
+    for key, target in kwargs[labels[0]].items():
         errors = list()
         for label in labels[1:]:
-            if id not in kwargs[label]:
-                errors.append(f"{label} is missing ID {id}.")
-            elif kwargs[label][id] != target:
-                dededupl = re.sub(r" (\d{4})[a-c]\.", r" \1.", kwargs[label][id])
+            if key not in kwargs[label]:
+                missing[key].add(label)
+            elif kwargs[label][key] != target:
+                dededupl = re.sub(r" (\d{4})[a-c]\.", r" \1.", kwargs[label][key])
                 if dededupl != target:
                     errors.append(f"{label}: {dededupl}")
                     errors.append(format_diff(label, target, dededupl))
         if errors:
-            click.secho(id, bold=True)
-            click.echo(f"{labels[0]}: {target}")
+            click.secho(key, bold=True)
+            click.echo(f"{labels[0].ljust(label_width)}: {target}")
             for error in errors:
                 click.echo(error)
+            sources = missing.pop(key, None)
+            if sources:
+                click.echo(f"Not present in {' or '.join(sources)}.")
             print()
+
+    return missing
+
+
+def print_missing(missing: t.DefaultDict[str, t.Set[str]]) -> None:
+    """Prints out information on missing keys."""
+    for key, labels in missing.items():
+        click.echo(
+            f"{' and '.join(labels)} {ngettext('is', 'are', len(labels))} "
+            f"missing ID {key}."
+        )
 
 
 @click.group(context_settings=CONTEXT_SETTINGS)
 def main():
-    """Performs unit tests on LaTeX output from the Bath (Harvard)
-    bibliography styles, and ensures the target output is aligned
-    between the LaTeX and CSL styles.
+    """Performs unit tests on LaTeX and CSL output from the Bath
+    (Harvard) bibliography styles, and ensures the target output is
+    aligned between the LaTeX and CSL styles, and between two different
+    CSL implementations.
     """
     pass
 
@@ -538,7 +561,7 @@ def biblatex():
     targets = extract_dtx_targets("biblatex/biblatex-bath.dtx")
     lines = get_bibitems("biblatex/test-output.bbi")
     outputs = parse_simple_bibitems(lines)
-    contrast_refs(Target=targets, Output=outputs)
+    print_missing(contrast_refs(Target=targets, Output=outputs))
 
 
 @main.command(context_settings=CONTEXT_SETTINGS)
@@ -547,7 +570,7 @@ def bst():
     targets = extract_dtx_targets("bst/bath-bst.dtx")
     lines = get_bibitems("bst/bath-bst.bbl")
     outputs = ignore_unfixable(parse_bibitems(lines))
-    contrast_refs(Target=targets, Output=outputs)
+    print_missing(contrast_refs(Target=targets, Output=outputs))
 
 
 @main.command(context_settings=CONTEXT_SETTINGS)
@@ -556,7 +579,7 @@ def bst_old():
     targets = extract_dtx_targets("bst/bath-bst.dtx")
     lines = get_bibitems("bst/bath-bst-v1.bbl")
     outputs = ignore_unfixable(parse_bibitems(lines))
-    contrast_refs(Target=targets, Output=outputs)
+    print_missing(contrast_refs(Target=targets, Output=outputs))
 
 
 @main.command(context_settings=CONTEXT_SETTINGS)
@@ -573,18 +596,22 @@ def compat():
 
     lines = get_bibitems("biblatex/test-compat.bbi")
     outputs = parse_simple_bibitems(lines)
-    contrast_refs(Target=targets, Output=outputs)
+    print_missing(contrast_refs(Target=targets, Output=outputs))
 
 
 @main.command(context_settings=CONTEXT_SETTINGS)
 def csl():
-    """Shows results of CSL unit tests."""
+    """Performs unit tests on output from the CSL style using Pandoc.
+
+    Unlike with the LaTeX styles, the actual testing is delegated to
+    the makefile and script in the `csl/` directory.
+    """
     targets, outputs = parse_csl_refs("csl/bath-csl-test.html", only_fails=True)
-    contrast_refs(Target=targets, Output=outputs)
+    print_missing(contrast_refs(Target=targets, Output=outputs))
 
 
 @main.command(context_settings=CONTEXT_SETTINGS)
-def csl_sync():
+def csl_impl():
     """Contrasts CSL output from pandoc and citeproc-js.
 
     Requires citeproc-js-server to be running on http://127.0.0.1:8085/.
@@ -592,7 +619,7 @@ def csl_sync():
     _, outputs = parse_csl_refs("csl/bath-csl-test.html")
     cpjs_outputs = parse_cpjs_refs("csl/bath-csl-test-js.html")
     cpjs_mapping = infer_mapping(template=outputs, outputs=cpjs_outputs)
-    contrast_refs(Pandoc____=outputs, CiteprocJS=cpjs_mapping)
+    print_missing(contrast_refs(Pandoc=outputs, CiteprocJS=cpjs_mapping))
 
 
 @main.command(context_settings=CONTEXT_SETTINGS)
@@ -601,12 +628,11 @@ def sync():
     biblatex_targets = extract_dtx_targets("biblatex/biblatex-bath.dtx")
     bibtex_targets = extract_dtx_targets("bst/bath-bst.dtx")
     csl_targets = extract_csl_targets("csl/bath-csl-test.tex")
-    contrast_refs(
+    missing = contrast_refs(
         Biblatex=biblatex_targets,
-        BibTeX__=bibtex_targets,
-        CSL_____=csl_targets,
+        BibTeX=bibtex_targets,
+        CSL=csl_targets,
     )
-    missing = defaultdict(set)
     for key in bibtex_targets.keys():
         if key not in biblatex_targets:
             missing[key].add("Biblatex")
@@ -618,8 +644,9 @@ def sync():
         if key not in bibtex_targets:
             missing[key].add("BibTeX")
     for key, sources in missing.items():
+        labels = sorted(sources)
         click.echo(
-            f"{' and '.join(sources)} {ngettext('is', 'are', sources)} "
+            f"{' and '.join(labels)} {ngettext('is', 'are', len(labels))} "
             f"missing ID {key}."
         )
 
