@@ -2435,7 +2435,7 @@ This work is `maintained' (as per LPPL maintenance status) by [Alex Ball][me].
 % instead of writing out our own in full.
 %
 %    \begin{macrocode}
-\RequirePackage{xpatch}
+\RequirePackage{etoolbox,xpatch}
 %    \end{macrocode}
 %
 % Some string analysis is required.
@@ -2448,17 +2448,87 @@ This work is `maintained' (as per LPPL maintenance status) by [Alex Ball][me].
 % American English. Adapted language files have the following suffix:
 %
 %    \begin{macrocode}
-\RequirePackage{etoolbox}
 \ifcsdef{DeclareLanguageMappingSuffix}{%
   \DeclareLanguageMappingSuffix{-bath}
 }{%
   \DeclareLanguageMapping{english}{english-bath}
   \DeclareLanguageMapping{british}{british-bath}
 }
+%    \end{macrocode}
+%
+% We provide some additional bibliography strings.
+%
+%    \begin{macrocode}
+\NewBibliographyString{%
+  online, hours, at, unpublished, legalchapter,
+  director, performer, reader, conductor,
+  directors, performers, readers, conductors,
+  bydirector, byperformer, byreader, byconductor,
+}
 
 %    \end{macrocode}
 %
-% \subsection{Options}
+% To maintain compatibility with older versions of \textsf{biblatex},
+% we backport some newer features if necessary.
+%
+%    \begin{macrocode}
+\ifcsdef{letbibmacro}{}{%
+  \def\letbibmacro#1#2{%
+    \ifcsundef{abx@macro@#2}
+      {\blx@error
+        {Bibliography macro '#2' undefined}
+        {Use '\string\newbibmacro' to define this macro}}
+      {\csletcs{abx@macro@#1}{abx@macro@#2}}}
+}
+\ifcsdef{iflabeldateisdate}{}{%
+  \def\iflabeldateisdate{%
+    \ifboolexpr{%
+      togl {blx@labeldateparts}
+      and not test {\iffieldundef{labeldatesource}}
+      and
+      (test {\iffieldequalstr{labeldatesource}{}}
+      or test {\iffieldequalstr{labeldatesource}{year}})}}%
+}
+\ifcsdef{DeclareBiblatexOption}{}{%
+  \def\DeclareBiblatexOption@II#1[#2]#3[#4]#5{
+    \IfSubStr#1{global}{\DeclareBibliographyOption[#2]{#3}[#4]{#5}}{}%
+    \IfSubStr#1{type}{\DeclareTypeOption[#2]{#3}[#4]{#5}}{}%
+    \IfSubStr#1{entry}{\DeclareEntryOption[#2]{#3}[#4]{#5}}{}}%
+  \def\DeclareBiblatexOption@I#1[#2]#3#4{\@ifnextchar[%
+    {\DeclareBiblatexOption@II#1[#2]#3#4}%
+    {\DeclareBiblatexOption@II#1[#2]#3[]#4}}%
+  \def\DeclareBiblatexOption#1#2{\@ifnextchar[%
+    {\DeclareBiblatexOption@I#1#2}%
+    {\DeclareBiblatexOption@I#1[]#2}}%
+}
+%    \end{macrocode}
+%
+% This makes \textsf{biblatex} take notice of parentheses, brackets
+% and angle brackets when deciding whether to suppress double punctuation.
+%
+%    \begin{macrocode}
+\def\blx@setsfcodes{%
+  \let\blx@setsfcodes\relax
+  \let\frenchspacing\blx@setfrcodes
+  \let\nonfrenchspacing\blx@setencodes
+  \ifnum\sfcode`\.>2000
+    \blx@setencodes
+  \else
+    \blx@setfrcodes
+  \fi
+  \@setquotesfcodes
+  \sfcode`\(=\@m
+  \sfcode`\)=\@m
+  \sfcode`\[=\@m
+  \sfcode`\]=\@m
+  \sfcode`\<=\@m
+  \sfcode`\>=\@m}
+
+%    \end{macrocode}
+%
+% \subsection{Standard common toggle options}
+%
+% These are options provided by all standard styles.
 %
 %    \begin{macrocode}
 \newtoggle{bbx:isbn}
@@ -2478,9 +2548,284 @@ This work is `maintained' (as per LPPL maintenance status) by [Alex Ball][me].
 \DeclareBiblatexOption{global,type,entry}[boolean]{related}[true]{%
   \settoggle{bbx:related}{#1}}
 
+%    \end{macrocode}
+%
+% \subsection{Author--year specific options}
+%
+% \subsubsection{Author (label) dashes}
+%
+% The |dashed| option from the standard author--year style controls whether
+% repeated author/editor names are replaced with a dash.
+%
+%    \begin{macrocode}
+\newbibmacro*{bbx:savehash}{%
+  \savefield{fullhash}{\bbx@lasthash}}
+
+\DeclareBibliographyOption[boolean]{dashed}[true]{%
+  \ifstrequal{#1}{true}
+    {\ExecuteBibliographyOptions{pagetracker}%
+     \renewbibmacro*{bbx:savehash}{\savefield{fullhash}{\bbx@lasthash}}}
+    {\renewbibmacro*{bbx:savehash}{}}}
+
+%    \end{macrocode}
+%
+% \subsubsection{Date options}
+%
+% For some resources (ISO standards, Acts of Parliament), the date is part of
+% the label and should not be repeated in the date slot. So that this can be
+% achieved cleanly by omitting the date, we declare a |nonodate| option that can
+% suppress the substitution of the missing date by `n.d.'
+%
+%    \begin{macrocode}
+\newtoggle{bbx:nonodate}
+\DeclareBiblatexOption{global,type,entry}[boolean]{nonodate}[true]{%
+  \settoggle{bbx:nonodate}{#1}}
+
+%    \end{macrocode}
+%
+% The |mergedate| option controls the format of the date at the head of the
+% reference in the |date+extradate| macro, and whether and how the same date is
+% displayed later in the |issue+date| macro.
+%
+%    \begin{macrocode}
+\providebibmacro*{date+extradate}{}
+\newbibmacro*{issue+date}{%
+  \printtext[parens]{%
+    \printfield{issue}%
+    \setunit*{\addspace}%
+    \usebibmacro{date}}%
+  \newunit}
+
+%    \end{macrocode}
+%
+% We allow the date macro to print the time as well.
+%
+%    \begin{macrocode}
+\newbibmacro*{bbx:ifmergeddate}{\@secondoftwo}
+\renewbibmacro*{date}{%
+  \usebibmacro{bbx:ifmergeddate}{}{%
+    \printdate
+    \setunit*{\bibdatetimesep}%
+  }%
+  \printtime}%
+
+%    \end{macrocode}
+%
+% The following are similar to the standard author--year options except they
+% respect the |nonodate| option and allow the field format of the date text
+% to be configured.
+%
+% The |maximum| option merges date/issue with date label.
+%
+%    \begin{macrocode}
+\def\bbx@opt@mergedate@maximum{%
+  \renewbibmacro*{date+extradate}{%
+    \iffieldundef{labelyear}
+      {}
+      {\printtext[datelabel]{%
+         \iflabeldateisdate
+           {\printfield{issue}%
+            \setunit*{\addspace}%
+            \printdateextra}
+           {\printlabeldateextra}}}}%
+  \renewbibmacro*{bbx:ifmergeddate}{\iflabeldateisdate}%
+  \renewbibmacro*{issue+date}{%
+    \usebibmacro{bbx:ifmergeddate}
+      {}
+      {\printtext[parens]{%
+         \printfield{issue}%
+         \setunit*{\addspace}%
+         \printdate}}}}
+
+%    \end{macrocode}
+%
+% The |compact| option merges date with date label.
+%
+%    \begin{macrocode}
+\def\bbx@opt@mergedate@compact{%
+  \renewbibmacro*{date+extradate}{%
+    \ifboolexpr{
+      togl {bbx:nonodate}
+      and not test {\iflabeldateisdate}}
+      {}
+      {\printtext[datelabel]{%
+         \iflabeldateisdate
+           {\printdateextra}
+           {\printlabeldateextra}}}}%
+  \renewbibmacro*{bbx:ifmergeddate}{\iflabeldateisdate}%
+  \renewbibmacro*{issue+date}{%
+    \ifboolexpr{test {\usebibmacro{bbx:ifmergeddate}}
+                and
+                test {\iffieldundef{issue}}}
+      {}
+      {\printtext[parens]{%
+         \printfield{issue}%
+         \setunit*{\addspace}%
+         \usebibmacro{bbx:ifmergeddate}
+           {}
+           {\printdate}}}%
+    \newunit}}
+
+%    \end{macrocode}
+%
+% The |basic| option merges year-only date with date label.
+%
+%    \begin{macrocode}
+\def\bbx@opt@mergedate@basic{%
+  \renewbibmacro*{date+extradate}{%
+    \ifboolexpr{
+      togl {bbx:nonodate}
+      and not test {\iflabeldateisdate}}
+      {}
+      {\printtext[datelabel]{\printlabeldateextra}}}%
+  \renewbibmacro*{bbx:ifmergeddate}{%
+    \ifboolexpr{
+      test {\iflabeldateisdate}
+      and
+      not test {\ifdateshavedifferentprecision{label}{}}
+    }%
+  }%
+  \renewbibmacro*{issue+date}{%
+    \ifboolexpr{
+      test {\usebibmacro{bbx:ifmergeddate}}
+      and
+      test {\iffieldundef{issue}}
+    }
+      {}
+      {\printtext[parens]{%
+         \printfield{issue}%
+         \setunit*{\addspace}%
+         \printdate}}%
+    \newunit}}
+
+%    \end{macrocode}
+%
+% The |minimum| option merges year-only date with year-only date label.
+%
+%    \begin{macrocode}
+\def\bbx@opt@mergedate@minimum{%
+  \renewbibmacro*{date+extradate}{%
+    \ifboolexpr{
+      togl {bbx:nonodate}
+      and not test {\iflabeldateisdate}}
+      {}
+      {\printtext[datelabel]{\printlabeldateextra}}}%
+  \renewbibmacro*{bbx:ifmergeddate}{%
+    \ifboolexpr{
+      test {\iflabeldateisdate}
+      and
+      not test {\ifdateshavedifferentprecision{label}{}}
+      and
+      test {\iffieldundef{extradate}}
+    }%
+  }%
+  \renewbibmacro*{issue+date}{%
+    \ifboolexpr{
+      test {\usebibmacro{bbx:ifmergeddate}}
+      and
+      test {\iffieldundef{issue}}
+    }
+      {}
+      {\printtext[parens]{%
+         \printfield{issue}%
+         \setunit*{\addspace}%
+         \printdate}}%
+    \newunit}}
+
+%    \end{macrocode}
+%
+% The |false| option doesn't merge date/issue with date label
+%
+%    \begin{macrocode}
+\def\bbx@opt@mergedate@false{%
+  \renewbibmacro*{date+extradate}{%
+    \iffieldundef{labelyear}
+      {}
+      {\printtext[parens]{\printlabeldateextra}}}%
+  \renewbibmacro*{bbx:ifmergeddate}{\@secondoftwo}%
+  \renewbibmacro*{issue+date}{%
+    \printtext[parens]{%
+      \printfield{issue}%
+      \setunit*{\addspace}%
+      \usebibmacro{date}}%
+    \newunit}}
+
+%    \end{macrocode}
+%
+% Lastly, here is our new (default) option, which always merges the year, and
+% only the year, with the label date. Other date and time componenents are
+% displayed later in the reference. Therefore we clear the year from the date
+% used for the label, but leave the month and day alone.
+%
+%    \begin{macrocode}
+\def\bbx@opt@mergedate@year{%
+  \renewbibmacro*{date+extradate}{%
+    \iffieldundef{labelyear}{}{%
+      \ifboolexpr{
+        togl {bbx:nonodate}
+        and
+        not test {\iflabeldateisdate}
+      }{}{%
+        \printtext[datelabel]{\printlabeldateextra}%
+      }%
+      \iflabeldateisdate{%
+        \clearfield{year}%
+      }{}}}
+  \ifcsundef{abx@macro@date+extrayear}{}{%
+    \renewbibmacro*{date+extrayear}{\usebibmacro{date+extradate}}%
+  }
+  \renewbibmacro*{issue+date}{%
+    \iffieldundef{issue}{}{%
+      \ifboolexpr{(
+        test {\iffieldundef{volume}}
+        and
+        test {\iffieldundef{number}}
+        ) and
+        test {\iffieldundef{eid}}
+      }{%
+        \newunit
+        \printfield{issue}%
+      }{%
+        \printtext[parens]{%
+          \printfield{issue}%
+        }%
+      }
+    }%
+    \setunit{\addcomma\space}%
+    \printdate
+    \newunit
+  }%
+}%
+
+\def\bbx@opt@mergedate@true{\bbx@opt@mergedate@year}
+
+%    \end{macrocode}
+%
+% We define the option in terms of the above.
+%
+%    \begin{macrocode}
+\DeclareBiblatexOption{global,type,entry}[boolean]{mergedate}[true]{%
+  \ifcsdef{bbx@opt@mergedate@#1}
+    {\csuse{bbx@opt@mergedate@#1}}
+    {\PackageError{biblatex}
+       {Invalid option 'mergedate=#1'}
+       {Valid values are 'maximum', 'compact', 'basic', 'minimum',\MessageBreak
+        'year', 'true' (=year), and 'false'.}}}
+
+%    \end{macrocode}
+%
+% \subsubsection{Default settings}
+%
+%    \begin{macrocode}
 \ExecuteBibliographyOptions{isbn,url,doi,eprint,related}
+\ExecuteBibliographyOptions{labeldateparts,sorting=nyt,pagetracker,mergedate}
+\ExecuteBibliographyOptions{%
+  maxcitenames=3,maxbibnames=9999,isbn=false,giveninits=true,dashed=false,
+  alldates=comp,labeldate=year,labelalpha=true}
 % @online url is shown even if url=false, globally
 \ExecuteBibliographyOptions[online]{url=true}
+\ExecuteBibliographyOptions[reference,audio,video,music,movie]{%
+  useeditor=false}
 
 %    \end{macrocode}
 %
@@ -2493,6 +2838,10 @@ This work is `maintained' (as per LPPL maintenance status) by [Alex Ball][me].
 %    \end{macrocode}
 %
 % \subsubsection{Articles}
+%
+% Compared with the standard styles, the main differences in the driver are the
+% omission of `in' and the position of the publication state (which is in the
+% |journal+issuetitle| macro).
 %
 %    \begin{macrocode}
 \DeclareBibliographyDriver{article}{%
@@ -2510,12 +2859,40 @@ This work is `maintained' (as per LPPL maintenance status) by [Alex Ball][me].
   \newunit\newblock
   \printfield{version}%
   \newunit\newblock
-  \usebibmacro{in:}%
   \usebibmacro{journal+issuetitle}%
   \newunit
   \usebibmacro{byeditor+others}%
   \newunit
   \usebibmacro{note+pages}%
+  \newunit\newblock
+  \iftoggle{bbx:isbn}
+    {\printfield{issn}}
+    {}%
+  \newunit\newblock
+  \usebibmacro{doi+eprint+url}%
+  \newunit\newblock
+  \printfield{addendum}%
+  \setunit{\bibpagerefpunct}\newblock
+  \usebibmacro{pageref}%
+  \newunit\newblock
+  \iftoggle{bbx:related}
+    {\usebibmacro{related:init}%
+      \usebibmacro{related}}
+    {}%
+  \usebibmacro{finentry}}
+
+\DeclareBibliographyDriver{periodical}{%
+  \usebibmacro{bibindex}%
+  \usebibmacro{begentry}%
+  \usebibmacro{editor}%
+  \setunit{\printdelim{nametitledelim}}\newblock
+  \usebibmacro{title+issuetitle}%
+  \newunit
+  \printlist{language}%
+  \newunit\newblock
+  \usebibmacro{byeditor}%
+  \newunit\newblock
+  \printfield{note}%
   \newunit\newblock
   \iftoggle{bbx:isbn}
     {\printfield{issn}}
@@ -2537,8 +2914,12 @@ This work is `maintained' (as per LPPL maintenance status) by [Alex Ball][me].
 %
 % \subsubsection{Books}
 %
+% Compared with the standard styles, the main difference is that the series is
+% separated by a comma rather than a period. This also affects proceedings and
+% certain forms of grey literature.
+%
 %    \begin{macrocode}
-  \DeclareBibliographyDriver{book}{%
+\DeclareBibliographyDriver{book}{%
   \usebibmacro{bibindex}%
   \usebibmacro{begentry}%
   \usebibmacro{author/editor+others/translator+others}%
@@ -2586,7 +2967,15 @@ This work is `maintained' (as per LPPL maintenance status) by [Alex Ball][me].
     {}%
   \usebibmacro{finentry}}
 
-  \DeclareBibliographyDriver{collection}{%
+\xpatchbibdriver{book}{%
+  \newunit\newblock
+  \usebibmacro{series+number}%
+}{%
+  \setunit{\addcomma\space}%
+  \usebibmacro{series+number}%
+}{}{\wlog{WARNING: biblatex-bath failed to patch book driver (series+number)}}
+
+\DeclareBibliographyDriver{collection}{%
   \usebibmacro{bibindex}%
   \usebibmacro{begentry}%
   \usebibmacro{editor+others}%
@@ -2632,9 +3021,76 @@ This work is `maintained' (as per LPPL maintenance status) by [Alex Ball][me].
     {}%
   \usebibmacro{finentry}}
 
+\xpatchbibdriver{collection}{%
+  \newunit\newblock
+  \usebibmacro{series+number}%
+}{%
+  \setunit{\addcomma\space}%
+  \usebibmacro{series+number}%
+}{}{\wlog{WARNING: biblatex-bath failed to patch collection driver (series+number)}}
+
+\DeclareBibliographyDriver{proceedings}{%
+  \usebibmacro{bibindex}%
+  \usebibmacro{begentry}%
+  \usebibmacro{editor+others}%
+  \setunit{\printdelim{nametitledelim}}\newblock
+  \usebibmacro{maintitle+title}%
+  \newunit
+  \printlist{language}%
+  \newunit\newblock
+  \usebibmacro{event+venue+date}%
+  \newunit\newblock
+  \usebibmacro{byeditor+others}%
+  \newunit\newblock
+  \iffieldundef{maintitle}
+    {\printfield{volume}%
+      \printfield{part}}
+    {}%
+  \newunit
+  \printfield{volumes}%
+  \newunit\newblock
+  \usebibmacro{series+number}%
+  \newunit\newblock
+  \printfield{note}%
+  \newunit\newblock
+  \printlist{organization}%
+  \newunit
+  \usebibmacro{publisher+location+date}%
+  \newunit\newblock
+  \usebibmacro{chapter+pages}%
+  \newunit
+  \printfield{pagetotal}%
+  \newunit\newblock
+  \iftoggle{bbx:isbn}
+    {\printfield{isbn}}
+    {}%
+  \newunit\newblock
+  \usebibmacro{doi+eprint+url}%
+  \newunit\newblock
+  \usebibmacro{addendum+pubstate}%
+  \setunit{\bibpagerefpunct}\newblock
+  \usebibmacro{pageref}%
+  \newunit\newblock
+  \iftoggle{bbx:related}
+    {\usebibmacro{related:init}%
+      \usebibmacro{related}}
+    {}%
+  \usebibmacro{finentry}}
+
+\xpatchbibdriver{proceedings}{%
+  \newunit\newblock
+  \usebibmacro{series+number}%
+}{%
+  \setunit{\addcomma\space}%
+  \usebibmacro{series+number}%
+}{}{\wlog{WARNING: biblatex-bath failed to patch proceedings driver (series+number)}}
+
 %    \end{macrocode}
 %
 % \subsubsection{Works in collections}
+%
+% Compared with the standard styles, the main difference is that the editors
+% precede the booktitle.
 %
 %    \begin{macrocode}
 \DeclareBibliographyDriver{inbook}{%
@@ -2688,6 +3144,14 @@ This work is `maintained' (as per LPPL maintenance status) by [Alex Ball][me].
     {}%
   \usebibmacro{finentry}}
 
+\xpatchbibdriver{inbook}{%
+  \newunit\newblock
+  \usebibmacro{series+number}%
+}{%
+  \setunit{\addcomma\space}%
+  \usebibmacro{series+number}%
+}{}{\wlog{WARNING: biblatex-bath failed to patch inbook driver (series+number)}}
+
 \DeclareBibliographyDriver{incollection}{%
   \usebibmacro{bibindex}%
   \usebibmacro{begentry}%
@@ -2736,6 +3200,27 @@ This work is `maintained' (as per LPPL maintenance status) by [Alex Ball][me].
       \usebibmacro{related}}
     {}%
   \usebibmacro{finentry}}
+
+\xpatchbibdriver{incollection}{%
+  \newunit\newblock
+  \usebibmacro{series+number}%
+}{%
+  \setunit{\addcomma\space}%
+  \usebibmacro{series+number}%
+}{}{\wlog{WARNING: biblatex-bath failed to patch incollection driver (series+number)}}
+
+\xpatchbibdriver{incollection}{%
+  \usebibmacro{in:}%
+  \usebibmacro{maintitle+booktitle}%
+  \newunit\newblock
+  \usebibmacro{byeditor+others}%
+}{%
+  \ifnameundef{editor}{}{\usebibmacro{in:}}%
+  \usebibmacro{bookeditor}%
+  \newunit\newblock
+  \usebibmacro{maintitle+booktitle}%
+  \usebibmacro{byeditor+others}%
+}{}{\wlog{WARNING: biblatex-bath failed to patch incollection driver (bookeditor)}}
 
 \DeclareBibliographyDriver{inproceedings}{%
   \usebibmacro{bibindex}%
@@ -2787,6 +3272,31 @@ This work is `maintained' (as per LPPL maintenance status) by [Alex Ball][me].
       \usebibmacro{related}}
     {}%
   \usebibmacro{finentry}}
+
+\xpatchbibdriver{inproceedings}{%
+  \newunit\newblock
+  \usebibmacro{series+number}%
+}{%
+  \setunit{\addcomma\space}%
+  \usebibmacro{series+number}%
+}{}{\wlog{WARNING: biblatex-bath failed to patch inproceedings driver (series+number)}}
+
+\xpatchbibdriver{inproceedings}{%
+  \usebibmacro{in:}%
+  \usebibmacro{maintitle+booktitle}%
+  \newunit\newblock
+  \usebibmacro{event+venue+date}%
+  \newunit\newblock
+  \usebibmacro{byeditor+others}%
+}{%
+  \ifnameundef{editor}{}{\usebibmacro{in:}}%
+  \usebibmacro{bookeditor}%
+  \newunit\newblock
+  \usebibmacro{maintitle+booktitle}%
+  \usebibmacro{byeditor+others}%
+  \newunit
+  \usebibmacro{event+venue+date}%
+}{}{\wlog{WARNING: biblatex-bath failed to patch inproceedings driver (bookeditor)}}
 
 %    \end{macrocode}
 %
@@ -2854,7 +3364,7 @@ This work is `maintained' (as per LPPL maintenance status) by [Alex Ball][me].
 
 %    \end{macrocode}
 %
-% \subsection{Datasets}
+% \subsubsection{Datasets}
 %
 % We patch the new datasets driver from biblatex v3.13 so it can emulate what
 % we had previously done with the online driver.
@@ -2911,15 +3421,20 @@ This work is `maintained' (as per LPPL maintenance status) by [Alex Ball][me].
 
 %    \end{macrocode}
 %
-% \subsubsection{Unpublished works}
+% \subsubsection{Software}
+%
+% The driver for software entries is based on misc. The main difference is in
+% how the type is printed.
 %
 %    \begin{macrocode}
-  \DeclareBibliographyDriver{booklet}{%
+\DeclareBibliographyDriver{software}{%
   \usebibmacro{bibindex}%
   \usebibmacro{begentry}%
   \usebibmacro{author/editor+others/translator+others}%
   \setunit{\printdelim{nametitledelim}}\newblock
   \usebibmacro{title}%
+  \setunit{\addspace}
+  \printfield{type}%
   \newunit
   \printlist{language}%
   \newunit\newblock
@@ -2929,15 +3444,9 @@ This work is `maintained' (as per LPPL maintenance status) by [Alex Ball][me].
   \newunit\newblock
   \printfield{howpublished}%
   \newunit\newblock
-  \printfield{type}%
-  \newunit\newblock
   \printfield{note}%
   \newunit\newblock
-  \usebibmacro{location+date}%
-  \newunit\newblock
-  \usebibmacro{chapter+pages}%
-  \newunit
-  \printfield{pagetotal}%
+  \usebibmacro{organization+location+date}%
   \newunit\newblock
   \usebibmacro{doi+eprint+url}%
   \newunit\newblock
@@ -2947,11 +3456,21 @@ This work is `maintained' (as per LPPL maintenance status) by [Alex Ball][me].
   \newunit\newblock
   \iftoggle{bbx:related}
     {\usebibmacro{related:init}%
-      \usebibmacro{related}}
+     \usebibmacro{related}}
     {}%
   \usebibmacro{finentry}}
 
-\DeclareBibliographyDriver{manual}{%
+%    \end{macrocode}
+%
+% \subsubsection{Manuals}
+%
+% The \texttt{manual} driver is useful for a variety of technical publications,
+% such as standards, patents and maps. (Patents have their own driver, in fact,
+% but we set things up so the \texttt{manual} driver can be used instead if
+% needed for compatibility.)
+%
+%    \begin{macrocode}
+  \DeclareBibliographyDriver{manual}{%
   \usebibmacro{bibindex}%
   \usebibmacro{begentry}%
   \usebibmacro{author/editor}%
@@ -2998,74 +3517,40 @@ This work is `maintained' (as per LPPL maintenance status) by [Alex Ball][me].
     {}%
   \usebibmacro{finentry}}
 
-\DeclareBibliographyDriver{misc}{%
-  \usebibmacro{bibindex}%
-  \usebibmacro{begentry}%
-  \usebibmacro{author/editor+others/translator+others}%
-  \setunit{\printdelim{nametitledelim}}\newblock
-  \usebibmacro{title}%
-  \newunit
-  \printlist{language}%
+\newbibmacro{manual:series+type+number}{%
+  \iffieldundef{series}{%
+    \newunit\newblock
+    \printfield{type}%
+    \setunit{\addspace}%
+    \printfield{number}%
+  }{%
+    \setunit{\addcomma\space}%
+    \usebibmacro{series+number}%
+    \newunit\newblock
+    \printfield{type}%
+  }%
+}
+\xpatchbibdriver{manual}{%
   \newunit\newblock
-  \usebibmacro{byauthor}%
-  \newunit\newblock
-  \usebibmacro{byeditor+others}%
-  \newunit\newblock
-  \printfield{howpublished}%
+  \usebibmacro{series+number}%
   \newunit\newblock
   \printfield{type}%
-  \newunit
-  \printfield{version}%
-  \newunit
-  \printfield{note}%
-  \newunit\newblock
-  \usebibmacro{organization+location+date}%
-  \newunit\newblock
-  \usebibmacro{doi+eprint+url}%
-  \newunit\newblock
-  \usebibmacro{addendum+pubstate}%
-  \setunit{\bibpagerefpunct}\newblock
-  \usebibmacro{pageref}%
-  \newunit\newblock
-  \iftoggle{bbx:related}
-    {\usebibmacro{related:init}%
-      \usebibmacro{related}}
-    {}%
-  \usebibmacro{finentry}}
-
-\DeclareBibliographyDriver{online}{%
-  \usebibmacro{bibindex}%
-  \usebibmacro{begentry}%
-  \usebibmacro{author/editor+others/translator+others}%
-  \setunit{\printdelim{nametitledelim}}\newblock
-  \usebibmacro{title}%
-  \newunit
-  \printlist{language}%
-  \newunit\newblock
-  \usebibmacro{byauthor}%
-  \newunit\newblock
-  \usebibmacro{byeditor+others}%
-  \newunit\newblock
-  \printfield{version}%
-  \newunit
-  \printfield{note}%
-  \newunit\newblock
+}{%
+  \usebibmacro{manual:series+type+number}%
+}{}{\wlog{WARNING: biblatex-bath failed to patch manual driver}}
+\xpatchbibdriver{manual}{%
   \printlist{organization}%
-  \newunit\newblock
-  \usebibmacro{date}%
-  \newunit\newblock
-  \usebibmacro{doi+eprint+url}%
-  \newunit\newblock
-  \usebibmacro{addendum+pubstate}%
-  \setunit{\bibpagerefpunct}\newblock
-  \usebibmacro{pageref}%
-  \newunit\newblock
-  \iftoggle{bbx:related}
-    {\usebibmacro{related:init}%
-      \usebibmacro{related}}
-    {}%
-  \usebibmacro{finentry}}
+  \newunit
+  \usebibmacro{publisher+location+date}%
+}{%
+  \usebibmacro{organization+location+date}%
+}{}{\wlog{WARNING: biblatex-bath failed to patch manual driver}}
 
+%    \end{macrocode}
+%
+% \subsubsection{Patents}
+%
+%    \begin{macrocode}
 \DeclareBibliographyDriver{patent}{%
   \usebibmacro{bibindex}%
   \usebibmacro{begentry}%
@@ -3104,70 +3589,35 @@ This work is `maintained' (as per LPPL maintenance status) by [Alex Ball][me].
     {}%
   \usebibmacro{finentry}}
 
-\DeclareBibliographyDriver{periodical}{%
-  \usebibmacro{bibindex}%
-  \usebibmacro{begentry}%
-  \usebibmacro{editor}%
-  \setunit{\printdelim{nametitledelim}}\newblock
-  \usebibmacro{title+issuetitle}%
-  \newunit
-  \printlist{language}%
-  \newunit\newblock
-  \usebibmacro{byeditor}%
-  \newunit\newblock
-  \printfield{note}%
-  \newunit\newblock
-  \iftoggle{bbx:isbn}
-    {\printfield{issn}}
-    {}%
-  \newunit\newblock
-  \usebibmacro{doi+eprint+url}%
-  \newunit\newblock
-  \usebibmacro{addendum+pubstate}%
-  \setunit{\bibpagerefpunct}\newblock
-  \usebibmacro{pageref}%
-  \newunit\newblock
-  \iftoggle{bbx:related}
-    {\usebibmacro{related:init}%
-      \usebibmacro{related}}
-    {}%
-  \usebibmacro{finentry}}
 
-\DeclareBibliographyDriver{proceedings}{%
+%    \end{macrocode}
+%
+% \subsubsection{Online works}
+%
+% Compared with the standard styles, the main difference is that the
+% organization's address is printed.
+%
+%    \begin{macrocode}
+\DeclareBibliographyDriver{online}{%
   \usebibmacro{bibindex}%
   \usebibmacro{begentry}%
-  \usebibmacro{editor+others}%
+  \usebibmacro{author/editor+others/translator+others}%
   \setunit{\printdelim{nametitledelim}}\newblock
-  \usebibmacro{maintitle+title}%
+  \usebibmacro{title}%
   \newunit
   \printlist{language}%
   \newunit\newblock
-  \usebibmacro{event+venue+date}%
+  \usebibmacro{byauthor}%
   \newunit\newblock
   \usebibmacro{byeditor+others}%
   \newunit\newblock
-  \iffieldundef{maintitle}
-    {\printfield{volume}%
-      \printfield{part}}
-    {}%
+  \printfield{version}%
   \newunit
-  \printfield{volumes}%
-  \newunit\newblock
-  \usebibmacro{series+number}%
-  \newunit\newblock
   \printfield{note}%
   \newunit\newblock
   \printlist{organization}%
-  \newunit
-  \usebibmacro{publisher+location+date}%
   \newunit\newblock
-  \usebibmacro{chapter+pages}%
-  \newunit
-  \printfield{pagetotal}%
-  \newunit\newblock
-  \iftoggle{bbx:isbn}
-    {\printfield{isbn}}
-    {}%
+  \usebibmacro{date}%
   \newunit\newblock
   \usebibmacro{doi+eprint+url}%
   \newunit\newblock
@@ -3181,6 +3631,46 @@ This work is `maintained' (as per LPPL maintenance status) by [Alex Ball][me].
     {}%
   \usebibmacro{finentry}}
 
+\xpatchbibdriver{online}{%
+  \printlist{organization}%
+  \newunit\newblock
+  \usebibmacro{date}%
+}{%
+  \usebibmacro{library}%
+  \newunit\newblock
+  \usebibmacro{organization+location+date}%
+}{}{\wlog{WARNING: biblatex-bath failed to patch online driver (publisher)}}
+%    \end{macrocode}
+%
+% This backports changes to the |online| driver in biblatex v3.15 to earlier
+% versions, so url/doi+eprint+url works as intended.
+%
+%    \begin{macrocode}
+  \xpatchbibdriver{online}{%
+  \iftoggle{bbx:doi}
+    {\printfield{doi}}
+    {}%
+  \newunit\newblock
+  \iftoggle{bbx:eprint}
+    {\usebibmacro{eprint}}
+    {}%
+  \newunit\newblock
+  \usebibmacro{url+urldate}%
+}{%
+  \toggletrue{bbx:url}%
+  \usebibmacro{doi+eprint+url}%
+}{}{}
+
+%    \end{macrocode}
+%
+% \subsubsection{Reports}
+%
+% Compared with the standard styles, the main differences are that we use a
+% special macro for printing the |type|, |series| and |number| in parentheses,
+% and we support the |library| field.
+%
+%    \begin{macrocode}
+%t
 \DeclareBibliographyDriver{report}{%
   \usebibmacro{bibindex}%
   \usebibmacro{begentry}%
@@ -3192,12 +3682,8 @@ This work is `maintained' (as per LPPL maintenance status) by [Alex Ball][me].
   \newunit\newblock
   \usebibmacro{byauthor}%
   \newunit\newblock
-  \printfield{type}%
-  \setunit*{\addspace}%
-  \printfield{number}%
+  \usebibmacro{series+type+number}%
   \newunit\newblock
-  \printfield{version}%
-  \newunit
   \printfield{note}%
   \newunit\newblock
   \usebibmacro{institution+location+date}%
@@ -3210,6 +3696,8 @@ This work is `maintained' (as per LPPL maintenance status) by [Alex Ball][me].
     {\printfield{isrn}}
     {}%
   \newunit\newblock
+  \usebibmacro{library}%
+  \newunit\newblock
   \usebibmacro{doi+eprint+url}%
   \newunit\newblock
   \usebibmacro{addendum+pubstate}%
@@ -3218,10 +3706,15 @@ This work is `maintained' (as per LPPL maintenance status) by [Alex Ball][me].
   \newunit\newblock
   \iftoggle{bbx:related}
     {\usebibmacro{related:init}%
-      \usebibmacro{related}}
+     \usebibmacro{related}}
     {}%
   \usebibmacro{finentry}}
 
+%    \end{macrocode}
+%
+% \subsubsection{Theses}
+%
+%    \begin{macrocode}
 \DeclareBibliographyDriver{thesis}{%
   \usebibmacro{bibindex}%
   \usebibmacro{begentry}%
@@ -3259,9 +3752,110 @@ This work is `maintained' (as per LPPL maintenance status) by [Alex Ball][me].
     {}%
   \usebibmacro{finentry}}
 
-\DeclareBibliographyDriver{unpublished}{%
+%    \end{macrocode}
+%
+% \subsubsection{Audiovisual materials}
+%
+% The \texttt{audio} and \texttt{video} drivers are based on \texttt{misc}.
+%
+%    \begin{macrocode}
+\DeclareBibliographyDriver{audio}{%
   \usebibmacro{bibindex}%
   \usebibmacro{begentry}%
+  \usebibmacro{author/editor+others/translator+others}%
+  \setunit{\printdelim{nametitledelim}}\newblock
+  \usebibmacro{title}%
+  \newunit\newblock
+  \usebibmacro{series+number}%
+  \ifboolexpr{
+    test {\iffieldequalstr{type}{TV}}
+    or
+    test {\iffieldequalstr{type}{Radio}}
+  }{%
+    \setunit{\addspace}%
+    \usebibmacro{isonline}}{}%
+  \newunit
+  \printlist{language}%
+  \newunit\newblock
+  \printfield{type}%
+  \newunit\newblock
+  \usebibmacro{byauthor}[given-family:full]%
+  \newunit\newblock
+  \usebibmacro{byeditor+others}[given-family:full]%
+  \newunit\newblock
+  \printfield{howpublished}%
+  \newunit\newblock
+  \printfield{note}%
+  \newunit\newblock
+  \usebibmacro{publisher+location+date}%
+  \newunit\newblock
+  \usebibmacro{doi+eprint+url}%
+  \newunit\newblock
+  \usebibmacro{addendum+pubstate}%
+  \setunit{\bibpagerefpunct}\newblock
+  \usebibmacro{pageref}%
+  \newunit\newblock
+  \iftoggle{bbx:related}
+    {\usebibmacro{related:init}%
+     \usebibmacro{related}}
+    {}%
+  \usebibmacro{finentry}}
+
+%    \end{macrocode}
+%
+% \subsubsection{Images}
+%
+% The driver for image is based on misc. The main difference is the
+% support for the \texttt{library} field.
+%
+%    \begin{macrocode}
+\DeclareBibliographyDriver{image}{%
+  \usebibmacro{bibindex}%
+  \usebibmacro{begentry}%
+  \usebibmacro{author/editor+others/translator+others}%
+  \setunit{\printdelim{nametitledelim}}\newblock
+  \usebibmacro{title}%
+  \newunit
+  \printlist{language}%
+  \newunit\newblock
+  \usebibmacro{byauthor}%
+  \newunit\newblock
+  \usebibmacro{byeditor+others}%
+  \newunit\newblock
+  \printfield{howpublished}%
+  \newunit\newblock
+  \printfield{type}%
+  \newunit
+  \printfield{note}%
+  \newunit\newblock
+  \usebibmacro{organization+location+date+library}%
+  \newunit\newblock
+  \usebibmacro{doi+eprint+url}%
+  \newunit\newblock
+  \usebibmacro{addendum+pubstate}%
+  \setunit{\bibpagerefpunct}\newblock
+  \usebibmacro{pageref}%
+  \newunit\newblock
+  \iftoggle{bbx:related}
+    {\usebibmacro{related:init}%
+     \usebibmacro{related}}
+    {}%
+  \usebibmacro{finentry}}
+
+%    \end{macrocode}
+%
+% \subsubsection{Case reports}
+%
+%    \begin{macrocode}
+\DeclareBibliographyDriver{jurisdiction}{%
+  \savebibmacro{title}%
+  \xapptobibmacro{labeltitle}{%
+    \setunit*{\addspace}%
+    \usebibmacro{casenumber}%
+  }{}{}%
+  \usebibmacro{bibindex}%
+  \usebibmacro{begentry}%
+  \usebibmacro{eucheck}%
   \usebibmacro{author}%
   \setunit{\printdelim{nametitledelim}}\newblock
   \usebibmacro{title}%
@@ -3270,15 +3864,101 @@ This work is `maintained' (as per LPPL maintenance status) by [Alex Ball][me].
   \newunit\newblock
   \usebibmacro{byauthor}%
   \newunit\newblock
+  \printfield{note}%
+  \setunit{\addspace}%
+  \usebibmacro{reporter}%
+  \newunit
+  \printfield{pagetotal}%
+  \newunit\newblock
+  \printfield{institution}%
+  \newunit\newblock
+  \iftoggle{bbx:isbn}
+    {\printfield{isrn}}
+    {}%
+  \newunit\newblock
+  \usebibmacro{doi+eprint+url}%
+  \newunit\newblock
+  \usebibmacro{addendum+pubstate}%
+  \setunit{\bibpagerefpunct}\newblock
+  \usebibmacro{pageref}%
+  \newunit\newblock
+  \iftoggle{bbx:related}
+    {\usebibmacro{related:init}%
+     \usebibmacro{related}}
+    {}%
+  \usebibmacro{finentry}%
+  \restorebibmacro{title}}
+
+%    \end{macrocode}
+%
+% \subsubsection{Legislation}
+%
+%    \begin{macrocode}
+\DeclareBibliographyDriver{legislation}{%
+  \usebibmacro{bibindex}%
+  \usebibmacro{begentry}%
+  \usebibmacro{eucheck}%
+  \usebibmacro{author}%
+  \setunit{\printdelim{nametitledelim}}\newblock
+  \usebibmacro{title}%
+  \newunit
+  \printlist{language}%
+  \newunit\newblock
+  \usebibmacro{byauthor}%
+  \newunit\newblock
+  \usebibmacro{journal+series+volume+number+chapter+pages}
+  \newunit\newblock
+  \printfield{note}%
+  \newunit\newblock
+  \usebibmacro{institution+location+date}%
+  \newunit\newblock
+  \printfield{pagetotal}%
+  \newunit\newblock
+  \iftoggle{bbx:isbn}
+    {\printfield{isrn}}
+    {}%
+  \newunit\newblock
+  \usebibmacro{doi+eprint+url}%
+  \newunit\newblock
+  \usebibmacro{addendum+pubstate}%
+  \setunit{\bibpagerefpunct}\newblock
+  \usebibmacro{pageref}%
+  \newunit\newblock
+  \iftoggle{bbx:related}
+    {\usebibmacro{related:init}%
+     \usebibmacro{related}}
+    {}%
+  \usebibmacro{finentry}}
+
+%    \end{macrocode}
+%
+% \subsubsection{Unpublished and miscellaneous works}
+%
+%    \begin{macrocode}
+\DeclareBibliographyDriver{booklet}{%
+  \usebibmacro{bibindex}%
+  \usebibmacro{begentry}%
+  \usebibmacro{author/editor+others/translator+others}%
+  \setunit{\printdelim{nametitledelim}}\newblock
+  \usebibmacro{title}%
+  \newunit
+  \printlist{language}%
+  \newunit\newblock
+  \usebibmacro{byauthor}%
+  \newunit\newblock
+  \usebibmacro{byeditor+others}%
+  \newunit\newblock
   \printfield{howpublished}%
   \newunit\newblock
   \printfield{type}%
   \newunit\newblock
-  \usebibmacro{event+venue+date}%
-  \newunit\newblock
   \printfield{note}%
   \newunit\newblock
   \usebibmacro{location+date}%
+  \newunit\newblock
+  \usebibmacro{chapter+pages}%
+  \newunit
+  \printfield{pagetotal}%
   \newunit\newblock
   \usebibmacro{doi+eprint+url}%
   \newunit\newblock
@@ -3292,470 +3972,141 @@ This work is `maintained' (as per LPPL maintenance status) by [Alex Ball][me].
     {}%
   \usebibmacro{finentry}}
 
+%    \end{macrocode}
+%
+% The letter driver is used for emails. It is based loosely on the one for
+% articles. The particular foible with this type is that the date must be
+% printed complete at the start.
+%
+%    \begin{macrocode}
+\DeclareBibliographyDriver{letter}{%
+  \usebibmacro{bibindex}%
+  \usebibmacro{begentry}%
+  \usebibmacro{author/translator+others}%
+  \setunit{\printdelim{nametitledelim}}\newblock
+  \usebibmacro{title}%
+  \newunit
+  \printlist{language}%
+  \newunit\newblock
+  \usebibmacro{byauthor}%
+  \newunit\newblock
+  \usebibmacro{bytranslator+others}%
+  \newunit\newblock
+  \usebibmacro{journal+issuetitle}%
+  \newunit\newblock
+  \printfield{howpublished}%
+  \newunit
+  \printfield{note}%
+  \newunit\newblock
+  \usebibmacro{doi+eprint+url}%
+  \newunit\newblock
+  \usebibmacro{addendum+pubstate}%
+  \setunit{\bibpagerefpunct}\newblock
+  \usebibmacro{pageref}%
+  \newunit\newblock
+  \iftoggle{bbx:related}
+    {\usebibmacro{related:init}%
+     \usebibmacro{related}}
+    {}%
+  \usebibmacro{finentry}}
+
+\DeclareBibliographyDriver{misc}{%
+  \usebibmacro{bibindex}%
+  \usebibmacro{begentry}%
+  \usebibmacro{author/editor+others/translator+others}%
+  \setunit{\printdelim{nametitledelim}}\newblock
+  \usebibmacro{title}%
+  \newunit
+  \printlist{language}%
+  \newunit\newblock
+  \usebibmacro{byauthor}%
+  \newunit\newblock
+  \usebibmacro{byeditor+others}%
+  \newunit\newblock
+  \printfield{howpublished}%
+  \newunit\newblock
+  \printfield{type}%
+  \newunit
+  \printfield{version}%
+  \newunit
+  \printfield{note}%
+  \newunit\newblock
+  \usebibmacro{organization+location+date}%
+  \newunit\newblock
+  \usebibmacro{doi+eprint+url}%
+  \newunit\newblock
+  \usebibmacro{addendum+pubstate}%
+  \setunit{\bibpagerefpunct}\newblock
+  \usebibmacro{pageref}%
+  \newunit\newblock
+  \iftoggle{bbx:related}
+    {\usebibmacro{related:init}%
+      \usebibmacro{related}}
+    {}%
+  \usebibmacro{finentry}}
+
+%    \end{macrocode}
+%
+% The unpublished driver is used for miscellaneous unpublished written
+% material. It differs from the standard version by supporting |maintitle| and
+% |booktitle|, and including a label at the end. The unpublished label is
+% delegated to a macro in case future versions of the style place conditions on
+% whether it is displayed.
+%
+%    \begin{macrocode}
+\DeclareBibliographyDriver{unpublished}{%
+  \usebibmacro{bibindex}%
+  \usebibmacro{begentry}%
+  \usebibmacro{author}%
+  \setunit{\printdelim{nametitledelim}}\newblock
+  \usebibmacro{title}%
+  \newunit
+  \printlist{language}%
+  \newunit\newblock
+  \usebibmacro{byauthor}%
+  \newunit\newblock
+  \ifnameundef{editor}{}{\usebibmacro{in:}}%
+  \usebibmacro{bookeditor}%
+  \newunit\newblock
+  \usebibmacro{maintitle+booktitle}%
+  \usebibmacro{byeditor+others}%
+  \newunit\newblock
+  \printfield{howpublished}%
+  \newunit\newblock
+  \printfield{type}%
+  \newunit\newblock
+  \usebibmacro{event+venue+date}%
+  \newunit\newblock
+  \printfield{note}%
+  \newunit\newblock
+  \usebibmacro{location+date}%
+  \newunit\newblock
+  \usebibmacro{isunpublished}%
+  \newunit\newblock
+  \iftoggle{bbx:url}
+    {\usebibmacro{url+urldate}}
+    {}%
+  \newunit\newblock
+  \usebibmacro{addendum+pubstate}%
+  \setunit{\bibpagerefpunct}\newblock
+  \usebibmacro{pageref}%
+  \newunit\newblock
+  \iftoggle{bbx:related}
+    {\usebibmacro{related:init}%
+     \usebibmacro{related}}
+    {}%
+  \usebibmacro{finentry}}
+
+%    \end{macrocode}
+%
+% \subsubsection{Special drivers}
+%
+%    \begin{macrocode}
 \DeclareBibliographyDriver{shorthand}{%
   \usedriver
     {\DeclareNameAlias{sortname}{default}}
     {\thefield{entrytype}}%
   \finentry}
-
-\DeclareBibliographyDriver{set}{%
-  \entryset{}{}%
-  \newunit\newblock
-  \usebibmacro{setpageref}%
-  \finentry}
-
-\DeclareBibliographyAlias{mvbook}{book}
-\DeclareBibliographyAlias{bookinbook}{inbook}
-\DeclareBibliographyAlias{suppbook}{inbook}
-\DeclareBibliographyAlias{mvcollection}{collection}
-\DeclareBibliographyAlias{suppcollection}{incollection}
-\DeclareBibliographyAlias{mvproceedings}{proceedings}
-\DeclareBibliographyAlias{reference}{collection}
-\DeclareBibliographyAlias{mvreference}{reference}
-\DeclareBibliographyAlias{suppperiodical}{article}
-\DeclareBibliographyAlias{review}{article}
-\DeclareBibliographyAlias{software}{misc}
-\DeclareBibliographyAlias{*}{misc}
-
-%    \end{macrocode}  
-%
-% We begin by loading the default author--year style.
-%
-%    \begin{macrocode}
-%%%  
-%%% standard
-%%%
-
-\newbibmacro*{maintitle+title}{%
-  \iffieldsequal{maintitle}{title}
-    {\clearfield{maintitle}%
-      \clearfield{mainsubtitle}%
-      \clearfield{maintitleaddon}}
-    {\iffieldundef{maintitle}
-        {}
-        {\usebibmacro{maintitle}%
-        \newunit\newblock
-        \iffieldundef{volume}
-          {}
-          {\printfield{volume}%
-            \printfield{part}%
-            \setunit{\addcolon\space}}}}%
-  \usebibmacro{title}%
-  \newunit}
-
-\newbibmacro*{maintitle+booktitle}{%
-  \iffieldundef{maintitle}
-    {}
-    {\usebibmacro{maintitle}%
-      \newunit\newblock
-      \iffieldundef{volume}
-        {}
-        {\printfield{volume}%
-        \printfield{part}%
-        \setunit{\addcolon\space}}}%
-  \usebibmacro{booktitle}%
-  \newunit}
-
-\newbibmacro*{journal+issuetitle}{%
-  \usebibmacro{journal}%
-  \setunit*{\addspace}%
-  \iffieldundef{series}
-    {}
-    {\newunit
-      \printfield{series}%
-      \setunit{\addspace}}%
-  \usebibmacro{volume+number+eid}%
-  \setunit{\addspace}%
-  \usebibmacro{issue+date}%
-  \setunit{\addcolon\space}%
-  \usebibmacro{issue}%
-  \newunit}
-
-\newbibmacro*{volume+number+eid}{%
-  \printfield{volume}%
-  \setunit*{\adddot}%
-  \printfield{number}%
-  \setunit{\bibeidpunct}%
-  \printfield{eid}}
-
-\newbibmacro*{title+issuetitle}{%
-  \usebibmacro{periodical}%
-  \setunit*{\addspace}%
-  \iffieldundef{series}
-    {}
-    {\newunit
-      \printfield{series}%
-      \setunit{\addspace}}%
-  \usebibmacro{volume+number+eid}%
-  \setunit{\addspace}%
-  \usebibmacro{issue+date}%
-  \setunit{\addcolon\space}%
-  \usebibmacro{issue}%
-  \newunit}
-
-\newbibmacro*{issue+date}{%
-  \printtext[parens]{%
-    \printfield{issue}%
-    \setunit*{\addspace}%
-    \usebibmacro{date}}%
-  \newunit}
-
-\newbibmacro*{event+venue+date}{%
-  \printfield{eventtitle}%
-  \newunit
-  \printfield{eventtitleaddon}%
-  \ifboolexpr{
-    test {\iffieldundef{venue}}
-    and
-    test {\iffieldundef{eventyear}}
-  }
-    {}
-    {\setunit{\addspace}%
-      \printtext[parens]{%
-        \printfield{venue}%
-        \setunit*{\addcomma\space}%
-        \printeventdate}}%
-  \newunit}
-
-\newbibmacro*{series+number}{%
-  \printfield{series}%
-  \setunit*{\addspace}%
-  \printfield{number}%
-  \newunit}
-
-\newbibmacro*{publisher+location+date}{%
-  \printlist{location}%
-  \iflistundef{publisher}
-    {\setunit*{\addcomma\space}}
-    {\setunit*{\addcolon\space}}%
-  \printlist{publisher}%
-  \setunit*{\addcomma\space}%
-  \usebibmacro{date}%
-  \newunit}
-
-\newbibmacro*{institution+location+date}{%
-  \printlist{location}%
-  \iflistundef{institution}
-    {\setunit*{\addcomma\space}}
-    {\setunit*{\addcolon\space}}%
-  \printlist{institution}%
-  \setunit*{\addcomma\space}%
-  \usebibmacro{date}%
-  \newunit}
-
-\newbibmacro*{organization+location+date}{%
-  \printlist{location}%
-  \iflistundef{organization}
-    {\setunit*{\addcomma\space}}
-    {\setunit*{\addcolon\space}}%
-  \printlist{organization}%
-  \setunit*{\addcomma\space}%
-  \usebibmacro{date}%
-  \newunit}
-
-\newbibmacro*{location+date}{%
-  \printlist{location}%
-  \setunit*{\addcomma\space}%
-  \usebibmacro{date}%
-  \newunit}
-
-\newbibmacro*{chapter+pages}{%
-  \printfield{chapter}%
-  \setunit{\bibpagespunct}%
-  \printfield{eid}%
-  \setunit{\bibpagespunct}%
-  \printfield{pages}%
-  \newunit}
-
-\newbibmacro*{note+pages}{%
-  \printfield{note}%
-  \setunit{\bibpagespunct}%
-  \printfield{pages}%
-  \newunit}
-
-\newbibmacro*{doi+eprint+url}{%
-  \iftoggle{bbx:doi}
-    {\printfield{doi}}
-    {}%
-  \newunit\newblock
-  \iftoggle{bbx:eprint}
-    {\usebibmacro{eprint}}
-    {}%
-  \newunit\newblock
-  \iftoggle{bbx:url}
-    {\usebibmacro{url+urldate}}
-    {}}
-
-\newbibmacro*{addendum+pubstate}{%
-  \printfield{addendum}%
-  \newunit\newblock
-  \printfield{pubstate}}
-
-\newcounter{bbx:relatedcount}
-\newcounter{bbx:relatedtotal}
-
-\newbibmacro*{related:init}{%
-  \csundef{bbx:relatedloop}}
-
-\newbibmacro*{begrelated}{}
-\newbibmacro*{endrelated}{}
-\newbibmacro*{begrelatedloop}{}
-\newbibmacro*{endrelatedloop}{}
-
-\def\ifrelatedloop{%
-  \ifboolexpr{ test {\xifinlistcs{\strfield{entrykey}}{bbx:relatedloop}}
-    or test {\xifinlistcs{\strfield{clonesourcekey}}{bbx:relatedloop}} }}
-
-\newbibmacro*{related}{%
-  \ifboolexpr{ test {\iffieldundef{related}} or test {\ifrelatedloop} }
-    {}
-    {\ifcsundef{begrelateddelim\strfield{relatedtype}}
-        {\printunit{\begrelateddelim}}
-        {\printunit{\csuse{begrelateddelim\strfield{relatedtype}}}}%
-      \usebibmacro{begrelated}%
-      \def\bbx@tempa{}%
-      \setcounter{bbx:relatedtotal}{0}%
-      \def\do##1{%
-        \entrydata{##1}{%
-          \ifrelatedloop
-            {}
-            {\stepcounter{bbx:relatedtotal}%
-            \gappto{\bbx@tempa}{##1,}}}}%
-      \docsvfield{related}%
-      \restorefield{related}{\bbx@tempa}%
-      \ifnumgreater{\value{bbx:relatedtotal}}{0}
-        {\listcsxadd{bbx:relatedloop}{\strfield{entrykey}}%
-        \iffieldundef{clonesourcekey}
-          {}
-          {\listcsxadd{bbx:relatedloop}{\strfield{clonesourcekey}}}%
-        \setcounter{bbx:relatedcount}{0}%
-        \def\do{%
-          \stepcounter{bbx:relatedcount}%
-          \ifnumgreater{\value{bbx:relatedcount}}{1}
-            {\ifcsundef{relateddelim\strfield{relatedtype}}
-              {\printunit{\relateddelim}}
-              {\expandafter\expandafter\expandafter\expandafter\expandafter
-                \expandafter\expandafter\printunit
-                \expandafter\expandafter\expandafter\expandafter\expandafter
-                \expandafter\expandafter{%
-                  \csuse{relateddelim\strfield{relatedtype}}}}}
-            {}}%
-        \ifbibmacroundef{related:\strfield{relatedtype}}
-          {\appto{\do}{\usebibmacro{related:default}}}
-          {\appto{\do}{\usebibmacro*{related:\strfield{relatedtype}}}}%
-        \iffieldformatundef{related:\strfield{relatedtype}}
-          {\def\bbx@tempa{related}}
-          {\def\bbx@tempa{related:\strfield{relatedtype}}}%
-        \iffieldformatundef{relatedstring:\strfield{relatedtype}}
-          {\def\bbx@tempb{relatedstring:default}}
-          {\def\bbx@tempb{relatedstring:\strfield{relatedtype}}}%
-        \printtext[\bbx@tempa]{%
-          \usebibmacro{begrelatedloop}%
-          \iffieldundef{relatedstring}
-            {\ifboolexpr{
-                test {\ifnumgreater{\value{bbx:relatedtotal}}{1}}
-                and
-                test {\ifbibxstring{\thefield{relatedtype}s}}
-              }
-                {\printtext[\bbx@tempb]{%
-                  \bibstring[\mkrelatedstringtext]{\thefield{relatedtype}s}}}
-                {\iffieldbibstring{relatedtype}
-                  {\printtext[\bbx@tempb]{%
-                      \bibstring[\mkrelatedstringtext]{\thefield{relatedtype}}}}
-                  {}}}
-            {\iffieldbibstring{relatedstring}
-                {\printtext[\bbx@tempb]{%
-                  \bibstring[\mkrelatedstringtext]{\thefield{relatedstring}}}}
-                {\printfield[\bbx@tempb]{relatedstring}}}%
-          \docsvfield{related}%
-          \usebibmacro{endrelatedloop}}}%
-        {}%
-      \usebibmacro{endrelated}}}
-
-%%%
-%%% authoryear
-%%%
-\DeclareBibliographyOption[boolean]{dashed}[true]{%
-  \ifstrequal{#1}{true}
-    {\ExecuteBibliographyOptions{pagetracker}%
-     \renewbibmacro*{bbx:savehash}{\savefield{fullhash}{\bbx@lasthash}}}
-    {\renewbibmacro*{bbx:savehash}{}}}
-
-\DeclareBiblatexOption{global,type,entry}[boolean]{mergedate}[true]{%
-  \ifcsdef{bbx@opt@mergedate@#1}
-    {\csuse{bbx@opt@mergedate@#1}}
-    {\PackageError{biblatex}
-       {Invalid option 'mergedate=#1'}
-       {Valid values are 'maximum', 'compact', 'basic', 'minimum',\MessageBreak
-        'true' (=compact), and 'false'.}}}
-
-\providebibmacro*{date+extradate}{}
-\providebibmacro*{date+extrayear}{%
-  \blx@warning{bibmacro 'date+extrayear' is deprecated.\MessageBreak
-    Please use 'date+extradate'.\MessageBreak
-    Using 'date+extradate' instead}%
-  \usebibmacro{date+extradate}}
-
-\newbibmacro*{bbx:ifmergeddate}{\@secondoftwo}
-
-\renewbibmacro*{date}{%
-  \usebibmacro{bbx:ifmergeddate}
-    {}
-    {\printdate}}%
-
-\def\bbx@opt@mergedate@true{\bbx@opt@mergedate@compact}
-
-% merge date/issue with date label
-\def\bbx@opt@mergedate@maximum{%
-  \renewbibmacro*{date+extradate}{%
-    \iffieldundef{labelyear}
-      {}
-      {\printtext[parens]{%
-         \iflabeldateisdate
-           {\printfield{issue}%
-            \setunit*{\addspace}%
-            \printdateextra}
-           {\printlabeldateextra}}}}%
-  \renewbibmacro*{bbx:ifmergeddate}{\iflabeldateisdate}%
-  \renewbibmacro*{issue+date}{%
-    \usebibmacro{bbx:ifmergeddate}
-      {}
-      {\printtext[parens]{%
-         \printfield{issue}%
-         \setunit*{\addspace}%
-         \printdate}}}}
-
-% merge date with date label
-\def\bbx@opt@mergedate@compact{%
-  \renewbibmacro*{date+extradate}{%
-    \iffieldundef{labelyear}
-      {}
-      {\printtext[parens]{%
-         \iflabeldateisdate
-           {\printdateextra}
-           {\printlabeldateextra}}}}%
-  \renewbibmacro*{bbx:ifmergeddate}{\iflabeldateisdate}%
-  \renewbibmacro*{issue+date}{%
-    \ifboolexpr{test {\usebibmacro{bbx:ifmergeddate}}
-                and
-                test {\iffieldundef{issue}}}
-      {}
-      {\printtext[parens]{%
-         \printfield{issue}%
-         \setunit*{\addspace}%
-         \usebibmacro{bbx:ifmergeddate}
-           {}
-           {\printdate}}}%
-    \newunit}}
-
-% merge year-only date with date label
-\def\bbx@opt@mergedate@basic{%
-  \renewbibmacro*{date+extradate}{%
-    \iffieldundef{labelyear}
-      {}
-      {\printtext[parens]{\printlabeldateextra}}}%
-  \renewbibmacro*{bbx:ifmergeddate}{%
-    \ifboolexpr{
-      test {\iflabeldateisdate}
-      and
-      not test {\ifdateshavedifferentprecision{label}{}}
-    }%
-  }%
-  \renewbibmacro*{issue+date}{%
-    \ifboolexpr{
-      test {\usebibmacro{bbx:ifmergeddate}}
-      and
-      test {\iffieldundef{issue}}
-    }
-      {}
-      {\printtext[parens]{%
-         \printfield{issue}%
-         \setunit*{\addspace}%
-         \printdate}}%
-    \newunit}}
-
-% merge year-only date with year-only date label
-\def\bbx@opt@mergedate@minimum{%
-  \renewbibmacro*{date+extradate}{%
-    \iffieldundef{labelyear}
-      {}
-      {\printtext[parens]{\printlabeldateextra}}}%
-  \renewbibmacro*{bbx:ifmergeddate}{%
-    \ifboolexpr{
-      test {\iflabeldateisdate}
-      and
-      not test {\ifdateshavedifferentprecision{label}{}}
-      and
-      test {\iffieldundef{extradate}}
-    }%
-  }%
-  \renewbibmacro*{issue+date}{%
-    \ifboolexpr{
-      test {\usebibmacro{bbx:ifmergeddate}}
-      and
-      test {\iffieldundef{issue}}
-    }
-      {}
-      {\printtext[parens]{%
-         \printfield{issue}%
-         \setunit*{\addspace}%
-         \printdate}}%
-    \newunit}}
-
-% don't merge date/issue with date label
-\def\bbx@opt@mergedate@false{%
-  \renewbibmacro*{date+extradate}{%
-    \iffieldundef{labelyear}
-      {}
-      {\printtext[parens]{\printlabeldateextra}}}%
-  \renewbibmacro*{bbx:ifmergeddate}{\@secondoftwo}%
-  \renewbibmacro*{issue+date}{%
-    \printtext[parens]{%
-      \printfield{issue}%
-      \setunit*{\addspace}%
-      \usebibmacro{date}}%
-    \newunit}}
-
-\ExecuteBibliographyOptions{labeldateparts,sorting=nyt,pagetracker,mergedate}
-
-\DeclareFieldFormat{shorthandwidth}{#1}
-\setlength{\bibitemsep}{0pt}
-
-\DeclareNameAlias{author}{sortname}
-\DeclareNameAlias{editor}{sortname}
-\DeclareNameAlias{translator}{sortname}
-
-\DeclareNameWrapperAlias{author}{sortname}
-\DeclareNameWrapperAlias{editor}{sortname}
-\DeclareNameWrapperAlias{translator}{sortname}
-
-\defbibenvironment{bibliography}
-  {\list
-     {}
-     {\setlength{\leftmargin}{\bibhang}%
-      \setlength{\itemindent}{-\leftmargin}%
-      \setlength{\itemsep}{\bibitemsep}%
-      \setlength{\parsep}{\bibparsep}}}
-  {\endlist}
-  {\item}
-
-\defbibenvironment{shorthand}
-  {\list
-     {\printfield[shorthandwidth]{shorthand}}
-     {\setlength{\labelwidth}{\shorthandwidth}%
-      \setlength{\leftmargin}{\labelwidth}%
-      \setlength{\labelsep}{\biblabelsep}%
-      \addtolength{\leftmargin}{\labelsep}%
-      \setlength{\itemsep}{\bibitemsep}%
-      \setlength{\parsep}{\bibparsep}%
-      \renewcommand*{\makelabel}[1]{##1\hss}}}
-  {\endlist}
-  {\item}
-
-\InitializeBibliographyStyle{\global\undef\bbx@lasthash}
-
-\newbibmacro*{bbx:savehash}{%
-  \savefield{fullhash}{\bbx@lasthash}}
 
 \newbool{bbx@inset}
 \DeclareBibliographyDriver{set}{%
@@ -3765,193 +4116,37 @@ This work is `maintained' (as per LPPL maintenance status) by [Alex Ball][me].
   \usebibmacro{setpageref}%
   \finentry}
 
-\renewbibmacro*{begrelated}{%
-  \booltrue{bbx@inset}}
-
-\renewbibmacro*{endrelated}{%
-  \usebibmacro*{bbx:savehash}}
-
-\renewbibmacro*{author}{%
-  \ifboolexpr{
-    test \ifuseauthor
-    and
-    not test {\ifnameundef{author}}
-  }
-    {\usebibmacro{bbx:dashcheck}
-       {\bibnamedash}
-       {\usebibmacro{bbx:savehash}%
-        \printnames{author}%
-        \iffieldundef{authortype}
-          {\setunit{\printdelim{nameyeardelim}}}
-          {\setunit{\printdelim{authortypedelim}}}}%
-     \iffieldundef{authortype}
-       {}
-       {\usebibmacro{authorstrg}%
-        \setunit{\printdelim{nameyeardelim}}}}%
-    {\global\undef\bbx@lasthash
-     \usebibmacro{labeltitle}%
-     \setunit*{\printdelim{nonameyeardelim}}}%
-  \usebibmacro{date+extradate}}
-
-\renewbibmacro*{editor}{%
-  \usebibmacro{bbx:editor}{editorstrg}}
-\renewbibmacro*{editor+others}{%
-  \usebibmacro{bbx:editor}{editor+othersstrg}}
-\newbibmacro*{bbx:editor}[1]{%
-  \ifboolexpr{
-    test \ifuseeditor
-    and
-    not test {\ifnameundef{editor}}
-  }
-    {\usebibmacro{bbx:dashcheck}
-       {\bibnamedash}
-       {\printnames{editor}%
-        \setunit{\printdelim{editortypedelim}}%
-        \usebibmacro{bbx:savehash}}%
-     \usebibmacro{#1}%
-     \clearname{editor}%
-     \setunit{\printdelim{nameyeardelim}}}%
-    {\global\undef\bbx@lasthash
-     \usebibmacro{labeltitle}%
-     \setunit*{\printdelim{nonameyeardelim}}}%
-  \usebibmacro{date+extradate}}
-
-\renewbibmacro*{translator}{%
-  \usebibmacro{bbx:translator}{translatorstrg}}
-\renewbibmacro*{translator+others}{%
-  \usebibmacro{bbx:translator}{translator+othersstrg}}
-\newbibmacro*{bbx:translator}[1]{%
-  \ifboolexpr{
-    test \ifusetranslator
-    and
-    not test {\ifnameundef{translator}}
-  }
-    {\usebibmacro{bbx:dashcheck}
-       {\bibnamedash}
-       {\printnames{translator}%
-        \setunit{\printdelim{translatortypedelim}}%
-        \usebibmacro{bbx:savehash}}%
-     \usebibmacro{#1}%
-     \clearname{translator}%
-     \setunit{\printdelim{nameyeardelim}}}%
-    {\global\undef\bbx@lasthash
-     \usebibmacro{labeltitle}%
-     \setunit*{\printdelim{nonameyeardelim}}}%
-  \usebibmacro{date+extradate}}
-
-\newbibmacro*{bbx:dashcheck}[2]{%
-  \ifboolexpr{
-    test {\iffieldequals{fullhash}{\bbx@lasthash}}
-    and
-    not test \iffirstonpage
-    and
-    (
-       not bool {bbx@inset}
-       or
-       test {\iffieldequalstr{entrysetcount}{1}}
-    )
-  }
-    {#1}
-    {#2}}
-
-\newbibmacro*{labeltitle}{%
-  \iffieldundef{label}
-    {\iffieldundef{shorttitle}
-       {\printfield{title}%
-        \clearfield{title}}
-       {\printfield[title]{shorttitle}}}
-    {\printfield{label}}}
-
 %    \end{macrocode}
 %
-% More original code.
+% \subsubsection{Aliases}
+%
+% We define some handy semantic aliases.
 %
 %    \begin{macrocode}
-  \ExecuteBibliographyOptions{%
-  maxcitenames=3,maxbibnames=9999,isbn=false,giveninits=true,dashed=false,
-  alldates=comp,labeldate=year,labelalpha=true}
-\ExecuteBibliographyOptions[reference,audio,video,music,movie]{%
-  useeditor=false}
-%    \end{macrocode}
-%
-% We provide some additional bibliography strings.
-%
-%    \begin{macrocode}
-\NewBibliographyString{%
-  online, hours, at, unpublished, legalchapter,
-  director, performer, reader, conductor,
-  directors, performers, readers, conductors,
-  bydirector, byperformer, byreader, byconductor,
-}
-%    \end{macrocode}
-%
-% We allow the bibliography look more like the Bib\TeX\ default.
-%
-%    \begin{macrocode}
-\setlength{\bibhang}{0pt}
-\setlength{\bibitemsep}{1em plus 0.2em minus 0.2em}
-\renewcommand*{\bibfont}{\normalfont\normalsize}
-%    \end{macrocode}
-%
-% To maintain compatibility with older versions of \textsf{biblatex},
-% we backport some newer features if necessary.
-%
-%    \begin{macrocode}
-\ifcsdef{letbibmacro}{}{%
-  \def\letbibmacro#1#2{%
-    \ifcsundef{abx@macro@#2}
-      {\blx@error
-        {Bibliography macro '#2' undefined}
-        {Use '\string\newbibmacro' to define this macro}}
-      {\csletcs{abx@macro@#1}{abx@macro@#2}}}
-}
-\ifcsdef{iflabeldateisdate}{}{%
-  \def\iflabeldateisdate{%
-    \ifboolexpr{%
-      togl {blx@labeldateparts}
-      and not test {\iffieldundef{labeldatesource}}
-      and
-      (test {\iffieldequalstr{labeldatesource}{}}
-      or test {\iffieldequalstr{labeldatesource}{year}})}}%
-}
-%    \end{macrocode}
-%
-% This makes \textsf{biblatex} take notice of parentheses, brackets
-% and angle brackets when deciding whether to suppress double punctuation.
-%
-%    \begin{macrocode}
-\def\blx@setsfcodes{%
-  \let\blx@setsfcodes\relax
-  \let\frenchspacing\blx@setfrcodes
-  \let\nonfrenchspacing\blx@setencodes
-  \ifnum\sfcode`\.>2000
-    \blx@setencodes
-  \else
-    \blx@setfrcodes
-  \fi
-  \@setquotesfcodes
-  \sfcode`\(=\@m
-  \sfcode`\)=\@m
-  \sfcode`\[=\@m
-  \sfcode`\]=\@m
-  \sfcode`\<=\@m
-  \sfcode`\>=\@m}
+\DeclareBibliographyAlias{mvbook}{book}
+\DeclareBibliographyAlias{bookinbook}{inbook}
+\DeclareBibliographyAlias{suppbook}{inbook}
+\DeclareBibliographyAlias{mvcollection}{collection}
+\DeclareBibliographyAlias{suppcollection}{incollection}
+\DeclareBibliographyAlias{movie}{audio}
+\DeclareBibliographyAlias{music}{audio}
+\DeclareBibliographyAlias{mvproceedings}{proceedings}
+\DeclareBibliographyAlias{reference}{collection}
+\DeclareBibliographyAlias{mvreference}{reference}
+\DeclareBibliographyAlias{suppperiodical}{article}
+\DeclareBibliographyAlias{review}{article}
+\DeclareBibliographyAlias{standard}{manual}
+\DeclareBibliographyAlias{software}{misc}
+\DeclareBibliographyAlias{video}{audio}
+\DeclareBibliographyAlias{*}{misc}
 
 %    \end{macrocode}
 %
 % \subsection{Name handling}
 %
-% Names are usually reversed. There are no spaces between initials.
-%
-%    \begin{macrocode}
-\DeclareNameAlias{author}{family-given}
-\DeclareNameAlias{editor}{family-given}
-\DeclareNameAlias{bookeditor}{given-family}
-\renewcommand*{\bibinitdelim}{}
-%    \end{macrocode}
-%
-% The handling of CJK names is based on code supplied to TeX.sx by user Moewe in
-% answer to \href{http://tex.stackexchange.com/a/320738/16293}{question 320738}.
+% The handling of CJK names is based on code supplied to TeX.sx by Moritz
+% Wemheuer in answer to
+% \href{http://tex.stackexchange.com/a/320738/16293}{question 320738}.
 %
 % The CJK part is printed after the anglicized name. If the name is also
 % annotated as `cjk' (see `Data Annotations' in the \textsf{biblatex} manual),
@@ -3995,6 +4190,12 @@ This work is `maintained' (as per LPPL maintenance status) by [Alex Ball][me].
   }%
 }
 
+%    \end{macrocode}
+%
+% We update the |given-family| and |family-given| name formats to support the
+% above CJK macros.
+%
+%    \begin{macrocode}
 \DeclareNameFormat{given-family}{%
   \ifdefvoid{\namepartcjk}{%
     \ifgiveninits{%
@@ -4059,7 +4260,72 @@ This work is `maintained' (as per LPPL maintenance status) by [Alex Ball][me].
 
 %    \end{macrocode}
 %
-% We support the |nameaddon| field.
+% With videos, names in credits are printed in full.
+%
+%    \begin{macrocode}
+\DeclareNameFormat{given-family:full}{%
+  \ifdefvoid{\namepartcjk}{%
+    \usebibmacro{name:given-family}
+      {\namepartfamily}
+      {\namepartgiven}
+      {\namepartprefix}
+      {\namepartsuffix}%
+  }{%
+    \usebibmacro{name:cjk-given-family}
+      {\namepartfamily}
+      {\namepartgiven}
+      {\namepartcjk}%
+  }%
+  \usebibmacro{name:andothers}%
+}
+
+%    \end{macrocode}
+%
+% Names are usually reversed, but not in the |bookeditor| position.
+%
+%    \begin{macrocode}
+\DeclareNameAlias{author}{family-given}
+\DeclareNameAlias{editor}{family-given}
+\DeclareNameAlias{translator}{family-given}
+
+\DeclareNameWrapperAlias{author}{family-given}
+\DeclareNameWrapperAlias{editor}{family-given}
+\DeclareNameWrapperAlias{translator}{family-given}
+
+\DeclareNameAlias{bookeditor}{given-family}
+
+%    \end{macrocode}
+%
+% There are no spaces between initials.
+%
+%    \begin{macrocode}
+\renewcommand*{\bibinitdelim}{}
+
+%    \end{macrocode}
+%
+% We add support for the standard author--year dash check.
+%
+%    \begin{macrocode}
+\newbibmacro*{bbx:dashcheck}[2]{%
+  \ifboolexpr{
+    test {\iffieldequals{fullhash}{\bbx@lasthash}}
+    and
+    not test \iffirstonpage
+    and
+    (
+       not bool {bbx@inset}
+       or
+       test {\iffieldequalstr{entrysetcount}{1}}
+    )
+  }
+    {#1}
+    {#2}}
+
+%    \end{macrocode}
+%
+% The |author|, |editor| and |translator| macros are mostly the same as the
+% standard author--year definitions, with the exception that we add support for
+% the |nameaddon| field for authors.
 %
 %    \begin{macrocode}
 \DeclareFieldFormat{nameaddon}{\mkbibbrackets{#1}}
@@ -4089,19 +4355,72 @@ This work is `maintained' (as per LPPL maintenance status) by [Alex Ball][me].
      \setunit*{\printdelim{nonameyeardelim}}}%
   \usebibmacro{date+extradate}%
   \usebibmacro{labeltitleaddon}}
+
+\renewbibmacro*{editor}{%
+  \usebibmacro{bbx:editor}{editorstrg}}
+\renewbibmacro*{editor+others}{%
+  \usebibmacro{bbx:editor}{editor+othersstrg}}
+\newbibmacro*{bbx:editor}[1]{%
+  \ifboolexpr{
+    test \ifuseeditor
+    and
+    not test {\ifnameundef{editor}}
+  }
+    {\usebibmacro{bbx:dashcheck}
+       {\bibnamedash}
+       {\printnames{editor}%
+        \setunit{\printdelim{editortypedelim}}%
+        \usebibmacro{bbx:savehash}}%
+     \usebibmacro{#1}%
+     \clearname{editor}%
+     \setunit{\printdelim{nameyeardelim}}}%
+    {\global\undef\bbx@lasthash
+     \usebibmacro{labeltitle}%
+     \setunit*{\printdelim{nonameyeardelim}}}%
+  \usebibmacro{date+extradate}}
+
+\renewbibmacro*{translator}{%
+  \usebibmacro{bbx:translator}{translatorstrg}}
+\renewbibmacro*{translator+others}{%
+  \usebibmacro{bbx:translator}{translator+othersstrg}}
+\newbibmacro*{bbx:translator}[1]{%
+  \ifboolexpr{
+    test \ifusetranslator
+    and
+    not test {\ifnameundef{translator}}
+  }
+    {\usebibmacro{bbx:dashcheck}
+       {\bibnamedash}
+       {\printnames{translator}%
+        \setunit{\printdelim{translatortypedelim}}%
+        \usebibmacro{bbx:savehash}}%
+     \usebibmacro{#1}%
+     \clearname{translator}%
+     \setunit{\printdelim{nameyeardelim}}}%
+    {\global\undef\bbx@lasthash
+     \usebibmacro{labeltitle}%
+     \setunit*{\printdelim{nonameyeardelim}}}%
+  \usebibmacro{date+extradate}}
+
 %    \end{macrocode}
 %
-% With videos, names in credits are printed in full.
+% With collections, editors appear in natural order between `In' and the title,
+% followed by `ed.'
 %
 %    \begin{macrocode}
-\DeclareNameFormat{given-family:full}{%
-  \usebibmacro{name:given-family}
-    {\namepartfamily}
-    {\namepartgiven}
-    {\namepartprefix}
-    {\namepartsuffix}%
-  \usebibmacro{name:andothers}}
+\newbibmacro*{bookeditor}{%
+  \ifnameundef{editor}{}{%
+    \printnames[bookeditor]{editor}%
+    \setunit*{\addcomma\space}%
+    \usebibmacro{editor+othersstrg}%
+    \clearname{editor}%
+  }}
 
+%    \end{macrocode}
+%
+% We change the |by|* macros so that the format can be changed with an option.
+%
+%    \begin{macrocode}
 \renewbibmacro*{byauthor}[1][byauthor]{%
   \ifboolexpr{
     test \ifuseauthor
@@ -4191,310 +4510,10 @@ This work is `maintained' (as per LPPL maintenance status) by [Alex Ball][me].
 
 %    \end{macrocode}
 %
-% With collections, editors appear in natural order between `In' and the title,
-% followed by `ed.'
-%
-%    \begin{macrocode}
-\newbibmacro*{bookeditor}{%
-  \ifnameundef{editor}{}{%
-    \printnames[bookeditor]{editor}%
-    \setunit*{\addcomma\space}%
-    \usebibmacro{editor+othersstrg}%
-    \clearname{editor}%
-  }}
-
-%    \end{macrocode}
-%
-% \subsection{Titles}
-%
-% Most titles are set in italics, but some are set roman and unquoted.
-%
-%    \begin{macrocode}
-\DeclareFieldFormat{sentencecase}{\MakeSentenceCase*{#1}}
-\DeclareFieldFormat{midsentencecase}{\MakeSentenceCase*{{}#1}}
-\DeclareFieldFormat{title}{\mkbibemph{#1}}
-\DeclareFieldFormat
-  [article,inbook,incollection,inproceedings]%
-  {title}{#1}
-\DeclareFieldFormat
-  [reference,mvreference]%
-  {title}{\ifnameundef{author}{#1}{\mkbibemph{#1}}}
-\DeclareFieldFormat
-  [inreference]%
-  {title}{\ifnameundef{author}{\mkbibemph{#1}}{#1}}
-\DeclareFieldFormat
-  [inreference]%
-  {booktitle}{\ifnameundef{author}{#1}{\mkbibemph{#1}}}
-\DeclareFieldFormat
-  [patent,thesis]%
-  {title}{\mkbibemph{#1}}
-\DeclareFieldFormat
-  [audio,video,music,video]%
-  {title}{\ifboolexpr{
-    test {\iffieldequalstr{type}{TV}}
-    or
-    test {\iffieldequalstr{type}{Radio}}
-  }{#1}{\mkbibemph{#1}}}
-\DeclareFieldFormat
-  [unpublished]%
-  {title}{\iffieldundef{booktitle}{\mkbibemph{#1}}{#1}}
-
-%    \end{macrocode}
-%
-% Online resources are clearly tarred and feathered with an `[Online]' label.
-% The \texttt{isonline} macro prints this label if the resource has a URL and
-% does nothing otherwise. We add a safeguard to stop it being used repeatedly.
-%
-%    \begin{macrocode}
-\newtoggle{bbx:onlineshown}
-\newbibmacro*{isonline}{%
-  \ifboolexpr{(
-      test {\iffieldundef{doi}}
-      and
-      test {\iffieldundef{url}}
-      and
-      test {\iffieldundef{urlyear}}
-      and
-      not test {\ifentrytype{online}}
-    ) or
-    togl {bbx:onlineshown}
-  }{}{%
-    \bibstring[\mkbibbrackets]{online}%
-    \toggletrue{bbx:onlineshown}}}
-
-%    \end{macrocode}
-%
-% The |titleaddon| field follows the title after a space and wrapped in
-% brackets. Version 1 of this style encouraged people to supply the brackets
-% manually, so we strip them off if they have been supplied.
-%
-%    \begin{macrocode}
-\DeclareFieldFormat{titleaddon}{\mkbibbrackets{%
-  \IfBeginWith{#1}{[}{%
-    \IfEndWith{#1}{]}{%
-      \StrBetween{#1}{[}{]}%
-    }{#1}%
-  }{#1}%
-}}
-
-%    \end{macrocode}
-%
-% We need to supply a new |title| macro. The standard version puts default unit
-% punctuation between the |title| and |titleaddon| fields, but we need a space.
-% We also need to add conditional code for printing the automatic `[Online]'
-% label.
-%
-%    \begin{macrocode}
-\renewbibmacro*{title}{%
-  \ifboolexpr{
-    test {\iffieldundef{title}}
-    and
-    test {\iffieldundef{subtitle}}
-  }{}{%
-    \printtext[title]{%
-      \printfield[sentencecase]{title}%
-      \setunit{\subtitlepunct}%
-      \printfield[midsentencecase]{subtitle}%
-      \setunit{\addspace}%
-    }%
-    \printfield{version}%
-    \clearfield{version}%
-    \setunit*{\addspace}%
-    \printfield{titleaddon}%
-    \ifboolexpr{
-      test {\iffieldundef{journaltitle}}
-      and
-      test {\iffieldundef{booktitle}}
-      and (
-        test {\iffieldundef{library}}
-        or
-        test {\ifentrytype{image}}
-        or
-        test {\ifentrytype{audio}}
-        or
-        test {\ifentrytype{video}}
-        or
-        test {\ifentrytype{music}}
-        or
-        test {\ifentrytype{movie}}
-      ) and
-      not test {\ifentrytype{software}}
-      and (
-        not (
-          test {\iffieldequalstr{type}{TV}}
-          or
-          test {\iffieldequalstr{type}{Radio}}
-        )
-        or
-        test {\iffieldundef{series}}
-      )
-    }{%
-      \setunit*{\addspace}%
-      \usebibmacro{isonline}%
-    }{}%
-  }%
-}
-
-%    \end{macrocode}
-%
-% Similar changes are needed for the |booktitle| and |maintitle| macros.
-%
-%    \begin{macrocode}
-\renewbibmacro*{booktitle}{%
-  \ifboolexpr{
-    test {\iffieldundef{booktitle}}
-    and
-    test {\iffieldundef{booksubtitle}}
-  }{}{%
-    \printtext[booktitle]{%
-      \printfield[sentencecase]{booktitle}%
-      \setunit{\subtitlepunct}%
-      \printfield[midsentencecase]{booksubtitle}%
-      \setunit{\addspace}%
-    }%
-    \printfield{booktitleaddon}
-    \setunit*{\addspace}%
-    \usebibmacro{isonline}%
-  }%
-}
-
-\renewbibmacro*{maintitle}{%
-  \ifboolexpr{
-    test {\iffieldundef{maintitle}}
-    and
-    test {\iffieldundef{mainsubtitle}}
-  }{}{
-    \printtext[maintitle]{%
-      \printfield[sentencecase]{maintitle}%
-      \setunit{\subtitlepunct}%
-      \printfield[midsentencecase]{mainsubtitle}%
-      \setunit{\addspace}%
-    }%
-    \printfield{maintitleaddon}%
-  }%
-}
-
-%    \end{macrocode}
-%
-% Subtitles are set off with a colon
-%
-%    \begin{macrocode}
-\renewcommand*{\subtitlepunct}{\addcolon\space}
-
-%    \end{macrocode}
-%
-% In the standard author--year styles, if a title is promoted to the head of
-% a reference (due to missing authors/editors), the subtitle and titleaddon
-% fields are discarded. We want to show the subtitle directly after the title,
-% and show titleaddon after the |date+extradate| macro.
-%
-%    \begin{macrocode}
-\DeclareLabeltitle[inreference]{%
-  \field{shorttitle}
-  \field{booktitle}
-  \field{title}
-}
-\providetoggle{bbx:labelistitle}
-\renewbibmacro*{labeltitle}{%
-  \iffieldundef{label}{%
-    \ifboolexpr{
-      test {\ifentrytype{inreference}}
-      and
-      not test {\iffieldundef{booktitle}}
-    }{%
-      \printtext[booktitle]{%
-        \printfield[sentencecase]{booktitle}%
-        \setunit{\booksubtitlepunct}%
-        \printfield[midsentencecase]{booksubtitle}}%
-      \clearfield{booktitle}\clearfield{booksubtitle}%
-    }{%
-      \ifboolexpr{
-        test {\iffieldundef{title}}
-        and
-        test {\iffieldundef{subtitle}}
-      }{}{%
-        \printtext[title]{%
-          \printfield[sentencecase]{title}%
-          \setunit{\subtitlepunct}%
-          \printfield[midsentencecase]{subtitle}}%
-        \clearfield{title}\clearfield{subtitle}%
-        \toggletrue{bbx:labelistitle}}%
-        \ifboolexpr{
-          test {\iffieldundef{journaltitle}}
-          and
-          test {\iffieldundef{booktitle}}
-          and (
-            test {\iffieldundef{library}}
-            or
-            test {\ifentrytype{image}}
-            or
-            test {\ifentrytype{audio}}
-            or
-            test {\ifentrytype{video}}
-            or
-            test {\ifentrytype{music}}
-            or
-            test {\ifentrytype{movie}}
-          ) and
-          not test {\ifentrytype{software}}
-          and
-          not test {\ifentrytype{legislation}}
-          and
-          not test {\ifentrytype{jurisdiction}}
-          and (
-            not (
-              test {\iffieldequalstr{type}{TV}}
-              or
-              test {\iffieldequalstr{type}{Radio}}
-            )
-            or
-            test {\iffieldundef{series}}
-          )
-        }{%
-          \setunit*{\addspace}%
-          \usebibmacro{isonline}%
-        }{}%
-    }%
-  }{%
-    \printfield{label}%
-  }%
-}
-\DeclareDelimFormat{yearlabeltitleaddondelim}{\addspace}
-\newbibmacro*{labeltitleaddon}{%
-  \iftoggle{bbx:labelistitle}{%
-    \setunit{\printdelim{yearlabeltitleaddondelim}}%
-    \printfield{version}%
-    \clearfield{version}%
-    \setunit*{\addspace}%
-    \printfield{titleaddon}%
-    \clearfield{titleaddon}%
-    \ifboolexpr{(
-        test {\ifentrytype{legislation}}
-        or
-        test {\ifentrytype{jurisdiction}}
-      )
-      and
-      test {\iffieldundef{journaltitle}}
-      and
-      test {\iffieldundef{booktitle}}
-    }{%
-      \setunit*{\addspace}%
-      \usebibmacro{isonline}%
-    }{}%
-  }{}%
-}
-\xapptobibmacro{bbx:editor}{\usebibmacro{labeltitleaddon}}{}{}
-\xapptobibmacro{bbx:translator}{\usebibmacro{labeltitleaddon}}{}{}
-
-%    \end{macrocode}
-%
 % \subsection{Dates}
 %
 % If the main publication date is missing, we fall back immediately to `n.d.\@'
-% rather than use URL date or anything like that. However, for some resources
-% (ISO standards, Acts of Parliament), the date is part of the label and should
-% not be repeated, so we declare an option for removing the `n.d.' Unless
-% already set, the option is inserted if |sortyear| is used.
+% rather than use URL date or anything like that.
 %
 %    \begin{macrocode}
 \DeclareLabeldate{%
@@ -4502,13 +4521,7 @@ This work is `maintained' (as per LPPL maintenance status) by [Alex Ball][me].
   \field{year}
   \literal{nodate}
 }
-\newtoggle{bbx:nonodate}
-\DeclareBibliographyOption[boolean]{nonodate}[true]{%
-  \settoggle{bbx:nonodate}{#1}}
-\DeclareTypeOption[boolean]{nonodate}[true]{%
-  \settoggle{bbx:nonodate}{#1}}
-\DeclareEntryOption[boolean]{nonodate}[true]{%
-  \settoggle{bbx:nonodate}{#1}}
+
 %    \end{macrocode}
 %
 % Unless already set, the \key{nonodate} option is inserted if |sortyear| is
@@ -4531,6 +4544,14 @@ This work is `maintained' (as per LPPL maintenance status) by [Alex Ball][me].
     }
   }
 }
+
+%    \end{macrocode}
+%
+% Dates are usually given bare. Time is set following by the |hours| bibstring.
+%
+%    \begin{macrocode}
+\DeclareFieldFormat{datelabel}{#1}
+\DeclareFieldFormat{time}{#1~\bibstring{hours}}
 
 %    \end{macrocode}
 %
@@ -4601,199 +4622,6 @@ This work is `maintained' (as per LPPL maintenance status) by [Alex Ball][me].
     ) and
     togl {bbx:labelistitle}
   }{\addspace}{\labelnamepunct}}
-
-
-%    \end{macrocode}
-%
-% We allow the date macro to print the time as well.
-%
-%    \begin{macrocode}
-\renewbibmacro*{date}{%
-  \printdate
-  \setunit*{\bibdatetimesep}
-  \printtime
-}
-\DeclareFieldFormat{time}{#1~\bibstring{hours}}
-
-%    \end{macrocode}
-%
-% We provide a new date merging option that moves the year but leaves the
-% month and day in place, and set this as the default. Note that dates are
-% preceded by a comma, and are given bare rather than in parentheses.
-%
-% We start by patching the error message of the existing option code, then
-% add a per-type version of the option.
-%
-%    \begin{macrocode}
-\xpatchcmd{\KV@blx@opt@pre@mergedate}{%
-  'true' (=compact)%
-}{%
-  'year', 'true' (=year)%
-}{}{\wlog{WARNING: biblatex-bath failed to patch KV@blx@opt@pre@datemerge}}
-\ifdefined\KV@blx@opt@typ@mergedate
-  \xpatchcmd{\KV@blx@opt@typ@mergedate}{%
-    'true' (=compact)%
-  }{%
-    'year', 'true' (=year)%
-  }{}{\wlog{WARNING: biblatex-bath failed to patch KV@blx@opt@typ@datemerge}}
-\else
-  \DeclareTypeOption[boolean]{mergedate}[true]{%
-    \ifcsdef{bbx@opt@mergedate@#1}{%
-      \csuse{bbx@opt@mergedate@#1}%
-    }{%
-      \PackageError{biblatex}
-        {Invalid option 'mergedate=#1'}
-        {Valid values are 'maximum', 'compact', 'basic', 'minimum',\MessageBreak
-          'year', 'true' (=year), and 'false'.}}}
-\fi
-\xpatchcmd{\KV@blx@opt@ent@mergedate}{%
-  'true' (=compact)%
-}{%
-  'year', 'true' (=year)%
-}{}{\wlog{WARNING: biblatex-bath failed to patch KV@blx@opt@ent@datemerge}}
-
-%    \end{macrocode}
-%
-% We define a configurable field format for date labels to replace the
-% hard-coded parentheses in the options from the standard author--year style.
-% We also amend the logic for printing the label date so the |nonodate| option
-% is respected.
-%
-%    \begin{macrocode}
-\DeclareFieldFormat{datelabel}{#1}
-\xpatchcmd{\bbx@opt@mergedate@maximum}{%
-  \iffieldundef{labelyear}%
-}{%
-  \ifboolexpr{
-    togl {bbx:nonodate}
-    and
-    not test {\iflabeldateisdate}}%
-}{}{\wlog{WARNING: biblatex-bath failed to patch bbx@opt@mergedate@maximum}}
-\xpatchcmd{\bbx@opt@mergedate@maximum}{%
-  \printtext[parens]%
-}{%
-  \printtext[datelabel]%
-}{}{\wlog{WARNING: biblatex-bath failed to patch bbx@opt@mergedate@maximum}}
-\xpatchcmd{\bbx@opt@mergedate@compact}{%
-  \iffieldundef{labelyear}%
-}{%
-  \ifboolexpr{
-    togl {bbx:nonodate}
-    and
-    not test {\iflabeldateisdate}}%
-}{}{\wlog{WARNING: biblatex-bath failed to patch bbx@opt@mergedate@compact}}
-\xpatchcmd{\bbx@opt@mergedate@compact}{%
-  \printtext[parens]%
-}{%
-  \printtext[datelabel]%
-}{}{\wlog{WARNING: biblatex-bath failed to patch bbx@opt@mergedate@compact}}
-\xpatchcmd{\bbx@opt@mergedate@basic}{%
-  \iffieldundef{labelyear}%
-}{%
-  \ifboolexpr{
-    togl {bbx:nonodate}
-    and
-    not test {\iflabeldateisdate}}%
-}{}{\wlog{WARNING: biblatex-bath failed to patch bbx@opt@mergedate@basic}}
-\xpatchcmd{\bbx@opt@mergedate@basic}{%
-  \printtext[parens]%
-}{%
-  \printtext[datelabel]%
-}{}{\wlog{WARNING: biblatex-bath failed to patch bbx@opt@mergedate@basic}}
-\xpatchcmd{\bbx@opt@mergedate@minimum}{%
-  \iffieldundef{labelyear}%
-}{%
-  \ifboolexpr{
-    togl {bbx:nonodate}
-    and
-    not test {\iflabeldateisdate}}%
-}{}{\wlog{WARNING: biblatex-bath failed to patch bbx@opt@mergedate@minimum}}
-\xpatchcmd{\bbx@opt@mergedate@minimum}{%
-  \printtext[parens]%
-}{%
-  \printtext[datelabel]%
-}{}{\wlog{WARNING: biblatex-bath failed to patch bbx@opt@mergedate@minimum}}
-\xpatchcmd{\bbx@opt@mergedate@false}{%
-  \iffieldundef{labelyear}%
-}{%
-  \ifboolexpr{
-    togl {bbx:nonodate}
-    and
-    not test {\iflabeldateisdate}}%
-}{}{\wlog{WARNING: biblatex-bath failed to patch bbx@opt@mergedate@false}}
-\xpatchcmd{\bbx@opt@mergedate@false}{%
-  \printtext[parens]%
-}{%
-  \printtext[datelabel]%
-}{}{\wlog{WARNING: biblatex-bath failed to patch bbx@opt@mergedate@false}}
-%    \end{macrocode}
-%
-% If an older version of biblatex is used, we update the logic for
-% |\bbx@opt@mergedate@maximum|, which is used by the |letter| driver.
-%
-%    \begin{macrocode}
-\xpatchcmd{\bbx@opt@mergedate@maximum}{%
-  \iffieldsequal{year}{labelyear}
-    {\printlabeldateextra}%
-    {\printfield{labelyear}%
-    \printfield{extrayear}}%
-}{%
-  \iflabeldateisdate
-    {\printfield{issue}%
-    \setunit*{\addspace}%
-    \printdateextra}
-    {\printlabeldateextra}%
-}{}{}
-
-%    \end{macrocode}
-%
-% Lastly, here is our new (default) option, which always merges the year, and
-% only the year, with the label date. Other date and time componenents are
-% displayed later in the reference. Therefore we clear the year from the date
-% used for the label, but leave the month and day alone.
-%
-%    \begin{macrocode}
-\def\bbx@opt@mergedate@year{%
-  \renewbibmacro*{date+extradate}{%
-    \iffieldundef{labelyear}{}{%
-      \ifboolexpr{
-        togl {bbx:nonodate}
-        and
-        not test {\iflabeldateisdate}
-      }{}{%
-        \printtext[datelabel]{\printlabeldateextra}%
-      }%
-      \iflabeldateisdate{%
-        \clearfield{year}%
-      }{}}}
-  \ifcsundef{abx@macro@date+extrayear}{}{%
-    \renewbibmacro*{date+extrayear}{\usebibmacro{date+extradate}}%
-  }
-  \renewbibmacro*{issue+date}{%
-    \iffieldundef{issue}{}{%
-      \ifboolexpr{(
-        test {\iffieldundef{volume}}
-        and
-        test {\iffieldundef{number}}
-        ) and
-        test {\iffieldundef{eid}}
-      }{%
-        \newunit
-        \printfield{issue}%
-      }{%
-        \printtext[parens]{%
-          \printfield{issue}%
-        }%
-      }
-    }%
-    \setunit{\addcomma\space}%
-    \printdate
-    \newunit
-  }%
-}%
-
-\def\bbx@opt@mergedate@true{\bbx@opt@mergedate@year}
-\ExecuteBibliographyOptions{mergedate}
 
 %    \end{macrocode}
 %
@@ -4968,15 +4796,432 @@ This work is `maintained' (as per LPPL maintenance status) by [Alex Ball][me].
 
 %    \end{macrocode}
 %
-% \subsection{Versions}
+% \subsection{Title block}
+%
+% Most titles are set in italics, but some are set roman and unquoted.
+%
+%    \begin{macrocode}
+\DeclareFieldFormat{sentencecase}{\MakeSentenceCase*{#1}}
+\DeclareFieldFormat{midsentencecase}{\MakeSentenceCase*{{}#1}}
+\DeclareFieldFormat{title}{\mkbibemph{#1}}
+\DeclareFieldFormat
+  [article,inbook,incollection,inproceedings]%
+  {title}{#1}
+\DeclareFieldFormat
+  [reference,mvreference]%
+  {title}{\ifnameundef{author}{#1}{\mkbibemph{#1}}}
+\DeclareFieldFormat
+  [inreference]%
+  {title}{\ifnameundef{author}{\mkbibemph{#1}}{#1}}
+\DeclareFieldFormat
+  [inreference]%
+  {booktitle}{\ifnameundef{author}{#1}{\mkbibemph{#1}}}
+\DeclareFieldFormat
+  [patent,thesis]%
+  {title}{\mkbibemph{#1}}
+\DeclareFieldFormat
+  [audio,video,music,video]%
+  {title}{\ifboolexpr{
+    test {\iffieldequalstr{type}{TV}}
+    or
+    test {\iffieldequalstr{type}{Radio}}
+  }{#1}{\mkbibemph{#1}}}
+\DeclareFieldFormat
+  [unpublished]%
+  {title}{\iffieldundef{booktitle}{\mkbibemph{#1}}{#1}}
+
+%    \end{macrocode}
 %
 % Versions are printed with `v.\@' in parentheses.
 %
 %    \begin{macrocode}
 \DeclareFieldFormat{version}{\mkbibparens{\biblcsstring{version}#1}}
+
 %    \end{macrocode}
 %
-% \subsection{Types}
+% The |titleaddon| field follows the title after a space and wrapped in
+% brackets. Version 1 of this style encouraged people to supply the brackets
+% manually, so we strip them off if they have been supplied.
+%
+%    \begin{macrocode}
+\DeclareFieldFormat{titleaddon}{\mkbibbrackets{%
+  \IfBeginWith{#1}{[}{%
+    \IfEndWith{#1}{]}{%
+      \StrBetween{#1}{[}{]}%
+    }{#1}%
+  }{#1}%
+}}
+
+%    \end{macrocode}
+%
+% Subtitles are set off with a colon
+%
+%    \begin{macrocode}
+\renewcommand*{\subtitlepunct}{\addcolon\space}
+
+%    \end{macrocode}
+%
+% TODO: This bit is no longer valid.
+%
+%    \begin{macrocode}
+\DeclareDelimFormat{yearlabeltitleaddondelim}{\addspace}
+\newbibmacro*{labeltitleaddon}{%
+  \iftoggle{bbx:labelistitle}{%
+    \setunit{\printdelim{yearlabeltitleaddondelim}}%
+    \printfield{version}%
+    \clearfield{version}%
+    \setunit*{\addspace}%
+    \printfield{titleaddon}%
+    \clearfield{titleaddon}%
+    \ifboolexpr{(
+        test {\ifentrytype{legislation}}
+        or
+        test {\ifentrytype{jurisdiction}}
+      )
+      and
+      test {\iffieldundef{journaltitle}}
+      and
+      test {\iffieldundef{booktitle}}
+    }{%
+      \setunit*{\addspace}%
+      \usebibmacro{isonline}%
+    }{}%
+  }{}%
+}
+\xapptobibmacro{bbx:editor}{\usebibmacro{labeltitleaddon}}{}{}
+\xapptobibmacro{bbx:translator}{\usebibmacro{labeltitleaddon}}{}{}
+
+%    \end{macrocode}
+%
+% The |maintitle+title| and |title+issuetitle| are intended to be unchanged from
+% the standard definitions.
+%
+%    \begin{macrocode}
+\newbibmacro*{maintitle+title}{%
+  \iffieldsequal{maintitle}{title}
+    {\clearfield{maintitle}%
+      \clearfield{mainsubtitle}%
+      \clearfield{maintitleaddon}}
+    {\iffieldundef{maintitle}
+        {}
+        {\usebibmacro{maintitle}%
+        \newunit\newblock
+        \iffieldundef{volume}
+          {}
+          {\printfield{volume}%
+            \printfield{part}%
+            \setunit{\addcolon\space}}}}%
+  \usebibmacro{title}%
+  \newunit}
+
+\newbibmacro*{title+issuetitle}{%
+  \usebibmacro{periodical}%
+  \setunit*{\addspace}%
+  \iffieldundef{series}
+    {}
+    {\newunit
+      \printfield{series}%
+      \setunit{\addspace}}%
+  \usebibmacro{volume+number+eid}%
+  \setunit{\addspace}%
+  \usebibmacro{issue+date}%
+  \setunit{\addcolon\space}%
+  \usebibmacro{issue}%
+  \newunit}
+
+%    \end{macrocode}
+%
+% We need to supply a new |title| macro. The standard version puts default unit
+% punctuation between the |title| and |titleaddon| fields, but we need a space.
+% We also need to add conditional code for printing the automatic `[Online]'
+% label.
+%
+%    \begin{macrocode}
+\renewbibmacro*{title}{%
+  \ifboolexpr{
+    test {\iffieldundef{title}}
+    and
+    test {\iffieldundef{subtitle}}
+  }{}{%
+    \printtext[title]{%
+      \printfield[sentencecase]{title}%
+      \setunit{\subtitlepunct}%
+      \printfield[midsentencecase]{subtitle}%
+      \setunit{\addspace}%
+    }%
+    \printfield{version}%
+    \clearfield{version}%
+    \setunit*{\addspace}%
+    \printfield{titleaddon}%
+    \ifboolexpr{
+      test {\iffieldundef{journaltitle}}
+      and
+      test {\iffieldundef{booktitle}}
+      and (
+        test {\iffieldundef{library}}
+        or
+        test {\ifentrytype{image}}
+        or
+        test {\ifentrytype{audio}}
+        or
+        test {\ifentrytype{video}}
+        or
+        test {\ifentrytype{music}}
+        or
+        test {\ifentrytype{movie}}
+      ) and
+      not test {\ifentrytype{software}}
+      and (
+        not (
+          test {\iffieldequalstr{type}{TV}}
+          or
+          test {\iffieldequalstr{type}{Radio}}
+        )
+        or
+        test {\iffieldundef{series}}
+      )
+    }{%
+      \setunit*{\addspace}%
+      \usebibmacro{isonline}%
+    }{}%
+  }%
+}
+
+%    \end{macrocode}
+%
+% Similar changes are needed for the |booktitle| and |maintitle| macros.
+%
+%    \begin{macrocode}
+\renewbibmacro*{booktitle}{%
+  \ifboolexpr{
+    test {\iffieldundef{booktitle}}
+    and
+    test {\iffieldundef{booksubtitle}}
+  }{}{%
+    \printtext[booktitle]{%
+      \printfield[sentencecase]{booktitle}%
+      \setunit{\subtitlepunct}%
+      \printfield[midsentencecase]{booksubtitle}%
+      \setunit{\addspace}%
+    }%
+    \printfield{booktitleaddon}
+    \setunit*{\addspace}%
+    \usebibmacro{isonline}%
+  }%
+}
+
+\renewbibmacro*{maintitle}{%
+  \ifboolexpr{
+    test {\iffieldundef{maintitle}}
+    and
+    test {\iffieldundef{mainsubtitle}}
+  }{}{
+    \printtext[maintitle]{%
+      \printfield[sentencecase]{maintitle}%
+      \setunit{\subtitlepunct}%
+      \printfield[midsentencecase]{mainsubtitle}%
+      \setunit{\addspace}%
+    }%
+    \printfield{maintitleaddon}%
+  }%
+}
+
+%    \end{macrocode}
+%
+% In the standard author--year styles, if a title is promoted to the head of
+% a reference (due to missing authors/editors), the subtitle and titleaddon
+% fields are discarded. We want to show the subtitle directly after the title,
+% and show titleaddon after the |date+extradate| macro.
+%
+%    \begin{macrocode}
+\DeclareLabeltitle[inreference]{%
+  \field{shorttitle}
+  \field{booktitle}
+  \field{title}
+}
+\providetoggle{bbx:labelistitle}
+\renewbibmacro*{labeltitle}{%
+  \iffieldundef{label}{%
+    \ifboolexpr{
+      test {\ifentrytype{inreference}}
+      and
+      not test {\iffieldundef{booktitle}}
+    }{%
+      \printtext[booktitle]{%
+        \printfield[sentencecase]{booktitle}%
+        \setunit{\booksubtitlepunct}%
+        \printfield[midsentencecase]{booksubtitle}}%
+      \clearfield{booktitle}\clearfield{booksubtitle}%
+    }{%
+      \ifboolexpr{
+        test {\iffieldundef{title}}
+        and
+        test {\iffieldundef{subtitle}}
+      }{}{%
+        \printtext[title]{%
+          \printfield[sentencecase]{title}%
+          \setunit{\subtitlepunct}%
+          \printfield[midsentencecase]{subtitle}}%
+        \clearfield{title}\clearfield{subtitle}%
+        \toggletrue{bbx:labelistitle}}%
+        \ifboolexpr{
+          test {\iffieldundef{journaltitle}}
+          and
+          test {\iffieldundef{booktitle}}
+          and (
+            test {\iffieldundef{library}}
+            or
+            test {\ifentrytype{image}}
+            or
+            test {\ifentrytype{audio}}
+            or
+            test {\ifentrytype{video}}
+            or
+            test {\ifentrytype{music}}
+            or
+            test {\ifentrytype{movie}}
+          ) and
+          not test {\ifentrytype{software}}
+          and
+          not test {\ifentrytype{legislation}}
+          and
+          not test {\ifentrytype{jurisdiction}}
+          and (
+            not (
+              test {\iffieldequalstr{type}{TV}}
+              or
+              test {\iffieldequalstr{type}{Radio}}
+            )
+            or
+            test {\iffieldundef{series}}
+          )
+        }{%
+          \setunit*{\addspace}%
+          \usebibmacro{isonline}%
+        }{}%
+    }%
+  }{%
+    \printfield{label}%
+  }%
+}
+
+%    \end{macrocode}
+%
+% Online resources are clearly tarred and feathered with an `[Online]' label.
+% The \texttt{isonline} macro prints this label if the resource has a URL and
+% does nothing otherwise. We add a safeguard to stop it being used repeatedly.
+%
+%    \begin{macrocode}
+\newtoggle{bbx:onlineshown}
+\newbibmacro*{isonline}{%
+  \ifboolexpr{(
+      test {\iffieldundef{doi}}
+      and
+      test {\iffieldundef{url}}
+      and
+      test {\iffieldundef{urlyear}}
+      and
+      not test {\ifentrytype{online}}
+    ) or
+    togl {bbx:onlineshown}
+  }{}{%
+    \bibstring[\mkbibbrackets]{online}%
+    \toggletrue{bbx:onlineshown}}}
+
+%    \end{macrocode}
+%
+% \subsection{Events}
+%
+% Events are printed as date then venue with no intermediate punctuation.
+%
+%    \begin{macrocode}
+\newbibmacro*{event+venue+date}{%
+  \printfield{eventtitle}%
+  \setunit*{\addspace}%
+  \printfield{eventtitleaddon}%
+  \ifboolexpr{
+    test {\iffieldundef{venue}}
+    and
+    test {\iffieldundef{eventyear}}
+  }
+    {}
+    {\setunit{\addcomma\space}%
+     \printeventdate
+     \setunit*{\addcomma\space}%
+     \printfield{venue}%
+     \newunit}}
+
+%    \end{macrocode}
+%
+% \subsection{Journals}
+%
+% The journal title is in sentence case rather than title case.
+%
+%    \begin{macrocode}
+\xpatchbibmacro{journal}{%
+  \printfield[titlecase]{journaltitle}%
+}{%
+  \printfield[sentencecase]{journaltitle}%
+}{}{\wlog{WARNING: biblatex-bath failed to patch journal macro}}
+\xpatchbibmacro{journal}{%
+  \printfield[titlecase]{journalsubtitle}%
+}{%
+  \printfield[sentencecase]{journalsubtitle}%
+}{}{\wlog{WARNING: biblatex-bath failed to patch journal macro}}
+
+%    \end{macrocode}
+%
+% The journal title is followed by a comma. The issue number is separated from
+% the volume by parentheses rather than a dot. The pubstate is in the volume
+% position.
+%
+%    \begin{macrocode}
+\newbibmacro*{journal+issuetitle}{%
+  \usebibmacro{journal}%
+  \setunit*{\addspace}%
+  \usebibmacro{isonline}%
+  \setunit*{\addcomma\space}%
+  \iffieldundef{series}
+    {}
+    {\newunit
+     \printfield{series}%
+     \setunit{\addcomma\space}}%
+  \usebibmacro{volume+number+eid}%
+  \setunit{\addspace}%
+  \usebibmacro{issue+date}%
+  \setunit{\addcolon\space}%
+  \usebibmacro{issue}%
+  \setunit{\addcomma\space}%
+  \printfield{pubstate}%
+  \newunit}
+
+\newbibmacro*{volume+number+eid}{%
+  \printfield{volume}%
+  \printfield[parens]{number}%
+  \setunit{\addcomma\space}%
+  \printfield{eid}}
+
+%    \end{macrocode}
+%
+% \subsection{Monograph containers and entry titles}
+%
+%    \begin{macrocode}
+\newbibmacro*{maintitle+booktitle}{%
+  \iffieldundef{maintitle}
+    {}
+    {\usebibmacro{maintitle}%
+      \newunit\newblock
+      \iffieldundef{volume}
+        {}
+        {\printfield{volume}%
+        \printfield{part}%
+        \setunit{\addcolon\space}}}%
+  \usebibmacro{booktitle}%
+  \newunit}
+
+%    \end{macrocode}
+%
+% \subsection{Series, types and numbering}
 %
 % Types are always printed longhand.
 %
@@ -4998,339 +5243,31 @@ This work is `maintained' (as per LPPL maintenance status) by [Alex Ball][me].
     test {\iffieldequalstr{type}{Radio}}
   }{\mkbibemph{#1}}{#1}}
 \DeclareFieldFormat[legislation,jurisdiction]{series}{#1}
-\renewbibmacro*{series+number}{%
+%    \end{macrocode}
+%
+% The |forceparens| format ensures the punctuation tracker doesn't override
+% semantically important parentheses.
+%
+%    \begin{macrocode}
+\DeclareFieldFormat{forceparens}{(#1)}
+
+%    \end{macrocode}
+%
+% Unlike the standard styles, we print a comma between series and number
+%
+%    \begin{macrocode}
+\newbibmacro*{series+number}{%
   \printfield{series}%
   \setunit*{\addcomma\space}%
   \printfield{number}%
   \newunit}
-%    \end{macrocode}
-%
-% \subsection{Events}
-%
-% Events are printed as date then venue with no intermediate punctuation.
-%
-%    \begin{macrocode}
-\renewbibmacro*{event+venue+date}{%
-  \printfield{eventtitle}%
-  \setunit*{\addspace}%
-  \printfield{eventtitleaddon}%
-  \ifboolexpr{
-    test {\iffieldundef{venue}}
-    and
-    test {\iffieldundef{eventyear}}
-  }
-    {}
-    {\setunit{\addcomma\space}%
-     \printeventdate
-     \setunit*{\addcomma\space}%
-     \printfield{venue}%
-     \newunit}}
 
 %    \end{macrocode}
 %
-% \subsection{Publishers}
-%
-% We patch the secondary publication macros so they will use the
-% publisher list instead, if provided.
+% Reports use a special macro for printing the |type|, |series| and |number| in
+% parentheses.
 %
 %    \begin{macrocode}
-\letbibmacro{plain:institution+location+date}{institution+location+date}
-\renewbibmacro*{institution+location+date}{%
-  \iflistundef{publisher}{%
-    \usebibmacro{plain:institution+location+date}%
-  }{%
-    \printlist{institution}%
-    \newunit
-    \usebibmacro{publisher+location+date}}}
-%    \end{macrocode}
-%
-% As an additional hack for social media entries where the date is preceded by a
-% comma, we tweak the punctuation logic for \texttt{organization+location+date}.
-%
-%    \begin{macrocode}
-\renewbibmacro*{organization+location+date}{%
-  \iflistundef{publisher}{%
-    \printlist{location}%
-    \iflistundef{organization}
-      {\setunit*{\addcomma\space}}
-      {\setunit*{\addcolon\space}}%
-    \printlist{organization}%
-    \iflistundef{location}
-      {\setunit{\addcomma\space}}%
-      {\setunit*{\addcomma\space}}%
-    \usebibmacro{date}%
-    \newunit
-  }{%
-    \printlist{organization}%
-    \newunit
-    \usebibmacro{publisher+location+date}}}
-
-%    \end{macrocode}
-%
-% We use the \texttt{library} field for databases and preprint repositories.
-%
-%    \begin{macrocode}
-\DeclareFieldFormat{library}{\mkbibemph{#1}}
-\newbibmacro*{library}{%
-  \iffieldundef{library}{}{%
-    \printfield{library}\clearfield{library}%
-    \setunit*{\addspace}%
-    \usebibmacro{isonline}%
-  }%
-}
-
-%    \end{macrocode}
-%
-% \subsection{Page numbers}
-%
-%    \begin{macrocode}
-\renewcommand*{\ppspace}{}
-\DeclareNumChars{ab}
-%    \end{macrocode}
-%
-% \subsection{URLs}
-%
-% URLs are prefaced by a `from' statement, and the URL date is enclosed in
-% brackets rather than parentheses.
-%
-%    \begin{macrocode}
-\DeclareFieldFormat{url}{\bibsentence\bibstring{urlfrom}\addcolon\space\url{#1}}
-\DeclareFieldFormat{doi}{\bibsentence\bibstring{urlfrom}\addcolon\space\url{https://doi.org/#1}}
-\DeclareFieldFormat{pseudourl}{\bibsentence\bibstring{urlfrom}\addcolon\space#1}
-\DeclareFieldFormat{urldate}{\mkbibbrackets{\bibstring{urlseen}\space#1}}
-%    \end{macrocode}
-%
-% Since URLs and DOIs are presented in exactly the same way, we combine them
-% such that the DOI overrides the URL. We also allow the \texttt{library} field
-% to be used as a fallback URL.
-%
-%    \begin{macrocode}
-\renewbibmacro*{url}{%
-  \iffieldundef{doi}{%
-    \ifboolexpr{
-      test {\iffieldundef{url}}
-      and not
-      test {\iffieldundef{urlyear}}
-    }{\printfield[pseudourl]{library}}{\printfield{url}}%
-  }{%
-    \printfield{doi}%
-  }}
-\renewbibmacro*{doi+eprint+url}{%
-  \iftoggle{bbx:eprint}
-    {\usebibmacro{eprint}}
-    {}%
-  \newunit\newblock
-  \iftoggle{bbx:url}
-    {\usebibmacro{url+urldate}}
-    {}}
-%    \end{macrocode}
-%
-% This backports changes to the |online| driver in biblatex v3.15 to earlier
-% versions, so the above works as intended.
-%
-%    \begin{macrocode}
-\xpatchbibdriver{online}{%
-  \iftoggle{bbx:doi}
-    {\printfield{doi}}
-    {}%
-  \newunit\newblock
-  \iftoggle{bbx:eprint}
-    {\usebibmacro{eprint}}
-    {}%
-  \newunit\newblock
-  \usebibmacro{url+urldate}%
-}{%
-  \toggletrue{bbx:url}%
-  \usebibmacro{doi+eprint+url}%
-}{}{}
-
-%    \end{macrocode}
-%
-% \subsection{Articles}
-%
-% Compared with the standard styles, the main differences in the driver are the
-% omission of `in' and the position of the publication state.
-%
-%    \begin{macrocode}
-\xpatchbibdriver{article}{%
-  \usebibmacro{in:}\usebibmacro{journal+issuetitle}%
-}{%
-  \usebibmacro{journal+issuetitle}%
-}{}{\wlog{WARNING: biblatex-bath failed to patch article driver}}
-\xpatchbibdriver{article}{%
-  \usebibmacro{addendum+pubstate}%
-}{%
-  \printfield{addendum}%
-}{}{\wlog{WARNING: biblatex-bath failed to patch article driver}}
-%    \end{macrocode}
-%
-% The journal title is in sentence case rather than title case.
-%
-%    \begin{macrocode}
-\xpatchbibmacro{journal}{%
-  \printfield[titlecase]{journaltitle}%
-}{%
-  \printfield[sentencecase]{journaltitle}%
-}{}{\wlog{WARNING: biblatex-bath failed to patch journal macro}}
-\xpatchbibmacro{journal}{%
-  \printfield[titlecase]{journalsubtitle}%
-}{%
-  \printfield[sentencecase]{journalsubtitle}%
-}{}{\wlog{WARNING: biblatex-bath failed to patch journal macro}}
-%    \end{macrocode}
-%
-% The journal title is followed by a comma. The issue number is separated from
-% the volume by parentheses rather than a dot. The pubstate is in the volume
-% position.
-%
-%    \begin{macrocode}
-\renewbibmacro*{journal+issuetitle}{%
-  \usebibmacro{journal}%
-  \setunit*{\addspace}%
-  \usebibmacro{isonline}%
-  \setunit*{\addcomma\space}%
-  \iffieldundef{series}
-    {}
-    {\newunit
-     \printfield{series}%
-     \setunit{\addcomma\space}}%
-  \usebibmacro{volume+number+eid}%
-  \setunit{\addspace}%
-  \usebibmacro{issue+date}%
-  \setunit{\addcolon\space}%
-  \usebibmacro{issue}%
-  \setunit{\addcomma\space}%
-  \printfield{pubstate}%
-  \newunit}
-\renewbibmacro*{volume+number+eid}{%
-  \printfield{volume}%
-  \printfield[parens]{number}%
-  \setunit{\addcomma\space}%
-  \printfield{eid}}
-
-%    \end{macrocode}
-%
-% \subsection{Books}
-%
-% Compared with the standard styles, the main difference is that the series is
-% separated by a comma rather than a period. This also affects proceedings and
-% certain forms of grey literature.
-%
-%    \begin{macrocode}
-\xpatchbibdriver{book}{%
-  \newunit\newblock
-  \usebibmacro{series+number}%
-}{%
-  \setunit{\addcomma\space}%
-  \usebibmacro{series+number}%
-}{}{\wlog{WARNING: biblatex-bath failed to patch book driver (series+number)}}
-
-\xpatchbibdriver{collection}{%
-  \newunit\newblock
-  \usebibmacro{series+number}%
-}{%
-  \setunit{\addcomma\space}%
-  \usebibmacro{series+number}%
-}{}{\wlog{WARNING: biblatex-bath failed to patch collection driver (series+number)}}
-
-\xpatchbibdriver{inbook}{%
-  \newunit\newblock
-  \usebibmacro{series+number}%
-}{%
-  \setunit{\addcomma\space}%
-  \usebibmacro{series+number}%
-}{}{\wlog{WARNING: biblatex-bath failed to patch inbook driver (series+number)}}
-
-\xpatchbibdriver{incollection}{%
-  \newunit\newblock
-  \usebibmacro{series+number}%
-}{%
-  \setunit{\addcomma\space}%
-  \usebibmacro{series+number}%
-}{}{\wlog{WARNING: biblatex-bath failed to patch incollection driver (series+number)}}
-
-\xpatchbibdriver{inproceedings}{%
-  \newunit\newblock
-  \usebibmacro{series+number}%
-}{%
-  \setunit{\addcomma\space}%
-  \usebibmacro{series+number}%
-}{}{\wlog{WARNING: biblatex-bath failed to patch inproceedings driver (series+number)}}
-
-\xpatchbibdriver{proceedings}{%
-  \newunit\newblock
-  \usebibmacro{series+number}%
-}{%
-  \setunit{\addcomma\space}%
-  \usebibmacro{series+number}%
-}{}{\wlog{WARNING: biblatex-bath failed to patch proceedings driver (series+number)}}
-
-%    \end{macrocode}
-%
-% \subsection{Works in collections}
-%
-% Compared with the standard styles, the main difference is that the editors
-% precede the booktitle.
-%
-%    \begin{macrocode}
-\xpatchbibdriver{incollection}{%
-  \usebibmacro{in:}%
-  \usebibmacro{maintitle+booktitle}%
-  \newunit\newblock
-  \usebibmacro{byeditor+others}%
-}{%
-  \ifnameundef{editor}{}{\usebibmacro{in:}}%
-  \usebibmacro{bookeditor}%
-  \newunit\newblock
-  \usebibmacro{maintitle+booktitle}%
-  \usebibmacro{byeditor+others}%
-}{}{\wlog{WARNING: biblatex-bath failed to patch incollection driver (bookeditor)}}
-
-\xpatchbibdriver{inproceedings}{%
-  \usebibmacro{in:}%
-  \usebibmacro{maintitle+booktitle}%
-  \newunit\newblock
-  \usebibmacro{event+venue+date}%
-  \newunit\newblock
-  \usebibmacro{byeditor+others}%
-}{%
-  \ifnameundef{editor}{}{\usebibmacro{in:}}%
-  \usebibmacro{bookeditor}%
-  \newunit\newblock
-  \usebibmacro{maintitle+booktitle}%
-  \usebibmacro{byeditor+others}%
-  \newunit
-  \usebibmacro{event+venue+date}%
-}{}{\wlog{WARNING: biblatex-bath failed to patch inproceedings driver (bookeditor)}}
-
-%    \end{macrocode}
-%
-% \subsection{Online works}
-%
-% Compared with the standard styles, the main difference is that the
-% organization's address is printed.
-%
-%    \begin{macrocode}
-\xpatchbibdriver{online}{%
-  \printlist{organization}%
-  \newunit\newblock
-  \usebibmacro{date}%
-}{%
-  \usebibmacro{library}%
-  \newunit\newblock
-  \usebibmacro{organization+location+date}%
-}{}{\wlog{WARNING: biblatex-bath failed to patch online driver (publisher)}}
-
-%    \end{macrocode}
-%
-% \subsection{Reports}
-%
-% Compared with the standard styles, the main differences are that we use a
-% special macro for printing the |type|, |series| and |number| in parentheses,
-% and we support the |library| field.
-%
-%    \begin{macrocode}
-\DeclareFieldFormat{forceparens}{(#1)}
 \newbibmacro{series+type+number}{%
   \ifboolexpr{
     test {\iffieldundef{series}}
@@ -5357,83 +5294,162 @@ This work is `maintained' (as per LPPL maintenance status) by [Alex Ball][me].
         \printfield{number}%
       }}}}
 
-\DeclareBibliographyDriver{report}{%
-  \usebibmacro{bibindex}%
-  \usebibmacro{begentry}%
-  \usebibmacro{author}%
-  \setunit{\printdelim{nametitledelim}}\newblock
-  \usebibmacro{title}%
-  \newunit
-  \printlist{language}%
-  \newunit\newblock
-  \usebibmacro{byauthor}%
-  \newunit\newblock
-  \usebibmacro{series+type+number}%
-  \newunit\newblock
-  \printfield{note}%
-  \newunit\newblock
-  \usebibmacro{institution+location+date}%
-  \newunit\newblock
-  \usebibmacro{chapter+pages}%
-  \newunit
-  \printfield{pagetotal}%
-  \newunit\newblock
-  \iftoggle{bbx:isbn}
-    {\printfield{isrn}}
-    {}%
-  \newunit\newblock
-  \usebibmacro{library}%
-  \newunit\newblock
-  \usebibmacro{doi+eprint+url}%
-  \newunit\newblock
-  \usebibmacro{addendum+pubstate}%
-  \setunit{\bibpagerefpunct}\newblock
-  \usebibmacro{pageref}%
-  \newunit\newblock
-  \iftoggle{bbx:related}
-    {\usebibmacro{related:init}%
-     \usebibmacro{related}}
-    {}%
-  \usebibmacro{finentry}}
+%    \end{macrocode}
+%
+% \subsection{Publication block}
+%
+% The standard publisher macro is fine.
+%
+%    \begin{macrocode}
+\newbibmacro*{publisher+location+date}{%
+  \printlist{location}%
+  \iflistundef{publisher}
+    {\setunit*{\addcomma\space}}
+    {\setunit*{\addcolon\space}}%
+  \printlist{publisher}%
+  \setunit*{\addcomma\space}%
+  \usebibmacro{date}%
+  \newunit}
 
 %    \end{macrocode}
 %
-% \subsection{Manuals}
-%
-% The \texttt{manual} driver is useful for a variety of technical publications,
-% such as standards, patents and maps. (Patents have their own driver, in fact,
-% but we set things up so the \texttt{manual} driver can be used instead if
-% needed for compatibility.)
+% We put a wrapper around the standard insitution macro so that it prints the
+% publisher field instead if present, and preprends the institution.
 %
 %    \begin{macrocode}
-\newbibmacro{manual:series+type+number}{%
-  \iffieldundef{series}{%
-    \newunit\newblock
-    \printfield{type}%
-    \setunit{\addspace}%
-    \printfield{number}%
+\newbibmacro*{plain:institution+location+date}{%
+  \printlist{location}%
+  \iflistundef{institution}
+    {\setunit*{\addcomma\space}}
+    {\setunit*{\addcolon\space}}%
+  \printlist{institution}%
+  \setunit*{\addcomma\space}%
+  \usebibmacro{date}%
+  \newunit}
+\newbibmacro*{institution+location+date}{%
+  \iflistundef{publisher}{%
+    \usebibmacro{plain:institution+location+date}%
   }{%
-    \setunit{\addcomma\space}%
-    \usebibmacro{series+number}%
-    \newunit\newblock
-    \printfield{type}%
+    \printlist{institution}%
+    \newunit
+    \usebibmacro{publisher+location+date}}}
+
+%    \end{macrocode}
+%
+% As an additional hack for social media entries where the date is preceded by a
+% comma, we tweak the punctuation logic for |organization+location+date|.
+%
+%    \begin{macrocode}
+\renewbibmacro*{organization+location+date}{%
+  \iflistundef{publisher}{%
+    \printlist{location}%
+    \iflistundef{organization}
+      {\setunit*{\addcomma\space}}
+      {\setunit*{\addcolon\space}}%
+    \printlist{organization}%
+    \iflistundef{location}
+      {\setunit{\addcomma\space}}%
+      {\setunit*{\addcomma\space}}%
+    \usebibmacro{date}%
+    \newunit
+  }{%
+    \printlist{organization}%
+    \newunit
+    \usebibmacro{publisher+location+date}}}
+
+\newbibmacro*{location+date}{%
+  \printlist{location}%
+  \setunit*{\addcomma\space}%
+  \usebibmacro{date}%
+  \newunit}
+
+%    \end{macrocode}
+%
+% We use the \texttt{library} field for databases and preprint repositories.
+%
+%    \begin{macrocode}
+\DeclareFieldFormat{library}{\mkbibemph{#1}}
+\newbibmacro*{library}{%
+  \iffieldundef{library}{}{%
+    \printfield{library}\clearfield{library}%
+    \setunit*{\addspace}%
+    \usebibmacro{isonline}%
   }%
 }
-\xpatchbibdriver{manual}{%
+
+%    \end{macrocode}
+%
+% \subsection{Page numbers}
+%
+% We remove the space between \enquote{p.\@} and the page numbers, and allow
+% a couple of letters for representing newspaper columns.
+%
+%    \begin{macrocode}
+\renewcommand*{\ppspace}{}
+\DeclareNumChars{ab}
+
+\newbibmacro*{chapter+pages}{%
+  \printfield{chapter}%
+  \setunit{\bibpagespunct}%
+  \printfield{eid}%
+  \setunit{\bibpagespunct}%
+  \printfield{pages}%
+  \newunit}
+
+\newbibmacro*{note+pages}{%
+  \printfield{note}%
+  \setunit{\bibpagespunct}%
+  \printfield{pages}%
+  \newunit}
+
+%    \end{macrocode}
+%
+% \subsection{Addenda}
+%
+%    \begin{macrocode}
+\newbibmacro*{addendum+pubstate}{%
+  \printfield{addendum}%
   \newunit\newblock
-  \usebibmacro{series+number}%
+  \printfield{pubstate}}
+
+%    \end{macrocode}
+%
+% \subsection{Access and URLs}
+%
+% URLs are prefaced by a `from' statement, and the URL date is enclosed in
+% brackets rather than parentheses.
+%
+%    \begin{macrocode}
+\DeclareFieldFormat{url}{\bibsentence\bibstring{urlfrom}\addcolon\space\url{#1}}
+\DeclareFieldFormat{doi}{\bibsentence\bibstring{urlfrom}\addcolon\space\url{https://doi.org/#1}}
+\DeclareFieldFormat{pseudourl}{\bibsentence\bibstring{urlfrom}\addcolon\space#1}
+\DeclareFieldFormat{urldate}{\mkbibbrackets{\bibstring{urlseen}\space#1}}
+
+%    \end{macrocode}
+%
+% Since URLs and DOIs are presented in exactly the same way, we combine them
+% such that the DOI overrides the URL. We also allow the \texttt{library} field
+% to be used as a fallback URL.
+%
+%    \begin{macrocode}
+\renewbibmacro*{url}{%
+  \iffieldundef{doi}{%
+    \ifboolexpr{
+      test {\iffieldundef{url}}
+      and not
+      test {\iffieldundef{urlyear}}
+    }{\printfield[pseudourl]{library}}{\printfield{url}}%
+  }{%
+    \printfield{doi}%
+  }}
+\newbibmacro*{doi+eprint+url}{%
+  \iftoggle{bbx:eprint}
+    {\usebibmacro{eprint}}
+    {}%
   \newunit\newblock
-  \printfield{type}%
-}{%
-  \usebibmacro{manual:series+type+number}%
-}{}{\wlog{WARNING: biblatex-bath failed to patch manual driver}}
-\xpatchbibdriver{manual}{%
-  \printlist{organization}%
-  \newunit
-  \usebibmacro{publisher+location+date}%
-}{%
-  \usebibmacro{organization+location+date}%
-}{}{\wlog{WARNING: biblatex-bath failed to patch manual driver}}
+  \iftoggle{bbx:url}
+    {\usebibmacro{url+urldate}}
+    {}}
 
 %    \end{macrocode}
 %
@@ -5467,57 +5483,6 @@ This work is `maintained' (as per LPPL maintenance status) by [Alex Ball][me].
   }}
 \ExecuteBibliographyOptions[standard]{useeditor=false}
 
-%    \end{macrocode}
-%
-% \subsection{Audiovisual materials}
-%
-% The \texttt{audio} and \texttt{video} drivers are based on \texttt{misc}.
-%
-%    \begin{macrocode}
-\DeclareBibliographyDriver{audio}{%
-  \usebibmacro{bibindex}%
-  \usebibmacro{begentry}%
-  \usebibmacro{author/editor+others/translator+others}%
-  \setunit{\printdelim{nametitledelim}}\newblock
-  \usebibmacro{title}%
-  \newunit\newblock
-  \usebibmacro{series+number}%
-  \ifboolexpr{
-    test {\iffieldequalstr{type}{TV}}
-    or
-    test {\iffieldequalstr{type}{Radio}}
-  }{%
-    \setunit{\addspace}%
-    \usebibmacro{isonline}}{}%
-  \newunit
-  \printlist{language}%
-  \newunit\newblock
-  \printfield{type}%
-  \newunit\newblock
-  \usebibmacro{byauthor}[given-family:full]%
-  \newunit\newblock
-  \usebibmacro{byeditor+others}[given-family:full]%
-  \newunit\newblock
-  \printfield{howpublished}%
-  \newunit\newblock
-  \printfield{note}%
-  \newunit\newblock
-  \usebibmacro{publisher+location+date}%
-  \newunit\newblock
-  \usebibmacro{doi+eprint+url}%
-  \newunit\newblock
-  \usebibmacro{addendum+pubstate}%
-  \setunit{\bibpagerefpunct}\newblock
-  \usebibmacro{pageref}%
-  \newunit\newblock
-  \iftoggle{bbx:related}
-    {\usebibmacro{related:init}%
-     \usebibmacro{related}}
-    {}%
-  \usebibmacro{finentry}}
-\DeclareBibliographyAlias{movie}{audio}
-\DeclareBibliographyAlias{music}{audio}
-\DeclareBibliographyAlias{video}{audio}
 %    \end{macrocode}
 %
 % \subsection{Case reports}
@@ -5703,48 +5668,6 @@ This work is `maintained' (as per LPPL maintenance status) by [Alex Ball][me].
 %    \begin{macrocode}
 \DeclareFieldFormat[jurisdiction]{institution}{\mkbibparens{#1}}
 
-\DeclareBibliographyDriver{jurisdiction}{%
-  \savebibmacro{title}%
-  \xapptobibmacro{labeltitle}{%
-    \setunit*{\addspace}%
-    \usebibmacro{casenumber}%
-  }{}{}%
-  \usebibmacro{bibindex}%
-  \usebibmacro{begentry}%
-  \usebibmacro{eucheck}%
-  \usebibmacro{author}%
-  \setunit{\printdelim{nametitledelim}}\newblock
-  \usebibmacro{title}%
-  \newunit
-  \printlist{language}%
-  \newunit\newblock
-  \usebibmacro{byauthor}%
-  \newunit\newblock
-  \printfield{note}%
-  \setunit{\addspace}%
-  \usebibmacro{reporter}%
-  \newunit
-  \printfield{pagetotal}%
-  \newunit\newblock
-  \printfield{institution}%
-  \newunit\newblock
-  \iftoggle{bbx:isbn}
-    {\printfield{isrn}}
-    {}%
-  \newunit\newblock
-  \usebibmacro{doi+eprint+url}%
-  \newunit\newblock
-  \usebibmacro{addendum+pubstate}%
-  \setunit{\bibpagerefpunct}\newblock
-  \usebibmacro{pageref}%
-  \newunit\newblock
-  \iftoggle{bbx:related}
-    {\usebibmacro{related:init}%
-     \usebibmacro{related}}
-    {}%
-  \usebibmacro{finentry}%
-  \restorebibmacro{title}}
-
 %    \end{macrocode}
 %
 % \subsection{Legislation}
@@ -5797,41 +5720,138 @@ This work is `maintained' (as per LPPL maintenance status) by [Alex Ball][me].
           \setunit*{\addcomma\space}%
           \printfield{chapter}}}}}}
 
-\DeclareBibliographyDriver{legislation}{%
-  \usebibmacro{bibindex}%
-  \usebibmacro{begentry}%
-  \usebibmacro{eucheck}%
-  \usebibmacro{author}%
-  \setunit{\printdelim{nametitledelim}}\newblock
-  \usebibmacro{title}%
-  \newunit
-  \printlist{language}%
-  \newunit\newblock
-  \usebibmacro{byauthor}%
-  \newunit\newblock
-  \usebibmacro{journal+series+volume+number+chapter+pages}
-  \newunit\newblock
-  \printfield{note}%
-  \newunit\newblock
-  \usebibmacro{institution+location+date}%
-  \newunit\newblock
-  \printfield{pagetotal}%
-  \newunit\newblock
-  \iftoggle{bbx:isbn}
-    {\printfield{isrn}}
-    {}%
-  \newunit\newblock
-  \usebibmacro{doi+eprint+url}%
-  \newunit\newblock
-  \usebibmacro{addendum+pubstate}%
-  \setunit{\bibpagerefpunct}\newblock
-  \usebibmacro{pageref}%
-  \newunit\newblock
-  \iftoggle{bbx:related}
-    {\usebibmacro{related:init}%
-     \usebibmacro{related}}
-    {}%
-  \usebibmacro{finentry}}
+%    \end{macrocode}
+%
+% \subsection{Related items}
+%
+% This is intended to be unchanged from the standard (author--year) definition.
+%
+%    \begin{macrocode}
+\newcounter{bbx:relatedcount}
+\newcounter{bbx:relatedtotal}
+
+\newbibmacro*{related:init}{%
+  \csundef{bbx:relatedloop}}
+
+\newbibmacro*{begrelated}{%
+  \booltrue{bbx@inset}}
+
+\newbibmacro*{endrelated}{%
+  \usebibmacro*{bbx:savehash}}
+
+\newbibmacro*{begrelatedloop}{}
+\newbibmacro*{endrelatedloop}{}
+
+\def\ifrelatedloop{%
+  \ifboolexpr{ test {\xifinlistcs{\strfield{entrykey}}{bbx:relatedloop}}
+    or test {\xifinlistcs{\strfield{clonesourcekey}}{bbx:relatedloop}} }}
+
+\newbibmacro*{related}{%
+  \ifboolexpr{ test {\iffieldundef{related}} or test {\ifrelatedloop} }
+    {}
+    {\ifcsundef{begrelateddelim\strfield{relatedtype}}
+        {\printunit{\begrelateddelim}}
+        {\printunit{\csuse{begrelateddelim\strfield{relatedtype}}}}%
+      \usebibmacro{begrelated}%
+      \def\bbx@tempa{}%
+      \setcounter{bbx:relatedtotal}{0}%
+      \def\do##1{%
+        \entrydata{##1}{%
+          \ifrelatedloop
+            {}
+            {\stepcounter{bbx:relatedtotal}%
+            \gappto{\bbx@tempa}{##1,}}}}%
+      \docsvfield{related}%
+      \restorefield{related}{\bbx@tempa}%
+      \ifnumgreater{\value{bbx:relatedtotal}}{0}
+        {\listcsxadd{bbx:relatedloop}{\strfield{entrykey}}%
+        \iffieldundef{clonesourcekey}
+          {}
+          {\listcsxadd{bbx:relatedloop}{\strfield{clonesourcekey}}}%
+        \setcounter{bbx:relatedcount}{0}%
+        \def\do{%
+          \stepcounter{bbx:relatedcount}%
+          \ifnumgreater{\value{bbx:relatedcount}}{1}
+            {\ifcsundef{relateddelim\strfield{relatedtype}}
+              {\printunit{\relateddelim}}
+              {\expandafter\expandafter\expandafter\expandafter\expandafter
+                \expandafter\expandafter\printunit
+                \expandafter\expandafter\expandafter\expandafter\expandafter
+                \expandafter\expandafter{%
+                  \csuse{relateddelim\strfield{relatedtype}}}}}
+            {}}%
+        \ifbibmacroundef{related:\strfield{relatedtype}}
+          {\appto{\do}{\usebibmacro{related:default}}}
+          {\appto{\do}{\usebibmacro*{related:\strfield{relatedtype}}}}%
+        \iffieldformatundef{related:\strfield{relatedtype}}
+          {\def\bbx@tempa{related}}
+          {\def\bbx@tempa{related:\strfield{relatedtype}}}%
+        \iffieldformatundef{relatedstring:\strfield{relatedtype}}
+          {\def\bbx@tempb{relatedstring:default}}
+          {\def\bbx@tempb{relatedstring:\strfield{relatedtype}}}%
+        \printtext[\bbx@tempa]{%
+          \usebibmacro{begrelatedloop}%
+          \iffieldundef{relatedstring}
+            {\ifboolexpr{
+                test {\ifnumgreater{\value{bbx:relatedtotal}}{1}}
+                and
+                test {\ifbibxstring{\thefield{relatedtype}s}}
+              }
+                {\printtext[\bbx@tempb]{%
+                  \bibstring[\mkrelatedstringtext]{\thefield{relatedtype}s}}}
+                {\iffieldbibstring{relatedtype}
+                  {\printtext[\bbx@tempb]{%
+                      \bibstring[\mkrelatedstringtext]{\thefield{relatedtype}}}}
+                  {}}}
+            {\iffieldbibstring{relatedstring}
+                {\printtext[\bbx@tempb]{%
+                  \bibstring[\mkrelatedstringtext]{\thefield{relatedstring}}}}
+                {\printfield[\bbx@tempb]{relatedstring}}}%
+          \docsvfield{related}%
+          \usebibmacro{endrelatedloop}}}%
+        {}%
+      \usebibmacro{endrelated}}}
+
+%    \end{macrocode}
+%
+% \subsection{Bibliography formatting}
+%
+% We allow the bibliography look more like the Bib\TeX\ default.
+%
+%    \begin{macrocode}
+\DeclareFieldFormat{shorthandwidth}{#1}
+\setlength{\bibhang}{0pt}
+\setlength{\bibitemsep}{1em plus 0.2em minus 0.2em}
+\renewcommand*{\bibfont}{\normalfont\normalsize}
+
+\defbibenvironment{bibliography}
+  {\list
+     {}
+     {\setlength{\leftmargin}{\bibhang}%
+      \setlength{\itemindent}{-\leftmargin}%
+      \setlength{\itemsep}{\bibitemsep}%
+      \setlength{\parsep}{\bibparsep}}}
+  {\endlist}
+  {\item}
+
+\defbibenvironment{shorthand}
+  {\list
+     {\printfield[shorthandwidth]{shorthand}}
+     {\setlength{\labelwidth}{\shorthandwidth}%
+      \setlength{\leftmargin}{\labelwidth}%
+      \setlength{\labelsep}{\biblabelsep}%
+      \addtolength{\leftmargin}{\labelsep}%
+      \setlength{\itemsep}{\bibitemsep}%
+      \setlength{\parsep}{\bibparsep}%
+      \renewcommand*{\makelabel}[1]{##1\hss}}}
+  {\endlist}
+  {\item}
+
+\InitializeBibliographyStyle{\global\undef\bbx@lasthash}
+
+%%%
+%%% bath-specific
+%%%
 
 %    \end{macrocode}
 %
@@ -5844,121 +5864,9 @@ This work is `maintained' (as per LPPL maintenance status) by [Alex Ball][me].
 %    \begin{macrocode}
 \DeclareFieldFormat[letter]{title}{\iffieldundef{journaltitle}{\emph{#1}}{#1}}
 \ExecuteBibliographyOptions[letter]{mergedate=maximum}
-\DeclareBibliographyDriver{letter}{%
-  \usebibmacro{bibindex}%
-  \usebibmacro{begentry}%
-  \usebibmacro{author/translator+others}%
-  \setunit{\printdelim{nametitledelim}}\newblock
-  \usebibmacro{title}%
-  \newunit
-  \printlist{language}%
-  \newunit\newblock
-  \usebibmacro{byauthor}%
-  \newunit\newblock
-  \usebibmacro{bytranslator+others}%
-  \newunit\newblock
-  \usebibmacro{journal+issuetitle}%
-  \newunit\newblock
-  \printfield{howpublished}%
-  \newunit
-  \printfield{note}%
-  \newunit\newblock
-  \usebibmacro{doi+eprint+url}%
-  \newunit\newblock
-  \usebibmacro{addendum+pubstate}%
-  \setunit{\bibpagerefpunct}\newblock
-  \usebibmacro{pageref}%
-  \newunit\newblock
-  \iftoggle{bbx:related}
-    {\usebibmacro{related:init}%
-     \usebibmacro{related}}
-    {}%
-  \usebibmacro{finentry}%
-}
 
-%    \end{macrocode}
-%
-% \subsection{Software}
-%
-% The driver for software entries is based on misc. The main difference is in
-% how the type is printed.
-%
-%    \begin{macrocode}
 \DeclareFieldFormat[software]{type}{\mkbibbrackets{#1}}
-\DeclareBibliographyDriver{software}{%
-  \usebibmacro{bibindex}%
-  \usebibmacro{begentry}%
-  \usebibmacro{author/editor+others/translator+others}%
-  \setunit{\printdelim{nametitledelim}}\newblock
-  \usebibmacro{title}%
-  \setunit{\addspace}
-  \printfield{type}%
-  \newunit
-  \printlist{language}%
-  \newunit\newblock
-  \usebibmacro{byauthor}%
-  \newunit\newblock
-  \usebibmacro{byeditor+others}%
-  \newunit\newblock
-  \printfield{howpublished}%
-  \newunit\newblock
-  \printfield{note}%
-  \newunit\newblock
-  \usebibmacro{organization+location+date}%
-  \newunit\newblock
-  \usebibmacro{doi+eprint+url}%
-  \newunit\newblock
-  \usebibmacro{addendum+pubstate}%
-  \setunit{\bibpagerefpunct}\newblock
-  \usebibmacro{pageref}%
-  \newunit\newblock
-  \iftoggle{bbx:related}
-    {\usebibmacro{related:init}%
-     \usebibmacro{related}}
-    {}%
-  \usebibmacro{finentry}}
-
-%    \end{macrocode}
-%
-% \subsection{Images}
-%
-% The driver for image is based on misc. The main difference is the
-% support for the \texttt{library} field.
-%
-%    \begin{macrocode}
 \DeclareFieldFormat[image]{library}{#1}
-\DeclareBibliographyDriver{image}{%
-  \usebibmacro{bibindex}%
-  \usebibmacro{begentry}%
-  \usebibmacro{author/editor+others/translator+others}%
-  \setunit{\printdelim{nametitledelim}}\newblock
-  \usebibmacro{title}%
-  \newunit
-  \printlist{language}%
-  \newunit\newblock
-  \usebibmacro{byauthor}%
-  \newunit\newblock
-  \usebibmacro{byeditor+others}%
-  \newunit\newblock
-  \printfield{howpublished}%
-  \newunit\newblock
-  \printfield{type}%
-  \newunit
-  \printfield{note}%
-  \newunit\newblock
-  \usebibmacro{organization+location+date+library}%
-  \newunit\newblock
-  \usebibmacro{doi+eprint+url}%
-  \newunit\newblock
-  \usebibmacro{addendum+pubstate}%
-  \setunit{\bibpagerefpunct}\newblock
-  \usebibmacro{pageref}%
-  \newunit\newblock
-  \iftoggle{bbx:related}
-    {\usebibmacro{related:init}%
-     \usebibmacro{related}}
-    {}%
-  \usebibmacro{finentry}}
 %    \end{macrocode}
 %
 % The following code works slightly differently
@@ -6014,57 +5922,6 @@ This work is `maintained' (as per LPPL maintenance status) by [Alex Ball][me].
 \newbibmacro*{isunpublished}{%
   \bibstring{unpublished}%
 }
-\DeclareBibliographyDriver{unpublished}{%
-  \usebibmacro{bibindex}%
-  \usebibmacro{begentry}%
-  \usebibmacro{author}%
-  \setunit{\printdelim{nametitledelim}}\newblock
-  \usebibmacro{title}%
-  \newunit
-  \printlist{language}%
-  \newunit\newblock
-  \usebibmacro{byauthor}%
-  \newunit\newblock
-  \ifnameundef{editor}{}{\usebibmacro{in:}}%
-  \usebibmacro{bookeditor}%
-  \newunit\newblock
-  \usebibmacro{maintitle+booktitle}%
-  \usebibmacro{byeditor+others}%
-  \newunit\newblock
-  \printfield{howpublished}%
-  \newunit\newblock
-  \printfield{type}%
-  \newunit\newblock
-  \usebibmacro{event+venue+date}%
-  \newunit\newblock
-  \printfield{note}%
-  \newunit\newblock
-  \usebibmacro{location+date}%
-  \newunit\newblock
-  \usebibmacro{isunpublished}%
-  \newunit\newblock
-  \iftoggle{bbx:url}
-    {\usebibmacro{url+urldate}}
-    {}%
-  \newunit\newblock
-  \usebibmacro{addendum+pubstate}%
-  \setunit{\bibpagerefpunct}\newblock
-  \usebibmacro{pageref}%
-  \newunit\newblock
-  \iftoggle{bbx:related}
-    {\usebibmacro{related:init}%
-     \usebibmacro{related}}
-    {}%
-  \usebibmacro{finentry}}
-
-%    \end{macrocode}
-%
-% \subsection{Aliases}
-%
-% We define some handy semantic aliases.
-%
-%    \begin{macrocode}
-\DeclareBibliographyAlias{standard}{manual}
 
 %    \end{macrocode}
 %
