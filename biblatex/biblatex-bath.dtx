@@ -1378,7 +1378,7 @@ record the source of the image.
   author = {{Bristol Region Building Record}},
   year = {1965},
   title = {{Green} {Park} {House} (since demolished), viewed from southwest},
-  titleaddon = {Photograph},
+  entrysubtype = {Photograph},
   number = {BRBR, D/877/1},
   library = {Archives \& Research Collections, University of Bath Library}}
 %</driver|bib>
@@ -1393,6 +1393,11 @@ use \texttt{institution} instead for the museum, gallery or building.
 If you also wish to provide the name of the organisation that published the image,
 use the \texttt{publisher} field if the location you provide relates to the publisher,
 but the \texttt{organization} field if the location relates to the archive.
+\item
+Put the clarification of the resource type in \texttt{entrysubtype}.
+In most cases, you can use \texttt{titleaddon} instead,
+but \texttt{entrysubtype} will correctly suppress \enquote{Online} being shown
+while \texttt{titleaddon} will not.
 \end{tips}
 
 
@@ -1843,7 +1848,7 @@ and the \texttt{library} field for the name of the database itself.
   author = {@screencasto},
   title = {{Screencast-O-Matic}},
   version = {2},
-  titleaddon = {computer program},
+  entrysubtype = {computer program},
   url = {https://screencast-o-matic.com/},
   urldate = {2016-05-16}}
 %</driver|bib>
@@ -1851,6 +1856,13 @@ and the \texttt{library} field for the name of the database itself.
 \end{Verbatim}
 \end{bibexbox}
 
+\begin{tips}\item
+Put the clarification of the resource type in \texttt{entrysubtype}. In most
+cases, you can use \texttt{titleaddon} instead, but \texttt{titleaddon} is shown
+immediately after the title and may be shown alongside the \enquote{Online}
+label, whereas \texttt{entrysubtype} is printed after the \texttt{version} and
+supersedes the \enquote{Online} label.
+\end{tips}
 
 \subsection{Works in languages other than English}
 
@@ -4234,9 +4246,8 @@ This work is `maintained' (as per LPPL maintenance status) by [Alex Ball][me].
         \setunit{\printdelim{nameyeardelim}}}}%
     {\global\undef\bbx@lasthash
      \usebibmacro{labeltitle}%
-     \setunit*{\printdelim{nonameyeardelim}}}%
-  \usebibmacro{date+extradate}%
-  \usebibmacro{labeltitleaddon}}
+     \iftoggle{bbx:labelistitle}{\setunit{\printdelim{nonameyeardelim}}}{}}%
+  \usebibmacro{date+extradate}}
 
 \renewbibmacro*{editor}{%
   \usebibmacro{bbx:editor}{editorstrg}}
@@ -4258,7 +4269,7 @@ This work is `maintained' (as per LPPL maintenance status) by [Alex Ball][me].
      \setunit{\printdelim{nameyeardelim}}}%
     {\global\undef\bbx@lasthash
      \usebibmacro{labeltitle}%
-     \setunit*{\printdelim{nonameyeardelim}}}%
+     \iftoggle{bbx:labelistitle}{\setunit{\printdelim{nonameyeardelim}}}{}}%
   \usebibmacro{date+extradate}}
 
 \renewbibmacro*{translator}{%
@@ -4281,7 +4292,7 @@ This work is `maintained' (as per LPPL maintenance status) by [Alex Ball][me].
      \setunit{\printdelim{nameyeardelim}}}%
     {\global\undef\bbx@lasthash
      \usebibmacro{labeltitle}%
-     \setunit*{\printdelim{nonameyeardelim}}}%
+     \iftoggle{bbx:labelistitle}{\setunit{\printdelim{nonameyeardelim}}}{}}%
   \usebibmacro{date+extradate}}
 
 %    \end{macrocode}
@@ -4749,38 +4760,6 @@ This work is `maintained' (as per LPPL maintenance status) by [Alex Ball][me].
 
 %    \end{macrocode}
 %
-% TODO: This bit is no longer valid.
-%
-%    \begin{macrocode}
-\DeclareDelimFormat{yearlabeltitleaddondelim}{\addspace}
-\newbibmacro*{labeltitleaddon}{%
-  \iftoggle{bbx:labelistitle}{%
-    \setunit{\printdelim{yearlabeltitleaddondelim}}%
-    \printfield{version}%
-    \clearfield{version}%
-    \setunit*{\addspace}%
-    \printfield{titleaddon}%
-    \clearfield{titleaddon}%
-    \ifboolexpr{(
-        test {\ifentrytype{legislation}}
-        or
-        test {\ifentrytype{jurisdiction}}
-      )
-      and
-      test {\iffieldundef{journaltitle}}
-      and
-      test {\iffieldundef{booktitle}}
-    }{%
-      \setunit*{\addspace}%
-      \usebibmacro{isonline}%
-    }{}%
-  }{}%
-}
-\xapptobibmacro{bbx:editor}{\usebibmacro{labeltitleaddon}}{}{}
-\xapptobibmacro{bbx:translator}{\usebibmacro{labeltitleaddon}}{}{}
-
-%    \end{macrocode}
-%
 % The |maintitle+title| and |title+issuetitle| are intended to be unchanged from
 % the standard definitions.
 %
@@ -4830,48 +4809,65 @@ This work is `maintained' (as per LPPL maintenance status) by [Alex Ball][me].
     test {\iffieldundef{title}}
     and
     test {\iffieldundef{subtitle}}
-  }{}{%
-    \printtext[title]{%
-      \printfield[sentencecase]{title}%
-      \setunit{\subtitlepunct}%
-      \printfield[midsentencecase]{subtitle}%
-      \setunit{\addspace}%
-    }%
-    \printfield{version}%
-    \clearfield{version}%
-    \setunit*{\addspace}%
-    \printfield{titleaddon}%
+  }{%
     \ifboolexpr{
-      test {\iffieldundef{journaltitle}}
+      test {\ifentrytype{legislation}}
       and
-      test {\iffieldundef{booktitle}}
-      and (
-        test {\iffieldundef{library}}
-        or
-        test {\ifentrytype{image}}
-        or
-        test {\ifentrytype{audio}}
-        or
-        test {\ifentrytype{video}}
-        or
-        test {\ifentrytype{music}}
-        or
-        test {\ifentrytype{movie}}
-      ) and
-      not test {\ifentrytype{software}}
-      and (
-        not (
-          test {\iffieldequalstr{type}{TV}}
-          or
-          test {\iffieldequalstr{type}{Radio}}
-        )
-        or
-        test {\iffieldundef{series}}
-      )
+      test {\iffieldundef{journaltitle}}
     }{%
       \setunit*{\addspace}%
       \usebibmacro{isonline}%
     }{}%
+  }{%
+    \printtext[title]{%
+      \printfield[sentencecase]{title}%
+      \setunit{\subtitlepunct}%
+      \printfield[midsentencecase]{subtitle}%
+      \setunit{\addspace}}%
+    \printfield{titleaddon}%
+    \setunit*{\addspace}%
+    \printfield{version}\clearfield{version}%
+    \ifboolexpr{
+      test {\iffieldundef{entrysubtype}}
+      or (
+        test {\ifentrytype{legislation}}
+        or
+        test {\ifentrytype{jurisdiction}}
+      )
+    }{%
+      \ifboolexpr{
+        test {\iffieldundef{journaltitle}}
+        and
+        test {\iffieldundef{booktitle}}
+        and (
+          test {\iffieldundef{library}}
+          or
+          test {\ifentrytype{image}}
+          or
+          test {\ifentrytype{audio}}
+          or
+          test {\ifentrytype{video}}
+          or
+          test {\ifentrytype{music}}
+          or
+          test {\ifentrytype{movie}}
+        )
+        and (
+          not (
+            test {\iffieldequalstr{type}{TV}}
+            or
+            test {\iffieldequalstr{type}{Radio}}
+          )
+          or
+          test {\iffieldundef{series}}
+        )
+      }{%
+        \setunit*{\addspace}%
+        \usebibmacro{isonline}%
+      }{}%
+    }{%
+      \setunit*{\addspace}%
+        \printfield{entrysubtype}}
   }%
 }
 
@@ -4918,8 +4914,8 @@ This work is `maintained' (as per LPPL maintenance status) by [Alex Ball][me].
 %
 % In the standard author--year styles, if a title is promoted to the head of
 % a reference (due to missing authors/editors), the subtitle and titleaddon
-% fields are discarded. We want to show the subtitle directly after the title,
-% and show titleaddon after the |date+extradate| macro.
+% fields are discarded. In Harvard (Bath), the whole block is moved (with some
+% cosmetic differences).
 %
 %    \begin{macrocode}
 \DeclareLabeltitle[inreference]{%
@@ -4927,8 +4923,9 @@ This work is `maintained' (as per LPPL maintenance status) by [Alex Ball][me].
   \field{booktitle}
   \field{title}
 }
+\DeclareFieldFormat{entrysubtype}{\mkbibbrackets{#1}}
 \providetoggle{bbx:labelistitle}
-\renewbibmacro*{labeltitle}{%
+\newbibmacro*{labeltitle}{%
   \iffieldundef{label}{%
     \ifboolexpr{
       test {\ifentrytype{inreference}}
@@ -4951,48 +4948,55 @@ This work is `maintained' (as per LPPL maintenance status) by [Alex Ball][me].
         \printtext[title]{%
           \printfield[sentencecase]{title}%
           \setunit{\subtitlepunct}%
-          \printfield[midsentencecase]{subtitle}}%
+          \printfield[midsentencecase]{subtitle}%
+          \setunit{\addspace}}%
         \clearfield{title}\clearfield{subtitle}}%
+      \printfield{titleaddon}%
+      \setunit*{\addspace}%
+      \printfield{version}%
+      \clearfield{version}%
       \ifboolexpr{
-        test {\iffieldundef{journaltitle}}
-        and
-        test {\iffieldundef{booktitle}}
-        and (
-          test {\iffieldundef{library}}
-          or
-          test {\ifentrytype{image}}
-          or
-          test {\ifentrytype{audio}}
-          or
-          test {\ifentrytype{video}}
-          or
-          test {\ifentrytype{music}}
-          or
-          test {\ifentrytype{movie}}
-        ) and
-        not test {\ifentrytype{software}}
-        and
-        not test {\ifentrytype{legislation}}
-        and
-        not test {\ifentrytype{jurisdiction}}
-        and (
-          not (
-            test {\iffieldequalstr{type}{TV}}
-            or
-            test {\iffieldequalstr{type}{Radio}}
-          )
-          or
-          test {\iffieldundef{series}}
-        )
-      }{%
-        \setunit*{\addspace}%
-        \usebibmacro{isonline}%
-      }{}%
-    }%
+        test {\ifentrytype{legislation}}
+        or
+        test {\ifentrytype{jurisdiction}}
+      }{}{%
+        \iffieldundef{entrysubtype}{%
+          \ifboolexpr{
+            test {\iffieldundef{journaltitle}}
+            and
+            test {\iffieldundef{booktitle}}
+            and (
+              test {\iffieldundef{library}}
+              or
+              test {\ifentrytype{image}}
+              or
+              test {\ifentrytype{audio}}
+              or
+              test {\ifentrytype{video}}
+              or
+              test {\ifentrytype{music}}
+              or
+              test {\ifentrytype{movie}}
+            )
+            and (
+              not (
+                test {\iffieldequalstr{type}{TV}}
+                or
+                test {\iffieldequalstr{type}{Radio}}
+              )
+              or
+              test {\iffieldundef{series}}
+            )
+          }{%
+            \setunit*{\addspace}%
+            \usebibmacro{isonline}%
+          }{}%
+        }{%
+          \setunit*{\addspace}%
+          \printfield{entrysubtype}}}}%
   }{%
     \printfield{label}%
-  }%
-}
+  }}
 
 %    \end{macrocode}
 %
@@ -5143,7 +5147,7 @@ This work is `maintained' (as per LPPL maintenance status) by [Alex Ball][me].
 
 %    \end{macrocode}
 %
-% Unlike the standard styles, we print a comma between series and number
+% Unlike the standard styles, we print a comma between series and number.
 %
 %    \begin{macrocode}
 \newbibmacro*{series+number}{%
@@ -5251,7 +5255,7 @@ This work is `maintained' (as per LPPL maintenance status) by [Alex Ball][me].
 % comma, we tweak the punctuation logic for |organization+location+date|.
 %
 %    \begin{macrocode}
-\renewbibmacro*{organization+location+date}{%
+\newbibmacro*{organization+location+date}{%
   \iflistundef{publisher}{%
     \printlist{location}%
     \iflistundef{organization}
