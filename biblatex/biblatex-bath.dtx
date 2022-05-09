@@ -2869,14 +2869,12 @@ This work is `maintained' (as per LPPL maintenance status) by [Alex Ball][me].
   \usebibmacro{author/translator+others}%
   \setunit{\printdelim{nametitledelim}}\newblock
   \usebibmacro{title}%
-  \newunit
-  \printlist{language}%
+%  \newunit
+%  \printlist{language}%
   \newunit\newblock
   \usebibmacro{byauthor}%
   \newunit\newblock
   \usebibmacro{bytranslator+others}%
-  \newunit\newblock
-  \printfield{version}%
   \newunit\newblock
   \usebibmacro{journal+issuetitle}%
   \newunit
@@ -2896,7 +2894,7 @@ This work is `maintained' (as per LPPL maintenance status) by [Alex Ball][me].
   \newunit\newblock
   \iftoggle{bbx:related}
     {\usebibmacro{related:init}%
-      \usebibmacro{related}}
+     \usebibmacro{related}}
     {}%
   \usebibmacro{finentry}}
 
@@ -2906,8 +2904,8 @@ This work is `maintained' (as per LPPL maintenance status) by [Alex Ball][me].
   \usebibmacro{editor}%
   \setunit{\printdelim{nametitledelim}}\newblock
   \usebibmacro{title+issuetitle}%
-  \newunit
-  \printlist{language}%
+%  \newunit
+%  \printlist{language}%
   \newunit\newblock
   \usebibmacro{byeditor}%
   \newunit\newblock
@@ -2925,7 +2923,7 @@ This work is `maintained' (as per LPPL maintenance status) by [Alex Ball][me].
   \newunit\newblock
   \iftoggle{bbx:related}
     {\usebibmacro{related:init}%
-      \usebibmacro{related}}
+     \usebibmacro{related}}
     {}%
   \usebibmacro{finentry}}
 
@@ -2944,8 +2942,8 @@ This work is `maintained' (as per LPPL maintenance status) by [Alex Ball][me].
   \usebibmacro{author/editor+others/translator+others}%
   \setunit{\printdelim{nametitledelim}}\newblock
   \usebibmacro{maintitle+title}%
-  \newunit
-  \printlist{language}%
+%  \newunit
+%  \printlist{language}%
   \newunit\newblock
   \usebibmacro{byauthor}%
   \newunit\newblock
@@ -2955,7 +2953,7 @@ This work is `maintained' (as per LPPL maintenance status) by [Alex Ball][me].
   \newunit
   \iffieldundef{maintitle}
     {\printfield{volume}%
-      \printfield{part}}
+     \printfield{part}}
     {}%
   \newunit
   \printfield{volumes}%
@@ -2967,8 +2965,8 @@ This work is `maintained' (as per LPPL maintenance status) by [Alex Ball][me].
   \usebibmacro{publisher+location+date}%
   \newunit\newblock
   \usebibmacro{chapter+pages}%
-  \newunit
-  \printfield{pagetotal}%
+%   \newunit
+%   \printfield{pagetotal}%
   \newunit\newblock
   \iftoggle{bbx:isbn}
     {\printfield{isbn}}
@@ -2982,7 +2980,7 @@ This work is `maintained' (as per LPPL maintenance status) by [Alex Ball][me].
   \newunit\newblock
   \iftoggle{bbx:related}
     {\usebibmacro{related:init}%
-      \usebibmacro{related}}
+     \usebibmacro{related}}
     {}%
   \usebibmacro{finentry}}
 
@@ -2992,8 +2990,8 @@ This work is `maintained' (as per LPPL maintenance status) by [Alex Ball][me].
   \usebibmacro{editor+others}%
   \setunit{\printdelim{nametitledelim}}\newblock
   \usebibmacro{maintitle+title}%
-  \newunit
-  \printlist{language}%
+%  \newunit
+%  \printlist{language}%
   \newunit\newblock
   \usebibmacro{byeditor+others}%
   \newunit\newblock
@@ -3001,7 +2999,7 @@ This work is `maintained' (as per LPPL maintenance status) by [Alex Ball][me].
   \newunit
   \iffieldundef{maintitle}
     {\printfield{volume}%
-      \printfield{part}}
+     \printfield{part}}
     {}%
   \newunit
   \printfield{volumes}%
@@ -3013,8 +3011,8 @@ This work is `maintained' (as per LPPL maintenance status) by [Alex Ball][me].
   \usebibmacro{publisher+location+date}%
   \newunit\newblock
   \usebibmacro{chapter+pages}%
-  \newunit
-  \printfield{pagetotal}%
+%  \newunit
+%  \printfield{pagetotal}%
   \newunit\newblock
   \iftoggle{bbx:isbn}
     {\printfield{isbn}}
@@ -3028,7 +3026,7 @@ This work is `maintained' (as per LPPL maintenance status) by [Alex Ball][me].
   \newunit\newblock
   \iftoggle{bbx:related}
     {\usebibmacro{related:init}%
-      \usebibmacro{related}}
+     \usebibmacro{related}}
     {}%
   \usebibmacro{finentry}}
 
@@ -3038,8 +3036,8 @@ This work is `maintained' (as per LPPL maintenance status) by [Alex Ball][me].
   \usebibmacro{editor+others}%
   \setunit{\printdelim{nametitledelim}}\newblock
   \usebibmacro{maintitle+title}%
-  \newunit
-  \printlist{language}%
+%  \newunit
+%  \printlist{language}%
   \newunit\newblock
   \usebibmacro{event+venue+date}%
   \newunit\newblock
@@ -3047,7 +3045,7 @@ This work is `maintained' (as per LPPL maintenance status) by [Alex Ball][me].
   \newunit\newblock
   \iffieldundef{maintitle}
     {\printfield{volume}%
-      \printfield{part}}
+     \printfield{part}}
     {}%
   \newunit
   \printfield{volumes}%
@@ -3061,8 +3059,8 @@ This work is `maintained' (as per LPPL maintenance status) by [Alex Ball][me].
   \usebibmacro{publisher+location+date}%
   \newunit\newblock
   \usebibmacro{chapter+pages}%
-  \newunit
-  \printfield{pagetotal}%
+%  \newunit
+%  \printfield{pagetotal}%
   \newunit\newblock
   \iftoggle{bbx:isbn}
     {\printfield{isbn}}
@@ -3076,7 +3074,7 @@ This work is `maintained' (as per LPPL maintenance status) by [Alex Ball][me].
   \newunit\newblock
   \iftoggle{bbx:related}
     {\usebibmacro{related:init}%
-      \usebibmacro{related}}
+     \usebibmacro{related}}
     {}%
   \usebibmacro{finentry}}
 
@@ -3094,8 +3092,8 @@ This work is `maintained' (as per LPPL maintenance status) by [Alex Ball][me].
   \usebibmacro{author/translator+others}%
   \setunit{\printdelim{nametitledelim}}\newblock
   \usebibmacro{title}%
-  \newunit
-  \printlist{language}%
+%  \newunit
+%  \printlist{language}%
   \newunit\newblock
   \usebibmacro{byauthor}%
   \newunit\newblock
@@ -3110,7 +3108,7 @@ This work is `maintained' (as per LPPL maintenance status) by [Alex Ball][me].
   \newunit
   \iffieldundef{maintitle}
     {\printfield{volume}%
-      \printfield{part}}
+     \printfield{part}}
     {}%
   \newunit
   \printfield{volumes}%
@@ -3135,7 +3133,7 @@ This work is `maintained' (as per LPPL maintenance status) by [Alex Ball][me].
   \newunit\newblock
   \iftoggle{bbx:related}
     {\usebibmacro{related:init}%
-      \usebibmacro{related}}
+     \usebibmacro{related}}
     {}%
   \usebibmacro{finentry}}
 
@@ -3145,8 +3143,8 @@ This work is `maintained' (as per LPPL maintenance status) by [Alex Ball][me].
   \usebibmacro{author/translator+others}%
   \setunit{\printdelim{nametitledelim}}\newblock
   \usebibmacro{title}%
-  \newunit
-  \printlist{language}%
+%  \newunit
+%  \printlist{language}%
   \newunit\newblock
   \usebibmacro{byauthor}%
   \newunit\newblock
@@ -3160,7 +3158,7 @@ This work is `maintained' (as per LPPL maintenance status) by [Alex Ball][me].
   \newunit
   \iffieldundef{maintitle}
     {\printfield{volume}%
-      \printfield{part}}
+     \printfield{part}}
     {}%
   \newunit
   \printfield{volumes}%
@@ -3185,7 +3183,7 @@ This work is `maintained' (as per LPPL maintenance status) by [Alex Ball][me].
   \newunit\newblock
   \iftoggle{bbx:related}
     {\usebibmacro{related:init}%
-      \usebibmacro{related}}
+     \usebibmacro{related}}
     {}%
   \usebibmacro{finentry}}
 
@@ -3195,8 +3193,8 @@ This work is `maintained' (as per LPPL maintenance status) by [Alex Ball][me].
   \usebibmacro{author/translator+others}%
   \setunit{\printdelim{nametitledelim}}\newblock
   \usebibmacro{title}%
-  \newunit
-  \printlist{language}%
+%  \newunit
+%  \printlist{language}%
   \newunit\newblock
   \usebibmacro{byauthor}%
   \newunit\newblock
@@ -3210,7 +3208,7 @@ This work is `maintained' (as per LPPL maintenance status) by [Alex Ball][me].
   \newunit\newblock
   \iffieldundef{maintitle}
     {\printfield{volume}%
-      \printfield{part}}
+     \printfield{part}}
     {}%
   \newunit
   \printfield{volumes}%
@@ -3237,7 +3235,7 @@ This work is `maintained' (as per LPPL maintenance status) by [Alex Ball][me].
   \newunit\newblock
   \iftoggle{bbx:related}
     {\usebibmacro{related:init}%
-      \usebibmacro{related}}
+     \usebibmacro{related}}
     {}%
   \usebibmacro{finentry}}
 
@@ -3253,8 +3251,9 @@ This work is `maintained' (as per LPPL maintenance status) by [Alex Ball][me].
   \usebibmacro{begentry}%
   \usebibmacro{author/translator+others}%
   \setunit{\printdelim{nametitledelim}}\newblock
-  \ifnameundef{author}{}{\usebibmacro{title}%
-  \newunit}%
+  \ifnameundef{author}{}{%
+    \usebibmacro{title}%
+    \newunit}%
   \printlist{language}%
   \newunit\newblock
   \usebibmacro{byauthor}%
@@ -3318,8 +3317,8 @@ This work is `maintained' (as per LPPL maintenance status) by [Alex Ball][me].
   \usebibmacro{author/editor+others/translator+others}%
   \setunit{\printdelim{nametitledelim}}\newblock
   \usebibmacro{title}%
-  \newunit
-  \printlist{language}%
+%  \newunit
+%  \printlist{language}%
   \newunit\newblock
   \usebibmacro{byauthor}%
   \newunit\newblock
@@ -3328,8 +3327,6 @@ This work is `maintained' (as per LPPL maintenance status) by [Alex Ball][me].
   \printfield{type}%
   \newunit
   \printfield{edition}%
-  \newunit
-  \printfield{version}%
   \setunit{\addcomma\space}%
   \usebibmacro{series+number}%
   \newunit\newblock
@@ -3347,7 +3344,7 @@ This work is `maintained' (as per LPPL maintenance status) by [Alex Ball][me].
   \newunit\newblock
   \iftoggle{bbx:related}
     {\usebibmacro{related:init}%
-      \usebibmacro{related}}
+     \usebibmacro{related}}
     {}%
   \usebibmacro{finentry}}
 
@@ -3367,8 +3364,8 @@ This work is `maintained' (as per LPPL maintenance status) by [Alex Ball][me].
   \usebibmacro{title}%
   \setunit{\addspace}
   \printfield{type}%
-  \newunit
-  \printlist{language}%
+%  \newunit
+%  \printlist{language}%
   \newunit\newblock
   \usebibmacro{byauthor}%
   \newunit\newblock
@@ -3409,8 +3406,8 @@ This work is `maintained' (as per LPPL maintenance status) by [Alex Ball][me].
   \usebibmacro{author/editor}%
   \setunit{\printdelim{nametitledelim}}\newblock
   \usebibmacro{title}%
-  \newunit
-  \printlist{language}%
+%  \newunit
+%  \printlist{language}%
   \newunit\newblock
   \usebibmacro{byauthor}%
   \newunit\newblock
@@ -3419,15 +3416,13 @@ This work is `maintained' (as per LPPL maintenance status) by [Alex Ball][me].
   \printfield{edition}%
   \usebibmacro{manual:series+type+number}%
   \newunit
-  \printfield{version}%
-  \newunit
   \printfield{note}%
   \newunit\newblock
   \usebibmacro{organization+location+date}%
   \newunit\newblock
   \usebibmacro{chapter+pages}%
-  \newunit
-  \printfield{pagetotal}%
+%  \newunit
+%  \printfield{pagetotal}%
   \newunit\newblock
   \iftoggle{bbx:isbn}
     {\printfield{isbn}}
@@ -3441,23 +3436,9 @@ This work is `maintained' (as per LPPL maintenance status) by [Alex Ball][me].
   \newunit\newblock
   \iftoggle{bbx:related}
     {\usebibmacro{related:init}%
-      \usebibmacro{related}}
+     \usebibmacro{related}}
     {}%
   \usebibmacro{finentry}}
-
-\newbibmacro{manual:series+type+number}{%
-  \iffieldundef{series}{%
-    \newunit\newblock
-    \printfield{type}%
-    \setunit{\addspace}%
-    \printfield{number}%
-  }{%
-    \setunit{\addcomma\space}%
-    \usebibmacro{series+number}%
-    \newunit\newblock
-    \printfield{type}%
-  }%
-}
 
 %    \end{macrocode}
 %
@@ -3470,8 +3451,8 @@ This work is `maintained' (as per LPPL maintenance status) by [Alex Ball][me].
   \usebibmacro{author}%
   \setunit{\printdelim{nametitledelim}}\newblock
   \usebibmacro{title}%
-  \newunit
-  \printlist{language}%
+%  \newunit
+%  \printlist{language}%
   \newunit\newblock
   \usebibmacro{byauthor}%
   \newunit\newblock
@@ -3498,7 +3479,7 @@ This work is `maintained' (as per LPPL maintenance status) by [Alex Ball][me].
   \newunit\newblock
   \iftoggle{bbx:related}
     {\usebibmacro{related:init}%
-      \usebibmacro{related}}
+     \usebibmacro{related}}
     {}%
   \usebibmacro{finentry}}
 
@@ -3517,14 +3498,12 @@ This work is `maintained' (as per LPPL maintenance status) by [Alex Ball][me].
   \usebibmacro{author/editor+others/translator+others}%
   \setunit{\printdelim{nametitledelim}}\newblock
   \usebibmacro{title}%
-  \newunit
-  \printlist{language}%
+%  \newunit
+%  \printlist{language}%
   \newunit\newblock
   \usebibmacro{byauthor}%
   \newunit\newblock
   \usebibmacro{byeditor+others}%
-  \newunit\newblock
-  \printfield{version}%
   \newunit
   \printfield{note}%
   \newunit\newblock
@@ -3540,7 +3519,7 @@ This work is `maintained' (as per LPPL maintenance status) by [Alex Ball][me].
   \newunit\newblock
   \iftoggle{bbx:related}
     {\usebibmacro{related:init}%
-      \usebibmacro{related}}
+     \usebibmacro{related}}
     {}%
   \usebibmacro{finentry}}
 
@@ -3560,8 +3539,8 @@ This work is `maintained' (as per LPPL maintenance status) by [Alex Ball][me].
   \usebibmacro{author}%
   \setunit{\printdelim{nametitledelim}}\newblock
   \usebibmacro{title}%
-  \newunit
-  \printlist{language}%
+%  \newunit
+%  \printlist{language}%
   \newunit\newblock
   \usebibmacro{byauthor}%
   \newunit\newblock
@@ -3572,8 +3551,8 @@ This work is `maintained' (as per LPPL maintenance status) by [Alex Ball][me].
   \usebibmacro{institution+location+date}%
   \newunit\newblock
   \usebibmacro{chapter+pages}%
-  \newunit
-  \printfield{pagetotal}%
+%  \newunit
+%  \printfield{pagetotal}%
   \newunit\newblock
   \iftoggle{bbx:isbn}
     {\printfield{isrn}}
@@ -3604,8 +3583,8 @@ This work is `maintained' (as per LPPL maintenance status) by [Alex Ball][me].
   \usebibmacro{author}%
   \setunit{\printdelim{nametitledelim}}\newblock
   \usebibmacro{title}%
-  \newunit
-  \printlist{language}%
+%  \newunit
+%  \printlist{language}%
   \newunit\newblock
   \usebibmacro{byauthor}%
   \newunit\newblock
@@ -3616,8 +3595,8 @@ This work is `maintained' (as per LPPL maintenance status) by [Alex Ball][me].
   \usebibmacro{institution+location+date}%
   \newunit\newblock
   \usebibmacro{chapter+pages}%
-  \newunit
-  \printfield{pagetotal}%
+%  \newunit
+%  \printfield{pagetotal}%
   \newunit\newblock
   \iftoggle{bbx:isbn}
     {\printfield{isbn}}
@@ -3631,7 +3610,7 @@ This work is `maintained' (as per LPPL maintenance status) by [Alex Ball][me].
   \newunit\newblock
   \iftoggle{bbx:related}
     {\usebibmacro{related:init}%
-      \usebibmacro{related}}
+     \usebibmacro{related}}
     {}%
   \usebibmacro{finentry}}
 
@@ -3657,8 +3636,8 @@ This work is `maintained' (as per LPPL maintenance status) by [Alex Ball][me].
   }{%
     \setunit{\addspace}%
     \usebibmacro{isonline}}{}%
-  \newunit
-  \printlist{language}%
+%  \newunit
+%  \printlist{language}%
   \newunit\newblock
   \printfield{type}%
   \newunit\newblock
@@ -3698,8 +3677,8 @@ This work is `maintained' (as per LPPL maintenance status) by [Alex Ball][me].
   \usebibmacro{author/editor+others/translator+others}%
   \setunit{\printdelim{nametitledelim}}\newblock
   \usebibmacro{title}%
-  \newunit
-  \printlist{language}%
+%  \newunit
+%  \printlist{language}%
   \newunit\newblock
   \usebibmacro{byauthor}%
   \newunit\newblock
@@ -3744,16 +3723,16 @@ This work is `maintained' (as per LPPL maintenance status) by [Alex Ball][me].
   \usebibmacro{author}%
   \setunit{\printdelim{nametitledelim}}\newblock
   \usebibmacro{title}%
-  \newunit
-  \printlist{language}%
+%  \newunit
+%  \printlist{language}%
   \newunit\newblock
   \usebibmacro{byauthor}%
   \newunit\newblock
   \printfield{note}%
   \setunit{\addspace}%
   \usebibmacro{reporter}%
-  \newunit
-  \printfield{pagetotal}%
+%  \newunit
+%  \printfield{pagetotal}%
   \newunit\newblock
   \printfield{institution}%
   \newunit\newblock
@@ -3786,8 +3765,8 @@ This work is `maintained' (as per LPPL maintenance status) by [Alex Ball][me].
   \usebibmacro{author}%
   \setunit{\printdelim{nametitledelim}}\newblock
   \usebibmacro{title}%
-  \newunit
-  \printlist{language}%
+%  \newunit
+%  \printlist{language}%
   \newunit\newblock
   \usebibmacro{byauthor}%
   \newunit\newblock
@@ -3826,8 +3805,8 @@ This work is `maintained' (as per LPPL maintenance status) by [Alex Ball][me].
   \usebibmacro{author/editor+others/translator+others}%
   \setunit{\printdelim{nametitledelim}}\newblock
   \usebibmacro{title}%
-  \newunit
-  \printlist{language}%
+%  \newunit
+%  \printlist{language}%
   \newunit\newblock
   \usebibmacro{byauthor}%
   \newunit\newblock
@@ -3843,8 +3822,8 @@ This work is `maintained' (as per LPPL maintenance status) by [Alex Ball][me].
   \usebibmacro{organization+location+date+library}%
   \newunit\newblock
   \usebibmacro{chapter+pages}%
-  \newunit
-  \printfield{pagetotal}%
+%  \newunit
+%  \printfield{pagetotal}%
   \newunit\newblock
   \usebibmacro{doi+eprint+url}%
   \newunit\newblock
@@ -3854,7 +3833,7 @@ This work is `maintained' (as per LPPL maintenance status) by [Alex Ball][me].
   \newunit\newblock
   \iftoggle{bbx:related}
     {\usebibmacro{related:init}%
-      \usebibmacro{related}}
+     \usebibmacro{related}}
     {}%
   \usebibmacro{finentry}}
 
@@ -3871,8 +3850,8 @@ This work is `maintained' (as per LPPL maintenance status) by [Alex Ball][me].
   \usebibmacro{author/translator+others}%
   \setunit{\printdelim{nametitledelim}}\newblock
   \usebibmacro{title}%
-  \newunit
-  \printlist{language}%
+%  \newunit
+%  \printlist{language}%
   \newunit\newblock
   \usebibmacro{byauthor}%
   \newunit\newblock
@@ -3906,8 +3885,8 @@ This work is `maintained' (as per LPPL maintenance status) by [Alex Ball][me].
   \usebibmacro{author/editor+others/translator+others}%
   \setunit{\printdelim{nametitledelim}}\newblock
   \usebibmacro{title}%
-  \newunit
-  \printlist{language}%
+%  \newunit
+%  \printlist{language}%
   \newunit\newblock
   \usebibmacro{byauthor}%
   \newunit\newblock
@@ -3916,8 +3895,6 @@ This work is `maintained' (as per LPPL maintenance status) by [Alex Ball][me].
   \printfield{howpublished}%
   \newunit\newblock
   \printfield{type}%
-  \newunit
-  \printfield{version}%
   \newunit
   \printfield{note}%
   \newunit\newblock
@@ -3933,7 +3910,7 @@ This work is `maintained' (as per LPPL maintenance status) by [Alex Ball][me].
   \newunit\newblock
   \iftoggle{bbx:related}
     {\usebibmacro{related:init}%
-      \usebibmacro{related}}
+     \usebibmacro{related}}
     {}%
   \usebibmacro{finentry}}
 
@@ -3952,8 +3929,8 @@ This work is `maintained' (as per LPPL maintenance status) by [Alex Ball][me].
   \usebibmacro{author}%
   \setunit{\printdelim{nametitledelim}}\newblock
   \usebibmacro{title}%
-  \newunit
-  \printlist{language}%
+%  \newunit
+%  \printlist{language}%
   \newunit\newblock
   \usebibmacro{byauthor}%
   \newunit\newblock
@@ -3977,9 +3954,7 @@ This work is `maintained' (as per LPPL maintenance status) by [Alex Ball][me].
   \newunit\newblock
   \usebibmacro{isunpublished}%
   \newunit\newblock
-  \iftoggle{bbx:url}
-    {\usebibmacro{url+urldate}}
-    {}%
+  \usebibmacro{doi+eprint+url}%
   \newunit\newblock
   \usebibmacro{addendum+pubstate}%
   \setunit{\bibpagerefpunct}\newblock
@@ -4953,8 +4928,7 @@ This work is `maintained' (as per LPPL maintenance status) by [Alex Ball][me].
         \clearfield{title}\clearfield{subtitle}}%
       \printfield{titleaddon}%
       \setunit*{\addspace}%
-      \printfield{version}%
-      \clearfield{version}%
+      \printfield{version}\clearfield{version}%
       \ifboolexpr{
         test {\ifentrytype{legislation}}
         or
@@ -5155,6 +5129,25 @@ This work is `maintained' (as per LPPL maintenance status) by [Alex Ball][me].
   \setunit*{\addcomma\space}%
   \printfield{number}%
   \newunit}
+
+%    \end{macrocode}
+%
+% We also supply a version that incorporates the |type| field.
+%
+%    \begin{macrocode}
+\newbibmacro{manual:series+type+number}{%
+  \iffieldundef{series}{%
+    \newunit\newblock
+    \printfield{type}%
+    \setunit{\addspace}%
+    \printfield{number}%
+  }{%
+    \setunit{\addcomma\space}%
+    \usebibmacro{series+number}%
+    \newunit\newblock
+    \printfield{type}%
+  }%
+}
 
 %    \end{macrocode}
 %
