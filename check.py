@@ -513,6 +513,7 @@ def contrast_refs(
     label_width = max([len(s) for s in labels])
 
     missing = defaultdict(set)
+    found_errors = False
     for key, target in kwargs[labels[0]].items():
         errors = list()
         for label in labels[1:]:
@@ -524,6 +525,7 @@ def contrast_refs(
                     errors.append(f"{label}: {dededupl}")
                     errors.append(format_diff(label, target, dededupl))
         if errors:
+            found_errors = True
             click.secho(key, bold=True)
             click.echo(f"{labels[0].ljust(label_width)}: {target}")
             for error in errors:
@@ -532,6 +534,9 @@ def contrast_refs(
             if sources:
                 click.echo(f"Not present in {' or '.join(sources)}.")
             print()
+
+    if not (found_errors or missing):
+        click.echo(f"No discrepancies found.")
 
     return missing
 

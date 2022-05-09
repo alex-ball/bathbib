@@ -2947,7 +2947,7 @@ This work is `maintained' (as per LPPL maintenance status) by [Alex Ball][me].
     {}%
   \newunit
   \printfield{volumes}%
-  \newunit\newblock
+  \setunit{\addcomma\space}%
   \usebibmacro{series+number}%
   \newunit\newblock
   \printfield{note}%
@@ -2973,14 +2973,6 @@ This work is `maintained' (as per LPPL maintenance status) by [Alex Ball][me].
       \usebibmacro{related}}
     {}%
   \usebibmacro{finentry}}
-
-\xpatchbibdriver{book}{%
-  \newunit\newblock
-  \usebibmacro{series+number}%
-}{%
-  \setunit{\addcomma\space}%
-  \usebibmacro{series+number}%
-}{}{\wlog{WARNING: biblatex-bath failed to patch book driver (series+number)}}
 
 \DeclareBibliographyDriver{collection}{%
   \usebibmacro{bibindex}%
@@ -3001,7 +2993,7 @@ This work is `maintained' (as per LPPL maintenance status) by [Alex Ball][me].
     {}%
   \newunit
   \printfield{volumes}%
-  \newunit\newblock
+  \setunit{\addcomma\space}%
   \usebibmacro{series+number}%
   \newunit\newblock
   \printfield{note}%
@@ -3028,14 +3020,6 @@ This work is `maintained' (as per LPPL maintenance status) by [Alex Ball][me].
     {}%
   \usebibmacro{finentry}}
 
-\xpatchbibdriver{collection}{%
-  \newunit\newblock
-  \usebibmacro{series+number}%
-}{%
-  \setunit{\addcomma\space}%
-  \usebibmacro{series+number}%
-}{}{\wlog{WARNING: biblatex-bath failed to patch collection driver (series+number)}}
-
 \DeclareBibliographyDriver{proceedings}{%
   \usebibmacro{bibindex}%
   \usebibmacro{begentry}%
@@ -3055,7 +3039,7 @@ This work is `maintained' (as per LPPL maintenance status) by [Alex Ball][me].
     {}%
   \newunit
   \printfield{volumes}%
-  \newunit\newblock
+  \setunit{\addcomma\space}%
   \usebibmacro{series+number}%
   \newunit\newblock
   \printfield{note}%
@@ -3083,14 +3067,6 @@ This work is `maintained' (as per LPPL maintenance status) by [Alex Ball][me].
       \usebibmacro{related}}
     {}%
   \usebibmacro{finentry}}
-
-\xpatchbibdriver{proceedings}{%
-  \newunit\newblock
-  \usebibmacro{series+number}%
-}{%
-  \setunit{\addcomma\space}%
-  \usebibmacro{series+number}%
-}{}{\wlog{WARNING: biblatex-bath failed to patch proceedings driver (series+number)}}
 
 %    \end{macrocode}
 %
@@ -3126,7 +3102,7 @@ This work is `maintained' (as per LPPL maintenance status) by [Alex Ball][me].
     {}%
   \newunit
   \printfield{volumes}%
-  \newunit\newblock
+  \setunit{\addcomma\space}%
   \usebibmacro{series+number}%
   \newunit\newblock
   \printfield{note}%
@@ -3150,14 +3126,6 @@ This work is `maintained' (as per LPPL maintenance status) by [Alex Ball][me].
       \usebibmacro{related}}
     {}%
   \usebibmacro{finentry}}
-
-\xpatchbibdriver{inbook}{%
-  \newunit\newblock
-  \usebibmacro{series+number}%
-}{%
-  \setunit{\addcomma\space}%
-  \usebibmacro{series+number}%
-}{}{\wlog{WARNING: biblatex-bath failed to patch inbook driver (series+number)}}
 
 \DeclareBibliographyDriver{incollection}{%
   \usebibmacro{bibindex}%
@@ -3171,8 +3139,9 @@ This work is `maintained' (as per LPPL maintenance status) by [Alex Ball][me].
   \usebibmacro{byauthor}%
   \newunit\newblock
   \usebibmacro{in:}%
-  \usebibmacro{maintitle+booktitle}%
+  \usebibmacro{bookeditor}%
   \newunit\newblock
+  \usebibmacro{maintitle+booktitle}%
   \usebibmacro{byeditor+others}%
   \newunit\newblock
   \printfield{edition}%
@@ -3183,7 +3152,7 @@ This work is `maintained' (as per LPPL maintenance status) by [Alex Ball][me].
     {}%
   \newunit
   \printfield{volumes}%
-  \newunit\newblock
+  \setunit{\addcomma\space}%
   \usebibmacro{series+number}%
   \newunit\newblock
   \printfield{note}%
@@ -3208,27 +3177,6 @@ This work is `maintained' (as per LPPL maintenance status) by [Alex Ball][me].
     {}%
   \usebibmacro{finentry}}
 
-\xpatchbibdriver{incollection}{%
-  \newunit\newblock
-  \usebibmacro{series+number}%
-}{%
-  \setunit{\addcomma\space}%
-  \usebibmacro{series+number}%
-}{}{\wlog{WARNING: biblatex-bath failed to patch incollection driver (series+number)}}
-
-\xpatchbibdriver{incollection}{%
-  \usebibmacro{in:}%
-  \usebibmacro{maintitle+booktitle}%
-  \newunit\newblock
-  \usebibmacro{byeditor+others}%
-}{%
-  \ifnameundef{editor}{}{\usebibmacro{in:}}%
-  \usebibmacro{bookeditor}%
-  \newunit\newblock
-  \usebibmacro{maintitle+booktitle}%
-  \usebibmacro{byeditor+others}%
-}{}{\wlog{WARNING: biblatex-bath failed to patch incollection driver (bookeditor)}}
-
 \DeclareBibliographyDriver{inproceedings}{%
   \usebibmacro{bibindex}%
   \usebibmacro{begentry}%
@@ -3240,12 +3188,13 @@ This work is `maintained' (as per LPPL maintenance status) by [Alex Ball][me].
   \newunit\newblock
   \usebibmacro{byauthor}%
   \newunit\newblock
-  \usebibmacro{in:}%
+  \ifnameundef{editor}{}{\usebibmacro{in:}}%
+  \usebibmacro{bookeditor}%
+  \newunit\newblock
   \usebibmacro{maintitle+booktitle}%
-  \newunit\newblock
-  \usebibmacro{event+venue+date}%
-  \newunit\newblock
   \usebibmacro{byeditor+others}%
+  \newunit
+  \usebibmacro{event+venue+date}%
   \newunit\newblock
   \iffieldundef{maintitle}
     {\printfield{volume}%
@@ -3253,7 +3202,7 @@ This work is `maintained' (as per LPPL maintenance status) by [Alex Ball][me].
     {}%
   \newunit
   \printfield{volumes}%
-  \newunit\newblock
+  \setunit{\addcomma\space}%
   \usebibmacro{series+number}%
   \newunit\newblock
   \printfield{note}%
@@ -3279,31 +3228,6 @@ This work is `maintained' (as per LPPL maintenance status) by [Alex Ball][me].
       \usebibmacro{related}}
     {}%
   \usebibmacro{finentry}}
-
-\xpatchbibdriver{inproceedings}{%
-  \newunit\newblock
-  \usebibmacro{series+number}%
-}{%
-  \setunit{\addcomma\space}%
-  \usebibmacro{series+number}%
-}{}{\wlog{WARNING: biblatex-bath failed to patch inproceedings driver (series+number)}}
-
-\xpatchbibdriver{inproceedings}{%
-  \usebibmacro{in:}%
-  \usebibmacro{maintitle+booktitle}%
-  \newunit\newblock
-  \usebibmacro{event+venue+date}%
-  \newunit\newblock
-  \usebibmacro{byeditor+others}%
-}{%
-  \ifnameundef{editor}{}{\usebibmacro{in:}}%
-  \usebibmacro{bookeditor}%
-  \newunit\newblock
-  \usebibmacro{maintitle+booktitle}%
-  \usebibmacro{byeditor+others}%
-  \newunit
-  \usebibmacro{event+venue+date}%
-}{}{\wlog{WARNING: biblatex-bath failed to patch inproceedings driver (bookeditor)}}
 
 %    \end{macrocode}
 %
@@ -3344,7 +3268,7 @@ This work is `maintained' (as per LPPL maintenance status) by [Alex Ball][me].
   \ifnameundef{author}{\usebibmacro{title}%
   \newunit}{}%
   \printfield{volumes}%
-  \newunit\newblock
+  \setunit{\addcomma\space}%
   \usebibmacro{series+number}%
   \newunit\newblock
   \printfield{note}%
@@ -3373,8 +3297,7 @@ This work is `maintained' (as per LPPL maintenance status) by [Alex Ball][me].
 %
 % \subsubsection{Datasets}
 %
-% We patch the new datasets driver from biblatex v3.13 so it can emulate what
-% we had previously done with the online driver.
+% The main difference from the standard driver is the use of the |library| macro.
 %
 %    \begin{macrocode}
 \DeclareBibliographyDriver{dataset}{%
@@ -3395,14 +3318,14 @@ This work is `maintained' (as per LPPL maintenance status) by [Alex Ball][me].
   \printfield{edition}%
   \newunit
   \printfield{version}%
-  \newunit\newblock
+  \setunit{\addcomma\space}%
   \usebibmacro{series+number}%
   \newunit\newblock
   \printfield{note}%
   \newunit\newblock
-  \printlist{organization}%
-  \newunit
-  \usebibmacro{publisher+location+date}%
+  \usebibmacro{library}%
+  \newunit\newblock
+  \usebibmacro{organization+location+date}%
   \newunit\newblock
   \usebibmacro{doi+eprint+url}%
   \newunit\newblock
@@ -3415,16 +3338,6 @@ This work is `maintained' (as per LPPL maintenance status) by [Alex Ball][me].
       \usebibmacro{related}}
     {}%
   \usebibmacro{finentry}}
-
-\xpatchbibdriver{dataset}{%
-  \printlist{organization}%
-  \newunit
-  \usebibmacro{publisher+location+date}%
-}{%
-  \usebibmacro{library}%
-  \newunit\newblock
-  \usebibmacro{organization+location+date}%
-}{}{\wlog{WARNING: biblatex-bath failed to patch dataset driver (publisher)}}
 
 %    \end{macrocode}
 %
@@ -3474,10 +3387,11 @@ This work is `maintained' (as per LPPL maintenance status) by [Alex Ball][me].
 % The \texttt{manual} driver is useful for a variety of technical publications,
 % such as standards, patents and maps. (Patents have their own driver, in fact,
 % but we set things up so the \texttt{manual} driver can be used instead if
-% needed for compatibility.)
+% needed for compatibility.) We use specialist macros for the type/number and
+% publication block.
 %
 %    \begin{macrocode}
-  \DeclareBibliographyDriver{manual}{%
+\DeclareBibliographyDriver{manual}{%
   \usebibmacro{bibindex}%
   \usebibmacro{begentry}%
   \usebibmacro{author/editor}%
@@ -3491,18 +3405,13 @@ This work is `maintained' (as per LPPL maintenance status) by [Alex Ball][me].
   \usebibmacro{byeditor}%
   \newunit\newblock
   \printfield{edition}%
-  \newunit\newblock
-  \usebibmacro{series+number}%
-  \newunit\newblock
-  \printfield{type}%
+  \usebibmacro{manual:series+type+number}%
   \newunit
   \printfield{version}%
   \newunit
   \printfield{note}%
   \newunit\newblock
-  \printlist{organization}%
-  \newunit
-  \usebibmacro{publisher+location+date}%
+  \usebibmacro{organization+location+date}%
   \newunit\newblock
   \usebibmacro{chapter+pages}%
   \newunit
@@ -3537,21 +3446,6 @@ This work is `maintained' (as per LPPL maintenance status) by [Alex Ball][me].
     \printfield{type}%
   }%
 }
-\xpatchbibdriver{manual}{%
-  \newunit\newblock
-  \usebibmacro{series+number}%
-  \newunit\newblock
-  \printfield{type}%
-}{%
-  \usebibmacro{manual:series+type+number}%
-}{}{\wlog{WARNING: biblatex-bath failed to patch manual driver}}
-\xpatchbibdriver{manual}{%
-  \printlist{organization}%
-  \newunit
-  \usebibmacro{publisher+location+date}%
-}{%
-  \usebibmacro{organization+location+date}%
-}{}{\wlog{WARNING: biblatex-bath failed to patch manual driver}}
 
 %    \end{macrocode}
 %
@@ -3602,7 +3496,7 @@ This work is `maintained' (as per LPPL maintenance status) by [Alex Ball][me].
 % \subsubsection{Online works}
 %
 % Compared with the standard styles, the main difference is that the
-% organization's address is printed.
+% organization's address is printed and we support the |library| macro.
 %
 %    \begin{macrocode}
 \DeclareBibliographyDriver{online}{%
@@ -3622,9 +3516,9 @@ This work is `maintained' (as per LPPL maintenance status) by [Alex Ball][me].
   \newunit
   \printfield{note}%
   \newunit\newblock
-  \printlist{organization}%
+  \usebibmacro{library}%
   \newunit\newblock
-  \usebibmacro{date}%
+  \usebibmacro{organization+location+date}%
   \newunit\newblock
   \usebibmacro{doi+eprint+url}%
   \newunit\newblock
@@ -3637,36 +3531,6 @@ This work is `maintained' (as per LPPL maintenance status) by [Alex Ball][me].
       \usebibmacro{related}}
     {}%
   \usebibmacro{finentry}}
-
-\xpatchbibdriver{online}{%
-  \printlist{organization}%
-  \newunit\newblock
-  \usebibmacro{date}%
-}{%
-  \usebibmacro{library}%
-  \newunit\newblock
-  \usebibmacro{organization+location+date}%
-}{}{\wlog{WARNING: biblatex-bath failed to patch online driver (publisher)}}
-%    \end{macrocode}
-%
-% This backports changes to the |online| driver in biblatex v3.15 to earlier
-% versions, so url/doi+eprint+url works as intended.
-%
-%    \begin{macrocode}
-  \xpatchbibdriver{online}{%
-  \iftoggle{bbx:doi}
-    {\printfield{doi}}
-    {}%
-  \newunit\newblock
-  \iftoggle{bbx:eprint}
-    {\usebibmacro{eprint}}
-    {}%
-  \newunit\newblock
-  \usebibmacro{url+urldate}%
-}{%
-  \toggletrue{bbx:url}%
-  \usebibmacro{doi+eprint+url}%
-}{}{}
 
 %    \end{macrocode}
 %
