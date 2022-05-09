@@ -2816,16 +2816,23 @@ This work is `maintained' (as per LPPL maintenance status) by [Alex Ball][me].
 %
 % \subsubsection{Default settings}
 %
+% Things to note in particular:
+% \begin{itemize}
+% \item With @online entires, the URL is shown even if |url=false|, globally.
+% \item With @letter entries, the date is written complete at the start of the
+%   reference.
+% \end{itemize}
+%
 %    \begin{macrocode}
 \ExecuteBibliographyOptions{isbn,url,doi,eprint,related}
 \ExecuteBibliographyOptions{labeldateparts,sorting=nyt,pagetracker,mergedate}
 \ExecuteBibliographyOptions{%
   maxcitenames=3,maxbibnames=9999,isbn=false,giveninits=true,dashed=false,
   alldates=comp,labeldate=year,labelalpha=true}
-% @online url is shown even if url=false, globally
 \ExecuteBibliographyOptions[online]{url=true}
 \ExecuteBibliographyOptions[reference,audio,video,music,movie]{%
   useeditor=false}
+\ExecuteBibliographyOptions[letter]{mergedate=maximum}
 
 %    \end{macrocode}
 %
@@ -4832,6 +4839,9 @@ This work is `maintained' (as per LPPL maintenance status) by [Alex Ball][me].
 \DeclareFieldFormat
   [unpublished]%
   {title}{\iffieldundef{booktitle}{\mkbibemph{#1}}{#1}}
+\DeclareFieldFormat
+  [letter]%
+  {title}{\iffieldundef{journaltitle}{\emph{#1}}{#1}}
 
 %    \end{macrocode}
 %
@@ -5231,6 +5241,7 @@ This work is `maintained' (as per LPPL maintenance status) by [Alex Ball][me].
 %
 %    \begin{macrocode}
 \DeclareFieldFormat{type}{\ifbibstring{#1}{\biblstring{#1}}{#1}}
+\DeclareFieldFormat[software]{type}{\mkbibbrackets{#1}}
 \DeclareFieldFormat{series}{\MakeSentenceCase*{#1}}
 \DeclareFieldFormat
   [audio,video,music,video]%
@@ -5361,6 +5372,48 @@ This work is `maintained' (as per LPPL maintenance status) by [Alex Ball][me].
     \newunit
     \usebibmacro{publisher+location+date}}}
 
+%    \end{macrocode}
+%
+% The following macro includes availability from a physical archive.
+%
+%    \begin{macrocode}
+\newbibmacro*{organization+location+date+library}{%
+  \ifboolexpr{
+    test {\iffieldundef{library}}
+    or
+    not test {\iflistundef{publisher}}
+  }{%
+    \printlist{location}%
+    \setunit*{\addcolon\space}%
+    \clearfield{location}%
+  }{}%
+  \iflistundef{publisher}{%
+    \printlist{organization}%
+  }{%
+    \printlist{publisher}%
+  }%
+  \setunit{\addcomma\space}%
+  \usebibmacro{date}%
+  \newunit
+  \iffieldundef{library}{%
+    \iffieldundef{institution}{}{%
+      \bibsentence
+      \bibstring{at}%
+      \setunit{\addcolon\space}%
+      \printlist{location}%
+      \setunit*{\addperiod\space}%
+      \printfield{institution}%
+    }%
+  }{%
+    \bibsentence
+    \bibstring{at}%
+    \setunit{\addcolon\space}%
+    \printlist{location}%
+    \setunit*{\addperiod\space}%
+    \printfield{library}\clearfield{library}%
+  }%
+}
+
 \newbibmacro*{location+date}{%
   \printlist{location}%
   \setunit*{\addcomma\space}%
@@ -5369,16 +5422,28 @@ This work is `maintained' (as per LPPL maintenance status) by [Alex Ball][me].
 
 %    \end{macrocode}
 %
-% We use the \texttt{library} field for databases and preprint repositories.
+% We use the \texttt{library} field for databases and preprint repositories,
+% as well as streaming services and physical archives for the visual arts.
 %
 %    \begin{macrocode}
 \DeclareFieldFormat{library}{\mkbibemph{#1}}
+\DeclareFieldFormat[image]{library}{#1}
 \newbibmacro*{library}{%
   \iffieldundef{library}{}{%
     \printfield{library}\clearfield{library}%
     \setunit*{\addspace}%
     \usebibmacro{isonline}%
   }%
+}
+
+%    \end{macrocode}
+%
+% Here is the |isunpublished| macro used by the |unpublished| driver. It can be
+% renewed if displaying the string needs to be suppressed or made conditional.
+%
+%    \begin{macrocode}
+\newbibmacro*{isunpublished}{%
+  \bibstring{unpublished}%
 }
 
 %    \end{macrocode}
@@ -5852,80 +5917,6 @@ This work is `maintained' (as per LPPL maintenance status) by [Alex Ball][me].
   {\item}
 
 \InitializeBibliographyStyle{\global\undef\bbx@lasthash}
-
-%%%
-%%% bath-specific
-%%%
-
-%    \end{macrocode}
-%
-% \subsection{Letters}
-%
-% This driver is used for emails. It is based loosely on the one for articles.
-% The particular foible with this type is that the date must be printed complete
-% at the start.
-%
-%    \begin{macrocode}
-\DeclareFieldFormat[letter]{title}{\iffieldundef{journaltitle}{\emph{#1}}{#1}}
-\ExecuteBibliographyOptions[letter]{mergedate=maximum}
-
-\DeclareFieldFormat[software]{type}{\mkbibbrackets{#1}}
-\DeclareFieldFormat[image]{library}{#1}
-%    \end{macrocode}
-%
-% The following code works slightly differently
-%
-%    \begin{macrocode}
-\newbibmacro*{organization+location+date+library}{%
-  \ifboolexpr{
-    test {\iffieldundef{library}}
-    or
-    not test {\iflistundef{publisher}}
-  }{%
-    \printlist{location}%
-    \setunit*{\addcolon\space}%
-    \clearfield{location}%
-  }{}%
-  \iflistundef{publisher}{%
-    \printlist{organization}%
-  }{%
-    \printlist{publisher}%
-  }%
-  \setunit{\addcomma\space}%
-  \usebibmacro{date}%
-  \newunit
-  \iffieldundef{library}{%
-    \iffieldundef{institution}{}{%
-      \bibsentence
-      \bibstring{at}%
-      \setunit{\addcolon\space}%
-      \printlist{location}%
-      \setunit*{\addperiod\space}%
-      \printfield{institution}%
-    }%
-  }{%
-    \bibsentence
-    \bibstring{at}%
-    \setunit{\addcolon\space}%
-    \printlist{location}%
-    \setunit*{\addperiod\space}%
-    \printfield{library}\clearfield{library}%
-  }%
-}
-
-%    \end{macrocode}
-%
-% \subsection{Unpublished}
-%
-% This driver is used for miscellaneous unpublished written material. It differs
-% from the standard version by supporting |maintitle| and |booktitle|, and
-% including a label at the end. The unpublished label is delegated to a macro
-% in case future versions of the style place conditions on whether it is displayed.
-%
-%    \begin{macrocode}
-\newbibmacro*{isunpublished}{%
-  \bibstring{unpublished}%
-}
 
 %    \end{macrocode}
 %
