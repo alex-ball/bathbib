@@ -4746,9 +4746,12 @@ This work is `maintained' (as per LPPL maintenance status) by [Alex Ball][me].
     \iffieldundef{#2year} {\mknoyeardaterangetrunc{#1}{#2}}%
   }{}{\wlog{WARNING: biblatex-bath failed to patch mkdaterangetruncextra@i}}%
 \fi
+%    \end{macrocode}
 %
 % By default, Title--year combinations are not disambiguated, so we fix that
 % too.
+%
+%    \begin{macrocode}
 \DeclareFieldFormat{extraalpha}{%
   \iffieldnums{labelyear}
     {\mknumalph{#1}}
@@ -4809,13 +4812,13 @@ This work is `maintained' (as per LPPL maintenance status) by [Alex Ball][me].
   {title}{#1}
 \DeclareFieldFormat
   [reference,mvreference]%
-  {title}{\ifnameundef{author}{#1}{\mkbibemph{#1}}}
+  {title}{\iftoggle{bbx:labelistitle}{#1}{\mkbibemph{#1}}}
 \DeclareFieldFormat
   [inreference]%
-  {title}{\ifnameundef{author}{\mkbibemph{#1}}{#1}}
+  {title}{\iftoggle{bbx:labelistitle}{\mkbibemph{#1}}{#1}}
 \DeclareFieldFormat
   [inreference]%
-  {booktitle}{\ifnameundef{author}{#1}{\mkbibemph{#1}}}
+  {booktitle}{\iftoggle{bbx:labelistitle}{#1}{\mkbibemph{#1}}}
 \DeclareFieldFormat
   [patent,thesis]%
   {title}{\mkbibemph{#1}}
@@ -5047,6 +5050,7 @@ This work is `maintained' (as per LPPL maintenance status) by [Alex Ball][me].
       and
       not test {\iffieldundef{booktitle}}
     }{%
+      \toggletrue{bbx:labelistitle}%
       \printtext[booktitle]{%
         \printfield[sentencecase]{booktitle}%
         \setunit{\booksubtitlepunct}%
@@ -5058,47 +5062,47 @@ This work is `maintained' (as per LPPL maintenance status) by [Alex Ball][me].
         and
         test {\iffieldundef{subtitle}}
       }{}{%
+        \toggletrue{bbx:labelistitle}%
         \printtext[title]{%
           \printfield[sentencecase]{title}%
           \setunit{\subtitlepunct}%
           \printfield[midsentencecase]{subtitle}}%
-        \clearfield{title}\clearfield{subtitle}%
-        \toggletrue{bbx:labelistitle}}%
-        \ifboolexpr{
-          test {\iffieldundef{journaltitle}}
-          and
-          test {\iffieldundef{booktitle}}
-          and (
-            test {\iffieldundef{library}}
+        \clearfield{title}\clearfield{subtitle}}%
+      \ifboolexpr{
+        test {\iffieldundef{journaltitle}}
+        and
+        test {\iffieldundef{booktitle}}
+        and (
+          test {\iffieldundef{library}}
+          or
+          test {\ifentrytype{image}}
+          or
+          test {\ifentrytype{audio}}
+          or
+          test {\ifentrytype{video}}
+          or
+          test {\ifentrytype{music}}
+          or
+          test {\ifentrytype{movie}}
+        ) and
+        not test {\ifentrytype{software}}
+        and
+        not test {\ifentrytype{legislation}}
+        and
+        not test {\ifentrytype{jurisdiction}}
+        and (
+          not (
+            test {\iffieldequalstr{type}{TV}}
             or
-            test {\ifentrytype{image}}
-            or
-            test {\ifentrytype{audio}}
-            or
-            test {\ifentrytype{video}}
-            or
-            test {\ifentrytype{music}}
-            or
-            test {\ifentrytype{movie}}
-          ) and
-          not test {\ifentrytype{software}}
-          and
-          not test {\ifentrytype{legislation}}
-          and
-          not test {\ifentrytype{jurisdiction}}
-          and (
-            not (
-              test {\iffieldequalstr{type}{TV}}
-              or
-              test {\iffieldequalstr{type}{Radio}}
-            )
-            or
-            test {\iffieldundef{series}}
+            test {\iffieldequalstr{type}{Radio}}
           )
-        }{%
-          \setunit*{\addspace}%
-          \usebibmacro{isonline}%
-        }{}%
+          or
+          test {\iffieldundef{series}}
+        )
+      }{%
+        \setunit*{\addspace}%
+        \usebibmacro{isonline}%
+      }{}%
     }%
   }{%
     \printfield{label}%
@@ -6106,8 +6110,8 @@ This work is `maintained' (as per LPPL maintenance status) by [Alex Ball][me].
 \xpatchbibmacro{cite:label}{%
   \printtext[bibhyperref]{\printfield[citetitle]{labeltitle}}%
 }{%
-  \printtext[bibhyperref]{\printfield[citetitle]{labeltitle}}%
   \toggletrue{bbx:labelistitle}%
+  \printtext[bibhyperref]{\printfield[citetitle]{labeltitle}}%
 }{}{\wlog{WARNING: biblatex-bath failed to patch cite:label}}
 %    \end{macrocode}
 % \iffalse
