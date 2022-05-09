@@ -3699,6 +3699,8 @@ This work is `maintained' (as per LPPL maintenance status) by [Alex Ball][me].
   \newunit
   \printfield{note}%
   \newunit\newblock
+  \usebibmacro{collection+shelfmark}%
+  \newunit\newblock
   \usebibmacro{organization+location+date+library}%
   \newunit\newblock
   \usebibmacro{doi+eprint+url}%
@@ -3824,8 +3826,9 @@ This work is `maintained' (as per LPPL maintenance status) by [Alex Ball][me].
   \printfield{type}%
   \newunit\newblock
   \printfield{note}%
+  \usebibmacro{collection+shelfmark}%
   \newunit\newblock
-  \usebibmacro{location+date}%
+  \usebibmacro{organization+location+date+library}%
   \newunit\newblock
   \usebibmacro{chapter+pages}%
   \newunit
@@ -3869,6 +3872,10 @@ This work is `maintained' (as per LPPL maintenance status) by [Alex Ball][me].
   \newunit
   \printfield{note}%
   \newunit\newblock
+  \usebibmacro{collection+shelfmark}%
+  \newunit\newblock
+  \usebibmacro{organization+location+date+library}%
+  \newunit\newblock
   \usebibmacro{doi+eprint+url}%
   \newunit\newblock
   \usebibmacro{addendum+pubstate}%
@@ -3902,7 +3909,9 @@ This work is `maintained' (as per LPPL maintenance status) by [Alex Ball][me].
   \newunit
   \printfield{note}%
   \newunit\newblock
-  \usebibmacro{organization+location+date}%
+  \usebibmacro{collection+shelfmark}%
+  \newunit\newblock
+  \usebibmacro{organization+location+date+library}%
   \newunit\newblock
   \usebibmacro{doi+eprint+url}%
   \newunit\newblock
@@ -3950,7 +3959,9 @@ This work is `maintained' (as per LPPL maintenance status) by [Alex Ball][me].
   \newunit\newblock
   \printfield{note}%
   \newunit\newblock
-  \usebibmacro{location+date}%
+  \usebibmacro{collection+shelfmark}%
+  \newunit\newblock
+  \usebibmacro{organization+location+date+library}%
   \newunit\newblock
   \usebibmacro{isunpublished}%
   \newunit\newblock
@@ -5143,6 +5154,27 @@ This work is `maintained' (as per LPPL maintenance status) by [Alex Ball][me].
 
 %    \end{macrocode}
 %
+% We provide a wrapper macro for printing archival collections and locators.
+%
+%    \begin{macrocode}
+\newbibmacro*{collection+shelfmark}{%
+  \ifboolexpr{
+    test {\iffieldundef{library}}
+    or (
+      test {\iffieldundef{collection}}
+      and
+      test {\iffieldundef{shelfmark}}
+    )
+  }{
+    \usebibmacro{series+number}%
+  }{
+    \printfield{collection}%
+    \setunit*{\addcomma\space}%
+    \printfield{shelfmark}%
+    \newunit}}
+
+%    \end{macrocode}
+%
 % Reports use a special macro for printing the |type|, |series| and |number| in
 % parentheses.
 %
@@ -5247,36 +5279,33 @@ This work is `maintained' (as per LPPL maintenance status) by [Alex Ball][me].
     or
     not test {\iflistundef{publisher}}
   }{%
-    \printlist{location}%
+    \printlist{location}\clearfield{location}%
     \setunit*{\addcolon\space}%
-    \clearfield{location}%
   }{}%
   \iflistundef{publisher}{%
-    \printlist{organization}%
+    \iflistundef{organization}{
+      \printlist{location}%
+    }{%
+      \printlist{organization}}
   }{%
     \printlist{publisher}%
   }%
   \setunit{\addcomma\space}%
   \usebibmacro{date}%
   \newunit
+  \usebibmacro{location+library}}
+
+\newbibmacro*{location+library}{%
   \iffieldundef{library}{%
     \iffieldundef{institution}{}{%
-      \bibsentence
-      \bibstring{at}%
-      \setunit{\addcolon\space}%
+      \printlist{institution}%
+      \setunit{\addcomma\space}%
       \printlist{location}%
-      \setunit*{\addperiod\space}%
-      \printfield{institution}%
     }%
   }{%
-    \bibsentence
-    \bibstring{at}%
-    \setunit{\addcolon\space}%
-    \printlist{location}%
-    \setunit*{\addperiod\space}%
     \printfield{library}\clearfield{library}%
-  }%
-}
+    \setunit*{\addcomma\space}%
+    \printlist{location}}}
 
 \newbibmacro*{location+date}{%
   \printlist{location}%
@@ -5296,9 +5325,7 @@ This work is `maintained' (as per LPPL maintenance status) by [Alex Ball][me].
   \iffieldundef{library}{}{%
     \printfield{library}\clearfield{library}%
     \setunit*{\addspace}%
-    \usebibmacro{isonline}%
-  }%
-}
+    \usebibmacro{isonline}}}
 
 %    \end{macrocode}
 %
@@ -5307,8 +5334,7 @@ This work is `maintained' (as per LPPL maintenance status) by [Alex Ball][me].
 %
 %    \begin{macrocode}
 \newbibmacro*{isunpublished}{%
-  \bibstring{unpublished}%
-}
+  \bibstring{unpublished}}
 
 %    \end{macrocode}
 %
@@ -5810,9 +5836,20 @@ This work is `maintained' (as per LPPL maintenance status) by [Alex Ball][me].
 %
 % \setcounter{lstnumber}{20}
 %
+% We add support for a CJK component of names.
+%
 %    \begin{macrocode}
 \DeclareDatamodelConstant[type=list]{nameparts}{prefix,family,suffix,given,cjk}
 %    \end{macrocode}
+%
+% We add some fields for compatibility with \textsf{biblatex-manuscripts-philology}
+% and \textsf{biblatex-oxref}.
+%
+%    \begin{macrocode}
+\DeclareDatamodelFields[type=field,datatype=literal]{collection,shelfmark}
+\DeclareDatamodelEntryfields[booklet,image,map,unpublished]{collection,shelfmark}
+%    \end{macrocode}
+%
 % \iffalse
 %</dbx>
 %<*lbx>
