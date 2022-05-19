@@ -342,40 +342,6 @@ def parse_csl_refs(filepath: str, only_fails: bool = False) -> t.List[t.Dict[str
     return (targets, outputs)
 
 
-def parse_cpjs_refs(filepath: str) -> t.List[str]:
-    """Extracts references from citeproc-js-server HTML output."""
-    # Ensure file exists and is up to date:
-    workdir = os.path.dirname(filepath)
-    filename = os.path.basename(filepath)
-    subprocess.run(["make", "-C", workdir, filename], check=True)
-    if not os.path.isfile(filepath):
-        raise click.FileError(f"Could not generate {filename}.")
-    print()
-
-    outputs = list()
-
-    with open(filepath, encoding="utf-8") as f:
-        htmlfrag = f.read()
-    root = lhtml.fragment_fromstring(htmlfrag)
-
-    refs = root.find_class("csl-entry")
-    for ref in refs:
-        output = lhtml.tostring(ref, encoding="unicode").strip()[23:-6]
-        output = re.sub(r'<a href="([^"]+)">', r'<a href="\1" class="uri">', output)
-        output = re.sub(r"<(/?)i>", r"<\1em>", output)
-        output = output.replace("&amp;", "&").replace("1981-01–07", "1981-01-07")
-        output = output.replace("https://doi.org/lis-link", "lis-link")
-        output = re.sub(
-            r'<em>([^<]*)<span style="font-style:normal;">([^<]*)</span>([^<]*)</em>',
-            r"<em>\1<em>\2</em>\3</em>",
-            output,
-        )
-
-        outputs.append(output)
-
-    return outputs
-
-
 def ignore_unfixable(
     outputs: t.Dict[str, str], compat: bool = False
 ) -> t.Dict[str, str]:
@@ -412,72 +378,6 @@ def ignore_unfixable(
                 r"\\emph\{(.*?) (\d{4})\}", r"\\emph{\1} \\emph{\2}", outputs[key]
             )
     return outputs
-
-
-def infer_mapping(
-    template: t.Dict[str, t.Dict[str, str]], outputs: t.List[str]
-) -> t.Dict[str, t.Dict[str, str]]:
-    """Uses an existing mapping from bib database IDs to formatted
-    references to map a list of formatted references to bib database
-    IDs.
-    """
-    mapping = dict()
-    remaining = outputs[:]
-    for id, target in template.items():
-        matches = [""]
-        last_matches = list()
-        fuzzy_matches = dict()
-        i = 10
-        while matches:
-            matches.clear()
-            head = target[0:i]
-            if fuzzy_matches:
-                for output in fuzzy_matches.keys():
-                    if output[0:i] == head:
-                        matches.append(output)
-
-                if len(matches) == 1:
-                    mapping[id] = matches[0]
-                    remaining.remove(fuzzy_matches[matches[0]])
-                    break
-                if not matches:
-                    break
-
-            else:
-                if last_matches:
-                    for output in last_matches:
-                        if output[0:i] == head:
-                            matches.append(output)
-
-                else:
-                    for output in remaining:
-                        if output[0:i] == head:
-                            matches.append(output)
-
-                if len(matches) == 1:
-                    mapping[id] = matches[0]
-                    remaining.remove(matches[0])
-                    break
-
-                if matches:
-                    # Multiple matches:
-                    last_matches = matches[:]
-                else:
-                    # No matches
-                    if not last_matches:
-                        print(f"No last matches for {id}.")
-                        break
-                    for near_match in last_matches:
-                        fuzzy_matches[
-                            re.sub(r" (\d{4})[a-c]\.", r" \1.", near_match)
-                        ] = near_match
-                    matches = last_matches
-
-            i += 1
-            if i > len(target):
-                break
-
-    return mapping
 
 
 def format_diff(label: str, primary: str, secondary: str) -> str:
@@ -622,9 +522,8 @@ def csl_impl():
     Requires citeproc-js-server to be running on http://127.0.0.1:8085/.
     """
     _, outputs = parse_csl_refs("csl/bath-csl-test.html")
-    cpjs_outputs = parse_cpjs_refs("csl/bath-csl-test-js.html")
-    cpjs_mapping = infer_mapping(template=outputs, outputs=cpjs_outputs)
-    print_missing(contrast_refs(Pandoc=outputs, CiteprocJS=cpjs_mapping))
+    _, cpjs_outputs = parse_csl_refs("csl/bath-csl-test-js.html")
+    print_missing(contrast_refs(Pandoc=outputs, CiteprocJS=cpjs_outputs))
 
 
 @main.command(context_settings=CONTEXT_SETTINGS)

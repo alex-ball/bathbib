@@ -6,14 +6,16 @@
 }
 
 div.citation {
-	padding-left: 1rem;
-	padding-right: 1rem;
+	padding: 1rem;
+	padding: 1rem;
+	border-top-left-radius: 0.5rem;
+	border-top-right-radius: 0.5rem;
+	border-bottom-width: 2px;
+	border-bottom-style: solid;
 }
 
 .target {
 	padding: 1rem;
-	border-top-width: 2px;
-	border-top-style: solid;
 }
 
 .references {
@@ -27,6 +29,7 @@ div.citation {
 	border-bottom-right-radius: 0.5rem;
 }
 
+.citation p,
 .target p,
 .references p {
 	margin: 0;
@@ -38,16 +41,17 @@ div.citation {
 }
 
 .failure {
-	border-top-style: double;
 	border-color: #B71C1C;
 	background-color: #FFEBEE;
 }
 
-.target.failure {
-	border-top-width: 5px;
+.citation.failure {
+	border-bottom-style: double;
+	border-bottom-width: 5px;
 }
 
 .references.failure {
+	border-top-style: double;
 	border-top-width: 3px;
 }
 

@@ -133,6 +133,17 @@ references:
   publisher-place: London
   URL: https://www.medicinescomplete.com/#/browse/bnf
 
+- id: aspirin2021bnf
+  type: entry
+  issued:
+    date-parts: [[2021]]
+  accessed:
+    date-parts: [[2021, 11, 26]]
+  title: Aspirin
+  publisher: Pharmaceutical Press
+  publisher-place: London
+  URL: https://www.medicinescomplete.com/#/content/bnf/_456850132
+
 - id: aspirin2020bnf
   type: entry
   issued:

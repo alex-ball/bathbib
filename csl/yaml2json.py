@@ -1,5 +1,6 @@
 #! /usr/bin/env python3
 import json
+import re
 
 import click
 import yaml
@@ -64,20 +65,27 @@ def main(output, style, input):
             "a 'references' key that maps to an array/list of entries."
         )
 
-    j_refs = {"items": dict()}
-    for ref in y_refs["references"]:
+    j_refs = {"items": list()}
+    for i, ref in enumerate(y_refs["references"], start=1):
         if "id" not in ref:
             raise click.ClickException(
                 message="All entries must have an 'id' key/value pair."
             )
-        j_refs["items"][ref["id"]] = ref
         # Remove pandoc-specific workaround for escaping underscores in URLs
-        url = j_refs["items"][ref["id"]].get("URL")
+        url = ref.get("URL")
         if url:
-            j_refs["items"][ref["id"]]["URL"] = url.replace(r"\_", "_")
+            ref["URL"] = url.replace(r"\_", "_")
+        j_refs["items"].append(ref)
+        # j_refs["citationClusters"].append(
+        #     {
+        #         "citationItems": [{"id": ref["id"]}],
+        #         "properties": {"noteIndex": i},
+        #     }
+        # )
 
     if style is not None:
-        j_refs["styleXML"] = style.read()
+        xml_str = style.read()
+        j_refs["styleXML"] = re.sub(r"\n\s*", "", xml_str)
 
     json.dump(j_refs, output, ensure_ascii=False, indent=2)
 

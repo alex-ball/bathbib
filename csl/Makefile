@@ -5,7 +5,7 @@ CSL      = harvard-university-of-bath.csl
 .PHONY: clean distclean
 .INTERMEDIATE: $(NAME)-raw.html $(NAME)-tmp.yaml
 
-all: $(NAME).html
+all: $(NAME).html $(NAME)-js.html clean
 
 tmp/example_01.tex: $(NAME).tex
 	rm -rf tmp/
@@ -22,17 +22,20 @@ $(NAME)-raw.html: tmp/example_01.tex $(NAME)-tmp.yaml $(CSL)
 	@echo "</body></html>" >> $@
 
 $(NAME).html: $(NAME)-raw.html check-output.py
-	./check-output.py
+	./check-output.py $< $@
 
-$(NAME).json: $(NAME).yaml $(CSL) yaml2json.py
+$(NAME)-input.json: $(NAME).yaml $(CSL) yaml2json.py
 	./yaml2json.py -o $@ -s $(CSL) $<
 
-$(NAME)-js.html: $(NAME).json
-	curl --header "Content-type: application/json" --data @$(NAME).json -X POST 'http://127.0.0.1:8085?responseformat=html&locale=en-GB&linkwrap=1' > $@
+$(NAME)-output.json: $(NAME)-input.json
+	curl --header "Content-type: application/json" --data @$(NAME)-input.json -X POST 'http://127.0.0.1:8085?responseformat=json&locale=en-GB&linkwrap=1&citations=1' > $@
+
+$(NAME)-js.html: $(NAME)-output.json $(NAME)-raw.html check-output.py
+	./check-output.py $< $@
 
 clean:
 	rm -rf tmp/
-	rm $(NAME)-raw.html
+	rm -f $(NAME)-raw.html rm $(NAME)-input.json $(NAME)-output.json
 
 distclean: clean
-	rm -f $(NAME).html
+	rm -f $(NAME).html $(NAME)-js.html
