@@ -628,12 +628,9 @@
   <macro name="title-label">
     <group delimiter=" ">
       <choose>
-        <if type="entry">
-          <text variable="title" font-style="italic"/>
-        </if>
-        <else-if type="book broadcast" match="any">
+        <if type="book broadcast" match="any">
           <text variable="title"/>
-        </else-if>
+        </if>
         <else>
           <choose>
             <if type="bill dataset graphic legal_case map motion_picture musical_score patent report software song speech standard webpage thesis" match="any">
