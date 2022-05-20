@@ -4853,7 +4853,7 @@ This work is `maintained' (as per LPPL maintenance status) by [Alex Ball][me].
       }{}%
     }{%
       \setunit*{\addspace}%
-        \printfield{entrysubtype}}
+      \printfield{entrysubtype}}
   }%
 }
 
@@ -4938,13 +4938,13 @@ This work is `maintained' (as per LPPL maintenance status) by [Alex Ball][me].
           \setunit{\addspace}}%
         \clearfield{title}\clearfield{subtitle}}%
       \printfield{titleaddon}%
-      \setunit*{\addspace}%
-      \printfield{version}\clearfield{version}%
       \ifboolexpr{
         test {\ifentrytype{legislation}}
         or
         test {\ifentrytype{jurisdiction}}
       }{}{%
+        \setunit*{\addspace}%
+        \printfield{version}\clearfield{version}%
         \iffieldundef{entrysubtype}{%
           \ifboolexpr{
             test {\iffieldundef{journaltitle}}

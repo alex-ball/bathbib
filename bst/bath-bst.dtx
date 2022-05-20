@@ -2711,7 +2711,7 @@ You can use \texttt{dataset} instead of \texttt{online} as an alias for \texttt{
   author = {@screencasto},
   title = {{Screencast-O-Matic}},
   version = {2},
-  titleaddon = {computer program},
+  entrysubtype = {computer program},
   url = {https://screencast-o-matic.com/},
   urlyear = {16 May 2016}}
 %</driver|bib>
@@ -4605,102 +4605,195 @@ FUNCTION {format.version}
 }
 %    \end{macrocode}
 %
-% |get.title.online| is a the function for writing `[Online]' after
-% a title. In \texttt{bath.bst} it prints the titleaddon field:
+% |print.labeltitle.addenda| is a convenience for writing out the elements that
+% normally follow the title when it appears at the head of the reference.
+%
+%    \begin{macrocode}
+FUNCTION {print.labeltitle.addenda}
+{ continue.clause
+%    \end{macrocode}
+%
+% In \texttt{bath.bst} it prints the version and then |titleaddon| field:
 %
 % \iffalse
 %<*bst1>
 % \fi
 %    \begin{macrocode}
-FUNCTION {get.title.online}
-{ online.shown
+  online.shown
     'skip$
-    { continue.clause
+    { format.version output
+      continue.clause
       format.titleaddon output
       #1 'online.shown :=
     }
   if$
-}
 %    \end{macrocode}
 %\iffalse
 %</bst1>
 %<*bst2>
 %\fi\addtocounter{lstnumber}{-9}
 %
-% In \texttt{bathx.bst} it conditionally prints the |bbl.online| string:
+% In \texttt{bathx.bst} it prints the |titleaddon| field, then the version,
+% then either the |entrysubtype| or the |bbl.online| string as appropriate:
 %
 %    \begin{macrocode}
-FUNCTION {get.title.online}
-{ is.online
-  journal empty$
+  format.titleaddon output
+  continue.clause
+  type$ duplicate$ "legislation" = not
+  swap$ "jurisdiction" = not
   and
-    booktitle empty$
-      type$ "inreference" =
-      author empty$
-      and
-    or
-  and
-    library empty$
-    type$ duplicate$ "image" =
-    swap$ duplicate$ "booklet" =
-    swap$ duplicate$ "audio" =
-    swap$ duplicate$ "video" =
-    swap$ duplicate$ "music" =
-    swap$ "movie" =
-    or
-    or
-    or
-    or
-    or
-    or
-  and
-  type$ "software" = not
-  and
-    series empty$
-      type duplicate$ empty$
-        { pop$ #1 }
-        { duplicate$ "TV" =
-          swap$ "Radio" =
-          or not
+    { format.version output
+      is.online
+        { entrysubtype duplicate$ empty$
+            { pop$
+              journal empty$
+                booktitle empty$
+                  type$ "inreference" =
+                  author empty$
+                  and
+                or
+              and
+                library empty$
+                type$ duplicate$ "image" =
+                swap$ duplicate$ "audio" =
+                swap$ duplicate$ "video" =
+                swap$ duplicate$ "music" =
+                swap$ "movie" =
+                or
+                or
+                or
+                or
+                or
+              and
+                series empty$
+                  type field.or.null
+                  duplicate$ "TV" =
+                  swap$ "Radio" =
+                  or not
+                or
+              and
+                { continue.clause
+                  bbl.online output
+                  #1 'online.shown :=
+                }
+                'skip$
+              if$
+            }
+            { "entrysubtype" bibinfo.check
+              "[" swap$ * "]" *
+              continue.clause output
+            }
+          if$
         }
+        'skip$
       if$
-    or
-  and
-    { continue.clause
-      bbl.online output
-      #1 'online.shown :=
     }
     'skip$
   if$
-}
 %    \end{macrocode}
 %\iffalse
 %</bst2>
 %\fi\addtocounter{mismatch}{34}
 %
-% |get.title.addenda| is a convenience for writing out the elements that
-% normally follow the title in |mid.clause| state.
+% |print.title.addenda| is a convenience for writing out the elements that
+% normally follow the title in its regular position. It is similar to
+% |print.labeltitle.addenda| but has somewhate different logic.
 %
 %    \begin{macrocode}
-FUNCTION {get.title.addenda}
+}
+FUNCTION {print.title.addenda}
 { continue.clause
-  format.version output
 %    \end{macrocode}
 %
-% These two lines are peculiar to |bathx.bst|, where |titleaddon| doesn't get moved:
+% In \texttt{bath.bst} it prints the version and then |titleaddon| field:
 %
 % \iffalse
-%<*bst2>
+%<*bst1>
 % \fi
 %    \begin{macrocode}
-  continue.clause
-  format.titleaddon output
+  online.shown
+    'skip$
+    { format.version output
+      continue.clause
+      format.titleaddon output
+      #1 'online.shown :=
+    }
+  if$
 %    \end{macrocode}
-% \iffalse
-%</bst2>
-% \fi\addtocounter{mismatch}{2}
+%\iffalse
+%</bst1>
+%<*bst2>
+%\fi\addtocounter{lstnumber}{-9}
+%
+% In \texttt{bathx.bst} it prints the |titleaddon| field, then the version,
+% then either the |entrysubtype| or the |bbl.online| string as appropriate:
+%
 %    \begin{macrocode}
-  get.title.online
+  type$ duplicate$ "legislation" = not
+  swap$ "jurisdiction" = not
+  and
+    { format.titleaddon output
+      continue.clause
+    }
+    'skip$
+  if$
+  format.version output
+  is.online
+    { entrysubtype duplicate$ empty$
+        type$ duplicate$ "legislation" =
+        swap$ "jurisdiction" =
+        or
+      or
+        { pop$
+          journal empty$
+            booktitle empty$
+              type$ "inreference" =
+              author empty$
+              and
+            or
+          and
+            library empty$
+            type$ duplicate$ "image" =
+            swap$ duplicate$ "audio" =
+            swap$ duplicate$ "video" =
+            swap$ duplicate$ "music" =
+            swap$ "movie" =
+            or
+            or
+            or
+            or
+            or
+          and
+            series empty$
+              type field.or.null
+              duplicate$ "TV" =
+              swap$ "Radio" =
+              or not
+            or
+          and
+            { continue.clause
+              bbl.online output
+              #1 'online.shown :=
+            }
+            'skip$
+          if$
+        }
+        { "entrysubtype" bibinfo.check
+          "[" swap$ * "]" *
+          continue.clause output
+        }
+      if$
+    }
+    'skip$
+  if$
+%    \end{macrocode}
+%\iffalse
+%</bst2>
+%\fi\addtocounter{mismatch}{34}
+%
+% We finish off with editor\slash translator information.
+%
+%    \begin{macrocode}
   continue.clause
   type$ "reference" =
     { format.byeditors output }
@@ -4713,7 +4806,7 @@ FUNCTION {get.title.addenda}
 % |word.in| provides the `In:' before book titles.
 %
 %    \begin{macrocode}
-FUNCTION {word.in}
+  FUNCTION {word.in}
 { bbl.in capitalize
   ":" *
   " " * }
@@ -5952,7 +6045,7 @@ FUNCTION {article}
   format.date "year" output.check
   date.block
   format.title "title" output.check
-  get.title.addenda
+  print.title.addenda
   new.block
   crossref missing$
     { journal "t" change.case$
@@ -6007,16 +6100,16 @@ FUNCTION {book}
             { format.title "title" output.check }
             { format.btitle "title" output.check }
           if$
-          get.title.online
+          print.labeltitle.addenda
           format.date "year" output.check
           year empty$ 'skip$ { date.block } if$
-          get.title.addenda
+          print.title.addenda
         }
         { format.editors "author and editor" output.check
           format.date "year" output.check
           date.block
           format.btitle "title" output.check
-          get.title.addenda
+          print.title.addenda
         }
       if$
     }
@@ -6028,7 +6121,7 @@ FUNCTION {book}
       format.date "year" output.check
       date.block
       format.btitle "title" output.check
-      get.title.addenda
+      print.title.addenda
     }
   if$
   format.bvolume output
@@ -6059,17 +6152,17 @@ FUNCTION {booklet}
 { output.bibitem
   author empty$
     { format.avtitle "title" output.check
-      get.title.online
+      print.labeltitle.addenda
       format.date "year" output.check
       year empty$ 'skip$ { date.block } if$
-      get.title.addenda
+      print.title.addenda
     }
     { format.authors output
       author format.key output
       format.date "year" output.check
       date.block
       format.avtitle "title" output.check
-      get.title.addenda
+      print.title.addenda
     }
   if$
   new.block
@@ -6130,7 +6223,7 @@ FUNCTION {inbook}
   format.date "year" output.check
   date.block
   format.btitle "title" output.check
-  get.title.addenda
+  print.title.addenda
   new.block
   format.edition output
   crossref missing$
@@ -6164,21 +6257,21 @@ FUNCTION {incollection}
     { type$ "inreference" =
         { format.label.booktitle output}
         { format.title "title" output.check
-          get.title.online
+          print.labeltitle.addenda
         }
       if$
       format.date "year" output.check
       year empty$ 'skip$ { date.block } if$
       type$ "inreference" =
         'skip$
-        { get.title.addenda }
+        { print.title.addenda }
       if$
     }
     { format.authors output.nonnull
       format.date "year" output.check
       date.block
       format.title "title" output.check
-      get.title.addenda
+      print.title.addenda
     }
   if$
   new.block
@@ -6196,7 +6289,7 @@ FUNCTION {incollection}
       author empty$
       and
         { format.btitle "title" output.check
-          get.title.addenda
+          print.title.addenda
           new.block
         }
         'skip$
@@ -6229,7 +6322,7 @@ FUNCTION {inproceedings}
   format.date "year" output.check
   date.block
   format.title "title" output.check
-  get.title.addenda
+  print.title.addenda
   new.block
   crossref missing$
     { format.in.ed.booktitle "booktitle" output.check
@@ -6275,10 +6368,10 @@ FUNCTION {jurisdiction}
         'new.sentence
         'continue.clause
       if$
-      get.title.online
+      print.labeltitle.addenda
       format.jur.date "year" output.check
       year empty$ 'skip$ { eu.case.check } if$
-      get.title.addenda
+      print.title.addenda
     }
     { format.authors output
       author format.key output
@@ -6286,7 +6379,8 @@ FUNCTION {jurisdiction}
       date.block
       continue.clause
       format.btitle "title" output.check
-      get.title.addenda
+      print.labeltitle.addenda
+      print.title.addenda
     }
   if$
   eu.case.check
@@ -6317,9 +6411,10 @@ FUNCTION {uklegislation}
 { output.bibitem
   author empty$
     { format.btitle "title" output.check
+      print.labeltitle.addenda
       continue.clause
       format.date emphasize "year" output.check
-      get.title.addenda
+      print.title.addenda
     }
     { format.authors output
       author format.key output
@@ -6327,7 +6422,8 @@ FUNCTION {uklegislation}
       date.block
       continue.clause
       format.btitle "title" output.check
-      get.title.addenda
+      print.labeltitle.addenda
+      print.title.addenda
     }
   if$
   entrysubtype field.or.null "secondary" =
@@ -6373,9 +6469,10 @@ FUNCTION {eulegislation}
 { output.bibitem
   author empty$
   { format.title "title" output.check
+    print.labeltitle.addenda
     continue.clause
     format.eu.date "year" output.check
-    get.title.addenda
+    print.title.addenda
   }
   { format.authors output
     author format.key output
@@ -6383,7 +6480,8 @@ FUNCTION {eulegislation}
     date.block
     continue.clause
     format.title "title" output.check
-    get.title.addenda
+    print.labeltitle.addenda
+    print.title.addenda
   }
   if$
   eu.case.check
@@ -6420,17 +6518,17 @@ FUNCTION {manual}
 { output.bibitem
   author empty$
     { format.btitle "title" output.check
-      get.title.online
+      print.labeltitle.addenda
       format.date "year" output.check
       year empty$ 'skip$ { date.block } if$
-      get.title.addenda
+      print.title.addenda
     }
     { format.authors output
       author format.key output
       format.date "year" output.check
       date.block
       format.btitle "title" output.check
-      get.title.addenda
+      print.title.addenda
     }
   if$
   month "month" bibinfo.check output
@@ -6457,17 +6555,17 @@ FUNCTION {image}
 { output.bibitem
   author empty$
   { format.btitle "title" output.check
-    get.title.online
+    print.labeltitle.addenda
     format.date "year" output.check
     year empty$ 'skip$ { date.block } if$
-    get.title.addenda
+    print.title.addenda
   }
   { format.authors output
     author format.key output
     format.date "year" output.check
     date.block
     format.btitle "title" output.check
-    get.title.addenda
+    print.title.addenda
   }
   if$
   format.edition output
@@ -6494,7 +6592,7 @@ FUNCTION {mastersthesis}
   format.date "year" output.check
   date.block
   format.btitle "title" output.check
-  get.title.addenda
+  print.title.addenda
   new.block
   bbl.mthesis format.thesis.type output.nonnull
   new.block
@@ -6516,17 +6614,17 @@ FUNCTION {misc}
 { output.bibitem
   author empty$
     { format.title "title" output.check
-      get.title.online
+      print.labeltitle.addenda
       format.date "year" output.check
       year empty$ 'skip$ { date.block } if$
-      get.title.addenda
+      print.title.addenda
     }
     { format.authors output
       author format.key output
       format.date "year" output.check
       date.block
       format.title "title" output.check
-      get.title.addenda
+      print.title.addenda
     }
   if$
   new.block
@@ -6550,7 +6648,7 @@ FUNCTION {phdthesis}
   format.date "year" output.check
   date.block
   format.btitle "title" output.check
-  get.title.addenda
+  print.title.addenda
   new.block
   bbl.phdthesis format.thesis.type output.nonnull
   new.block
@@ -6572,17 +6670,17 @@ FUNCTION {proceedings}
 { output.bibitem
   editor empty$
     { format.btitle "title" output.check
-      get.title.online
+      print.labeltitle.addenda
       format.date "year" output.check
       year empty$ 'skip$ { date.block } if$
-      get.title.addenda
+      print.title.addenda
     }
     { format.editors output
       editor format.key output
       format.date "year" output.check
       date.block
       format.btitle "title" output.check
-      get.title.addenda
+      print.title.addenda
     }
   if$
   format.bvolume output
@@ -6610,17 +6708,17 @@ FUNCTION {techreport}
 { output.bibitem
   author empty$
     { format.btitle "title" output.check
-      get.title.online
+      print.labeltitle.addenda
       format.date "year" output.check
       year empty$ 'skip$ { date.block } if$
-      get.title.addenda
+      print.title.addenda
     }
     { format.authors output
       author format.key output
       format.date "year" output.check
       date.block
       format.btitle "title" output.check
-      get.title.addenda
+      print.title.addenda
     }
   if$
   new.block
@@ -6650,17 +6748,17 @@ FUNCTION {unpublished}
 { output.bibitem
   author empty$
     { booktitle empty$ 'format.btitle 'format.title if$ "title" output.check
-      get.title.online
+      print.labeltitle.addenda
       format.date "year" output.check
       year empty$ 'skip$ { date.block } if$
-      get.title.addenda
+      print.title.addenda
     }
     { format.authors output
       author format.key output
       format.date "year" output.check
       date.block
       booktitle empty$ 'format.btitle 'format.title if$ "title" output.check
-      get.title.addenda
+      print.title.addenda
     }
   if$
   new.block
