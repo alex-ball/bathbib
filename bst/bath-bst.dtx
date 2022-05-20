@@ -3694,9 +3694,11 @@ FUNCTION {init.state.consts}
 STRINGS { s t }
 %    \end{macrocode}
 %
-% The |output.nonnull| function removes an element from the stack, writes the
-% appropriate delimiter to the .bbl file depending on the state, then restores
-% the original element. Afterwards, the output state is set to |mid.sentence|.
+% The |output.nonnull| function takes the top two tokens (strings) from the
+% stack. It appends the appropriate delimiter to the earlier token and writes
+% it to the .bbl file. It then returns the later (topmost) token to the top of
+% the stack ready for the next occurrence of the function. These are the
+% delimiters used in each state:
 %
 % \begin{itemize}
 % \item |before.all| = nothing is written.
@@ -3705,6 +3707,8 @@ STRINGS { s t }
 % \item |after.sentence| = a period is written.
 % \item |after.block| = a period, line break and |\newblock| are written.
 % \end{itemize}
+%
+% Afterwards, the output state is set to |mid.sentence|.
 %
 %    \begin{macrocode}
 FUNCTION {output.nonnull}
@@ -3745,11 +3749,10 @@ FUNCTION {end.clause}
 }
 %    \end{macrocode}
 %
-% Before writing anything out, we need to make sure there is something to be
-% printed. We provide two functions for this: |output| is silent, while
-% |output.check| will write a warning to the log that the field is empty. The
-% latter consumes an additional string (at the top of the stack) for printing
-% in the warning message.
+% We provide two wrappers around |output.nonull| to avoid passing it empty
+% strings: |output| is silent, while |output.check| will write a warning to the
+% log that the field is empty. The latter consumes an additional string (at the
+% top of the stack) for printing in the warning message.
 %
 %    \begin{macrocode}
 FUNCTION {output}
@@ -3814,13 +3817,13 @@ FUNCTION {date.block}
 }
 %    \end{macrocode}
 %
-% The |bibinfo| functions consume two tokens: the value and name of a field
-% respectively. If the value is non-null, the tokens are concatenated in
-% the form |\bibinfo{field name}| |{field value}|. Otherwise, the field name
-% is removed from the stack; if the value is missing rather than empty, it is
-% replaced with an empty string. The |check| version does this silently, while
-% the |warn| version issues a warning in the log file if the value is missing
-% or empty.
+% The |bibinfo| functions consume two tokens -- the value and name of a
+% field respectively -- and return a single string. If the value is non-null,
+% the tokens are concatenated in the form |\bibinfo{field name}{field value}|,
+% otherwise an empty string is returned.
+%
+% The |check| version does this silently, while the |warn| version issues a
+% warning in the log file if the value is missing or empty.
 %
 %    \begin{macrocode}
 FUNCTION {bibinfo.check}
@@ -3916,7 +3919,7 @@ FUNCTION {field.or.null}
 }
 %    \end{macrocode}
 %
-% The \texttt{emphasize} function applies emphasis.
+% The \texttt{emphasize} function applies emphasis to the topmest token.
 %
 %    \begin{macrocode}
 FUNCTION {emphasize}
@@ -4133,7 +4136,8 @@ MACRO {dec} {"December"}
 
 %    \end{macrocode}
 %
-% This function allows us to convert cardinal numbers to English ordinals.
+% This function takes a cardinal number and replaces it with the corresponding
+% English ordinal.
 %
 %    \begin{macrocode}
 FUNCTION {eng.ord}
@@ -4424,14 +4428,14 @@ FUNCTION {make.full.names}
 }
 %    \end{macrocode}
 %
-% |output.bibitem| writes out the very start of the entry in the bibliography,
+% |output.bibitem| writes out the start of an entry in the bibliography,
 % which looks like |\bibitem[{|author--year elements|}]{|entry key|}|. The
 % author--year part uses special \textsf{natbib} syntax: either `Author(Year)'
 % or `Truncated author list(Year)Full author list'. The |calc.label| function
 % below supplies the truncated author list, opening parenthesis and year; you
 % see here the closing parenthesis and conditional inclusion of the full list.
-% The function then starts a new line and puts the entry driver into the
-% |before.all| output state.
+% The function then starts a new line, puts the entry driver into the
+% |before.all| output state, and puts an empty string at the top of the stack.
 %
 %    \begin{macrocode}
 FUNCTION {output.bibitem}
