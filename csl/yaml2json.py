@@ -65,7 +65,7 @@ def main(output, style, input):
             "a 'references' key that maps to an array/list of entries."
         )
 
-    j_refs = {"items": list()}
+    j_refs = {"items": list(), "citationClusters": list()}
     for i, ref in enumerate(y_refs["references"], start=1):
         if "id" not in ref:
             raise click.ClickException(
@@ -76,12 +76,12 @@ def main(output, style, input):
         if url:
             ref["URL"] = url.replace(r"\_", "_")
         j_refs["items"].append(ref)
-        # j_refs["citationClusters"].append(
-        #     {
-        #         "citationItems": [{"id": ref["id"]}],
-        #         "properties": {"noteIndex": i},
-        #     }
-        # )
+        j_refs["citationClusters"].append(
+            {
+                "citationItems": [{"id": ref["id"]}],
+                "properties": {"noteIndex": i},
+            }
+        )
 
     if style is not None:
         xml_str = style.read()

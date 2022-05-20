@@ -3,7 +3,7 @@ NAME     = bath-csl-test
 CSL      = harvard-university-of-bath.csl
 
 .PHONY: clean distclean
-.INTERMEDIATE: $(NAME)-raw.html $(NAME)-tmp.yaml
+.INTERMEDIATE: $(NAME)-raw.html $(NAME)-tmp.yaml $(NAME)-input.json $(NAME)-output.json
 
 all: $(NAME).html $(NAME)-js.html clean
 
@@ -28,14 +28,14 @@ $(NAME)-input.json: $(NAME).yaml $(CSL) yaml2json.py
 	./yaml2json.py -o $@ -s $(CSL) $<
 
 $(NAME)-output.json: $(NAME)-input.json
-	curl --header "Content-type: application/json" --data @$(NAME)-input.json -X POST 'http://127.0.0.1:8085?responseformat=json&locale=en-GB&linkwrap=1&citations=1' > $@
+	curl --header "Content-type: application/json" --data @$< -X POST 'http://127.0.0.1:8085?responseformat=json&locale=en-GB&linkwrap=1&citations=1' > $@
 
 $(NAME)-js.html: $(NAME)-output.json $(NAME)-raw.html check-output.py
 	./check-output.py $< $@
 
 clean:
 	rm -rf tmp/
-	rm -f $(NAME)-raw.html rm $(NAME)-input.json $(NAME)-output.json
+	rm -f $(NAME)-raw.html $(NAME)-tmp.yaml $(NAME)-input.json $(NAME)-output.json
 
 distclean: clean
 	rm -f $(NAME).html $(NAME)-js.html

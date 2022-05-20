@@ -85,7 +85,10 @@ if args.infile.endswith(".json"):
         refs[entryid] = cpjs_output
 
     for i, entryid in enumerate(citation_order):
-        cites[entryid] = citations[i]
+        cpjs_output = citations[i]
+        if "British National Formulary" in cpjs_output:
+            cpjs_output = re.sub(r"(\d{4})[ab]\)", r"\1)", cpjs_output)
+        cites[entryid] = cpjs_output
 
 
 output = ""
@@ -111,18 +114,23 @@ with open(pandoc_raw, "r") as f:
         if state == state_n:
             if '<span class="citation"' in line:
                 m1 = re.search(
-                    r'data-cites="(?P<id>[^"]+)">(?P<gen>\([^)]+\))</span>', line
+                    r'data-cites="(?P<id>[^"]+)">(?P<gen>\(.+\))</span>', line
                 )
                 if m1:
                     entryid = m1.group("id")
                     gen = m1.group("gen")
                     if entryid in cites:
+                        line = line.replace(f">{gen}</span>", f">{cites[entryid]}</span>")
                         gen = cites[entryid]
-                        line.replace(m1.group("gen"), gen)
                 cite_comp = ""
-                m2 = re.search(r"(?P<exp>\([^)]+\)) = ", line)
+                m2 = re.search(r"(?P<exp>\(.+\)) = ", line)
+                test_gen = gen.replace('<span class="nocase">', "").replace(
+                    "</span>", ""
+                )
                 if m2:
-                    cite_comp = " success" if gen == m2.group("exp") else " failure"
+                    cite_comp = (
+                        " success" if test_gen == m2.group("exp") else " failure"
+                    )
                 output_string += (
                     f'<div class="test">\n<div class="citation{cite_comp}">\n'
                 )
