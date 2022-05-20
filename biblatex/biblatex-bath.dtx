@@ -729,13 +729,6 @@ Use the most appropriate \texttt{reference} entry type instead of, say,
 \end{Verbatim}
 \end{bibexbox}
 
-\begin{info}\item
-If you use the Bib\TeX\ backend, you will have to repeat the contents of the
-\texttt{booktitle} field in the \texttt{sorttitle} field yourself to ensure the
-entry is placed correctly in the reference list. If you use Biber, this is done
-automatically for you.
-\end{info}
-
 \begin{bibexbox}<RX>{aspirin2019bnf}
   British National Formulary, 2019. \emph{Aspirin} [Online]. London: Pharmaceutical Press. Available from: \url{https://www.medicinescomplete.com/#/content/bnf/_456850132} [Accessed 26 November 2019].
   \tcblower
@@ -755,7 +748,14 @@ automatically for you.
 \end{Verbatim}
 \end{bibexbox}
 
-
+\begin{info}\item
+  If you use the Bib\TeX\ backend, you will have to repeat the contents of the
+  \texttt{booktitle} field in the \texttt{sorttitle} field yourself to ensure the
+  entry is placed correctly in the reference list. If you use Biber, this is done
+  automatically for you.
+  \end{info}
+  
+  
 \subsubsection*{Chapter\slash paper from a collection (by different authors) in an edited book}
 
 \begin{bibexbox}<RL>{burchard1965hhl}
@@ -924,13 +924,6 @@ automatically for you.
 \end{Verbatim}
 \end{bibexbox}
 
-\begin{tips}\item
-If citing an article yet to be officially published, use the \texttt{pubstate}
-field with the keyword \texttt{inpress} for `in press' and
-\texttt{inpreparation} or \texttt{submitted} (whichever is more accurate)
-for `preprint'.
-\end{tips}
-
 \begin{bibexbox}<RX>{liontou.etal2019dra}
   Liontou, C., Kontopodis, E., Oikonomidis, N., Maniotis, C., Tassopoulos, A., Tsiafoutis, I., Lazaris, E. and Koutouzis, M., 2019. Distal radial access: a review article. \emph{Cardiovascular revascularization medicine} [Online], in press. Available from: \url{https://www.sciencedirect.com/science/article/pii/S1553838919303367} [Accessed 19 June 2019].
   \tcblower
@@ -951,7 +944,14 @@ for `preprint'.
 \end{Verbatim}
 \end{bibexbox}
 
-
+\begin{tips}\item
+  If citing an article yet to be officially published, use the \texttt{pubstate}
+  field with the keyword \texttt{inpress} for `in press' and
+  \texttt{inpreparation} or \texttt{submitted} (whichever is more accurate)
+  for `preprint'.
+  \end{tips}
+  
+  
 \subsubsection*{Preprint or trial study in a digital repository}
 
 \begin{bibexbox}<RX>{shah.corrick2016hsc}
@@ -1344,11 +1344,6 @@ patent requests\slash applications.
 \end{Verbatim}
 \end{bibexbox}
 
-\begin{tips}\item
-You can use either the \texttt{publisher} or the \texttt{organization} field to
-record the source of the image.
-\end{tips}
-
 \begin{bibexbox}<RI>{iliff2006rcb}
    Iliff, D., 2006. \emph{Royal Crescent in Bath, England - July 2006} [Online]. San Francisco: Wikimedia Foundation. Available from: \url{https://commons.wikimedia.org/wiki/File:Royal_Crescent_in_Bath,_England_-_July_2006.jpg} [Accessed 7 January 2016].
   \tcblower
@@ -1368,6 +1363,12 @@ record the source of the image.
 \end{Verbatim}
 \end{bibexbox}
 
+\begin{tips}\item
+You can use either the \texttt{publisher} or the \texttt{organization} field to
+record the source of the image.
+\end{tips}
+ 
+  
 \begin{bibexbox}<RI>{brbr1965gph}
   Bristol Region Building Record, 1965. \emph{Green Park House (since demolished), viewed from southwest} [Photograph]. BRBR, D/877/1. Archives \& Research Collections, University of Bath Library.
   \tcblower
@@ -1387,12 +1388,16 @@ record the source of the image.
 \end{bibexbox}
 
 \begin{tips}\item
-Use the \texttt{library} field to record the archive and register number.
+Use the \texttt{library} field to record the name of the archive.
 If the image is on display rather than archived,
 use \texttt{institution} instead for the museum, gallery or building.
 If you also wish to provide the name of the organisation that published the image,
 use the \texttt{publisher} field if the location you provide relates to the publisher,
 but the \texttt{organization} field if the location relates to the archive.
+\item
+Put archival locator information (e.g.\@ box or shelf number) in the \texttt{number}
+field. Alternatively, you can split the information across the (non-standard)
+\texttt{collection} (\enquote{BRBR}) and \texttt{shelfmark} (\enquote{D/877/1}) fields.
 \item
 Put the clarification of the resource type in \texttt{entrysubtype}.
 In most cases, you can use \texttt{titleaddon} instead,
@@ -1560,13 +1565,6 @@ You can also use \texttt{movie} as an alias for \texttt{video}.
 
 \subsubsection*{Television or radio broadcast}
 
-\begin{tips}\item
-Use \texttt{type} for the medium and \texttt{publisher} for the channel.
-\item
-If the episode has an individual title, use \texttt{series} for the series and \texttt{number} for the episode number.
-Otherwise, give both series and episode number as the \texttt{title}.
-\end{tips}
-
 \begin{bibexbox}<RX>{inn2021huw}
   Hurry up and wait, 2021. \emph{Inside no.9}, \emph{Episode 6:4}. TV. BBC2, 31 May. 21.30 hrs.
   \tcblower
@@ -1584,6 +1582,13 @@ Otherwise, give both series and episode number as the \texttt{title}.
 %<*driver>
 \end{Verbatim}
 \end{bibexbox}
+
+\begin{tips}\item
+Use \texttt{type} for the medium and \texttt{publisher} for the channel.
+\item
+If the episode has an individual title, use \texttt{series} for the series and \texttt{number} for the episode number.
+Otherwise, give both series and episode number as the \texttt{title}.
+\end{tips}
 
 \begin{bibexbox}<RX>{rsfo2006ep5}
   Rick Stein's French odyssey: Episode 5, 2006. TV. BBC2, 23 August. 20.30 hrs.
@@ -2830,8 +2835,8 @@ This work is `maintained' (as per LPPL maintenance status) by [Alex Ball][me].
 %
 % Things to note in particular:
 % \begin{itemize}
-% \item With @online entires, the URL is shown even if |url=false|, globally.
-% \item With @letter entries, the date is written complete at the start of the
+% \item With |@online| entries, the URL is shown even if |url=false|, globally.
+% \item With |@letter| entries, the date is written complete at the start of the
 %   reference.
 % \end{itemize}
 %
@@ -3083,7 +3088,7 @@ This work is `maintained' (as per LPPL maintenance status) by [Alex Ball][me].
 % \subsubsection{Works in collections}
 %
 % Compared with the standard styles, the main difference is that the editors
-% precede the booktitle.
+% precede the book title.
 %
 %    \begin{macrocode}
 \DeclareBibliographyDriver{inbook}{%
@@ -3352,7 +3357,7 @@ This work is `maintained' (as per LPPL maintenance status) by [Alex Ball][me].
 %
 % \subsubsection{Software}
 %
-% The driver for software entries is based on misc. The main difference is in
+% The driver for software entries is based on |misc|. The main difference is in
 % how the type is printed.
 %
 %    \begin{macrocode}
@@ -4337,6 +4342,11 @@ This work is `maintained' (as per LPPL maintenance status) by [Alex Ball][me].
     \printnames[#1]{editorc}%
     \newunit}}
 
+%    \end{macrocode}
+%
+% The style prints translator names (uniquely) in parentheses.
+%
+%    \begin{macrocode}
 \renewbibmacro*{bytranslator}[1][bytranslator]{%
   \ifnameundef{translator}
   {}
@@ -4381,7 +4391,7 @@ This work is `maintained' (as per LPPL maintenance status) by [Alex Ball][me].
 % \subsection{Dates}
 %
 % If the main publication date is missing, we fall back immediately to `n.d.\@'
-% rather than use URL date or anything like that.
+% rather than use the access date or anything like that.
 %
 %    \begin{macrocode}
 \DeclareLabeldate{%
@@ -4415,7 +4425,8 @@ This work is `maintained' (as per LPPL maintenance status) by [Alex Ball][me].
 
 %    \end{macrocode}
 %
-% Dates are usually given bare. Time is set following by the |hours| bibstring.
+% Dates are usually given bare. Times, when printed, are followed by the
+% |hours| bibstring.
 %
 %    \begin{macrocode}
 \DeclareFieldFormat{datelabel}{#1}
@@ -4616,7 +4627,7 @@ This work is `maintained' (as per LPPL maintenance status) by [Alex Ball][me].
 \fi
 %    \end{macrocode}
 %
-% By default, Title--year combinations are not disambiguated, so we fix that
+% By default, title--year combinations are not disambiguated, so we fix that
 % too.
 %
 %    \begin{macrocode}
