@@ -103,6 +103,7 @@ Copyright (C) 2016-2022 by University of Bath
 \xdefinecolor{Green}{rgb}{0,.5,0}
 \xdefinecolor{Slate}{RGB}{80,86,94}
 \xdefinecolor{BathStone}{RGB}{213,211,185}
+\xdefinecolor{SlushPuppy}{RGB}{177,215,237}
 \colorlet{ok}{Green}
 \colorlet{todo}{red}
 \colorlet{hacked}{orange}
@@ -265,6 +266,9 @@ Copyright (C) 2016-2022 by University of Bath
       }
     }
   }
+\def\bstIonly{\tcbset{colback=hacked!10}}
+\def\bstIIonly{\tcbset{colback=SlushPuppy!25}}
+\def\bstboth{\tcbset{colback=BathStone!25}}
 %</driver|tex1>
 %<*driver>
 % For typesetting the implementation
@@ -3666,7 +3670,19 @@ ENTRY
   { label extra.label sort.label short.list }
 %    \end{macrocode}
 %
-% \subsection{Writing references out to a file}
+% \subsection{Writing out references to a file}
+% \label{sec:writing1}
+%
+% This is the first of three sections that deal with writing out to the .bbl
+% bibliography file. That file contains the |thebibliography| environment,
+% which in turn contains |\bibitem| commands each providing citation data and
+% followed by a formatted reference. The business of writing the environment,
+% sorting the items and calculating the first half of the citation data for
+% each item is covered in section\ref{sec:writing3}. Calculating the second
+% half of the citation data and writing the |\bibitem| command is covered in
+% \ref{sec:writing2}; some of the functions defined there are used in section
+% \ref{sec:writing3}, hence the backward structure. This section contains
+% generic functions for writing out the formatted reference.
 %
 % We define a set of integers for saving an output state. We will use them to
 % to implement the mechanism for stringing the elements of the reference
@@ -4160,10 +4176,20 @@ FUNCTION {eng.ord}
      }
    if$
 }
+%    \end{macrocode}
+%
+% |word.in| provides the `In:' before book titles.
+%
+%    \begin{macrocode}
+  FUNCTION {word.in}
+{ bbl.in capitalize
+  ":" *
+  " " * }
 
 %    \end{macrocode}
 %
-% \subsection{Name handling}
+% \subsection{Writing out citation data to a file}
+% \label{sec:writing2}
 %
 % |format.names| consumes two tokens (field, string field name) and returns a
 % list of names in the form `Surname, Suffix, Initials Prefix'. To help with this,
@@ -4480,7 +4506,12 @@ FUNCTION {format.key}
 }
 %    \end{macrocode}
 %
-% \subsection{Titles}
+% \subsection{Field formats}
+%
+% Each of the |format.*| functions below (and above) add a single string
+% (possibly empty) to the stack, based on the value of one or more fields.
+%
+% \subsubsection{Title block}
 %
 % |select.language| checks if the field before was written out, and if so,
 % wraps |{\selectlanguage{language}|\dots|}| around it.
@@ -4558,12 +4589,12 @@ FUNCTION {format.avtitle}
 }
 %    \end{macrocode}
 %
-% |format.titleaddon| returns the titleaddon field. This is the
-% |bath.bst| version:
+% |format.titleaddon| returns the titleaddon field. This is the |bath.bst|
+% version:
 %
 % \iffalse
 %<*bst1>
-% \fi
+% \fi\addtocounter{lstnumber}{-\value{mismatch}}\bstIonly
 %    \begin{macrocode}
 FUNCTION {format.titleaddon}
 { titleaddon
@@ -4575,7 +4606,7 @@ FUNCTION {format.titleaddon}
 % \iffalse
 %</bst1>
 %<*bst2>
-% \fi\addtocounter{lstnumber}{-6}
+% \fi\addtocounter{lstnumber}{\numexpr\value{mismatch}-6\relax}\bstIIonly
 %
 % This is the |bathx.bst| version:
 %
@@ -4589,7 +4620,7 @@ FUNCTION {format.titleaddon}
 %    \end{macrocode}
 % \iffalse
 %</bst2>
-% \fi
+% \fi\bstboth
 %
 % |format.version| returns the version field.
 %
@@ -4617,7 +4648,7 @@ FUNCTION {print.labeltitle.addenda}
 %
 % \iffalse
 %<*bst1>
-% \fi
+% \fi\addtocounter{lstnumber}{-\value{mismatch}}\bstIonly
 %    \begin{macrocode}
   online.shown
     'skip$
@@ -4628,10 +4659,10 @@ FUNCTION {print.labeltitle.addenda}
     }
   if$
 %    \end{macrocode}
-%\iffalse
+% \iffalse
 %</bst1>
 %<*bst2>
-%\fi\addtocounter{lstnumber}{-9}
+% \fi\addtocounter{lstnumber}{\numexpr\value{mismatch}-8\relax}\bstIIonly
 %
 % In \texttt{bathx.bst} it prints the |titleaddon| field, then the version,
 % then either the |entrysubtype| or the |bbl.online| string as appropriate:
@@ -4691,9 +4722,9 @@ FUNCTION {print.labeltitle.addenda}
     'skip$
   if$
 %    \end{macrocode}
-%\iffalse
+% \iffalse
 %</bst2>
-%\fi\addtocounter{mismatch}{34}
+% \fi\addtocounter{mismatch}{45}\bstboth
 %
 % |print.title.addenda| is a convenience for writing out the elements that
 % normally follow the title in its regular position. It is similar to
@@ -4705,11 +4736,12 @@ FUNCTION {print.title.addenda}
 { continue.clause
 %    \end{macrocode}
 %
+% \bstIonly
 % In \texttt{bath.bst} it prints the version and then |titleaddon| field:
 %
 % \iffalse
 %<*bst1>
-% \fi
+% \fi\addtocounter{lstnumber}{-\value{mismatch}}\bstIonly
 %    \begin{macrocode}
   online.shown
     'skip$
@@ -4720,10 +4752,10 @@ FUNCTION {print.title.addenda}
     }
   if$
 %    \end{macrocode}
-%\iffalse
+% \iffalse
 %</bst1>
 %<*bst2>
-%\fi\addtocounter{lstnumber}{-9}
+% \fi\addtocounter{lstnumber}{\numexpr\value{mismatch}-8\relax}\bstIIonly
 %
 % In \texttt{bathx.bst} it prints the |titleaddon| field, then the version,
 % then either the |entrysubtype| or the |bbl.online| string as appropriate:
@@ -4787,9 +4819,9 @@ FUNCTION {print.title.addenda}
     'skip$
   if$
 %    \end{macrocode}
-%\iffalse
+% \iffalse
 %</bst2>
-%\fi\addtocounter{mismatch}{34}
+% \fi\addtocounter{mismatch}{49}\bstboth
 %
 % We finish off with editor\slash translator information.
 %
@@ -4801,15 +4833,6 @@ FUNCTION {print.title.addenda}
   if$
   format.translators output
 }
-%    \end{macrocode}
-%
-% |word.in| provides the `In:' before book titles.
-%
-%    \begin{macrocode}
-  FUNCTION {word.in}
-{ bbl.in capitalize
-  ":" *
-  " " * }
 %    \end{macrocode}
 %
 % |format.label.booktitle| returns the booktitle field upright
@@ -4848,7 +4871,7 @@ FUNCTION {format.in.ed.booktitle}
 %
 % \iffalse
 %<*bst2>
-% \fi
+% \fi\bstIIonly
 %    \begin{macrocode}
       is.online
         { " " *
@@ -4860,7 +4883,7 @@ FUNCTION {format.in.ed.booktitle}
 %    \end{macrocode}
 % \iffalse
 %</bst2>
-% \fi\addtocounter{mismatch}{7}
+% \fi\addtocounter{mismatch}{7}\bstboth
 %    \begin{macrocode}
       editor "editor" format.names.ed duplicate$ empty$ 'pop$
         { "," *
@@ -4889,13 +4912,13 @@ FUNCTION {legal.journal.shape}
 }
 %    \end{macrocode}
 %
-% \subsection{Dates}
+% \subsubsection{Dates}
 %
 % In |bath.bst|, |nodate.check| doesn't do anything:
 %
 % \iffalse
 %<*bst1>
-% \fi\addtocounter{lstnumber}{-\value{mismatch}}
+% \fi\addtocounter{lstnumber}{-\value{mismatch}}\bstIonly
 %    \begin{macrocode}
 FUNCTION {nodate.check}
 {
@@ -4905,7 +4928,7 @@ FUNCTION {nodate.check}
 % \iffalse
 %</bst1>
 %<*bst2>
-% \fi\addtocounter{lstnumber}{\numexpr\value{mismatch}-4\relax}
+% \fi\addtocounter{lstnumber}{\numexpr\value{mismatch}-4\relax}\bstIIonly
 %
 % In |bathx.bst|, it looks at the most recent token. If it is empty, replaces
 % it with `n.d.' unless either |sortyear| or the |nonodate| option is present.
@@ -4927,7 +4950,7 @@ duplicate$ empty$
 %    \end{macrocode}
 % \iffalse
 %</bst2>
-% \fi\addtocounter{mismatch}{9}
+% \fi\addtocounter{mismatch}{9}\bstboth
 %
 % |format.date| returns the year and any disambiguation label.
 %
@@ -5001,7 +5024,7 @@ FUNCTION {format.eu.date}
 }
 %    \end{macrocode}
 %
-% \subsection{Series, volumes, editions}
+% \subsubsection{Series, types and numbering}
 %
 % |format.series| returns the case-altered series field.
 %
@@ -5332,7 +5355,7 @@ FUNCTION {format.manual.number}
 }
 %    \end{macrocode}
 %
-% |format.chapter| prints out the chapter field in the form `c.1', for use with
+% |format.chapter| returns the chapter field in the form `c.1', for use with
 % UK primary legislation.
 %
 %    \begin{macrocode}
@@ -5346,7 +5369,7 @@ FUNCTION {format.chapter}
 }
 %    \end{macrocode}
 %
-% |format.series.number.chapter| prints out the series and chapter/number fields
+% |format.series.number.chapter| returns the series and chapter/number fields
 % in the form `(series, c.1)' or `(series, number)', for use with UK legislation.
 %
 %    \begin{macrocode}
@@ -5467,7 +5490,7 @@ FUNCTION {eu.case.check}
 }
 %    \end{macrocode}
 %
-% \subsection{Notes}
+% \subsubsection{Notes}
 %
 % |format.note| returns the note field, but changes the case of the first
 % letter according to the output state (unless protected by braces).
@@ -5494,15 +5517,14 @@ FUNCTION {format.note}
 }
 %    \end{macrocode}
 %
-% \subsection{Addresses and publishers}
+% \subsubsection{Publication block}
 %
-% |format.org.or.pub| intercepts a publisher (or whatever) being written out as
-% bibinfo. If the write will succeed and an address has been specified, the
-% address is written out first, then a colon and space; then the original write
-% is allowed to proceed.
+% |prepend.address| intercepts a publisher (or whatever) being written out as
+% bibinfo, and prepends the address field to it. If both the input field and
+% address are non-empty, a colon and space are interposed between them.
 %
 %    \begin{macrocode}
-FUNCTION {format.org.or.pub}
+FUNCTION {prepend.address}
 { 't :=
   ""
   address empty$ t empty$ and
@@ -5522,17 +5544,17 @@ FUNCTION {format.org.or.pub}
 }
 %    \end{macrocode}
 %
-% The next three functions write out the address plus the publisher,
+% The next three functions return the address plus the publisher,
 % organization and institution respectively.
 %
 %    \begin{macrocode}
 FUNCTION {format.publisher.address}
-{ publisher "publisher" bibinfo.warn format.org.or.pub
+{ publisher "publisher" bibinfo.warn prepend.address
 }
 FUNCTION {format.organization.address}
 { publisher empty$
-    { organization "organization" bibinfo.check format.org.or.pub }
-    { publisher "publisher" bibinfo.warn format.org.or.pub
+    { organization "organization" bibinfo.check prepend.address }
+    { publisher "publisher" bibinfo.warn prepend.address
       organization duplicate$ empty$
         'pop$
         { "organization" bibinfo.check ". " * swap$ * }
@@ -5542,8 +5564,8 @@ FUNCTION {format.organization.address}
 }
 FUNCTION {format.institution.address}
 { publisher empty$
-    { institution "institution" bibinfo.check format.org.or.pub }
-    { publisher "publisher" bibinfo.warn format.org.or.pub
+    { institution "institution" bibinfo.check prepend.address }
+    { publisher "publisher" bibinfo.warn prepend.address
       institution duplicate$ empty$
         'pop$
         { "institution" bibinfo.check ". " * swap$ * }
@@ -5565,7 +5587,7 @@ FUNCTION {format.library}
 %
 % \iffalse
 %<*bst2>
-% \fi
+% \fi\bstIIonly
 %    \begin{macrocode}
   duplicate$ empty$ not
   is.online
@@ -5580,13 +5602,13 @@ FUNCTION {format.library}
 %    \end{macrocode}
 % \iffalse
 %</bst2>
-% \fi\addtocounter{mismatch}{10}
+% \fi\addtocounter{mismatch}{10}\bstboth
 %
-% The library field is also used for where a physical image is kept.
-% As we have only one address field, it will attach to whichever is
-% present out of organization, publisher and library. In case there
-% is more than one, it will attach to |publisher| in preference to
-% |library| and |library| in preference to |organization|.
+% The |library| (or |institution|) field is also used for where a physical
+% image is kept. As we have only one address field, it will attach to whichever
+% is present out of organization, publisher and library. In case there is more
+% than one, it will attach to |publisher| in preference to |library| and
+% |library| in preference to |organization|.
 %
 %    \begin{macrocode}
 }
@@ -5622,7 +5644,7 @@ FUNCTION {format.pub.org.lib.address}
         format.img.library.address }
       { "organization" bibinfo.check
         library empty$
-          { format.org.or.pub }
+          { prepend.address }
           { ". " *
             format.img.library.address *
           }
@@ -5630,7 +5652,7 @@ FUNCTION {format.pub.org.lib.address}
       }
     if$
   }
-  { "publisher" bibinfo.warn format.org.or.pub
+  { "publisher" bibinfo.warn prepend.address
     library empty$
       'skip$
       { ". " *
@@ -5643,7 +5665,7 @@ FUNCTION {format.pub.org.lib.address}
 
 %    \end{macrocode}
 %
-% \subsection{Pinpointing}
+% \subsubsection{Pinpointing}
 %
 % |multi.page.check| should operate on the pages field. If the value is a range,
 % that is, contains `-', `,' or `+', returns 1, otherwise returns 0.
@@ -5891,7 +5913,7 @@ FUNCTION {format.journal.series.vol.pages}
 %
 % \iffalse
 %<*bst2>
-% \fi
+% \fi\bstIIonly
 %    \begin{macrocode}
           is.online
             { " " * bbl.online *
@@ -5902,7 +5924,7 @@ FUNCTION {format.journal.series.vol.pages}
 %    \end{macrocode}
 % \iffalse
 %</bst2>
-% \fi\addtocounter{mismatch}{6}
+% \fi\addtocounter{mismatch}{6}\bstboth
 %    \begin{macrocode}
           volume "volume" bibinfo.check
           duplicate$ empty$
@@ -5926,9 +5948,9 @@ FUNCTION {format.journal.series.vol.pages}
 }
 %    \end{macrocode}
 %
-% \subsection{URLs}
+% \subsubsection{Access and URLs}
 %
-% |format.eprint| constructs a string |\eprint[archive]{eprint}|.
+% |format.eprint| returns a string |\eprint[archive]{eprint}|.
 %
 %    \begin{macrocode}
 FUNCTION {format.eprint}
@@ -5945,7 +5967,7 @@ FUNCTION {format.eprint}
 }
 %    \end{macrocode}
 %
-% |format.url| constructs a string |Available from: \url{url} [Accessed urldate]|.
+% |format.url| returns a string |Available from: \url{url} [Accessed urldate]|.
 % We also allow the \texttt{library} field to be used as a fallback URL.
 %
 %    \begin{macrocode}
@@ -5981,7 +6003,7 @@ FUNCTION {format.url}
 }
 %    \end{macrocode}
 %
-% \subsection{Cross referencing between entries}
+% \subsubsection{Related items}
 %
 % The following functions are used for entries that look like `Author, (Year).
 % Title. In: Author (Year).' In practice, they should never be used with Harvard
@@ -6019,7 +6041,7 @@ FUNCTION {format.book.crossref}
 
 %    \end{macrocode}
 %
-% \subsection{Formatting drivers for specific entry types}
+% \subsection{Drivers for formatting specific entry types}
 %
 % These functions are called when an entry of the given type is being
 % formatted.
@@ -6047,7 +6069,7 @@ FUNCTION {article}
 %
 % \iffalse
 %<*bst2>
-% \fi
+% \fi\bstIIonly
 %    \begin{macrocode}
       is.online
         { continue.clause
@@ -6059,7 +6081,7 @@ FUNCTION {article}
 %    \end{macrocode}
 % \iffalse
 %</bst2>
-% \fi\addtocounter{mismatch}{7}
+% \fi\addtocounter{mismatch}{7}\bstboth
 %    \begin{macrocode}
       format.vol.num.pages output
     }
@@ -6162,7 +6184,7 @@ FUNCTION {booklet}
 %
 % \iffalse
 %<*bst2>
-% \fi
+% \fi\bstIIonly
 %    \begin{macrocode}
   is.online
     { continue.clause
@@ -6174,7 +6196,7 @@ FUNCTION {booklet}
 %    \end{macrocode}
 % \iffalse
 %</bst2>
-% \fi\addtocounter{mismatch}{7}
+% \fi\addtocounter{mismatch}{7}\bstboth
 %    \begin{macrocode}
   new.block
   type "type" bibinfo.check output
@@ -6802,7 +6824,8 @@ FUNCTION {default.type} { misc }
 
 %    \end{macrocode}
 %
-% \subsection{Bibliography processing}
+% \subsection{Writing out the bibliography to a file}
+% \label{sec:writing3}
 %
 % We are now ready for Bib\TeX\ to read in the \texttt{.bib} file.
 %
@@ -6994,9 +7017,10 @@ FUNCTION {calc.short.authors}
 }
 %    \end{macrocode}
 %
-% |calc.label| creates a string in the form `Truncated Author List(Year'. The
-% closing parenthesis is supplied by |output.bibitem| (see above), into which
-% this string is incorporated.
+% |calc.label| creates a string in the form `Truncated Author List(Year' and
+% saves it to the |label| variable. The closing parenthesis is supplied by
+% |output.bibitem| (see section \ref{sec:writing2}), into which this string is
+% incorporated.
 %
 %    \begin{macrocode}
 FUNCTION {calc.label}
