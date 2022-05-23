@@ -5591,35 +5591,24 @@ FUNCTION {format.library}
 %    \begin{macrocode}
 }
 FUNCTION {format.img.library}
-{ library duplicate$ empty$
-    { pop$ "" }
-    { "library" bibinfo.check
-      "At: " swap$ *
-    }
-  if$
+{ library "library" bibinfo.check
 }
 FUNCTION {format.img.library.address}
-{ address empty$ library empty$ and institution empty$ and
-    { "" }
-    { "At: "
-      address "address" bibinfo.check *
-      library duplicate$ empty$
-        { pop$
-          institution duplicate$ empty$
-            'pop$
-            { address empty$
-              'skip$
-              { swap$ ". " * swap$ }
-              if$
-              "institution" bibinfo.check *
-            }
-          if$
-        }
-        { address empty$
-            'skip$
-            { swap$ ". " * swap$ }
-          if$
-          "library" bibinfo.check *
+{ library duplicate$ empty$
+    { pop$
+      institution duplicate$ empty$
+        'skip$
+        { "institution" bibinfo.check }
+      if$
+    }
+    { "library" bibinfo.check }
+  if$
+  duplicate$ empty$
+    { address "address" bibinfo.check * }
+    { address duplicate$ empty$
+        'pop$
+        { "address" bibinfo.check
+          swap$ ", " * swap$ *
         }
       if$
     }
