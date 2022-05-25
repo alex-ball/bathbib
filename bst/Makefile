@@ -25,7 +25,7 @@ $(NAME).aux: $(NAME).dtx $(NAME).bib
 $(NAME).bbl: $(NAME).aux $(BST2) $(NAME).bib
 	bibtex $(NAME) >/dev/null
 
-$(NAME).pdf: $(NAME).dtx
+$(NAME).pdf: $(NAME).dtx $(NAME).bbl
 	latexmk -silent -lualatex -interaction=batchmode $< >/dev/null
 	@echo "Compilation of main PDF complete."
 
@@ -35,7 +35,7 @@ $(NAME)-v1.aux: $(NAME)-v1.tex $(NAME)-v1.bib
 $(NAME)-v1.bbl: $(NAME)-v1.aux $(BST1) $(NAME)-v1.bib
 	bibtex $(NAME)-v1 >/dev/null
 
-$(NAME)-v1.pdf: $(NAME)-v1.tex $(BST1) $(NAME)-v1.bib
+$(NAME)-v1.pdf: $(NAME)-v1.tex $(BST1) $(NAME)-v1.bbl
 	latexmk -silent -lualatex -interaction=batchmode $< >/dev/null
 	@echo "Compilation of test PDF complete."
 

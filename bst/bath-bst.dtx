@@ -74,7 +74,7 @@ Copyright (C) 2016-2022 by University of Bath
 \ProvidesFile{bath-bst.dtx}
 %</driver>
 %<*driver|tex1>
-    [2022/03/04 v5.0 Harvard referencing style as recommended by the University of Bath Library]
+    [2022/05/25 v6.0 Harvard referencing style as recommended by the University of Bath Library]
 
 \documentclass[10pt,a4paper]{article}
 \usepackage[british]{babel}
@@ -680,6 +680,22 @@ structures may also change without warning.
   Maps need to be given the \texttt{book} entry type; previously \texttt{manual} was recommended.
 \end{itemize}
 
+\subsection{Version 6}
+
+\begin{itemize}
+%<*driver>
+\item
+  Entry type clarifications such as `Photograph' and `Computer program' are now
+  handled differently from translated titles, in particular as regards their
+  position relative to the version, and how they interact with the `[Online]'
+  tag. As a result, they should now be placed in \texttt{entrysubtype} rather
+  than \texttt{titleaddon}.
+%</driver>
+\item
+  All elements of the title block (including \texttt{titleaddon},
+  \texttt{version}, and \texttt{entrysubtype}) now move to the head of the
+  reference in the absence of an author\slash editor.
+\end{itemize}
 
 
 \section{Examples}
@@ -1289,6 +1305,28 @@ for `preprint'.
 %</driver>
 \end{bibexbox}
 
+\begin{tips}\item
+The Harvard (Bath) style treats preprints as grey literature, and so the
+\texttt{techreport} entry type (or its alias \texttt{report}) is the best match
+semantically.
+\item
+%<*driver>
+Use \texttt{library} to specify the name of the preprint repository.
+Note that the workaround in \texttt{bath.bst} of using \texttt{note} instead
+does not work in \texttt{bathx.bst}.
+\iffalse
+%</driver>
+%<*tex1>
+Use \texttt{note} to specify the name of the preprint repository.
+If you don't want this information showing up in other Bib\TeX\ styles,
+or you think you might want to switch to using \texttt{bathx.bst} later,
+use the \texttt{library} field instead.
+%</tex1>
+%<*driver>
+\fi
+%</driver>
+\end{tips}
+
 \begin{bibexbox}<RX>{ganju2021sed}
   Ganju, V., 2021. \emph{A study of EnGeneIC Dream Vectors (EDV's) packaged with the chemotherapy, E-EDV-D682 given simultaneously as non-targeted EDVs carrying an immune enhancer called EDV-GC, in participants with advanced pancreatic and other cancers whose disease has progressed after one or two treatment regimes, or where other standard therapies are not appropriate}. Sydney: University of Sydney. \emph{Australian and New Zealand Clinical Trials Registry} [Online]. Available from: \url{http://www.anzctr.org.au/Trial/Registration/TrialReview.aspx?id=365258} [Accessed 29 April 2021].
   \tcblower
@@ -1334,12 +1372,6 @@ for `preprint'.
 \fi
 %</driver>
 \end{bibexbox}
-
-\begin{tips}\item
-The Harvard (Bath) style treats preprints as grey literature, and so the
-\texttt{techreport} entry type (or its alias \texttt{report}) is the best match
-semantically. Use \texttt{library} to specify the name of the preprint repository.
-\end{tips}
 
 
 \subsubsection*{Newspaper article}
@@ -1924,7 +1956,8 @@ record the source of the image.
   year = {1965},
   title = {{Green} {Park} {House} (since demolished), viewed from southwest},
   titleaddon = {[Photograph]},
-  note = {BRBR, D/877/1. Archives \& Research Collections, University of Bath Library}}
+  note = {BRBR, D/877/1},
+  organization = {Archives \& Research Collections, University of Bath Library}}
 %</tex1|bib1>
 %<*driver|tex1>
 \end{Verbatim}
@@ -1933,16 +1966,39 @@ record the source of the image.
 %</driver>
 \end{bibexbox}
 
-%<*driver>
 \begin{tips}\item
-Use the \texttt{library} field to record the archive and register number.
+%<*driver>
+Use the \texttt{library} field to record the archive.
 If the image is on display rather than archived,
 use \texttt{institution} instead for the museum, gallery or building.
 If you also wish to provide the name of the organisation that published the image,
 use the \texttt{publisher} field if the location you provide relates to the publisher,
 but the \texttt{organization} field if the location relates to the archive.
-\end{tips}
+\item
+Put archival locator information (e.g.\@ box or shelf number) in the \texttt{number} field.
+\item
+Put the clarification of the resource type in \texttt{entrysubtype}.
+In most cases, you can use \texttt{titleaddon} instead,
+but \texttt{entrysubtype} will correctly suppress \enquote{Online} being shown
+while \texttt{titleaddon} will not.
+\iffalse
 %</driver>
+%<*tex1>
+If the \texttt{organization} is a publisher, put the location in \texttt{address} as normal;
+if it is an archive or where the image is displayed, include the location within the \texttt{organization} field,
+after the archive name and a comma.
+\item
+Put archival locator information (e.g.\@ box or shelf number) in the \texttt{note} field.
+%</tex1>
+%<*driver>
+\fi
+%</driver>
+\end{tips}
+
+\begin{info}\item
+The \texttt{@image} entry type can be used for any visual artistic work,
+including sculptures and interactive exhibits.
+\end{info}
 
 \subsubsection*{Map}
 
@@ -2742,6 +2798,15 @@ You can use \texttt{dataset} instead of \texttt{online} as an alias for \texttt{
 \begin{info}\item
 Internally, \texttt{software} is an alias for \texttt{manual}.
 \end{info}
+%<*driver>
+\begin{tips}\item
+Put the clarification of the resource type in \texttt{entrysubtype}. In most
+cases, you can use \texttt{titleaddon} instead, but \texttt{titleaddon} is shown
+immediately after the title and may be shown alongside the \enquote{Online}
+label, whereas \texttt{entrysubtype} is printed after the \texttt{version} and
+supersedes the \enquote{Online} label.
+\end{tips}
+%</driver>
 
 
 \subsection{Works in languages other than English}
@@ -3284,7 +3349,8 @@ years in \texttt{series} and the HL and HC numbers in \texttt{number}.
   address = {United Kingdom},
   publisher = {HMSO},
   url = {http://www.legislation.gov.uk/uksi/2012/1916/pdfs/uksi_20121916_en.pdf},
-  urldate = {17 April 2016}}
+  urldate = {17 April 2016},
+  keywords = {uksi}}
 %</tex1|bib1>
 %<*driver|tex1>
 \end{Verbatim}
@@ -3293,11 +3359,19 @@ years in \texttt{series} and the HL and HC numbers in \texttt{number}.
 %</driver>
 \end{bibexbox}
 
-%<*driver>
 \begin{tips}\item
+%<*driver>
 Use the \texttt{entrysubtype} `secondary' to put the number in the right place.
-\end{tips}
+\iffalse
 %</driver>
+%<*tex1>
+Use the \texttt{uksi} keyword to trigger the comma before the publisher.
+It should be ignored harmlessly by other styles.
+%</tex1>
+%<*driver>
+\fi
+%</driver>
+\end{tips}
 
 
 \subsection{Legal or government document: EU reports\slash legislation}
@@ -4588,13 +4662,13 @@ FUNCTION {format.avtitle}
   if$
 }
 %    \end{macrocode}
+% \iffalse
+%<*bst1>
+% \fi\addtocounter{lstnumber}{-\value{mismatch}}\bstIonly
 %
 % |format.titleaddon| returns the titleaddon field. This is the |bath.bst|
 % version:
 %
-% \iffalse
-%<*bst1>
-% \fi\addtocounter{lstnumber}{-\value{mismatch}}\bstIonly
 %    \begin{macrocode}
 FUNCTION {format.titleaddon}
 { titleaddon
@@ -4643,12 +4717,12 @@ FUNCTION {format.version}
 FUNCTION {print.labeltitle.addenda}
 { continue.clause
 %    \end{macrocode}
-%
-% In \texttt{bath.bst} it prints the version and then |titleaddon| field:
-%
 % \iffalse
 %<*bst1>
 % \fi\addtocounter{lstnumber}{-\value{mismatch}}\bstIonly
+%
+% In \texttt{bath.bst} it prints the version and then |titleaddon| field:
+%
 %    \begin{macrocode}
   online.shown
     'skip$
@@ -4735,13 +4809,12 @@ FUNCTION {print.labeltitle.addenda}
 FUNCTION {print.title.addenda}
 { continue.clause
 %    \end{macrocode}
-%
-% \bstIonly
-% In \texttt{bath.bst} it prints the version and then |titleaddon| field:
-%
 % \iffalse
 %<*bst1>
 % \fi\addtocounter{lstnumber}{-\value{mismatch}}\bstIonly
+%
+% In \texttt{bath.bst} it prints the version and then |titleaddon| field:
+%
 %    \begin{macrocode}
   online.shown
     'skip$
@@ -4866,12 +4939,12 @@ FUNCTION {format.in.ed.booktitle}
     'skip$
     {
 %    \end{macrocode}
-%
-% In |bathx.bst|, we conditionally include the |bbl.online| string:
-%
 % \iffalse
 %<*bst2>
 % \fi\bstIIonly
+%
+% In |bathx.bst|, we conditionally include the |bbl.online| string:
+%
 %    \begin{macrocode}
       is.online
         { " " *
@@ -4911,14 +4984,14 @@ FUNCTION {legal.journal.shape}
   if$
 }
 %    \end{macrocode}
+% \iffalse
+%<*bst1>
+% \fi\addtocounter{lstnumber}{-\value{mismatch}}\bstIonly
 %
 % \subsubsection{Dates}
 %
 % In |bath.bst|, |nodate.check| doesn't do anything:
 %
-% \iffalse
-%<*bst1>
-% \fi\addtocounter{lstnumber}{-\value{mismatch}}\bstIonly
 %    \begin{macrocode}
 FUNCTION {nodate.check}
 {
@@ -5582,12 +5655,12 @@ FUNCTION {format.library}
 { library "library" bibinfo.check
   emphasize
 %    \end{macrocode}
-%
-% In |bathx.bst|, we conditionally include the |bbl.online| string:
-%
 % \iffalse
 %<*bst2>
 % \fi\bstIIonly
+%
+% In |bathx.bst|, we conditionally include the |bbl.online| string:
+%
 %    \begin{macrocode}
   duplicate$ empty$ not
   is.online
@@ -5908,12 +5981,12 @@ FUNCTION {format.journal.series.vol.pages}
         }
         { "journal" bibinfo.check
 %    \end{macrocode}
-%
-% In |bathx.bst|, we conditionally include the |bbl.online| string:
-%
 % \iffalse
 %<*bst2>
 % \fi\bstIIonly
+%
+% In |bathx.bst|, we conditionally include the |bbl.online| string:
+%
 %    \begin{macrocode}
           is.online
             { " " * bbl.online *
@@ -6064,12 +6137,12 @@ FUNCTION {article}
       emphasize
       "journal" output.check
 %    \end{macrocode}
-%
-% In |bathx.bst|, we conditionally include the |bbl.online| string:
-%
 % \iffalse
 %<*bst2>
 % \fi\bstIIonly
+%
+% In |bathx.bst|, we conditionally include the |bbl.online| string:
+%
 %    \begin{macrocode}
       is.online
         { continue.clause
@@ -6139,16 +6212,19 @@ FUNCTION {book}
   format.number.series output
   new.block
   format.edition output
+  new.block
+  format.note output
   crossref missing$
-    { new.sentence
+    { keywords field.or.null "uksi" =
+        { mid.sentence 'output.state := }   
+        { new.sentence }
+      if$
       format.publisher.address output
     }
     { new.block
       format.book.crossref output.nonnull
     }
   if$
-  new.block
-  format.note output
   new.block
   format.eprint output
   format.url output
@@ -6179,12 +6255,12 @@ FUNCTION {booklet}
   new.block
   format.series.episode output
 %    \end{macrocode}
-%
-% In |bathx.bst|, we conditionally include the |bbl.online| string:
-%
 % \iffalse
 %<*bst2>
 % \fi\bstIIonly
+%
+% In |bathx.bst|, we conditionally include the |bbl.online| string:
+%
 %    \begin{macrocode}
   is.online
     { continue.clause
@@ -6237,6 +6313,9 @@ FUNCTION {inbook}
   print.title.addenda
   new.block
   format.edition output
+  new.block
+  format.note output
+  new.block
   crossref missing$
     { format.publisher.address output
       format.bvolume output
@@ -6250,8 +6329,6 @@ FUNCTION {inbook}
       format.book.crossref output.nonnull
     }
   if$
-  new.block
-  format.note output
   new.block
   format.eprint output
   format.url output
@@ -6305,17 +6382,19 @@ FUNCTION {incollection}
         }
         'skip$
       if$
+      format.note output
+      new.block
       format.publisher.address output
       format.bvolume output
       format.number.series output
       format.chapter.pages output
     }
-    { format.incoll.inproc.crossref output.nonnull
+    { format.note output
+      new.block
+      format.incoll.inproc.crossref output.nonnull
       format.chapter.pages output
     }
   if$
-  new.block
-  format.note output
   new.block
   format.eprint output
   format.url output
@@ -6339,6 +6418,7 @@ FUNCTION {inproceedings}
     { format.in.ed.booktitle "booktitle" output.check
       eventyear output
       venue output
+      format.note output
       new.sentence
       publisher empty$
         { format.organization.address output }
@@ -6350,12 +6430,12 @@ FUNCTION {inproceedings}
       format.number.series output
       format.pages output
     }
-    { format.incoll.inproc.crossref output.nonnull
+    { format.note output
+      new.block
+      format.incoll.inproc.crossref output.nonnull
       format.pages output
     }
   if$
-  new.block
-  format.note output
   new.block
   format.eprint output
   format.url output
@@ -6547,11 +6627,11 @@ FUNCTION {manual}
   new.block
   format.manual.number output
   new.block
+  format.note output
+  new.block
   format.library output
   organization address new.block.checkb
   format.organization.address output
-  new.block
-  format.note output
   new.block
   format.eprint output
   format.url output
@@ -6581,11 +6661,11 @@ FUNCTION {image}
   if$
   format.edition output
   new.block
+  format.note output
+  new.block
   format.manual.number output
   new.block
   format.pub.org.lib.address output
-  new.block
-  format.note output
   new.block
   format.eprint output
   format.url output
@@ -6605,12 +6685,12 @@ FUNCTION {mastersthesis}
   format.btitle "title" output.check
   print.title.addenda
   new.block
+  format.note output
+  new.block
   bbl.mthesis format.thesis.type output.nonnull
   new.block
   school "school" bibinfo.warn output
   address "address" bibinfo.check output
-  new.block
-  format.note output
   new.block
   format.eprint output
   format.url output
@@ -6661,12 +6741,12 @@ FUNCTION {phdthesis}
   format.btitle "title" output.check
   print.title.addenda
   new.block
+  format.note output
+  new.block
   bbl.phdthesis format.thesis.type output.nonnull
   new.block
   school "school" bibinfo.warn output
   address "address" bibinfo.check output
-  new.block
-  format.note output
   new.block
   format.eprint output
   format.url output
@@ -6696,6 +6776,7 @@ FUNCTION {proceedings}
   if$
   format.bvolume output
   format.number.series output
+  format.note output
   new.sentence
   publisher empty$
     { format.organization.address output }
@@ -6703,8 +6784,6 @@ FUNCTION {proceedings}
       format.publisher.address output
     }
   if$
-  new.block
-  format.note output
   new.block
   format.eprint output
   format.url output
@@ -6735,6 +6814,42 @@ FUNCTION {techreport}
   new.block
   format.tr.number output
   new.block
+%    \end{macrocode}
+% \iffalse
+%<*bst2>
+% \fi\bstIIonly
+%
+% In |bathx.bst|, the |library| field is used for the repository,
+% so the note can go in the same position as in \textsf{biblatex-bath}:
+%
+%    \begin{macrocode}
+  format.note output
+  new.block
+%    \end{macrocode}
+% \iffalse
+%</bst2>
+%<*bst1>
+% \fi\addtocounter{mismatch}{2}\addtocounter{lstnumber}{-\value{mismatch}}\bstIonly
+%
+% In |bath.bst|, the |note| field is recommended for the repository,
+% therefore has to go after the publisher (unless the |library| field
+% has been used):
+%
+%    \begin{macrocode}
+  library empty$
+    'skip$
+    { format.note output
+      new.block
+    }
+  if$
+%    \end{macrocode}
+% \iffalse
+%</bst1>
+% \fi\addtocounter{mismatch}{-6}\addtocounter{lstnumber}{\numexpr\value{mismatch}\relax}\bstboth
+%
+% This bit is the same.
+%
+%    \begin{macrocode}
   publisher empty$
     { format.institution.address output }
     { institution "institution" bibinfo.check output
@@ -6742,9 +6857,36 @@ FUNCTION {techreport}
     }
   if$
   new.block
+%    \end{macrocode}
+% \iffalse
+%<*bst2>
+% \fi\bstIIonly
+%
+% In |bathx.bst|, the |library| field always comes after the publisher:
+%
+%    \begin{macrocode}
   format.library output
-  new.block
-  format.note output
+%    \end{macrocode}
+% \iffalse
+%</bst2>
+%<*bst1>
+% \fi\addtocounter{mismatch}{1}\addtocounter{lstnumber}{-\value{mismatch}}\bstIonly
+%
+% In |bath.bst|, we fall back to |note| if |library| is not provided:
+%
+%    \begin{macrocode}
+  library empty$
+    { format.note output }
+    { format.library output }
+  if$
+%    \end{macrocode}
+% \iffalse
+%</bst1>
+% \fi\addtocounter{mismatch}{-4}\addtocounter{lstnumber}{\numexpr\value{mismatch}\relax}\bstboth
+%
+% The rest is the same.
+%
+%    \begin{macrocode}
   new.block
   format.eprint output
   format.url output
@@ -6777,9 +6919,9 @@ FUNCTION {unpublished}
   new.block
   howpublished "howpublished" bibinfo.check output
   new.block
-  bbl.unpublished output
-  new.block
   format.note output
+  new.block
+  bbl.unpublished output
   new.block
   format.eprint output
   format.url output

@@ -1,6 +1,6 @@
 % \iffalse meta-comment
 %<*internal|bbx|cbx|dbx|lbx|lbx-gb>
-\def\Version{2022/03/04 v5.0}
+\def\Version{2022/05/25 v6.0}
 %</internal|bbx|cbx|dbx|lbx|lbx-gb>
 %<*internal>
 \iffalse
@@ -549,6 +549,22 @@ concerning the handling of dates).
   The style now sets \lstinline{\bibhang} to 0pt instead of
   \lstinline{\parindent} (or 1em).
 \end{itemize}
+
+\subsection{Version 6}
+
+\begin{itemize}
+\item
+  Entry type clarifications such as `Photograph' and `Computer program' are now
+  handled differently from translated titles, in particular as regards their
+  position relative to the version, and how they interact with the `[Online]'
+  tag. As a result, they should now be placed in \texttt{entrysubtype} rather
+  than \texttt{titleaddon}.
+\item
+  All elements of the title block (including \texttt{titleaddon},
+  \texttt{version}, and \texttt{entrysubtype}) now move to the head of the
+  reference in the absence of an author\slash editor.
+\end{itemize}
+
 
 \section{Examples}
 
@@ -1395,8 +1411,8 @@ If you also wish to provide the name of the organisation that published the imag
 use the \texttt{publisher} field if the location you provide relates to the publisher,
 but the \texttt{organization} field if the location relates to the archive.
 \item
-Put archival locator information (e.g.\@ box or shelf number) in the \texttt{number}
-field. Alternatively, you can split the information across the (non-standard)
+Put archival locator information (e.g.\@ box or shelf number) in the \texttt{number} field.
+Alternatively, you can split the information across the (non-standard)
 \texttt{collection} (\enquote{BRBR}) and \texttt{shelfmark} (\enquote{D/877/1}) fields.
 \item
 Put the clarification of the resource type in \texttt{entrysubtype}.
@@ -5278,6 +5294,32 @@ This work is `maintained' (as per LPPL maintenance status) by [Alex Ball][me].
 
 %    \end{macrocode}
 %
+% We use the \texttt{library} field for databases and preprint repositories,
+% as well as streaming services and physical archives for the visual arts.
+%
+%    \begin{macrocode}
+\DeclareFieldFormat{library}{\mkbibemph{#1}}
+\DeclareFieldFormat[image]{library}{#1}
+\newbibmacro*{library}{%
+  \iffieldundef{library}{}{%
+    \printfield{library}\clearfield{library}%
+    \setunit*{\addspace}%
+    \usebibmacro{isonline}}}
+\newbibmacro*{location+library}{%
+  \iffieldundef{library}{%
+    \iffieldundef{institution}{}{%
+      \printlist{institution}%
+      \setunit{\addcomma\space}%
+      \printlist{location}%
+    }%
+  }{%
+    \printfield{library}\clearfield{library}%
+    \setunit*{\addcomma\space}%
+    \printlist{location}}}
+
+
+%    \end{macrocode}
+%
 % The following macro includes availability from a physical archive.
 %
 %    \begin{macrocode}
@@ -5302,38 +5344,6 @@ This work is `maintained' (as per LPPL maintenance status) by [Alex Ball][me].
   \usebibmacro{date}%
   \newunit
   \usebibmacro{location+library}}
-
-\newbibmacro*{location+library}{%
-  \iffieldundef{library}{%
-    \iffieldundef{institution}{}{%
-      \printlist{institution}%
-      \setunit{\addcomma\space}%
-      \printlist{location}%
-    }%
-  }{%
-    \printfield{library}\clearfield{library}%
-    \setunit*{\addcomma\space}%
-    \printlist{location}}}
-
-\newbibmacro*{location+date}{%
-  \printlist{location}%
-  \setunit*{\addcomma\space}%
-  \usebibmacro{date}%
-  \newunit}
-
-%    \end{macrocode}
-%
-% We use the \texttt{library} field for databases and preprint repositories,
-% as well as streaming services and physical archives for the visual arts.
-%
-%    \begin{macrocode}
-\DeclareFieldFormat{library}{\mkbibemph{#1}}
-\DeclareFieldFormat[image]{library}{#1}
-\newbibmacro*{library}{%
-  \iffieldundef{library}{}{%
-    \printfield{library}\clearfield{library}%
-    \setunit*{\addspace}%
-    \usebibmacro{isonline}}}
 
 %    \end{macrocode}
 %
