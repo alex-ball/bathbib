@@ -3752,11 +3752,11 @@ ENTRY
 % which in turn contains |\bibitem| commands each providing citation data and
 % followed by a formatted reference. The business of writing the environment,
 % sorting the items and calculating the first half of the citation data for
-% each item is covered in section\ref{sec:writing3}. Calculating the second
+% each item is covered in section \ref{sec:writing3}. Calculating the second
 % half of the citation data and writing the |\bibitem| command is covered in
-% \ref{sec:writing2}; some of the functions defined there are used in section
-% \ref{sec:writing3}, hence the backward structure. This section contains
-% generic functions for writing out the formatted reference.
+% section \ref{sec:writing2}; some of the functions defined there are used in
+% section \ref{sec:writing3}, hence the backward structure. This section
+% contains generic functions for writing out the formatted reference.
 %
 % We define a set of integers for saving an output state. We will use them to
 % to implement the mechanism for stringing the elements of the reference
@@ -4587,8 +4587,8 @@ FUNCTION {format.key}
 %
 % \subsubsection{Title block}
 %
-% |select.language| checks if the field before was written out, and if so,
-% wraps |{\selectlanguage{language}|\dots|}| around it.
+% |select.language| checks if the string at the top of the stack is empty, and
+% if not, wraps |{\selectlanguage{language}|\dots|}| around it.
 %
 %    \begin{macrocode}
 FUNCTION {select.language}
@@ -5592,9 +5592,10 @@ FUNCTION {format.note}
 %
 % \subsubsection{Publication block}
 %
-% |prepend.address| intercepts a publisher (or whatever) being written out as
-% bibinfo, and prepends the address field to it. If both the input field and
-% address are non-empty, a colon and space are interposed between them.
+% |prepend.address| prepends the address field to the string at the top of the
+% stack, which should be a publisher (or equivalent) bibinfo string. If both
+% the input string and address field are non-empty, a colon and space are
+% interposed between them.
 %
 %    \begin{macrocode}
 FUNCTION {prepend.address}
