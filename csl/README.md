@@ -20,8 +20,10 @@ as [CSL-JSON].
     `thesis` and, if you supply a `number`, `bill`, `patent`, `report`, and
     `standard`.
 
-  - For preprints, use resource type `report` and put the repository name under
-    `archive`.
+  - For preprints, use resource type `article` or `report` and put the
+    repository name under `archive`. Put the location and name of the
+    institution that runs the repository (if known) under `publisher-place` and
+    `publisher` respectively.
 
   - Use `article-newspaper` or `article-magazine` instead of `article-journal`
     to display the month and day.
