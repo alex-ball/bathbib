@@ -341,7 +341,11 @@
   <macro name="publication">
     <choose>
       <if type="article article-journal article-magazine article-newspaper" match="any">
-        <text macro="journal"/>
+        <choose>
+          <if variable="container-title">
+            <text macro="journal"/>
+          </if>
+        </choose>
       </if>
       <else-if type="broadcast">
         <text macro="broadcast"/>
@@ -572,13 +576,13 @@
             <if variable="genre">
               <text variable="genre" prefix="[" suffix="]"/>
             </if>
-            <else-if variable="container-title" match="none">
+            <else>
               <choose>
                 <if variable="URL DOI accessed" match="any">
                   <text term="online" text-case="capitalize-first" prefix="[" suffix="]"/>
                 </if>
               </choose>
-            </else-if>
+            </else>
           </choose>
         </else-if>
       </choose>
