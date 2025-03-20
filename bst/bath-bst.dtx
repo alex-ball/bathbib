@@ -1073,7 +1073,7 @@ The style ensures the \texttt{booktitle} is used in title citation commands.
 \end{bibexbox}
 
 \begin{bibexbox}<RX>{newman2010mcb}
-  Newman, R., 2010. Malaria control beyond 2010. \emph{Brit. Med. J.}, 341(7765), pp.157--208.
+  Newman, R., 2010. Malaria control beyond 2010. \emph{British medical journal}, 341(7765), pp.157--208.
   \tcblower
 \begin{Verbatim}
 %</driver|tex1>
@@ -1082,7 +1082,7 @@ The style ensures the \texttt{booktitle} is used in title citation commands.
   author = {Newman, R.},
   year = {2010},
   title = {Malaria control beyond 2010},
-  journal = {{Brit.\@ Med.\@ J.}},
+  journal = {{British} Medical Journal},
   volume = {341},
   number = {7765},
   pages = {157-208}}
@@ -3545,17 +3545,20 @@ Use \lstinline[style=dtxlatex]|\defcitealias| to provide a suitable citation str
 
 \subsubsection*{Legal case study}
 
-\begin{bibexbox}<RX>{seldon-v-c.w.j2012}
-  \emph{Seldon v.~Clarkson Wright \& Jakes}. [2012]. UKSC 16.
+\begin{bibexbox}<RX>{seldon-v-c.w.j2009}
+  \emph{Seldon v Clarkson Wright \& Jakes}, 2009. England and Wales Court of Appeal (Civil Division), 889. \emph{Bailii} [Online]. Available from: \url{http://www.bailii.org/ew/cases/EWCA/Civ/2009/889.html} [Accessed 23 April 2024].
   \tcblower
 \begin{Verbatim}
 %</driver|tex1>
 %<*driver|bib>
-@jurisdiction{seldon-v-c.w.j2012,
+@jurisdiction{seldon-v-c.w.j2009,
   title = {Seldon v.~{Clarkson} {Wright} \& {Jakes}},
-  year = {2012},
-  journal = {UKSC},
-  pages = {16}}
+  year = {2009},
+  type = {England and Wales Court of Appeal (Civil Division)},
+  number = {889},
+  journal = {Bailii},
+  url = {http://www.bailii.org/ew/cases/EWCA/Civ/2009/889.html},
+  urlyear = {2024-04-23}}
 %</driver|bib>
 %<*driver>
 \end{Verbatim}
@@ -3564,7 +3567,47 @@ Use \lstinline[style=dtxlatex]|\defcitealias| to provide a suitable citation str
 %<*tex1|bib1>
 @report{seldon-v-c.w.j2012,
   title = {Seldon v.~{Clarkson} {Wright} \& {Jakes}},
-  note = {[2012]. UKSC 16}}
+  year = {2009},
+  type = {England and Wales Court of Appeal (Civil Division)},
+  number = {889},
+  note = {\emph{Bailii} [Online]},
+  url = {http://www.bailii.org/ew/cases/EWCA/Civ/2009/889.html},
+  urldate = {2024-04-23}}
+%</tex1|bib1>
+%<*driver|tex1>
+\end{Verbatim}
+%<*driver>
+\fi
+%</driver>
+\end{bibexbox}
+
+\begin{bibexbox}<RX>{braceurself-v-nhs.england2013}
+  \emph{Braceurself Ltd v~NHS England}, 2013. England and Wales Court of Appeal (Civil Division), 39. \emph{Construction law reports}, 212, pp.95-135.
+  \tcblower
+\begin{Verbatim}
+%</driver|tex1>
+%<*driver|bib>
+@jurisdiction{braceurself-v-nhs.england2013,
+  title = {{Braceurself} {Ltd} v~{NHS} {England}},
+  year = {2013},
+  type = {England and Wales Court of Appeal (Civil Division)},
+  number = {39},
+  journal = {Construction law reports},
+  volume = {212},
+  pages = {95-135}}
+%</driver|bib>
+%<*driver>
+\end{Verbatim}
+\iffalse
+%</driver>
+%<*tex1|bib1>
+@report{braceurself-v-nhs.england2013,
+  title = {{Braceurself} {Ltd} v~{NHS} {England}},
+  year = {2013},
+  type = {England and Wales Court of Appeal (Civil Division)},
+  number = {39},
+  note = {\emph{Construction law reports}, {212}},
+  pages = {95-135}}
 %</tex1|bib1>
 %<*driver|tex1>
 \end{Verbatim}
@@ -3574,9 +3617,9 @@ Use \lstinline[style=dtxlatex]|\defcitealias| to provide a suitable citation str
 \end{bibexbox}
 
 \begin{info}\item
-Generally speaking, the year should be in square brackets if it is essential to the citation
-(unless it is a Scottish case, in which case it is printed bare), and in parentheses if it is
-not.
+Generally speaking, in a neutral citation the year should be in square brackets
+if it is essential to the citation (unless it is a Scottish case,
+in which case it is printed bare), and in parentheses if it is not.
 \end{info}
 %<*driver>
 

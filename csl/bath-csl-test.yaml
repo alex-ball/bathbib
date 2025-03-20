@@ -237,7 +237,7 @@ references:
   issued:
     date-parts: [[2010]]
   title: Malaria control beyond 2010
-  container-title: <span class="nocase">Brit. Med. J.</span>
+  container-title: <span class="nocase">British</span> medical journal
   page: '157-208'
   volume: '341'
   issue: '7765'
@@ -1084,13 +1084,28 @@ references:
   publisher: Publications Office of the European Union
   publisher-place: Luxembourg
 
-- id: seldon-v-c.w.j2012
+- id: seldon-v-c.w.j2009
   type: legal_case
   issued:
-    date-parts: [[2012]]
-  title: <span class="nocase">Seldon v. Clarkson Wright & Jakes</span>
-  collection-title: <span class="nocase">UKSC</span>
-  page: '16'
+    date-parts: [[2009]]
+  accessed:
+    date-parts: [[2024, 4, 23]]
+  title: <span class="nocase">Seldon v Clarkson Wright & Jakes</span>
+  collection-title: England and Wales Court of Appeal (Civil Division)
+  number: 889
+  container-title: <span class="nocase">Bailii</span>
+  URL: http://www.bailii.org/ew/cases/EWCA/Civ/2009/889.html
+
+- id: braceurself-v-nhs.england2013
+  type: legal_case
+  issued:
+    date-parts: [[2013]]
+  title: <span class="nocase">Braceurself Ltd v NHS England</span>
+  collection-title: England and Wales Court of Appeal (Civil Division)
+  number: 39
+  container-title: Construction law report
+  volume: 212
+  pages: '95-135'
 
 - id: srl.etal-v-comm2005
   type: legal_case
