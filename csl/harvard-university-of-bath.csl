@@ -165,31 +165,49 @@
   <macro name="case-law">
     <choose>
       <if variable="number">
-        <group suffix="." delimiter=" ">
-          <text macro="author"/>
-          <text variable="number" prefix="(" suffix=")"/>
-          <text macro="year-date" prefix="[" suffix="]"/>
-          <text macro="title"/>
-          <choose>
-            <if variable="container-title">
-              <text variable="container-title" font-style="italic"/>
-              <group>
+        <choose>
+          <if variable="container-title collection-title">
+            <group delimiter=". ">
+              <group delimiter=", ">
+                <text macro="author"/>
+                <text macro="year-date"/>
+              </group>
+              <text macro="title"/>
+              <group delimiter=", ">
                 <text variable="collection-title"/>
-                <group delimiter="/">
-                  <text variable="volume"/>
-                  <text variable="page"/>
-                </group>
+                <text variable="number"/>
               </group>
-            </if>
-            <else>
-              <text variable="collection-title"/>
-              <group delimiter="&#8211;">
-                <text variable="volume"/>
-                <text variable="page"/>
-              </group>
-            </else>
-          </choose>
-        </group>
+              <text macro="journal"/>
+            </group>
+          </if>
+          <else>
+            <group suffix="." delimiter=" ">
+              <text macro="author"/>
+              <text variable="number" prefix="(" suffix=")"/>
+              <text macro="year-date" prefix="[" suffix="]"/>
+              <text macro="title"/>
+              <choose>
+                <if variable="container-title">
+                  <text variable="container-title" font-style="italic"/>
+                  <group>
+                    <text variable="collection-title"/>
+                    <group delimiter="/">
+                      <text variable="volume"/>
+                      <text variable="page"/>
+                    </group>
+                  </group>
+                </if>
+                <else>
+                  <text variable="collection-title"/>
+                  <group delimiter="&#8211;">
+                    <text variable="volume"/>
+                    <text variable="page"/>
+                  </group>
+                </else>
+              </choose>
+            </group>
+          </else>
+        </choose>
       </if>
       <else>
         <group suffix="." delimiter=". ">

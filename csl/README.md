@@ -97,14 +97,27 @@ as [CSL-JSON].
     series and session (e.g. ‘Bills | 1987/88’) or `genre` for the type (e.g.
     ‘Cm.’) and `number` for the printing.
 
-  - For legal cases, only approximate support is possible. The year will be
-    shown in square brackets unless `volume` is given, in which case it will be
-    in parentheses. If you supply a number, it will be shown after the title in
-    parentheses and the whole reference will be formatted as if for a Judgment
-    of the European Court of Justice. You should normally supply the reporting
-    journal in `collection-title` with the first `page`. For cases reported in
-    the EU Official Journal, put ‘OJ’ in `container-title` instead, and
-    OJ-specific formatting will be used.
+  - For legal cases, only approximate support is possible, especially now that
+    Harvard (Bath) has introduced its own unique style. There are four
+    variations:
+
+      - If you supply ‘OJ’ as the value of `container-title`, you will get the
+        special format for cases reported in the EU Official Journal.
+
+      - If you supply `collection-title` (court), `number` (case number) and
+        `container-title` (reporting journal), you will get the legal case
+        format introduced in 2024. Use `volume`, `issue` and `page` for
+        pinpointing within the reporting journal.
+
+      - If you supply `collection-title` (reporting journal) and `number`
+        (case number) but no `container-title`, you will the get the formatting
+        for a Judgment of the European Court of Justice, with the `number` in
+        parentheses between the `title` and the year.
+
+      - Otherwise, supply `collection-title` (reporting journal) and `page`
+        (first page) to get a format similar to the standard neutral reference.
+        The year will be shown in square brackets unless `volume` is given, in
+        which case it will be in parentheses.
 
 ## Testing the style
 

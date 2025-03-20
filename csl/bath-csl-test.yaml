@@ -1084,6 +1084,16 @@ references:
   publisher: Publications Office of the European Union
   publisher-place: Luxembourg
 
+- id: srl.etal-v-comm2005
+  type: legal_case
+  issued:
+    date-parts: [[2005]]
+  title: <span class="nocase">Alessandrini Srl</span> and others v. <span class="nocase">Commission</span>
+  collection-title: <span class="nocase">ECR</span>
+  page: '5700'
+  volume: I
+  number: C-295/03 P
+
 - id: seldon-v-c.w.j2009
   type: legal_case
   issued:
@@ -1103,19 +1113,9 @@ references:
   title: <span class="nocase">Braceurself Ltd v NHS England</span>
   collection-title: England and Wales Court of Appeal (Civil Division)
   number: 39
-  container-title: Construction law report
+  container-title: Construction law reports
   volume: 212
-  pages: '95-135'
-
-- id: srl.etal-v-comm2005
-  type: legal_case
-  issued:
-    date-parts: [[2005]]
-  title: <span class="nocase">Alessandrini Srl</span> and others v. <span class="nocase">Commission</span>
-  collection-title: <span class="nocase">ECR</span>
-  page: '5700'
-  volume: I
-  number: C-295/03 P
+  page: '95-135'
 
 - id: adams2009tc1
   type: book
