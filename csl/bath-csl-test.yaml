@@ -968,47 +968,6 @@ references:
   publisher-place: Veliko Tarnovo
   publisher: Faber
 
-- id: gb.wa1735
-  type: legislation
-  issued:
-    date-parts: [[1735]]
-  title: <span class="nocase">Witchcraft Act</span>
-  collection-title: 9 <span class="nocase">Geo.2</span>
-  chapter-number: '5'
-
-- id: gb.pa2014
-  type: legislation
-  issued:
-    date-parts: [[2014]]
-  title: <span class="nocase">Pensions Act</span>
-  publisher: TSO
-  publisher-place: London
-  chapter-number: '19'
-
-- id: gb.bill1987/88-66
-  type: bill
-  author:
-  - literal: Great Britain. Parliament. House of Commons
-  issued:
-    date-parts: [[1988]]
-  title: Local government finance bill
-  collection-title: 'Bills | 1987/88'
-  publisher: HMSO
-  publisher-place: London
-  number: '66'
-
-- id: gb.hmr2012
-  type: regulation
-  issued:
-    date-parts: [[2012]]
-  accessed:
-    date-parts: [[2016, 4, 17]]
-  title: The Human Medicines Regulations
-  publisher: HMSO
-  publisher-place: United Kingdom
-  number: '1916'
-  URL: http://www.legislation.gov.uk/uksi/2012/1916/pdfs/uksi_20121916_en.pdf
-
 - id: gb.hc2003/04-30
   type: bill
   author:
@@ -1046,6 +1005,62 @@ references:
   publisher: TSO
   publisher-place: London
   number: '6041'
+
+- id: gb.bill1987/88-66
+  type: bill
+  author:
+  - literal: Great Britain. Parliament. House of Commons
+  issued:
+    date-parts: [[1988]]
+  title: Local government finance bill
+  collection-title: 'Bills | 1987/88'
+  publisher: HMSO
+  publisher-place: London
+  number: '66'
+
+- id: gb.wa1735
+  type: legislation
+  issued:
+    date-parts: [[1735]]
+  title: <span class="nocase">Witchcraft Act</span>
+  collection-title: 9 <span class="nocase">Geo.2</span>
+  chapter-number: '5'
+
+- id: gb.pa2014
+  type: legislation
+  issued:
+    date-parts: [[2014]]
+  title: <span class="nocase">Pensions Act</span>
+  publisher: TSO
+  publisher-place: London
+  chapter-number: '19'
+
+- id: gb.hmr2012
+  type: regulation
+  issued:
+    date-parts: [[2012]]
+  accessed:
+    date-parts: [[2016, 4, 17]]
+  title: The Human Medicines Regulations
+  publisher: HMSO
+  publisher-place: United Kingdom
+  number: '1916'
+  URL: http://www.legislation.gov.uk/uksi/2012/1916/pdfs/uksi_20121916_en.pdf
+
+- id: gb.hc2024rpc
+  type: hearing
+  author:
+  - literal: Great Britain. Parliament. House of Commons
+  issued:
+    date-parts: [[2024]]
+  event-date:
+    date-parts: [[2024, 1, 9]]
+  accessed:
+    date-parts: [[2024, 12, 12]]
+  title: <span class="nocase">Rwanda</span> Plan Cost and Asylum System
+  container-title: Hansard
+  volume: '744'
+  URL: https://hansard.parliament.uk/Commons/2024-01-09/debates/57105D77-72DE-4246-9F6E-ED87FCB9A088/RwandaPlanCostAndAsylumSystem
 
 - id: eu.dir1984/2003
   type: legislation
