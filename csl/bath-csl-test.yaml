@@ -153,6 +153,7 @@ references:
   edition: '79'
   publisher: Pharmaceutical Press
   publisher-place: London
+  page: '280-281'
 
 - id: aspirin2019bnf
   type: entry
@@ -764,6 +765,19 @@ references:
     date-parts: [[2020, 2, 20]]
   title: Vernacular architecture
   URL: https://www.buildinghistory.org/style/vernacular.shtml
+
+- id: chatgpt2023wcr
+  type: webpage
+  author:
+  - literal: ChatGPT
+  issued:
+    date-parts: [[2023]]
+  accessed:
+    date-parts: [[2023, 9, 4]]
+  title: Why is citing and referencing your sources important?
+  publisher: OpenAI
+  publisher-place: San Francisco, Calif.
+  URL: https://chat.openai.com/share/782cb099-a0dc-45b1-8da4-0e99713f2d45
 
 - id: gaiman2021fbp
   type: post

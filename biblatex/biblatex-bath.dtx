@@ -728,7 +728,7 @@ Use the most appropriate \texttt{reference} entry type instead of, say,
 \end{bibexbox}
 
 \begin{bibexbox}<RX>{aspirin2020bnf}
-  British National Formulary, 2020. 79th ed. \emph{Aspirin}. London: Pharmaceutical Press.
+  British National Formulary, 2020. 79th ed. \emph{Aspirin}. London: Pharmaceutical Press, pp.280--281.
   \tcblower
 \begin{Verbatim}
 %</driver>
@@ -739,7 +739,8 @@ Use the most appropriate \texttt{reference} entry type instead of, say,
   booktitle = {{British National Formulary}},
   edition = {79},
   address = {London},
-  publisher = {Pharmaceutical Press}}
+  publisher = {Pharmaceutical Press},
+  pages = {280-281}}
 %</driver|bib>
 %<*driver>
 \end{Verbatim}
@@ -1718,6 +1719,27 @@ You can also use \texttt{music} as an alias for \texttt{audio}.
   title = {Vernacular Architecture},
   url = {https://www.buildinghistory.org/style/vernacular.shtml},
   urldate = {2020-02-20}}
+%</driver|bib>
+%<*driver>
+\end{Verbatim}
+\end{bibexbox}
+
+This template is also used for retrievable Generative AI content.
+
+\begin{bibexbox}<RX>{chatgpt2023wcr}
+  ChatGPT, 2023. \emph{Why is citing and referencing your sources important?} [Online]. San Francisco, Calif.: OpenAI. Available from: \url{https://chat.openai.com/share/782cb099-a0dc-45b1-8da4-0e99713f2d45} [Accessed 4 September 2023].
+  \tcblower
+\begin{Verbatim}
+%</driver>
+%<*driver|bib>
+@online{chatgpt2023wcr,
+  author = {{ChatGPT}},
+  year = {2023},
+  title = {Why is Citing and Referencing Your Sources Important?},
+  address = {San Francisco, Calif.},
+  organization = {OpenAI},
+  url = {https://chat.openai.com/share/782cb099-a0dc-45b1-8da4-0e99713f2d45},
+  urldate = {2023-09-04}}
 %</driver|bib>
 %<*driver>
 \end{Verbatim}
