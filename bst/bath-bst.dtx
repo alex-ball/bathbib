@@ -3103,7 +3103,7 @@ order as you would for English double-barrelled names without hyphens, e.g.\@
 \end{bibexbox}
 
 
-\subsection{Legal or government document: UK parliamentary reports\slash legislation}
+\subsection{Government and parliamentary document}
 
 % Parliamentary reports
 
@@ -3455,11 +3455,13 @@ It should be ignored harmlessly by other styles.
 \end{bibexbox}
 
 
-\subsection{Legal or government document: EU reports\slash legislation}
+\subsection{Legal document: EU reports\slash legislation}
 
 % European reports
 
 \subsubsection*{EU publication}
+
+The following example has been removed.
 
 \begin{bibexbox}<RX>{ec2015gra}
   European Commission, 2015. \emph{General report on the activities of the European Union 2014}. Luxembourg: Publications Office of the European Union.
@@ -3541,7 +3543,49 @@ Use \lstinline[style=dtxlatex]|\defcitealias| to provide a suitable citation str
 \end{hacks}
 
 
-\subsection{Legal or government document: case reports}
+\subsection{Legal document: case reports}
+
+\subsubsection*{Judgment of the European Court of Justice}
+
+\begin{bibexbox}<RX>{srl.etal-v-comm2005}
+  \emph{Alessandrini Srl and others v.~Commission} (C-295/03 P) [2005] ECR I--5700.
+  \tcblower
+\begin{Verbatim}
+%</driver|tex1>
+%<*driver|bib>
+@jurisdiction{srl.etal-v-comm2005,
+  title = {Alessandrini {Srl} and others v.~{Commission}},
+  number = {C-295/03 P},
+  year = {2005},
+  journal = {ECR},
+  volume = {I},
+  pages = {5700}}
+%</driver|bib>
+%<*driver>
+\end{Verbatim}
+\iffalse
+%</driver>
+%<*tex1|bib1>
+@report{srl.etal-v-comm2005,
+  title = {Alessandrini {Srl} and others v.~{Commission}},
+  titleaddon = {(C-295/03 P) [2005] ECR I--5700}}
+%</tex1|bib1>
+%<*driver|tex1>
+\end{Verbatim}
+%<*driver>
+\fi
+%</driver>
+\end{bibexbox}
+
+%<*driver>
+\begin{tips}\item
+Use the \texttt{number} field (or the non-standard \texttt{casenmuber} field)
+for the case number. For Commission Decisions, use the (non-standard)
+\texttt{casenumber} or (\textsf{biblatex-oscola}) \texttt{userb} field for the
+Commission case number, \texttt{number} for the formal decision number, and give
+`Commission' as the \texttt{institution}.
+\end{tips}
+%</driver>
 
 \subsubsection*{Legal case study}
 
@@ -3679,50 +3723,6 @@ you may prefer to format the reference more-or-less by hand:
 \end{tcolorbox}
 \end{hacks}
 %</driver>
-
-
-\subsubsection*{Judgment of the European Court of Justice}
-
-\begin{bibexbox}<RX>{srl.etal-v-comm2005}
-  \emph{Alessandrini Srl and others v.~Commission} (C-295/03 P) [2005] ECR I--5700.
-  \tcblower
-\begin{Verbatim}
-%</driver|tex1>
-%<*driver|bib>
-@jurisdiction{srl.etal-v-comm2005,
-  title = {Alessandrini {Srl} and others v.~{Commission}},
-  number = {C-295/03 P},
-  year = {2005},
-  journal = {ECR},
-  volume = {I},
-  pages = {5700}}
-%</driver|bib>
-%<*driver>
-\end{Verbatim}
-\iffalse
-%</driver>
-%<*tex1|bib1>
-@report{srl.etal-v-comm2005,
-  title = {Alessandrini {Srl} and others v.~{Commission}},
-  titleaddon = {(C-295/03 P) [2005] ECR I--5700}}
-%</tex1|bib1>
-%<*driver|tex1>
-\end{Verbatim}
-%<*driver>
-\fi
-%</driver>
-\end{bibexbox}
-
-%<*driver>
-\begin{tips}\item
-Use the \texttt{number} field (or the non-standard \texttt{casenmuber} field)
-for the case number. For Commission Decisions, use the (non-standard)
-\texttt{casenumber} or (\textsf{biblatex-oscola}) \texttt{userb} field for the
-Commission case number, \texttt{number} for the formal decision number, and give
-`Commission' as the \texttt{institution}.
-\end{tips}
-%</driver>
-
 
 %</driver|tex1>
 %<tex1>\bibliography{bath-bst-v1}
