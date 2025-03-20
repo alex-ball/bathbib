@@ -265,6 +265,11 @@
             <text variable="volume"/>
             <text variable="issue" prefix="(" suffix=")"/>
           </group>
+          <choose>
+            <if type="hearing" match="any">
+              <date variable="event-date" form="text"/>
+            </if>
+          </choose>
         </group>
       </if>
     </choose>
