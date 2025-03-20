@@ -476,7 +476,7 @@ references:
   publisher: BRE
   publisher-place: Bracknell
   genre: Report
-  number: 497
+  number: '497'
 
 - id: deneulin.dinerstein2010hms
   type: report
@@ -1102,7 +1102,7 @@ references:
     date-parts: [[2024, 4, 23]]
   title: <span class="nocase">Seldon v Clarkson Wright & Jakes</span>
   collection-title: England and Wales Court of Appeal (Civil Division)
-  number: 889
+  number: '889'
   container-title: <span class="nocase">Bailii</span>
   URL: http://www.bailii.org/ew/cases/EWCA/Civ/2009/889.html
 
@@ -1112,9 +1112,9 @@ references:
     date-parts: [[2013]]
   title: <span class="nocase">Braceurself Ltd v NHS England</span>
   collection-title: England and Wales Court of Appeal (Civil Division)
-  number: 39
+  number: '39'
   container-title: Construction law reports
-  volume: 212
+  volume: '212'
   page: '95-135'
 
 - id: adams2009tc1

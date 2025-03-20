@@ -6,6 +6,26 @@ import click
 import yaml
 
 CONTEXT_SETTINGS = dict(help_option_names=["-h", "--help"])
+NUMBER_FIELDS = [
+    "chapter-number",
+    "citation-number",
+    "collection-number",
+    "edition",
+    "first-reference-note-number",
+    "issue",
+    "locator",
+    "number",
+    "number-of-pages",
+    "number-of-volumes",
+    "page",
+    "page-first",
+    "part-number",
+    "printing-number",
+    "section",
+    "supplement-number",
+    "version",
+    "volume",
+]
 
 
 @click.command(context_settings=CONTEXT_SETTINGS)
@@ -67,14 +87,21 @@ def main(output, style, input):
 
     j_refs = {"items": list(), "citationClusters": list()}
     for i, ref in enumerate(y_refs["references"], start=1):
+        # Data quality checks
         if "id" not in ref:
             raise click.ClickException(
                 message="All entries must have an 'id' key/value pair."
             )
+        for field in NUMBER_FIELDS:
+            if field in ref and isinstance((v := ref[field]), int):
+                print(f"WARNING: {ref['id']} > ‘{field}’ should be input as string.")
+                ref[field] = str(v)
         # Remove pandoc-specific workaround for escaping underscores in URLs
         url = ref.get("URL")
         if url:
             ref["URL"] = url.replace(r"\_", "_")
+
+        # Add to target data structure
         j_refs["items"].append(ref)
         j_refs["citationClusters"].append(
             {

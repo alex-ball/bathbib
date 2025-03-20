@@ -10,8 +10,8 @@ Haskell `citeproc` library, so this code now requires pandoc version 2.11+
 (or thereabouts).
 
 """
+
 import argparse
-from collections import deque
 import json
 import os
 import re
@@ -54,6 +54,11 @@ if args.infile.endswith(".json"):
 
     with open(args.infile) as f:
         cpjs_output = f.read()
+
+    if cpjs_output.startswith("Error"):
+        raise RuntimeError(
+            f"citeproc-js-server conversion failed: {cpjs_output.strip()}"
+        )
 
     cpjs_output = (
         cpjs_output.replace(r"  <div class=\"csl-entry\">", "<p>")
@@ -120,7 +125,9 @@ with open(pandoc_raw, "r") as f:
                     entryid = m1.group("id")
                     gen = m1.group("gen")
                     if entryid in cites:
-                        line = line.replace(f">{gen}</span>", f">{cites[entryid]}</span>")
+                        line = line.replace(
+                            f">{gen}</span>", f">{cites[entryid]}</span>"
+                        )
                         gen = cites[entryid]
                 cite_comp = ""
                 m2 = re.search(r"(?P<exp>\(.+\)) = ", line)
