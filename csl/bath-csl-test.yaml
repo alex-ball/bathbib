@@ -285,7 +285,7 @@ references:
   accessed:
     date-parts: [[2021, 12, 9]]
   title: Identifying prognostic pairwise relationships among bacterial species in microbiome studies
-  container-title: <span class="nocase">PLOS Computational Biology</span>
+  container-title: <span class="nocase">PLOS</span> computational biology
   volume: '17'
   issue: '11'
   URL: https://journals.plos.org/ploscompbiol/article?id=10.1371/journal.pcbi.1009501
