@@ -128,7 +128,7 @@ Copyright (C) 2016-2022 by University of Bath
   {Verbatim}{Verbatim}
   {commentchar=\%}
 
-\usepackage[tightLists=false]{markdown}
+\usepackage[tightLists=false,texComments=true]{markdown}
 \markdownSetup{rendererPrototypes={%
     link = {\href{#3}{#1}}%
 }}
@@ -321,7 +321,7 @@ Copyright (C) 2016-2022 by University of Bath
 
 \section{Introduction}
 
-\begin{markdown*}{hybrid=true}
+\begin{markdown}
 %</driver>
 %<*driver|readme>
 
@@ -420,7 +420,7 @@ documentation.
 [haranoaji]: http://ctan.org/pkg/haranoaji
 %</driver|readme>
 %<*driver>
-\end{markdown*}
+\end{markdown}
 
 \section{Using the style}
 
@@ -2257,7 +2257,9 @@ Use the \texttt{entrysubtype} `secondary' to put the number in the right place.
 \end{tips}
 
 
-% Parliamentary debates
+% UK parliamentary debates
+
+\subsubsection*{Parliamentary debate}
 
 \begin{bibexbox}<RX>{gb.hc2024rpc}
   Great Britain. Parliament. House of Commons, 2024. Rwanda Plan Cost and Asylum System. \emph{Hansard} [Online], 744, 9 January 2024. Available from: \url{https://hansard.parliament.uk/Commons/2024-01-09/debates/57105D77-72DE-4246-9F6E-ED87FCB9A088/RwandaPlanCostAndAsylumSystem} [Accessed 12 December 2024].
@@ -2266,8 +2268,9 @@ Use the \texttt{entrysubtype} `secondary' to put the number in the right place.
 %</driver>
 %<*driver|bib>
 @legal{gb.hc2024rpc,
+  entrysubtype = {parliamentary},
   author = {{Great Britain. Parliament. House of Commons}},
-  title = {{Rwanda} Plan Cost and Asylum System},
+  title = {{Rwanda Plan Cost and Asylum System}},
   year = {2024},
   journal = {Hansard},
   volume = {744},
@@ -2278,6 +2281,13 @@ Use the \texttt{entrysubtype} `secondary' to put the number in the right place.
 %<*driver>
 \end{Verbatim}
 \end{bibexbox}
+
+\begin{tips}\item
+Use the \texttt{legal} entry type.
+As that entry type is defined loosely by \textsf{biblatex},
+use the \texttt{entrysubtype} `parliamentary' to protect the entry
+against possible formatting changes in future versions of the style.
+\end{tips}
 
 
 \subsection{Legal document: EU reports\slash legislation}
@@ -2388,7 +2398,7 @@ Commission case number, \texttt{number} for the formal decision number, and give
 \end{bibexbox}
 
 \begin{bibexbox}<RX>{braceurself-v-nhs.england2013}
-  \emph{Braceurself Ltd v~NHS England}, 2013. England and Wales Court of Appeal (Civil Division), 39. \emph{Construction law reports}, 212, pp.95-135.
+  \emph{Braceurself Ltd v~NHS England}, 2013. England and Wales Court of Appeal (Civil Division), 39. \emph{Construction law reports}, 212, pp.95--135.
   \tcblower
 \begin{Verbatim}
 %</driver>
@@ -3884,6 +3894,55 @@ This work is `maintained' (as per LPPL maintenance status) by [Alex Ball][me].
      \usebibmacro{related}}
     {}%
   \usebibmacro{finentry}}
+%    \end{macrocode}
+%
+% \subsubsection{Parliamentary debates}
+%
+% This entry type is currently only used for parliamentary debates, but will be
+% used for treaties and explanatory notes on legislation should these ever be
+% included in the Harvard (Bath) specification, with treaties being the default
+% (since that's what upstream \textsf{biblatex} gives as an example). The test
+% for subtype is therefore future-proofing.
+%
+%    \begin{macrocode}
+\newcommand*{\explanatorynote}{explanatory note}
+\newcommand*{\parliamentarytype}{parliamentary}
+\DeclareBibliographyDriver{legal}{%
+  \usebibmacro{bibindex}%
+  \usebibmacro{begentry}%
+  \iffieldequals{entrysubtype}{\explanatorynote}{%
+    \printfield[default]{title}%
+    \setunit{\addspace}\newblock
+  }{%
+    \usebibmacro{legal:parliamentary}%
+    \setunit{\addcomma\space}\newblock
+  }%
+  \printfield[default]{note}
+  \setunit{\addspace}\newblock
+  \newunit\newblock
+  \usebibmacro{doi+eprint+url}%
+  \newunit\newblock
+  \usebibmacro{addendum+pubstate}%
+  \setunit{\bibpagerefpunct}\newblock
+  \usebibmacro{pageref}%
+  \newunit\newblock
+  \iftoggle{bbx:related}
+    {\usebibmacro{related:init}%
+     \usebibmacro{related}}
+    {}%
+  \usebibmacro{finentry}}
+\newbibmacro{legal:parliamentary}{%
+  \usebibmacro{author}%
+  \setunit{\printdelim{nametitledelim}}\newblock
+  \usebibmacro{title}%
+%  \newunit
+%  \printlist{language}%
+  \newunit\newblock
+  \usebibmacro{byauthor}%
+  \newunit\newblock
+  \usebibmacro{journal+issuetitle}%
+  \setunit{\addcomma\space}%
+  \printeventdate}
 
 %    \end{macrocode}
 %
@@ -4773,7 +4832,7 @@ This work is `maintained' (as per LPPL maintenance status) by [Alex Ball][me].
 \DeclareFieldFormat{midsentencecase}{\MakeSentenceCase*{{}#1}}
 \DeclareFieldFormat{title}{\mkbibemph{#1}}
 \DeclareFieldFormat
-  [article,inbook,incollection,inproceedings]%
+  [article,inbook,incollection,inproceedings,legal]%
   {title}{#1}
 \DeclareFieldFormat
   [reference,mvreference]%
@@ -4901,11 +4960,12 @@ This work is `maintained' (as per LPPL maintenance status) by [Alex Ball][me].
     \printfield{version}\clearfield{version}%
     \ifboolexpr{
       test {\iffieldundef{entrysubtype}}
-      or (
-        test {\ifentrytype{legislation}}
-        or
-        test {\ifentrytype{jurisdiction}}
-      )
+      or
+      test {\ifentrytype{legal}}
+      or
+      test {\ifentrytype{legislation}}
+      or
+      test {\ifentrytype{jurisdiction}}
     }{%
       \ifboolexpr{
         test {\iffieldundef{journaltitle}}
@@ -5665,7 +5725,7 @@ This work is `maintained' (as per LPPL maintenance status) by [Alex Ball][me].
     \printfield{number}}}
 \DeclareFieldFormat[jurisdiction]{journaltitle}{%
   \iftoggle{bbx:eu-oj}{\mkbibemph{#1}}{#1}}
-\DeclareFieldFormat[jurisdiction,legislation]{volume}{#1}
+\DeclareFieldFormat[jurisdiction,legislation,legal]{volume}{#1}
 \DeclareFieldFormat[jurisdiction,legislation]{pages}{#1}
 \newbibmacro{journal+volume+pages}{%
   \printfield{volume}%
