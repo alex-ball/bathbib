@@ -1,0 +1,321 @@
+templates:
+- name: book
+  entries:
+  - rang.etal2012rdp
+  - ou1972em
+  - solomon.etal2019cbe
+  - haynes2014crc
+  - blockley2021evs
+  - aristotle2007ne
+  - esquivel2003cap
+  csl_type: book
+  blx_driver: book
+  bst_driver: book
+- name: book-edited
+  entries:
+  - rothman.etal2008me
+  csl_type: book
+  blx_driver: collection
+  bst_driver: book
+- name: book-reference
+  entries:
+  - bnf2020
+  - bnf2019online
+  csl_type: book
+  blx_driver: reference
+  bst_driver: reference
+- name: reference entry
+  entries:
+  - aspirin2021bnf
+  - aspirin2020bnf
+  - aspirin2019bnf
+  csl_type: entry
+  blx_driver: inreference
+  bst_driver: inreference
+- name: chapter
+  entries:
+  - burchard1965hhl
+  - reid1967ptp
+  csl_type: chapter
+  blx_driver: incollection
+- name: article-journal
+  entries:
+  - stieg1981cer
+  - stieg1981inh
+  - newman2010mcb
+  - wetzstein.etal2020iai
+  - devlin.etal2021ipp
+  - steward.etal2020eys
+  - liontou.etal2019dra
+  - thurfjell1975vhv
+  - hua1999qys1
+  - hua1999qys2
+  - pamporov2006rvb
+  csl_type: article-journal
+  blx_driver: article
+  bst_driver: article
+- name: article-preprint
+  entries:
+  - shah.corrick2016hsc
+  - ganju2021sed
+  csl_type: report,article-journal
+  blx_driver: report
+  bst_driver: techreport
+- name: article-newspaper
+  entries:
+  - haurant2004bbh
+  - independent1992pub
+  - cogley2020ccs
+  csl_type: article-newspaper
+  blx_driver: article
+  bst_driver: article
+- name: paper-conference
+  entries:
+  - crawford1965oim
+  - soper1972rbc
+  csl_type: paper-conference
+  blx_driver: inproceedings
+  bst_driver: inproceedings
+- name: thesis
+  entries:
+  - burrell1973ist
+  csl_type: thesis
+  blx_driver: thesis
+  bst_driver: phdthesis,mastersthesis
+- name: report
+  entries:
+  - unesco1993gip
+  - bre2007dqb
+  - deneulin.dinerstein2010hms
+  - ec2015gra
+  csl_type: report
+  blx_driver: report
+  bst_driver: techreport
+- name: standard
+  entries:
+  - bs5605:1990
+  - astm.d1655
+  csl_type: standard
+  blx_driver: standard
+  bst_driver: manual
+- name: patent
+  entries:
+  - pm1981opa
+  csl_type: patent
+  blx_driver: patent
+  bst_driver: manual
+- name: unpublished-report
+  entries:
+  - harris2013fgr
+  csl_type: report
+  blx_driver: unpublished
+  bst_driver: unpublished
+- name: unpublished-pamphlet
+  entries:
+  - hadley2015bir
+  csl_type: pamphlet
+  blx_driver: unpublished
+  bst_driver: unpublished
+- name: unpublished-post
+  entries:
+  - thomas2015wcr
+  csl_type: post
+  blx_driver: unpublished
+  bst_driver: unpublished
+- name: image
+  entries:
+  - nasa2015nat
+  - iliff2006rcb
+  - brbr1965gph
+  csl_type: graphic
+  blx_driver: image
+  bst_driver: manual
+- name: map
+  entries:
+  - andrews.dury1773wilts
+  - os2020bath
+  - google2020harbourside
+  csl_type: map
+  blx_driver: manual
+  bst_driver: book
+- name: movie
+  entries:
+  - macbeth1948
+  - elephant-man1980
+  csl_type: motion_picture
+  blx_driver: video
+  bst_driver: booklet
+- name: webcast-video
+  entries:
+  - moran2016sol
+  csl_type: motion_picture
+  blx_driver: video
+  bst_driver: manual
+- name: webcast-audio
+  entries:
+  - chakrabarti2016hac
+  csl_type: speech
+  blx_driver: audio
+  bst_driver: manual
+- name: broadcast-video
+  entries:
+  - inn2021huw
+  - rsfo2006ep5
+  csl_type: broadcast
+  blx_driver: video
+  bst_driver: misc
+- name: broadcast-audio
+  entries:
+  - archers20060823
+  csl_type: broadcast
+  blx_driver: audio
+  bst_driver: misc
+- name: streamed-video
+  entries:
+  - tkmmm2020ts
+  csl_type: broadcast
+  blx_driver: video
+  bst_driver: misc
+- name: score
+  entries:
+  - beethoven1950symph1
+  csl_type: musical_score
+  blx_driver: book
+  bst_driver: book
+- name: webpage
+  entries:
+  - who2018ttc
+  - manco2013va
+  - chatgpt2023wcr
+  csl_type: webpage
+  blx_driver: online
+  bst_driver: manual
+- name: social-post
+  entries:
+  - gaiman2021fbp
+  - ublib2021tp
+  - ublib2021ip
+  csl_type: post
+  blx_driver: online
+  bst_driver: manual  
+- name: list-post
+  entries:
+  - clark2004euk
+  csl_type: post
+  blx_driver: letter
+  bst_driver: article
+- name: data
+  entries:
+  - bvd2008bt
+  - wilson2013rgc
+  csl_type: dataset
+  blx_driver: dataset
+  bst_driver: manual
+- name: software
+  entries:
+  - screencasto
+  csl_type: software
+  blx_driver: software
+  bst_driver: manual
+- name: paper-gov
+  entries:
+  - gb.hc2003/04-30
+  - gb.hl1986/87-66
+  - gb.cm6041
+  csl_type: bill
+  blx_driver: report
+  bst_driver: techreport
+- name: legislation-draft
+  entries:
+  - gb.bill1987/88-66
+  csl_type: bill
+  blx_driver: legislation
+  bst_driver: techreport
+- name: legislation-primary
+  entries:
+  - gb.wa1735
+  - gb.pa2014
+  csl_type: legislation
+  blx_driver: legislation
+  bst_driver: book
+- name: legislation-secondary
+  entries:
+  - gb.hmr2012
+  csl_type: regulation
+  blx_driver: legislation
+  bst_driver: book
+- name: debate-gov
+  entries:
+  - gb.hc2024rpc
+  csl_type: hearing
+  blx_driver: legal
+  blx_vals:
+  - entrysubtype=parliamentary
+- name: legislation-oj
+  entries:
+  - eu.dir1984/2003
+  csl_type: legislation
+  csl_vals:
+  - container-title=OJ
+  blx_driver: legislation
+  blx_vals:
+  - journal=OJ
+  bst_driver: misc
+- name: case-ecj
+  entries:
+  - srl.etal-v-comm2005
+  csl_type: legal_case
+  csl_vals:
+  - collection-title
+  - number
+  blx_driver: jurisdiction
+  bst_driver: techreport
+- name: case-uk
+  entries:
+  - seldon-v-c.w.j2009
+  - braceurself-v-nhs.england2013
+  csl_type: legal_case
+  csl_vals:
+  - collection-title
+  - container-title
+  - number
+  blx_driver: jurisdiction
+  bst_driver: techreport
+- name: case-neutral
+  entries: []
+  csl_type: legal_case
+  csl_vals:
+  - collection-title
+  - page
+  blx_driver: jurisdiction
+  bst_driver: techreport
+root:
+- delim: '. '
+  do:
+  - filters:
+    - only:
+      - legislation-draft
+      - legislation-primary
+      - legislation-secondary
+      - legislation-oj
+      do:
+      - statute-law
+    - only:
+      - case-ecj
+      - case-uk
+      - case-neutral
+      do:
+      - case-law
+    - only: []
+      do:
+      - delim: ', '
+        do:
+        - author-or-other
+        - pub-year
+      - title-block
+      - pub-block
+  - idents
+  - physical-access
+  - digital-access
+  - addenda
+macros: []
