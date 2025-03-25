@@ -49,6 +49,9 @@
 *.glo
 *.gls
 
+# hypdoc
+*.hd
+
 # hyperref
 *.brf
 
