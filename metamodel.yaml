@@ -292,9 +292,8 @@ templates:
 root:
 - delim: '. '
   do:
-  - filters:
+  - choose:
     - only:
-      - legislation-draft
       - legislation-primary
       - legislation-secondary
       - legislation-oj
@@ -318,4 +317,41 @@ root:
   - physical-access
   - digital-access
   - addenda
-macros: []
+macros:
+- id: journal-block-oj
+  id_blx: eu:journal+series+volume+pages
+  do:
+  - val: journal
+  - val: series
+  - delim: '/'
+    do:
+    - val: volume
+    - val: page
+- id: journal-block-legislation
+  id_blx: journal+series+volume+number+chapter+pages
+  do:
+  - choose:
+    - only:
+      - legislation-oj
+      do:
+      - journal-block-oj
+    - only:
+      - legislation-secondary
+      do:
+      - val: number
+    - only:
+      - legislation-primary
+      do:
+      - val: series
+      - val: type
+      - val: number
+      - val: chapter
+- id: statute-law
+  id_csl: statute-law
+  do:
+  - author-or-other
+  - legislation-pub-year
+  - title
+  - is-online
+  - journal-block-legislation
+

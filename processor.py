@@ -50,7 +50,7 @@ class Filter(Base):
 
 @dataclass(kw_only=True)
 class Choice(Base):
-    filters: list[Filter]
+    choose: list[Filter]
 
 
 @dataclass(kw_only=True)
