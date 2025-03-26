@@ -98,26 +98,39 @@ as [CSL-JSON].
     ‘Cm.’) and `number` for the printing.
 
   - For legal cases, only approximate support is possible, especially now that
-    Harvard (Bath) has introduced its own unique style. There are four
-    variations:
+    Harvard (Bath) has introduced its own unique style. The following variations
+    are available:
 
-      - If you supply ‘OJ’ as the value of `container-title`, you will get the
-        special format for cases reported in the EU Official Journal.
+      - To get the legal case format introduced in 2024, you must supply both
+        the `authority` (court) and `number` (case number). If citing a
+        particular court division, you can add it manually to the end of
+        `authority` or supply it separately in `division`. Use `container-title`
+        for the reporting journal, and `volume`, `issue` and `page` for
+        pinpointing within it.
 
-      - If you supply `collection-title` (court), `number` (case number) and
-        `container-title` (reporting journal), you will get the legal case
-        format introduced in 2024. Use `volume`, `issue` and `page` for
-        pinpointing within the reporting journal.
+      - To get the format for a Judgment of the European Court of Justice, (that
+        is, with the case number in parentheses between the title and year),
+        supply a `number` (case number) but no `authority`. To cite a case
+        reported in ECR or equivalent, put the reporting journal in
+        `collection-title`, and use `volume` and `page` for pinpointing. To cite
+        a case in the OJ, put ‘OJ’ as the `container-title` and follow the
+        instructions above for pinpointing EU Directives.
 
-      - If you supply `collection-title` (reporting journal) and `number`
-        (case number) but no `container-title`, you will the get the formatting
-        for a Judgment of the European Court of Justice, with the `number` in
-        parentheses between the `title` and the year.
+      - To cite any other case in the OJ, don't give a `number`; put ‘OJ’ as the
+        `container-title` and follow the instructions above for pinpointing EU
+        Directives.
 
-      - Otherwise, supply `collection-title` (reporting journal) and `page`
-        (first page) to get a format similar to the standard neutral reference.
-        The year will be shown in square brackets unless `volume` is given, in
-        which case it will be in parentheses.
+      - To get Harvard (Bath)'s pre-2024 legal case format, don't give a
+        `number` or a `container-title`. Use `collection-title` (reporting
+        journal or court abbreviation) and `page` (first page, or case number
+        with or without division suffix). The year will be shown in square
+        brackets unless `volume` is given, in which case it will be in
+        parentheses.
+
+    This is a quirky use of `collection-title`, but the simplifying principle
+    behind it is that `container-title` is printed in italics and
+    `collection-title` is not. One motivation for it is that CSL cannot detect
+    ‘OJ’ as a special value, but Harvard (Bath) treats it specially.
 
 ## Testing the style
 

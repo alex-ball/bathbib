@@ -1101,7 +1101,8 @@ references:
   accessed:
     date-parts: [[2024, 4, 23]]
   title: <span class="nocase">Seldon v Clarkson Wright & Jakes</span>
-  collection-title: England and Wales Court of Appeal (Civil Division)
+  authority: England and Wales Court of Appeal
+  division: Civil Division
   number: '889'
   container-title: <span class="nocase">Bailii</span>
   URL: http://www.bailii.org/ew/cases/EWCA/Civ/2009/889.html
@@ -1111,11 +1112,19 @@ references:
   issued:
     date-parts: [[2013]]
   title: <span class="nocase">Braceurself Ltd v NHS England</span>
-  collection-title: England and Wales Court of Appeal (Civil Division)
+  authority: England and Wales Court of Appeal (Civil Division)
   number: '39'
   container-title: Construction law reports
   volume: '212'
   page: '95-135'
+
+- id: seldon-v-c.w.j2012
+  type: legal_case
+  issued:
+    date-parts: [[2012]]
+  title: <span class="nocase">Seldon v. Clarkson Wright & Jakes</span>
+  collection-title: <span class="nocase">UKSC</span>
+  page: '16'
 
 - id: adams2009tc1
   type: book

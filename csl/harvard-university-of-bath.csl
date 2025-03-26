@@ -166,7 +166,7 @@
     <choose>
       <if variable="number">
         <choose>
-          <if variable="container-title collection-title">
+          <if variable="authority">
             <group delimiter=". ">
               <group delimiter=", ">
                 <text macro="author"/>
@@ -174,7 +174,10 @@
               </group>
               <text macro="title"/>
               <group delimiter=", ">
-                <text variable="collection-title"/>
+                <group delimiter=" ">
+                  <text variable="authority"/>
+                  <text variable="division" prefix=" (" suffix=")"/>
+                </group>
                 <text variable="number"/>
               </group>
               <text macro="journal"/>
@@ -221,27 +224,11 @@
             </else>
           </choose>
           <text macro="title"/>
-          <choose>
-            <if variable="container-title">
-              <group delimiter=" ">
-                <text variable="container-title" font-style="italic"/>
-                <group>
-                  <text variable="collection-title"/>
-                  <group delimiter="/">
-                    <text variable="volume"/>
-                    <text variable="page"/>
-                  </group>
-                </group>
-              </group>
-            </if>
-            <else>
-              <text variable="volume"/>
-              <group delimiter=" ">
-                <text variable="collection-title"/>
-                <text variable="page"/>
-              </group>
-            </else>
-          </choose>
+          <group delimiter=" ">
+            <text variable="volume"/>
+            <text variable="collection-title"/>
+            <text variable="page"/>
+          </group>
         </group>
       </else>
     </choose>
