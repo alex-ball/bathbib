@@ -3427,28 +3427,28 @@ It should be ignored harmlessly by other styles.
 @legal{gb.hc2024rpc,
   entrysubtype = {parliamentary},
   author = {{Great Britain. Parliament. House of Commons}},
-  title = {{Rwanda} Plan Cost and Asylum System},
   year = {2024},
+  title = {{Rwanda Plan Cost and Asylum System}},
   journal = {Hansard},
   volume = {744},
-  eventdate = {2024-01-09},
+  eventyear = {9 January 2024},
   url = {https://hansard.parliament.uk/Commons/2024-01-09/debates/57105D77-72DE-4246-9F6E-ED87FCB9A088/RwandaPlanCostAndAsylumSystem},
-  urldate = {2024-12-12}}
+  urlyear = {12 December 2024}}
 %</driver|bib>
 %<*driver>
 \end{Verbatim}
 \iffalse
 %</driver>
 %<*tex1|bib1>
-@legal{gb.hc2024rpc,
+@article{gb.hc2024rpc,
   author = {{Great Britain. Parliament. House of Commons}},
-  title = {{Rwanda} Plan Cost and Asylum System},
   year = {2024},
-  journal = {Hansard},
+  title = {{Rwanda Plan Cost and Asylum System}},
+  journal = {Hansard \textup{[Online]}},
   volume = {744},
-  eventdate = {2024-01-09},
+  month = {9 January 2024},
   url = {https://hansard.parliament.uk/Commons/2024-01-09/debates/57105D77-72DE-4246-9F6E-ED87FCB9A088/RwandaPlanCostAndAsylumSystem},
-  urldate = {2024-12-12}}
+  urldate = {12 December 2024}}
 %</tex1|bib1>
 %<*driver|tex1>
 \end{Verbatim}
@@ -3612,7 +3612,7 @@ Commission case number, \texttt{number} for the formal decision number, and give
 \iffalse
 %</driver>
 %<*tex1|bib1>
-@report{seldon-v-c.w.j2012,
+@report{seldon-v-c.w.j2009,
   title = {Seldon v.~{Clarkson} {Wright} \& {Jakes}},
   year = {2009},
   type = {England and Wales Court of Appeal (Civil Division)},
@@ -4973,7 +4973,9 @@ FUNCTION {print.title.addenda}
   is.online
     { entrysubtype duplicate$ empty$
         type$ duplicate$ "legislation" =
-        swap$ "jurisdiction" =
+          swap$ duplicate$ "jurisdiction" =
+          swap$ "legal" =
+          or
         or
       or
         { pop$
@@ -5993,7 +5995,8 @@ FUNCTION {format.journal.eid}
 % is given instead of |volume|: if a journal does not organize itself into
 % volumes, treat every issue as its own volume! Since the Harvard (Bath) style
 % places publication state information in the volume position, the |pubstate|
-% field from \textsf{biblatex} is emulated here.
+% field from \textsf{biblatex} is emulated here. The |eventyear| if present
+% is used instead of month, in order to support parliamentary debates.
 %
 %    \begin{macrocode}
 FUNCTION {format.vol.num.pages}
@@ -6026,10 +6029,19 @@ FUNCTION {format.vol.num.pages}
           "(" swap$ * ")" *
         }
       if$ *
-      month "month" bibinfo.check duplicate$ empty$
-        'pop$
-        { swap$ duplicate$ empty$
+      eventyear field.or.null duplicate$ empty$
+        { pop$
+          month "month" bibinfo.check duplicate$ empty$
             'pop$
+            { swap$ duplicate$ empty$
+                'pop$
+                { ", " * swap$ * }
+              if$
+            }
+          if$
+        }
+        { swap$ duplicate$ empty$
+           'pop$
             { ", " * swap$ * }
           if$
         }
@@ -6732,15 +6744,17 @@ FUNCTION {legislation}
 %
 % \subsubsection{Parliamentary debate}
 %
-% This has to be adaptable since we might use it for other formats as well in
-% future.
+% It would be more efficient to use a straight alias here, but we anticipate
+% using this driver for other templates in future. When that happens, the two
+% sides of the test will be different.
 %
 %    \begin{macrocode}
-FUNCTION {parliamentary}
-{
-}
 FUNCTION {legal}
-{
+{ entrysubtype field.or.null 
+ "parliamentary" =
+    'article
+    'article
+  if$
 }
 %    \end{macrocode}
 %

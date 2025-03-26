@@ -369,6 +369,7 @@ def ignore_unfixable(
         "liontou.etal2019dra",
         "cogley2020ccs",
         "clark2004euk",
+        "gb.hc2024rpc",
     ]:
         if key in outputs:
             outputs[key] = outputs[key].replace(" \\textup{[Online]}}", "} [Online]")
@@ -393,7 +394,7 @@ def format_diff(label: str, primary: str, secondary: str) -> str:
 
 
 def contrast_refs(
-    **kwargs: t.Dict[str, t.Dict[str, str]]
+    **kwargs: t.Dict[str, t.Dict[str, str]],
 ) -> t.DefaultDict[str, t.Set[str]]:
     """Performs a comparison between different sets of mappings from
     bib database IDs to formatted references.
