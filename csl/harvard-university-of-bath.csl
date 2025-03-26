@@ -360,6 +360,7 @@
           </else>
         </choose>
       </group>
+      <text macro="status"/>
       <group>
         <text variable="volume"/>
         <text variable="issue" prefix="(" suffix=")"/>
@@ -393,8 +394,8 @@
             <text macro="journal"/>
           </if>
           <else>
-            <text macro="status"/>
             <text macro="publisher"/>
+            <text macro="status"/>
           </else>
         </choose>
       </if>
@@ -441,8 +442,8 @@
               <text macro="series"/>
             </else>
           </choose>
-          <text macro="status"/>
           <text macro="publisher"/>
+          <text macro="status"/>
         </group>
       </else>
     </choose>

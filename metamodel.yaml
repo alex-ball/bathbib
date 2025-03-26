@@ -313,8 +313,9 @@ root:
         - pub-year
       - title-block
       - pub-block
-  - idents
   - physical-access
+  - status
+  - idents
   - digital-access
   - addenda
 macros:

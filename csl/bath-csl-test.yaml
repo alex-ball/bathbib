@@ -65,24 +65,6 @@ references:
   publisher-place: Philadelphia, Pa.
   edition: '3'
 
-- id: oed1989
-  type: book
-  issued:
-    date-parts: [[1989]]
-  title: Oxford <span class="nocase">English</span> dictionary
-  publisher: Clarendon Press
-  publisher-place: Oxford
-  edition: '2'
-
-- id: merckNDidx
-  type: book
-  accessed:
-    date-parts: [[2016, 6, 16]]
-  title: The <span class="nocase">Merck</span> index online
-  publisher: RSC Publishing
-  publisher-place: London
-  URL: http://www.rsc.org/Merck-Index
-
 - id: haynes2014crc
   type: book
   editor:
@@ -112,6 +94,24 @@ references:
   publisher: Oxford University Press
   publisher-place: Oxford
   URL: https://www.amazon.co.uk/kindle
+
+- id: oed1989
+  type: book
+  issued:
+    date-parts: [[1989]]
+  title: Oxford <span class="nocase">English</span> dictionary
+  publisher: Clarendon Press
+  publisher-place: Oxford
+  edition: '2'
+
+- id: merckNDidx
+  type: book
+  accessed:
+    date-parts: [[2016, 6, 16]]
+  title: The <span class="nocase">Merck</span> index online
+  publisher: RSC Publishing
+  publisher-place: London
+  URL: http://www.rsc.org/Merck-Index
 
 - id: bnf2020
   type: book

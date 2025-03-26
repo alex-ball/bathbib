@@ -3414,7 +3414,9 @@ It should be ignored harmlessly by other styles.
 \end{tips}
 
 
-% Parliamentary debates
+% UK parliamentary debates
+
+\subsubsection*{Parliamentary debate}
 
 \begin{bibexbox}<RX>{gb.hc2024rpc}
   Great Britain. Parliament. House of Commons, 2024. Rwanda Plan Cost and Asylum System. \emph{Hansard} [Online], 744, 9 January 2024. Available from: \url{https://hansard.parliament.uk/Commons/2024-01-09/debates/57105D77-72DE-4246-9F6E-ED87FCB9A088/RwandaPlanCostAndAsylumSystem} [Accessed 12 December 2024].
@@ -3423,6 +3425,7 @@ It should be ignored harmlessly by other styles.
 %</driver|tex1>
 %<*driver|bib>
 @legal{gb.hc2024rpc,
+  entrysubtype = {parliamentary},
   author = {{Great Britain. Parliament. House of Commons}},
   title = {{Rwanda} Plan Cost and Asylum System},
   year = {2024},
@@ -3626,7 +3629,7 @@ Commission case number, \texttt{number} for the formal decision number, and give
 \end{bibexbox}
 
 \begin{bibexbox}<RX>{braceurself-v-nhs.england2013}
-  \emph{Braceurself Ltd v~NHS England}, 2013. England and Wales Court of Appeal (Civil Division), 39. \emph{Construction law reports}, 212, pp.95-135.
+  \emph{Braceurself Ltd v~NHS England}, 2013. England and Wales Court of Appeal (Civil Division), 39. \emph{Construction law reports}, 212, pp.95--135.
   \tcblower
 \begin{Verbatim}
 %</driver|tex1>
@@ -6724,6 +6727,20 @@ FUNCTION {legislation}
     'uklegislation
     'eulegislation
   if$
+}
+%    \end{macrocode}
+%
+% \subsubsection{Parliamentary debate}
+%
+% This has to be adaptable since we might use it for other formats as well in
+% future.
+%
+%    \begin{macrocode}
+FUNCTION {parliamentary}
+{
+}
+FUNCTION {legal}
+{
 }
 %    \end{macrocode}
 %

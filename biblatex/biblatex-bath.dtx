@@ -2970,8 +2970,6 @@ This work is `maintained' (as per LPPL maintenance status) by [Alex Ball][me].
   \usebibmacro{author/translator+others}%
   \setunit{\printdelim{nametitledelim}}\newblock
   \usebibmacro{title}%
-%  \newunit
-%  \printlist{language}%
   \newunit\newblock
   \usebibmacro{byauthor}%
   \newunit\newblock
@@ -3005,8 +3003,6 @@ This work is `maintained' (as per LPPL maintenance status) by [Alex Ball][me].
   \usebibmacro{editor}%
   \setunit{\printdelim{nametitledelim}}\newblock
   \usebibmacro{title+issuetitle}%
-%  \newunit
-%  \printlist{language}%
   \newunit\newblock
   \usebibmacro{byeditor}%
   \newunit\newblock
@@ -3018,7 +3014,7 @@ This work is `maintained' (as per LPPL maintenance status) by [Alex Ball][me].
   \newunit\newblock
   \usebibmacro{doi+eprint+url}%
   \newunit\newblock
-  \usebibmacro{addendum+pubstate}%
+  \printfield{addendum}%
   \setunit{\bibpagerefpunct}\newblock
   \usebibmacro{pageref}%
   \newunit\newblock
@@ -3043,8 +3039,6 @@ This work is `maintained' (as per LPPL maintenance status) by [Alex Ball][me].
   \usebibmacro{author/editor+others/translator+others}%
   \setunit{\printdelim{nametitledelim}}\newblock
   \usebibmacro{maintitle+title}%
-%  \newunit
-%  \printlist{language}%
   \newunit\newblock
   \usebibmacro{byauthor}%
   \newunit\newblock
@@ -3066,8 +3060,8 @@ This work is `maintained' (as per LPPL maintenance status) by [Alex Ball][me].
   \usebibmacro{publisher+location+date}%
   \newunit\newblock
   \usebibmacro{chapter+pages}%
-%   \newunit
-%   \printfield{pagetotal}%
+  \newunit\newblock
+  \printfield{pubstate}%
   \newunit\newblock
   \iftoggle{bbx:isbn}
     {\printfield{isbn}}
@@ -3075,7 +3069,7 @@ This work is `maintained' (as per LPPL maintenance status) by [Alex Ball][me].
   \newunit\newblock
   \usebibmacro{doi+eprint+url}%
   \newunit\newblock
-  \usebibmacro{addendum+pubstate}%
+  \printfield{addendum}%
   \setunit{\bibpagerefpunct}\newblock
   \usebibmacro{pageref}%
   \newunit\newblock
@@ -3091,8 +3085,6 @@ This work is `maintained' (as per LPPL maintenance status) by [Alex Ball][me].
   \usebibmacro{editor+others}%
   \setunit{\printdelim{nametitledelim}}\newblock
   \usebibmacro{maintitle+title}%
-%  \newunit
-%  \printlist{language}%
   \newunit\newblock
   \usebibmacro{byeditor+others}%
   \newunit\newblock
@@ -3112,8 +3104,8 @@ This work is `maintained' (as per LPPL maintenance status) by [Alex Ball][me].
   \usebibmacro{publisher+location+date}%
   \newunit\newblock
   \usebibmacro{chapter+pages}%
-%  \newunit
-%  \printfield{pagetotal}%
+  \newunit\newblock
+  \printfield{pubstate}%
   \newunit\newblock
   \iftoggle{bbx:isbn}
     {\printfield{isbn}}
@@ -3121,7 +3113,7 @@ This work is `maintained' (as per LPPL maintenance status) by [Alex Ball][me].
   \newunit\newblock
   \usebibmacro{doi+eprint+url}%
   \newunit\newblock
-  \usebibmacro{addendum+pubstate}%
+  \printfield{addendum}%
   \setunit{\bibpagerefpunct}\newblock
   \usebibmacro{pageref}%
   \newunit\newblock
@@ -3137,8 +3129,6 @@ This work is `maintained' (as per LPPL maintenance status) by [Alex Ball][me].
   \usebibmacro{editor+others}%
   \setunit{\printdelim{nametitledelim}}\newblock
   \usebibmacro{maintitle+title}%
-%  \newunit
-%  \printlist{language}%
   \newunit\newblock
   \usebibmacro{event+venue+date}%
   \newunit\newblock
@@ -3160,8 +3150,8 @@ This work is `maintained' (as per LPPL maintenance status) by [Alex Ball][me].
   \usebibmacro{publisher+location+date}%
   \newunit\newblock
   \usebibmacro{chapter+pages}%
-%  \newunit
-%  \printfield{pagetotal}%
+  \newunit\newblock
+  \printfield{pubstate}%
   \newunit\newblock
   \iftoggle{bbx:isbn}
     {\printfield{isbn}}
@@ -3169,7 +3159,7 @@ This work is `maintained' (as per LPPL maintenance status) by [Alex Ball][me].
   \newunit\newblock
   \usebibmacro{doi+eprint+url}%
   \newunit\newblock
-  \usebibmacro{addendum+pubstate}%
+  \printfield{addendum}%
   \setunit{\bibpagerefpunct}\newblock
   \usebibmacro{pageref}%
   \newunit\newblock
@@ -3193,8 +3183,6 @@ This work is `maintained' (as per LPPL maintenance status) by [Alex Ball][me].
   \usebibmacro{author/translator+others}%
   \setunit{\printdelim{nametitledelim}}\newblock
   \usebibmacro{title}%
-%  \newunit
-%  \printlist{language}%
   \newunit\newblock
   \usebibmacro{byauthor}%
   \newunit\newblock
@@ -3222,13 +3210,15 @@ This work is `maintained' (as per LPPL maintenance status) by [Alex Ball][me].
   \newunit\newblock
   \usebibmacro{chapter+pages}%
   \newunit\newblock
+  \printfield{pubstate}%
+  \newunit\newblock
   \iftoggle{bbx:isbn}
     {\printfield{isbn}}
     {}%
   \newunit\newblock
   \usebibmacro{doi+eprint+url}%
   \newunit\newblock
-  \usebibmacro{addendum+pubstate}%
+  \printfield{addendum}%
   \setunit{\bibpagerefpunct}\newblock
   \usebibmacro{pageref}%
   \newunit\newblock
@@ -3244,8 +3234,6 @@ This work is `maintained' (as per LPPL maintenance status) by [Alex Ball][me].
   \usebibmacro{author/translator+others}%
   \setunit{\printdelim{nametitledelim}}\newblock
   \usebibmacro{title}%
-%  \newunit
-%  \printlist{language}%
   \newunit\newblock
   \usebibmacro{byauthor}%
   \newunit\newblock
@@ -3272,13 +3260,15 @@ This work is `maintained' (as per LPPL maintenance status) by [Alex Ball][me].
   \newunit\newblock
   \usebibmacro{chapter+pages}%
   \newunit\newblock
+  \printfield{pubstate}%
+  \newunit\newblock
   \iftoggle{bbx:isbn}
     {\printfield{isbn}}
     {}%
   \newunit\newblock
   \usebibmacro{doi+eprint+url}%
   \newunit\newblock
-  \usebibmacro{addendum+pubstate}%
+  \printfield{addendum}%
   \setunit{\bibpagerefpunct}\newblock
   \usebibmacro{pageref}%
   \newunit\newblock
@@ -3294,8 +3284,6 @@ This work is `maintained' (as per LPPL maintenance status) by [Alex Ball][me].
   \usebibmacro{author/translator+others}%
   \setunit{\printdelim{nametitledelim}}\newblock
   \usebibmacro{title}%
-%  \newunit
-%  \printlist{language}%
   \newunit\newblock
   \usebibmacro{byauthor}%
   \newunit\newblock
@@ -3324,13 +3312,15 @@ This work is `maintained' (as per LPPL maintenance status) by [Alex Ball][me].
   \newunit\newblock
   \usebibmacro{chapter+pages}%
   \newunit\newblock
+  \printfield{pubstate}%
+  \newunit\newblock
   \iftoggle{bbx:isbn}
     {\printfield{isbn}}
     {}%
   \newunit\newblock
   \usebibmacro{doi+eprint+url}%
   \newunit\newblock
-  \usebibmacro{addendum+pubstate}%
+  \printfield{addendum}%
   \setunit{\bibpagerefpunct}\newblock
   \usebibmacro{pageref}%
   \newunit\newblock
@@ -3353,9 +3343,7 @@ This work is `maintained' (as per LPPL maintenance status) by [Alex Ball][me].
   \usebibmacro{author/translator+others}%
   \setunit{\printdelim{nametitledelim}}\newblock
   \ifnameundef{author}{}{%
-    \usebibmacro{title}%
-    \newunit}%
-  \printlist{language}%
+    \usebibmacro{title}}%
   \newunit\newblock
   \usebibmacro{byauthor}%
   \newunit\newblock
@@ -3389,13 +3377,15 @@ This work is `maintained' (as per LPPL maintenance status) by [Alex Ball][me].
   \newunit\newblock
   \usebibmacro{chapter+pages}%
   \newunit\newblock
+  \printfield{pubstate}%
+  \newunit\newblock
   \iftoggle{bbx:isbn}
     {\printfield{isbn}}
     {}%
   \newunit\newblock
   \usebibmacro{doi+eprint+url}%
   \newunit\newblock
-  \usebibmacro{addendum+pubstate}%
+  \printfield{addendum}%
   \setunit{\bibpagerefpunct}\newblock
   \usebibmacro{pageref}%
   \newunit\newblock
@@ -3418,8 +3408,6 @@ This work is `maintained' (as per LPPL maintenance status) by [Alex Ball][me].
   \usebibmacro{author/editor+others/translator+others}%
   \setunit{\printdelim{nametitledelim}}\newblock
   \usebibmacro{title}%
-%  \newunit
-%  \printlist{language}%
   \newunit\newblock
   \usebibmacro{byauthor}%
   \newunit\newblock
@@ -3437,9 +3425,11 @@ This work is `maintained' (as per LPPL maintenance status) by [Alex Ball][me].
   \newunit\newblock
   \usebibmacro{organization+location+date}%
   \newunit\newblock
+  \printfield{pubstate}%
+  \newunit\newblock
   \usebibmacro{doi+eprint+url}%
   \newunit\newblock
-  \usebibmacro{addendum+pubstate}%
+  \printfield{addendum}%
   \setunit{\bibpagerefpunct}\newblock
   \usebibmacro{pageref}%
   \newunit\newblock
@@ -3465,8 +3455,6 @@ This work is `maintained' (as per LPPL maintenance status) by [Alex Ball][me].
   \usebibmacro{title}%
   \setunit{\addspace}
   \printfield{type}%
-%  \newunit
-%  \printlist{language}%
   \newunit\newblock
   \usebibmacro{byauthor}%
   \newunit\newblock
@@ -3478,9 +3466,11 @@ This work is `maintained' (as per LPPL maintenance status) by [Alex Ball][me].
   \newunit\newblock
   \usebibmacro{organization+location+date}%
   \newunit\newblock
+  \printfield{pubstate}%
+  \newunit\newblock
   \usebibmacro{doi+eprint+url}%
   \newunit\newblock
-  \usebibmacro{addendum+pubstate}%
+  \printfield{addendum}%
   \setunit{\bibpagerefpunct}\newblock
   \usebibmacro{pageref}%
   \newunit\newblock
@@ -3507,8 +3497,6 @@ This work is `maintained' (as per LPPL maintenance status) by [Alex Ball][me].
   \usebibmacro{author/editor}%
   \setunit{\printdelim{nametitledelim}}\newblock
   \usebibmacro{title}%
-%  \newunit
-%  \printlist{language}%
   \newunit\newblock
   \usebibmacro{byauthor}%
   \newunit\newblock
@@ -3522,8 +3510,8 @@ This work is `maintained' (as per LPPL maintenance status) by [Alex Ball][me].
   \usebibmacro{organization+location+date}%
   \newunit\newblock
   \usebibmacro{chapter+pages}%
-%  \newunit
-%  \printfield{pagetotal}%
+  \newunit\newblock
+  \printfield{pubstate}%
   \newunit\newblock
   \iftoggle{bbx:isbn}
     {\printfield{isbn}}
@@ -3531,7 +3519,7 @@ This work is `maintained' (as per LPPL maintenance status) by [Alex Ball][me].
   \newunit\newblock
   \usebibmacro{doi+eprint+url}%
   \newunit\newblock
-  \usebibmacro{addendum+pubstate}%
+  \printfield{addendum}%
   \setunit{\bibpagerefpunct}\newblock
   \usebibmacro{pageref}%
   \newunit\newblock
@@ -3552,8 +3540,6 @@ This work is `maintained' (as per LPPL maintenance status) by [Alex Ball][me].
   \usebibmacro{author}%
   \setunit{\printdelim{nametitledelim}}\newblock
   \usebibmacro{title}%
-%  \newunit
-%  \printlist{language}%
   \newunit\newblock
   \usebibmacro{byauthor}%
   \newunit\newblock
@@ -3574,7 +3560,7 @@ This work is `maintained' (as per LPPL maintenance status) by [Alex Ball][me].
   \newunit\newblock
   \usebibmacro{doi+eprint+url}%
   \newunit\newblock
-  \usebibmacro{addendum+pubstate}%
+  \printfield{addendum}%
   \setunit{\bibpagerefpunct}\newblock
   \usebibmacro{pageref}%
   \newunit\newblock
@@ -3599,8 +3585,6 @@ This work is `maintained' (as per LPPL maintenance status) by [Alex Ball][me].
   \usebibmacro{author/editor+others/translator+others}%
   \setunit{\printdelim{nametitledelim}}\newblock
   \usebibmacro{title}%
-%  \newunit
-%  \printlist{language}%
   \newunit\newblock
   \usebibmacro{byauthor}%
   \newunit\newblock
@@ -3612,9 +3596,11 @@ This work is `maintained' (as per LPPL maintenance status) by [Alex Ball][me].
   \newunit\newblock
   \usebibmacro{organization+location+date}%
   \newunit\newblock
+  \printfield{pubstate}%
+  \newunit\newblock
   \usebibmacro{doi+eprint+url}%
   \newunit\newblock
-  \usebibmacro{addendum+pubstate}%
+  \printfield{addendum}%
   \setunit{\bibpagerefpunct}\newblock
   \usebibmacro{pageref}%
   \newunit\newblock
@@ -3640,8 +3626,6 @@ This work is `maintained' (as per LPPL maintenance status) by [Alex Ball][me].
   \usebibmacro{author}%
   \setunit{\printdelim{nametitledelim}}\newblock
   \usebibmacro{title}%
-%  \newunit
-%  \printlist{language}%
   \newunit\newblock
   \usebibmacro{byauthor}%
   \newunit\newblock
@@ -3652,8 +3636,8 @@ This work is `maintained' (as per LPPL maintenance status) by [Alex Ball][me].
   \usebibmacro{institution+location+date}%
   \newunit\newblock
   \usebibmacro{chapter+pages}%
-%  \newunit
-%  \printfield{pagetotal}%
+  \newunit\newblock
+  \printfield{pubstate}%
   \newunit\newblock
   \iftoggle{bbx:isbn}
     {\printfield{isrn}}
@@ -3663,7 +3647,7 @@ This work is `maintained' (as per LPPL maintenance status) by [Alex Ball][me].
   \newunit\newblock
   \usebibmacro{doi+eprint+url}%
   \newunit\newblock
-  \usebibmacro{addendum+pubstate}%
+  \printfield{addendum}%
   \setunit{\bibpagerefpunct}\newblock
   \usebibmacro{pageref}%
   \newunit\newblock
@@ -3684,8 +3668,6 @@ This work is `maintained' (as per LPPL maintenance status) by [Alex Ball][me].
   \usebibmacro{author}%
   \setunit{\printdelim{nametitledelim}}\newblock
   \usebibmacro{title}%
-%  \newunit
-%  \printlist{language}%
   \newunit\newblock
   \usebibmacro{byauthor}%
   \newunit\newblock
@@ -3696,8 +3678,8 @@ This work is `maintained' (as per LPPL maintenance status) by [Alex Ball][me].
   \usebibmacro{institution+location+date}%
   \newunit\newblock
   \usebibmacro{chapter+pages}%
-%  \newunit
-%  \printfield{pagetotal}%
+  \newunit\newblock
+  \printfield{pubstate}%
   \newunit\newblock
   \iftoggle{bbx:isbn}
     {\printfield{isbn}}
@@ -3705,7 +3687,7 @@ This work is `maintained' (as per LPPL maintenance status) by [Alex Ball][me].
   \newunit\newblock
   \usebibmacro{doi+eprint+url}%
   \newunit\newblock
-  \usebibmacro{addendum+pubstate}%
+  \printfield{addendum}%
   \setunit{\bibpagerefpunct}\newblock
   \usebibmacro{pageref}%
   \newunit\newblock
@@ -3737,8 +3719,6 @@ This work is `maintained' (as per LPPL maintenance status) by [Alex Ball][me].
   }{%
     \setunit{\addspace}%
     \usebibmacro{isonline}}{}%
-%  \newunit
-%  \printlist{language}%
   \newunit\newblock
   \printfield{type}%
   \newunit\newblock
@@ -3752,9 +3732,11 @@ This work is `maintained' (as per LPPL maintenance status) by [Alex Ball][me].
   \newunit\newblock
   \usebibmacro{publisher+location+date}%
   \newunit\newblock
+  \printfield{pubstate}%
+  \newunit\newblock
   \usebibmacro{doi+eprint+url}%
   \newunit\newblock
-  \usebibmacro{addendum+pubstate}%
+  \printfield{addendum}%
   \setunit{\bibpagerefpunct}\newblock
   \usebibmacro{pageref}%
   \newunit\newblock
@@ -3778,8 +3760,6 @@ This work is `maintained' (as per LPPL maintenance status) by [Alex Ball][me].
   \usebibmacro{author/editor+others/translator+others}%
   \setunit{\printdelim{nametitledelim}}\newblock
   \usebibmacro{title}%
-%  \newunit
-%  \printlist{language}%
   \newunit\newblock
   \usebibmacro{byauthor}%
   \newunit\newblock
@@ -3795,9 +3775,11 @@ This work is `maintained' (as per LPPL maintenance status) by [Alex Ball][me].
   \newunit\newblock
   \usebibmacro{organization+location+date+library}%
   \newunit\newblock
+  \printfield{pubstate}%
+  \newunit\newblock
   \usebibmacro{doi+eprint+url}%
   \newunit\newblock
-  \usebibmacro{addendum+pubstate}%
+  \printfield{addendum}%
   \setunit{\bibpagerefpunct}\newblock
   \usebibmacro{pageref}%
   \newunit\newblock
@@ -3824,16 +3806,12 @@ This work is `maintained' (as per LPPL maintenance status) by [Alex Ball][me].
   \usebibmacro{author}%
   \setunit{\printdelim{nametitledelim}}\newblock
   \usebibmacro{title}%
-%  \newunit
-%  \printlist{language}%
   \newunit\newblock
   \usebibmacro{byauthor}%
   \newunit\newblock
   \printfield{note}%
   \setunit{\addspace}%
   \usebibmacro{reporter}%
-%  \newunit
-%  \printfield{pagetotal}%
   \newunit\newblock
   \printfield{institution}%
   \newunit\newblock
@@ -3843,7 +3821,7 @@ This work is `maintained' (as per LPPL maintenance status) by [Alex Ball][me].
   \newunit\newblock
   \usebibmacro{doi+eprint+url}%
   \newunit\newblock
-  \usebibmacro{addendum+pubstate}%
+  \printfield{addendum}%
   \setunit{\bibpagerefpunct}\newblock
   \usebibmacro{pageref}%
   \newunit\newblock
@@ -3866,8 +3844,6 @@ This work is `maintained' (as per LPPL maintenance status) by [Alex Ball][me].
   \usebibmacro{author}%
   \setunit{\printdelim{nametitledelim}}\newblock
   \usebibmacro{title}%
-%  \newunit
-%  \printlist{language}%
   \newunit\newblock
   \usebibmacro{byauthor}%
   \newunit\newblock
@@ -3877,7 +3853,7 @@ This work is `maintained' (as per LPPL maintenance status) by [Alex Ball][me].
   \newunit\newblock
   \usebibmacro{institution+location+date}%
   \newunit\newblock
-  \printfield{pagetotal}%
+  \printfield{pubstate}%
   \newunit\newblock
   \iftoggle{bbx:isbn}
     {\printfield{isrn}}
@@ -3885,7 +3861,7 @@ This work is `maintained' (as per LPPL maintenance status) by [Alex Ball][me].
   \newunit\newblock
   \usebibmacro{doi+eprint+url}%
   \newunit\newblock
-  \usebibmacro{addendum+pubstate}%
+  \printfield{addendum}%
   \setunit{\bibpagerefpunct}\newblock
   \usebibmacro{pageref}%
   \newunit\newblock
@@ -3917,12 +3893,14 @@ This work is `maintained' (as per LPPL maintenance status) by [Alex Ball][me].
     \usebibmacro{legal:parliamentary}%
     \setunit{\addcomma\space}\newblock
   }%
-  \printfield[default]{note}
+  \usebibmacro{byauthor}%
+  \newunit\newblock
+  \printfield[default]{note}%
   \setunit{\addspace}\newblock
   \newunit\newblock
   \usebibmacro{doi+eprint+url}%
   \newunit\newblock
-  \usebibmacro{addendum+pubstate}%
+  \printfield{addendum}%
   \setunit{\bibpagerefpunct}\newblock
   \usebibmacro{pageref}%
   \newunit\newblock
@@ -3935,10 +3913,6 @@ This work is `maintained' (as per LPPL maintenance status) by [Alex Ball][me].
   \usebibmacro{author}%
   \setunit{\printdelim{nametitledelim}}\newblock
   \usebibmacro{title}%
-%  \newunit
-%  \printlist{language}%
-  \newunit\newblock
-  \usebibmacro{byauthor}%
   \newunit\newblock
   \usebibmacro{journal+issuetitle}%
   \setunit{\addcomma\space}%
@@ -3955,8 +3929,6 @@ This work is `maintained' (as per LPPL maintenance status) by [Alex Ball][me].
   \usebibmacro{author/editor+others/translator+others}%
   \setunit{\printdelim{nametitledelim}}\newblock
   \usebibmacro{title}%
-%  \newunit
-%  \printlist{language}%
   \newunit\newblock
   \usebibmacro{byauthor}%
   \newunit\newblock
@@ -3972,12 +3944,12 @@ This work is `maintained' (as per LPPL maintenance status) by [Alex Ball][me].
   \usebibmacro{organization+location+date+library}%
   \newunit\newblock
   \usebibmacro{chapter+pages}%
-%  \newunit
-%  \printfield{pagetotal}%
+  \newunit\newblock
+  \printfield{pubstate}%
   \newunit\newblock
   \usebibmacro{doi+eprint+url}%
   \newunit\newblock
-  \usebibmacro{addendum+pubstate}%
+  \printfield{addendum}%
   \setunit{\bibpagerefpunct}\newblock
   \usebibmacro{pageref}%
   \newunit\newblock
@@ -4000,8 +3972,6 @@ This work is `maintained' (as per LPPL maintenance status) by [Alex Ball][me].
   \usebibmacro{author/translator+others}%
   \setunit{\printdelim{nametitledelim}}\newblock
   \usebibmacro{title}%
-%  \newunit
-%  \printlist{language}%
   \newunit\newblock
   \usebibmacro{byauthor}%
   \newunit\newblock
@@ -4017,9 +3987,11 @@ This work is `maintained' (as per LPPL maintenance status) by [Alex Ball][me].
   \newunit\newblock
   \usebibmacro{organization+location+date+library}%
   \newunit\newblock
+  \printfield{pubstate}%
+  \newunit\newblock
   \usebibmacro{doi+eprint+url}%
   \newunit\newblock
-  \usebibmacro{addendum+pubstate}%
+  \printfield{addendum}%
   \setunit{\bibpagerefpunct}\newblock
   \usebibmacro{pageref}%
   \newunit\newblock
@@ -4035,8 +4007,6 @@ This work is `maintained' (as per LPPL maintenance status) by [Alex Ball][me].
   \usebibmacro{author/editor+others/translator+others}%
   \setunit{\printdelim{nametitledelim}}\newblock
   \usebibmacro{title}%
-%  \newunit
-%  \printlist{language}%
   \newunit\newblock
   \usebibmacro{byauthor}%
   \newunit\newblock
@@ -4052,9 +4022,11 @@ This work is `maintained' (as per LPPL maintenance status) by [Alex Ball][me].
   \newunit\newblock
   \usebibmacro{organization+location+date+library}%
   \newunit\newblock
+  \printfield{pubstate}%
+  \newunit\newblock
   \usebibmacro{doi+eprint+url}%
   \newunit\newblock
-  \usebibmacro{addendum+pubstate}%
+  \printfield{addendum}%
   \setunit{\bibpagerefpunct}\newblock
   \usebibmacro{pageref}%
   \newunit\newblock
@@ -4079,8 +4051,6 @@ This work is `maintained' (as per LPPL maintenance status) by [Alex Ball][me].
   \usebibmacro{author}%
   \setunit{\printdelim{nametitledelim}}\newblock
   \usebibmacro{title}%
-%  \newunit
-%  \printlist{language}%
   \newunit\newblock
   \usebibmacro{byauthor}%
   \newunit\newblock
@@ -4104,9 +4074,11 @@ This work is `maintained' (as per LPPL maintenance status) by [Alex Ball][me].
   \newunit\newblock
   \usebibmacro{isunpublished}%
   \newunit\newblock
+  \printfield{pubstate}%
+  \newunit\newblock
   \usebibmacro{doi+eprint+url}%
   \newunit\newblock
-  \usebibmacro{addendum+pubstate}%
+  \printfield{addendum}%
   \setunit{\bibpagerefpunct}\newblock
   \usebibmacro{pageref}%
   \newunit\newblock
@@ -5508,16 +5480,6 @@ This work is `maintained' (as per LPPL maintenance status) by [Alex Ball][me].
   \setunit{\bibpagespunct}%
   \printfield{pages}%
   \newunit}
-
-%    \end{macrocode}
-%
-% \subsection{Addenda}
-%
-%    \begin{macrocode}
-\newbibmacro*{addendum+pubstate}{%
-  \printfield{addendum}%
-  \newunit\newblock
-  \printfield{pubstate}}
 
 %    \end{macrocode}
 %
