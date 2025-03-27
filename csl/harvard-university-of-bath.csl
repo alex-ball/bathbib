@@ -213,7 +213,7 @@
         </choose>
       </if>
       <else>
-        <group suffix="." delimiter=". ">
+        <group suffix="." delimiter=" ">
           <text macro="author"/>
           <choose>
             <if variable="volume">
@@ -224,11 +224,9 @@
             </else>
           </choose>
           <text macro="title"/>
-          <group delimiter=" ">
-            <text variable="volume"/>
-            <text variable="collection-title"/>
-            <text variable="page"/>
-          </group>
+          <text variable="volume"/>
+          <text variable="collection-title"/>
+          <text variable="page"/>
         </group>
       </else>
     </choose>
