@@ -1789,7 +1789,9 @@ fields, but does not insert one between \texttt{type} and \texttt{number}.
 \end{bibexbox}
 
 \begin{info}\item
-Internally, \texttt{patent} is an alias for \texttt{manual}.
+Internally, \texttt{patent} is an alias for \texttt{manual}; but with
+\texttt{manual} you need to use \texttt{series} (not \texttt{type}) for the
+type of patent, whereas with \texttt{patent} you can use either.
 \end{info}
 
 
@@ -3582,7 +3584,7 @@ Use \lstinline[style=dtxlatex]|\defcitealias| to provide a suitable citation str
 
 %<*driver>
 \begin{tips}\item
-Use the \texttt{number} field (or the non-standard \texttt{casenmuber} field)
+Use the \texttt{number} field (or the non-standard \texttt{casenumber} field)
 for the case number. For Commission Decisions, use the (non-standard)
 \texttt{casenumber} or (\textsf{biblatex-oscola}) \texttt{userb} field for the
 Commission case number, \texttt{number} for the formal decision number, and give
@@ -3599,27 +3601,27 @@ Commission case number, \texttt{number} for the formal decision number, and give
 %</driver|tex1>
 %<*driver|bib>
 @jurisdiction{seldon-v-c.w.j2009,
-  title = {Seldon v.~{Clarkson} {Wright} \& {Jakes}},
+  title = {Seldon v~{Clarkson} {Wright} \& {Jakes}},
   year = {2009},
-  type = {England and Wales Court of Appeal (Civil Division)},
+  institution = {England and Wales Court of Appeal (Civil Division)},
   number = {889},
   journal = {Bailii},
   url = {http://www.bailii.org/ew/cases/EWCA/Civ/2009/889.html},
-  urlyear = {2024-04-23}}
+  urlyear = {23 April 2024}}
 %</driver|bib>
 %<*driver>
 \end{Verbatim}
 \iffalse
 %</driver>
 %<*tex1|bib1>
-@report{seldon-v-c.w.j2009,
-  title = {Seldon v.~{Clarkson} {Wright} \& {Jakes}},
+@manual{seldon-v-c.w.j2009,
+  title = {Seldon v~{Clarkson} {Wright} \& {Jakes}},
   year = {2009},
-  type = {England and Wales Court of Appeal (Civil Division)},
+  type = {{England and Wales Court of Appeal (Civil Division)}},
   number = {889},
   note = {\emph{Bailii} [Online]},
   url = {http://www.bailii.org/ew/cases/EWCA/Civ/2009/889.html},
-  urldate = {2024-04-23}}
+  urldate = {23 April 2024}}
 %</tex1|bib1>
 %<*driver|tex1>
 \end{Verbatim}
@@ -3637,7 +3639,7 @@ Commission case number, \texttt{number} for the formal decision number, and give
 @jurisdiction{braceurself-v-nhs.england2013,
   title = {{Braceurself} {Ltd} v~{NHS} {England}},
   year = {2013},
-  type = {England and Wales Court of Appeal (Civil Division)},
+  institution = {England and Wales Court of Appeal (Civil Division)},
   number = {39},
   journal = {Construction law reports},
   volume = {212},
@@ -3648,10 +3650,10 @@ Commission case number, \texttt{number} for the formal decision number, and give
 \iffalse
 %</driver>
 %<*tex1|bib1>
-@report{braceurself-v-nhs.england2013,
+@manual{braceurself-v-nhs.england2013,
   title = {{Braceurself} {Ltd} v~{NHS} {England}},
   year = {2013},
-  type = {England and Wales Court of Appeal (Civil Division)},
+  type = {{England and Wales Court of Appeal (Civil Division)}},
   number = {39},
   note = {\emph{Construction law reports}, {212}},
   pages = {95-135}}
@@ -3662,6 +3664,39 @@ Commission case number, \texttt{number} for the formal decision number, and give
 \fi
 %</driver>
 \end{bibexbox}
+
+It is also possible to achieve a more traditional or
+\href{http://www.bailii.org/bailii/citation.html}{neutral citation} format,
+similar to Harvard (Bath)'s pre-2024 format:
+
+\begin{bibexbox}<RX>{seldon-v-c.w.j2012}
+  \emph{Seldon v.~Clarkson Wright \& Jakes} [2012] UKSC 16.
+  \tcblower
+\begin{Verbatim}
+%</driver|tex1>
+%<*driver|bib>
+@jurisdiction{seldon-v-c.w.j2012,
+  title = {Seldon v.~{Clarkson} {Wright} \& {Jakes}},
+  year = {2012},
+  journal = {UKSC},
+  pages = {16}}
+%</driver|bib>
+%<*driver>
+\end{Verbatim}
+\iffalse
+%</driver>
+%<*tex1|bib1>
+@report{seldon-v-c.w.j2012,
+  title = {Seldon v.~{Clarkson} {Wright} \& {Jakes}},
+  titleaddon = {[2012] UKSC 16}}
+%</tex1|bib1>
+%<*driver|tex1>
+\end{Verbatim}
+%<*driver>
+\fi
+%</driver>
+\end{bibexbox}
+
 
 \begin{info}\item
 Generally speaking, in a neutral citation the year should be in square brackets
@@ -5184,29 +5219,35 @@ FUNCTION {format.jur.date.essential}
 { options field.or.null "scottish-style" =
   keywords field.or.null "sc" =
   or
-    'format.date
+    { end.clause format.date }
     'format.date.brackets
   if$
 }
 FUNCTION {format.jur.date}
-{ journal field.or.null 's :=
-  s "OJ" =
-  s "ECR" =
+{ institution empty$
+  number empty$
   or
-    'format.date.brackets
-    { options field.or.null "year-essential=false" =
-        'format.date.parens
-        { volume empty$
-            'format.jur.date.essential
-            { options field.or.null "year-essential=true" =
+    { journal field.or.null 's :=
+      s "OJ" =
+      s "ECR" =
+      or
+        'format.date.brackets
+        { options field.or.null "year-essential=false" =
+            'format.date.parens
+            { volume empty$
                 'format.jur.date.essential
-                'format.date.parens
+                { options field.or.null "year-essential=true" =
+                    'format.jur.date.essential
+                    'format.date.parens
+                  if$
+                }
               if$
             }
           if$
         }
       if$
     }
+    { end.clause format.date }
   if$
 }
 %    \end{macrocode}
@@ -5510,7 +5551,8 @@ FUNCTION {format.tr.number}
 %    \end{macrocode}
 %
 % |format.manual.number| returns the series, type and number fields as one of
-% `number', `type number', `series number', or `series number, type'.
+% `number', `type, number' (patent), `type, number' (non-patent),
+% `series number', or `series number, type'.
 %
 %    \begin{macrocode}
 FUNCTION {format.manual.number}
@@ -5528,9 +5570,15 @@ FUNCTION {format.manual.number}
         { "t" change.case$ "type" bibinfo.check
           number duplicate$ empty$
             'pop$
-            { tie.or.space.prefix
-              "number" bibinfo.check
-              * *
+            { type$ "patent" =
+                { tie.or.space.prefix
+                  "number" bibinfo.check
+                    * *
+                }
+                { "number" bibinfo.check
+                  ", " swap$ * *
+                }
+              if$
             }
           if$
         }
@@ -5637,39 +5685,61 @@ FUNCTION {format.series.number.chapter}
 }
 %    \end{macrocode}
 %
-% |format.case.number| returns the number field, suppressing punctuation,
-% or inserts a period. In the case of EU Commission Decisions, the format is
-% `(userb) Commission Decision number`
+% |format.case.number| adds to the stack `(number or casenumber)' if either
+% of those fields is provided with no |institution|; or `(userb or casenumber)
+% Commission Decision number' if |institution| is `Commission'; otherwise
+% adds an empty string.
 %
 %    \begin{macrocode}
 FUNCTION {format.case.number}
-{ casenumber duplicate$ empty$
-    { pop$
-      number duplicate$ empty$
-        { pop$ "" }
-        { institution field.or.null "Commission" =
-          userb empty$ not
-          and
-            { userb "userb" bibinfo.check
-              "(" swap$ * ") " * bbl.commission * " " *
-              swap$ "number" bibinfo.check *
+{ number field.or.null 's :=
+  s empty$
+    { casenumber field.or.null 's := }
+    'skip$
+  if$
+  s empty$
+    { "" }
+    { institution field.or.null duplicate$ empty$
+        { pop$
+          s "number" bibinfo.check
+          "(" swap$ * ")" *
+        }
+        { "Commission" =
+            { userb field.or.null 's :=
+              s empty$
+                { casenumber field.or.null 's := }
+                'skip$
+              if$
+              s duplicate$ empty$
+                { "" }
+                { "(" swap$ * ")" * " " }
+              if$
+              number duplicate$ empty$
+                { pop$ pop$ }
+                { bbl.commission " " *
+                  swap$ * * *
+                }
+              if$
             }
-            { "number" bibinfo.check
-            "(" swap$ * ")" *
-            }
+            { "" }
           if$
         }
       if$
     }
-    { "casenumber" bibinfo.check
-      "(" swap$ * ")" *
-      institution field.or.null "Commission" =
-      number empty$ not
-      and
-        { " " * bbl.commission * " " *
-          number "number" bibinfo.check *
-        }
-        'skip$
+  if$
+}
+%    \end{macrocode}
+%
+% |case.check| checks if the entry should be puncuation with a full stop.
+% 
+%
+%    \begin{macrocode}
+FUNCTION {case.check}
+{ institution duplicate$ empty$
+    { pop$ continue.clause }
+    { "Commission" =
+        'continue.clause
+        'new.block
       if$
     }
   if$
@@ -6079,6 +6149,7 @@ FUNCTION {format.chapter.pages}
     }
   if$
 }
+
 %    \end{macrocode}
 %
 % |format.journal.series.vol.pages| returns the journal title and pinpointing
@@ -6157,6 +6228,85 @@ FUNCTION {format.journal.series.vol.pages}
   eid empty$
     { pages "pages" bibinfo.check * }
     { eid "eid" bibinfo.check * }
+  if$
+}
+%    \end{macrocode}
+%
+% If |institution| is given (not `Commission'), |format.inst.journal.series.vol.pages|
+% adds the |institution|, |number| and regular journal information to the stack.
+% otherwise, it calls |format.journal.series.vol.pages| instead.
+%
+%    \begin{macrocode}
+FUNCTION {format.inst.journal.series.vol.pages}
+{ institution duplicate$ empty$
+    { pop$ format.journal.series.vol.pages }
+    { duplicate$ "Commission" =
+        { pop$ format.journal.series.vol.pages }
+        { number duplicate$ empty$
+            { pop$ casenumber duplicate$ empty$
+                'skip$
+                { "casenumber" bibinfo.check
+                  ", " swap$ * *
+                }
+              if$
+            }
+            { "number" bibinfo.check
+              ", " swap$ * *
+            }
+          if$
+          output new.sentence
+          journal "t" change.case$
+          "journal" bibinfo.check
+          emphasize output
+%    \end{macrocode}
+% \iffalse
+%<*bst2>
+% \fi\bstIIonly
+%
+% In |bathx.bst|, we conditionally include the |bbl.online| string:
+%
+%    \begin{macrocode}
+          is.online
+            { continue.clause
+              bbl.online output
+              #1 'online.shown :=
+            }
+            'skip$
+          if$
+%    \end{macrocode}
+% \iffalse
+%</bst2>
+% \fi\addtocounter{mismatch}{7}\bstboth
+%    \begin{macrocode}
+          volume field.or.null
+          duplicate$ empty$ 'skip$
+            { "volume" bibinfo.check
+            }
+          if$
+          eventyear field.or.null duplicate$ empty$
+            { pop$
+              month "month" bibinfo.check duplicate$ empty$
+                'pop$
+                { swap$ duplicate$ empty$
+                    'pop$
+                    { ", " * swap$ * }
+                  if$
+                }
+              if$
+            }
+            { swap$ duplicate$ empty$
+              'pop$
+                { ", " * swap$ * }
+              if$
+            }
+          if$
+          eid empty$
+            { format.journal.pages }
+            { format.journal.eid }
+          if$
+        }
+      if$
+    }
   if$
 }
 %    \end{macrocode}
@@ -6593,15 +6743,11 @@ FUNCTION {jurisdiction}
     { format.btitle "title" output.check
       continue.clause
       format.case.number output
-      number empty$
-      casenumber empty$
-      and
-        'new.sentence
-        'continue.clause
-      if$
+      continue.clause
       print.labeltitle.addenda
+      continue.clause
       format.jur.date "year" output.check
-      year empty$ 'skip$ { eu.case.check } if$
+      year empty$ 'skip$ { case.check } if$
       print.title.addenda
     }
     { format.authors output
@@ -6614,15 +6760,15 @@ FUNCTION {jurisdiction}
       print.title.addenda
     }
   if$
-  eu.case.check
+  case.check
   format.note output
   note empty$
-    'eu.case.check
+    'case.check
     'new.block
   if$
   crossref missing$
     { continue.clause
-      format.journal.series.vol.pages output
+      format.inst.journal.series.vol.pages output
     }
     { format.article.crossref output.nonnull
       format.pages output
@@ -6783,7 +6929,7 @@ FUNCTION {manual}
   new.block
   format.manual.number output
   new.block
-  format.note output
+  format.note format.journal.pages output
   new.block
   format.library output
   organization address new.block.checkb
