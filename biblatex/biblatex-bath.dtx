@@ -2387,7 +2387,7 @@ Commission case number, \texttt{number} for the formal decision number, and give
 @jurisdiction{seldon-v-c.w.j2009,
   title = {Seldon v~{Clarkson} {Wright} \& {Jakes}},
   year = {2009},
-  type = {England and Wales Court of Appeal (Civil Division)},
+  institution = {{England and Wales Court of Appeal (Civil Division)}},
   number = {889},
   journal = {Bailii},
   url = {http://www.bailii.org/ew/cases/EWCA/Civ/2009/889.html},
@@ -2406,7 +2406,7 @@ Commission case number, \texttt{number} for the formal decision number, and give
 @jurisdiction{braceurself-v-nhs.england2013,
   title = {{Braceurself} {Ltd} v~{NHS} {England}},
   year = {2013},
-  type = {England and Wales Court of Appeal (Civil Division)},
+  institution = {{England and Wales Court of Appeal (Civil Division)}},
   number = {39},
   journal = {Construction law reports},
   volume = {212},
@@ -2415,6 +2415,32 @@ Commission case number, \texttt{number} for the formal decision number, and give
 %<*driver>
 \end{Verbatim}
 \end{bibexbox}
+
+\begin{tips}\item
+  Give the court as the \texttt{institution} and the case number as \texttt{number}
+  (or \texttt{casenumber}).
+\end{tips}
+
+It is also possible to achieve a more traditional or
+\href{http://www.bailii.org/bailii/citation.html}{neutral citation} format,
+similar to Harvard (Bath)'s pre-2024 format:
+
+\begin{bibexbox}<RX>{seldon-v-c.w.j2012}
+  \emph{Seldon v.~Clarkson Wright \& Jakes} [2012] UKSC 16.
+  \tcblower
+\begin{Verbatim}
+%</driver>
+%<*driver|bib>
+@jurisdiction{seldon-v-c.w.j2012,
+  title = {Seldon v.~{Clarkson} {Wright} \& {Jakes}},
+  year = {2012},
+  journal = {UKSC},
+  pages = {16}}
+%</driver|bib>
+%<*driver>
+\end{Verbatim}
+\end{bibexbox}
+
 
 \begin{info}\item
 Generally speaking, in a neutral citation the year should be in square brackets
@@ -2974,10 +3000,10 @@ This work is `maintained' (as per LPPL maintenance status) by [Alex Ball][me].
   \usebibmacro{byauthor}%
   \newunit\newblock
   \usebibmacro{bytranslator+others}%
-  \newunit\newblock
-  \usebibmacro{journal+issuetitle}%
   \newunit
   \usebibmacro{byeditor+others}%
+  \newunit\newblock
+  \usebibmacro{journal+issuetitle}%
   \newunit
   \usebibmacro{note+pages}%
   \newunit\newblock
@@ -3813,8 +3839,6 @@ This work is `maintained' (as per LPPL maintenance status) by [Alex Ball][me].
   \setunit{\addspace}%
   \usebibmacro{reporter}%
   \newunit\newblock
-  \printfield{institution}%
-  \newunit\newblock
   \iftoggle{bbx:isbn}
     {\printfield{isrn}}
     {}%
@@ -4554,7 +4578,7 @@ This work is `maintained' (as per LPPL maintenance status) by [Alex Ball][me].
 % The punctuation before the label year is controlled by the following
 % commands, and should be a comma. The exceptions to this are |legislation|
 % entries, where there should just be a space, and English/Welsh legal case
-% reports, where there should be a period.
+% reports (pre-2024 style), where there should be a period.
 %
 %    \begin{macrocode}
 \DeclareDelimFormat{nameyeardelim}{\addcomma\space}
@@ -4577,10 +4601,12 @@ This work is `maintained' (as per LPPL maintenance status) by [Alex Ball][me].
           test {\ifkeyword{sc}}
           or
           togl {bbx:scotstyle}
+          or
+          not test {\iflistundef{institution}}
         }{%
           \addcomma\space
         }{%
-          \addperiod\space}}%
+          \addspace}}%
     }{%
       \addcomma\space}}}
 \DeclareDelimFormat{nonameyeardelim}{\dononameyeardelim}
@@ -4895,8 +4921,6 @@ This work is `maintained' (as per LPPL maintenance status) by [Alex Ball][me].
   \usebibmacro{volume+number+eid}%
   \setunit{\addspace}%
   \usebibmacro{issue+date}%
-  \setunit{\addcolon\space}%
-  \usebibmacro{issue}%
   \newunit}
 
 %    \end{macrocode}
@@ -5185,8 +5209,6 @@ This work is `maintained' (as per LPPL maintenance status) by [Alex Ball][me].
   \usebibmacro{volume+number+eid}%
   \setunit{\addspace}%
   \usebibmacro{issue+date}%
-  \setunit{\addcolon\space}%
-  \usebibmacro{issue}%
   \setunit{\addcomma\space}%
   \printfield{pubstate}%
   \newunit}
@@ -5575,11 +5597,14 @@ This work is `maintained' (as per LPPL maintenance status) by [Alex Ball][me].
 
 %    \end{macrocode}
 %
-% The year is printed in square brackets, unless the case is Scottish, in which
-% case the year is printed bare, or a volume number is present, in which case the
-% year is printed in parentheses. With ECR and OJ cases, however, the year is
-% always printed in square brackets despite the presence of a volume number.
-% We provide a \key{year-essential} option for forcing the brackets/parentheses
+% In the 2024 style, the year is printed as normal.
+%
+% In the European and neutral citation style, the year is printed in square
+% brackets, unless the case is Scottish, in which case the year is printed bare,
+% or a volume number is present, in which case the year is printed in
+% parentheses. With ECR and OJ cases, however, the year is always printed in
+% square brackets despite the presence of a volume number. We provide a
+% \key{year-essential} option for forcing the brackets/parentheses
 % choice, and \key{scottish-style} for activating Scottish style.
 %
 %    \begin{macrocode}
@@ -5591,34 +5616,44 @@ This work is `maintained' (as per LPPL maintenance status) by [Alex Ball][me].
   \settoggle{bbx:year-essential}{#1}}
 \DeclareFieldFormat[jurisdiction]{datelabel}{%
   \ifboolexpr{
-    test {\iffieldundef{volume}}
+    test {\iflistundef{institution}}
     or
-    togl {bbx:year-essential}
-    or
-    togl {bbx:eu-oj}
-    or
-    test {\iffieldequalstr{journaltitle}{ECR}}
+    test {\iffieldundef{number}}
   }{%
     \ifboolexpr{
-      test {\ifkeyword{sc}}
+      test {\iffieldundef{volume}}
       or
-      togl {bbx:scotstyle}
+      togl {bbx:year-essential}
+      or
+      togl {bbx:eu-oj}
+      or
+      test {\iffieldequalstr{journaltitle}{ECR}}
     }{%
-      #1%
+      \ifboolexpr{
+        test {\ifkeyword{sc}}
+        or
+        togl {bbx:scotstyle}
+      }{%
+        #1%
+      }{%
+        \mkbibbrackets{#1}}%
     }{%
-      \mkbibbrackets{#1}}%
-  }{%
-    \mkbibparens{#1}}}
-
+      \mkbibparens{#1}}%
+  }{#1}%
+}
 %    \end{macrocode}
 %
-% A case number should normally go after the title and before the year, but
-% Version 1 of this style used |number| with |type| at the end of the reference.
-% (It relied on the case number being given in the |issue| field.)
-% To maintain backwards compatibility, we rely on a `trick' that case numbers
-% are usually only present in EU cases where a page number is always provided.
-% (And we support the \textsf{oscola} semantics for numbering European
-% Commission cases.) We have to be a bit careful to ensure the last print
+% We define a |casenumber| macro for printing the case number just before the
+% year. This is for use with EU cases specifically, since in other circumstances
+% the case number goes after the court name (with or without punctuation).
+%
+% This macro is triggered specifically by the use of |issue| for the case number
+% (from Version 1 of the style, deprecated); or the use of |number| (case
+% number) alongside |pages| (always used in EU case citations) but without
+% |institution| (court).
+%
+% For now, we support the \textsf{oscola} semantics for numbering European
+% Commission cases. We have to be a bit careful to ensure the last print
 % command prints something otherwise |(no)nameyeardelim| will not be triggered.
 %
 %    \begin{macrocode}
@@ -5629,6 +5664,8 @@ This work is `maintained' (as per LPPL maintenance status) by [Alex Ball][me].
       test {\iffieldundef{pages}}
       or
       test {\iffieldundef{number}}
+      or
+      not test {\iflistundef{institution}}
     }{}{%
       \iffieldundef{userb}{%
         \printfield[parens]{number}%
@@ -5645,15 +5682,16 @@ This work is `maintained' (as per LPPL maintenance status) by [Alex Ball][me].
 %    \end{macrocode}
 %
 % For ease, if `Commission' is given as the |institution|, this is deleted but
-% the |type| is set to `Commission Decision'.
+% the |type| is set to `Commission Decision'.The |casenumber| is moved to
+% |number| if this is empty, and to |userb| otherwise.
 %
 %    \begin{macrocode}
 \DeclareStyleSourcemap{
   \maps[datatype=bibtex]{
     \map[overwrite=false]{
-      \step[match=\regexp{Commission}, fieldsource=institution, final]
-      \step[fieldset=type, fieldvalue={Commission Decision}]
-      \step[fieldset=institution, null]
+     \step[match=\regexp{Commission}, fieldsource=institution, final]
+     \step[fieldset=type, fieldvalue={Commission Decision}]
+     \step[fieldset=institution, null]
     }
     \map[overwrite=false]{
       \step[fieldsource=casenumber, final]
@@ -5667,8 +5705,8 @@ This work is `maintained' (as per LPPL maintenance status) by [Alex Ball][me].
 %
 % Law reports have a special way of printing journals, volume and page numbers.
 % Here are several macros implementing this: a deprecated one using
-% |type|/|number| and three proper ones using |journaltitle|, for UK journals,
-% ECR and OJ respectively. The |reporter| macro chooses between them (again,
+% |type|/|number| and proper ones using |journaltitle|, for UK journals,
+% ECR and OJ. The |reporter| macro chooses between them (again,
 % this is a little messy for backwards compatibility).
 %
 %    \begin{macrocode}
@@ -5686,12 +5724,40 @@ This work is `maintained' (as per LPPL maintenance status) by [Alex Ball][me].
     \setunit*{\addspace}%
     \printfield{number}}}
 \DeclareFieldFormat[jurisdiction]{journaltitle}{%
-  \iftoggle{bbx:eu-oj}{\mkbibemph{#1}}{#1}}
+  \ifboolexpr{
+    test {\iflistundef{institution}}
+    and
+    not togl {bbx:eu-oj}
+  }{#1}{\mkbibemph{#1}}}
 \DeclareFieldFormat[jurisdiction,legislation,legal]{volume}{#1}
-\DeclareFieldFormat[jurisdiction,legislation]{pages}{#1}
+\DeclareFieldFormat[jurisdiction,legislation]{pages}{%
+  \iflistundef{institution}{#1}{\mkpageprefix[bookpagination]{#1}}}
+\newbibmacro{institution+number+journal+issuetitle}{%
+  \setunit{\addperiod\space}%
+  \printlist{institution}%
+  \setunit{\addcomma\space}%
+  \printfield{number}%
+  \newunit\newblock
+  \usebibmacro{journal}%
+  \setunit*{\addspace}%
+  \usebibmacro{isonline}%
+  \setunit*{\addcomma\space}%
+  \iffieldundef{series}
+    {}
+    {\newunit
+     \printfield{series}%
+     \setunit{\addcomma\space}}%
+  \printfield{volume}%
+  \setunit{\bibpagespunct}%
+  \printfield{eid}%
+  \setunit{\bibpagespunct}%
+  \printfield{pages}%
+  \setunit{\bibpagespunct}%
+  \printfield{pubstate}%
+  \newunit}
 \newbibmacro{journal+volume+pages}{%
   \printfield{volume}%
-  \setunit{\addperiod\space}%
+  \setunit{\addspace}%
   \printfield{journaltitle}%
   \setunit*{\addspace}%
   \printfield{pages}%
@@ -5713,29 +5779,23 @@ This work is `maintained' (as per LPPL maintenance status) by [Alex Ball][me].
   \printfield{pages}%
 }
 \newbibmacro{reporter}{%
-  \iffieldundef{journaltitle}{%
-    \usebibmacro{jurisdiction:type+number}%
-  }{%
-    \iffieldequalstr{journaltitle}{ECR}{%
-      \usebibmacro{eu:journal+volume+pages}%
+  \iflistundef{institution}{%
+    \iffieldundef{journaltitle}{%
+      \usebibmacro{jurisdiction:type+number}%
     }{%
-      \iffieldequalstr{journaltitle}{OJ}{%
-        \iffieldundef{series}{%
-          \usebibmacro{jurisdiction:type+number}%
-        }{%
-          \usebibmacro{eu:journal+series+volume+pages}%
-        }%
+      \iffieldequalstr{journaltitle}{ECR}{%
+        \usebibmacro{eu:journal+volume+pages}%
       }{%
-        \usebibmacro{journal+volume+pages}%
-        }}}}
-
-%    \end{macrocode}
-%
-% It's not a feature of Harvard (Bath), but OSCOLA puts the institution in
-% parentheses at the end.
-%
-%    \begin{macrocode}
-\DeclareFieldFormat[jurisdiction]{institution}{\mkbibparens{#1}}
+        \iffieldequalstr{journaltitle}{OJ}{%
+          \iffieldundef{series}{%
+            \usebibmacro{jurisdiction:type+number}%
+          }{%
+            \usebibmacro{eu:journal+series+volume+pages}%
+          }%
+        }{%
+          \usebibmacro{journal+volume+pages}%
+          }}}%
+  }{\usebibmacro{institution+number+journal+issuetitle}}}
 
 %    \end{macrocode}
 %
