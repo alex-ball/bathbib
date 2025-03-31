@@ -5555,9 +5555,9 @@ FUNCTION {format.tr.number}
 %    \end{macrocode}
 %
 % |format.manual.number| returns the series, type and number fields as one of
-% `number', `type number' `series, number', or `series number, type'. The last
-% of these formulations is for compatibility with previous versions, but is
-% deprecated and may change in future.
+% `number', `type number' `series, number', or `series, number. type'. The last
+% of these formulations is for compatibility with previous versions, but may
+% change in future.
 %
 %    \begin{macrocode}
 FUNCTION {format.manual.number}
@@ -5592,7 +5592,7 @@ FUNCTION {format.manual.number}
       if$
       type duplicate$ empty$
         'pop$
-        { ", " swap$ *
+        { ". " swap$ *
           "t" change.case$ "type" bibinfo.check
           *
         }
