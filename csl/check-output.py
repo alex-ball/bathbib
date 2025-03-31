@@ -1,14 +1,36 @@
 #!/usr/bin/env python3
 
 """
-This processes the output of a conversion from LaTeX to HTML by pandoc, using
-its in-built citeproc implementation.
+This script processes the output of a CSL conversion process to generate a
+tidy HTML page; classes are applied according to whether the expected output
+was produced.
 
-This output changed slightly at about the same time as pandoc switched from
-using an external `pandoc-citeproc` executable to a built-in copy of the
-Haskell `citeproc` library, so this code now requires pandoc version 2.11+
-(or thereabouts).
+Usage: check-output.py INPUT-FILE OUTPUT-FILE
 
+Two modes of operation are supported:
+
+1.  INPUT-FILE = *.html
+
+    The input file must be the output of a conversion from LaTeX to HTML by
+    pandoc, using its in-built citeproc implementation.
+
+    Pandoc's output changed slightly at about the same time as it switched
+    from using an external `pandoc-citeproc` executable to a built-in copy of
+    the Haskell `citeproc` library, so this code requires pandoc version 2.11+
+    (or thereabouts).
+
+2.  INPUT-FILE = <stem>-output.json
+
+    The input file must be the output of a JSON-to-JSON conversion by
+    citeproc-js (via citeproc-js-server). In the same directory as the
+    INPUT-FILE there should also be <stem>-raw.html (the pandoc output
+    used as the INPUT-FILE in mode 1, above) and <stem>-input.json
+    (the JSON that was sent to citeproc-js).
+
+    What happens is that <stem>-raw.html is processed just the same as in
+    mode 1, except that the generated content in it is ignored in favour of the
+    content from <stem>-output.json. The <stem>-input.json is used to resolve
+    citation order, as this isn't preserved in the conversion.
 """
 
 import argparse
@@ -56,6 +78,7 @@ if args.infile.endswith(".json"):
         cpjs_output = f.read()
 
     if cpjs_output.startswith("Error"):
+        os.remove(args.infile)
         raise RuntimeError(
             f"citeproc-js-server conversion failed: {cpjs_output.strip()}"
         )

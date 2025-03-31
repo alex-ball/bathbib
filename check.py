@@ -6,6 +6,7 @@ import os
 import re
 import subprocess
 import typing as t
+from warnings import catch_warnings
 
 import click
 from lxml import html as lhtml
@@ -88,9 +89,11 @@ def get_bibitems(filepath: str) -> t.List[str]:
     # Ensure file exists and is up to date:
     workdir = os.path.dirname(filepath)
     filename = os.path.basename(filepath)
-    subprocess.run(["make", "-C", workdir, filename], check=True)
+    r = subprocess.run(["make", "-C", workdir, filename])
+    if r.returncode and os.path.isfile(filepath):
+        os.remove(filepath)
     if not os.path.isfile(filepath):
-        raise click.FileError(f"Could not generate {filename}.")
+        raise click.FileError(filename, "Recipe failed to create file.")
     print()
 
     # Process BBL file:
@@ -274,7 +277,9 @@ def parse_simple_bibitems(lines: t.List[str]) -> t.Dict[str, str]:
     return outputs
 
 
-def parse_csl_refs(filepath: str, only_fails: bool = False) -> t.List[t.Dict[str, str]]:
+def parse_csl_refs(
+    filepath: str, only_fails: bool = False
+) -> t.Tuple[t.Dict[str, str]]:
     """Extracts tests from CSL comparison document in a form that can
     be used by the `contrast_refs()` function.
 
@@ -283,9 +288,11 @@ def parse_csl_refs(filepath: str, only_fails: bool = False) -> t.List[t.Dict[str
     # Ensure file exists and is up to date:
     workdir = os.path.dirname(filepath)
     filename = os.path.basename(filepath)
-    subprocess.run(["make", "-C", workdir, filename], check=True)
+    r = subprocess.run(["make", "-C", workdir, filename])
+    if r.returncode and os.path.isfile(filepath):
+        os.remove(filepath)
     if not os.path.isfile(filepath):
-        raise click.FileError(f"Could not generate {filename}.")
+        raise click.FileError(filename, "Recipe failed to create file.")
     print()
 
     parsed = list()
@@ -496,9 +503,11 @@ def compat():
     filepath = "bst/bath-bst.bib"
     workdir = os.path.dirname(filepath)
     filename = os.path.basename(filepath)
-    subprocess.run(["make", "-C", workdir, filename], check=True)
+    r = subprocess.run(["make", "-C", workdir, filename])
+    if r.returncode and os.path.isfile(filepath):
+        os.remove(filepath)
     if not os.path.isfile(filepath):
-        raise click.FileError(f"Could not generate {filename}.")
+        raise click.FileError(filename, "Recipe failed to create file.")
 
     lines = get_bibitems("biblatex/test-compat.bbi")
     outputs = parse_simple_bibitems(lines)
