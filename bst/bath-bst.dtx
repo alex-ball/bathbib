@@ -1778,7 +1778,7 @@ fields, but does not insert one between \texttt{type} and \texttt{number}.
   author = {{Phillipp Morris Inc.}},
   year = {1981},
   title = {Optical perforating apparatus and system},
-  series = {European patent application},
+  type = {European patent application},
   number = {0021165A1. 1981-01-07}}
 %</tex1|bib1>
 %<*driver|tex1>
@@ -1789,9 +1789,7 @@ fields, but does not insert one between \texttt{type} and \texttt{number}.
 \end{bibexbox}
 
 \begin{info}\item
-Internally, \texttt{patent} is an alias for \texttt{manual}; but with
-\texttt{manual} you need to use \texttt{series} (not \texttt{type}) for the
-type of patent, whereas with \texttt{patent} you can use either.
+Internally, \texttt{patent} is an alias for \texttt{manual}.
 \end{info}
 
 
@@ -3121,14 +3119,13 @@ Use this form for reports of House of Commons select committees.
 \begin{Verbatim}
 %</driver|tex1>
 %<*driver|bib>
-@techreport{gb.hc2003/04-30,
+@report{gb.hc2003/04-30,
   author = {{Great Britain. Parliament. House of Commons}},
   year = {2004},
   title = {National {Savings} Investment Deposits: account 2002--2003},
   address = {London},
   publisher = {National Audit Office},
   series = {{HC} 2003/04},
-  type = {},
   number = {30}}
 %</driver|bib>
 %<*driver>
@@ -3172,14 +3169,13 @@ Use this form for reports of House of Lords select committees.
 \begin{Verbatim}
 %</driver|tex1>
 %<*driver|bib>
-@techreport{gb.hl1986/87-66,
+@report{gb.hl1986/87-66,
   author = {{Great Britain. Parliament. House of Lords}},
   year = {1987},
   title = {Social Fund (Maternity and Funeral Expenses) Bill},
   address = {London},
   publisher = {HMSO},
   series = {{HL} 1986/87},
-  type = {},
   number = {66}}
 %</driver|bib>
 %<*driver>
@@ -3219,14 +3215,13 @@ years in \texttt{series} and the HL and HC numbers in \texttt{number}.
 \begin{Verbatim}
 %</driver|tex1>
 %<*driver|bib>
-@techreport{gb.cm6041,
+@report{gb.cm6041,
   author = {{Great Britain. Ministry of Defence}},
   year = {2004},
   title = {Delivering Security in a Changing World{:} Defence White Paper},
   address = {London},
   publisher = {TSO},
   series = {Cm},
-  type = {},
   number = {6041}}
 %</driver|bib>
 %<*driver>
@@ -3249,6 +3244,15 @@ years in \texttt{series} and the HL and HC numbers in \texttt{number}.
 \fi
 %</driver>
 \end{bibexbox}
+
+\begin{tips}\item
+To support the Command Paper template, if you give a report the \texttt{series}
+`C', `Cd', `Cmd', `Cmnd' or `Cm', it is followed by a dot rather than a comma.
+(If you need the comma as normal, wrap the value in an extra pair of braces.)
+
+If you prefer, you can give the Command Paper abbreviation in \texttt{type} and
+supply the dot yourself.
+\end{tips}
 
 
 % UK Primary Legislation
@@ -3617,7 +3621,7 @@ Commission case number, \texttt{number} for the formal decision number, and give
 @manual{seldon-v-c.w.j2009,
   title = {Seldon v~{Clarkson} {Wright} \& {Jakes}},
   year = {2009},
-  type = {{England and Wales Court of Appeal (Civil Division)}},
+  series = {{England and Wales Court of Appeal (Civil Division)}},
   number = {889},
   note = {\emph{Bailii} [Online]},
   url = {http://www.bailii.org/ew/cases/EWCA/Civ/2009/889.html},
@@ -3653,7 +3657,7 @@ Commission case number, \texttt{number} for the formal decision number, and give
 @manual{braceurself-v-nhs.england2013,
   title = {{Braceurself} {Ltd} v~{NHS} {England}},
   year = {2013},
-  type = {{England and Wales Court of Appeal (Civil Division)}},
+  series = {{England and Wales Court of Appeal (Civil Division)}},
   number = {39},
   note = {\emph{Construction law reports}, {212}},
   pages = {95-135}}
@@ -5551,8 +5555,9 @@ FUNCTION {format.tr.number}
 %    \end{macrocode}
 %
 % |format.manual.number| returns the series, type and number fields as one of
-% `number', `type, number' (patent), `type, number' (non-patent),
-% `series number', or `series number, type'.
+% `number', `type number' `series, number', or `series number, type'. The last
+% of these formulations is for compatibility with previous versions, but is
+% deprecated and may change in future.
 %
 %    \begin{macrocode}
 FUNCTION {format.manual.number}
@@ -5570,15 +5575,9 @@ FUNCTION {format.manual.number}
         { "t" change.case$ "type" bibinfo.check
           number duplicate$ empty$
             'pop$
-            { type$ "patent" =
-                { tie.or.space.prefix
-                  "number" bibinfo.check
-                    * *
-                }
-                { "number" bibinfo.check
-                  ", " swap$ * *
-                }
-              if$
+            { tie.or.space.prefix
+              "number" bibinfo.check
+                * *
             }
           if$
         }
@@ -5586,11 +5585,9 @@ FUNCTION {format.manual.number}
     }
     { "t" change.case$ 
       number duplicate$ empty$
-        { pop$
-        }
-        { tie.or.space.prefix
-          "number" bibinfo.check
-          * *
+        'pop$
+        { "number" bibinfo.check
+          ", " swap$ * *
         }
       if$
       type duplicate$ empty$

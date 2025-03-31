@@ -197,7 +197,7 @@ templates:
   - ublib2021ip
   csl_type: post
   blx_driver: online
-  bst_driver: manual  
+  bst_driver: manual
 - name: list-post
   entries:
   - clark2004euk
