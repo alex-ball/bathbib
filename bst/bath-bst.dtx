@@ -39,7 +39,7 @@ See:     http://www.latex-project.org/lppl.txt
 \endpreamble
 \postamble
 
-Copyright (C) 2016-2022 by University of Bath
+Copyright (C) 2016-2025 by University of Bath
 \endpostamble
 
 \usedir{bibtex/bst/\jobname}
@@ -74,7 +74,7 @@ Copyright (C) 2016-2022 by University of Bath
 \ProvidesFile{bath-bst.dtx}
 %</driver>
 %<*driver|tex1>
-    [2022/05/25 v6.0 Harvard referencing style as recommended by the University of Bath Library]
+    [2025/04/01 v7.0 Harvard referencing style as recommended by the University of Bath Library]
 
 \documentclass[10pt,a4paper]{article}
 \usepackage[british]{babel}
@@ -3674,13 +3674,13 @@ It is also possible to achieve a more traditional or
 similar to Harvard (Bath)'s pre-2024 format:
 
 \begin{bibexbox}<RX>{seldon-v-c.w.j2012}
-  \emph{Seldon v.~Clarkson Wright \& Jakes} [2012] UKSC 16.
+  \emph{Seldon v~Clarkson Wright \& Jakes} [2012] UKSC 16.
   \tcblower
 \begin{Verbatim}
 %</driver|tex1>
 %<*driver|bib>
 @jurisdiction{seldon-v-c.w.j2012,
-  title = {Seldon v.~{Clarkson} {Wright} \& {Jakes}},
+  title = {Seldon v~{Clarkson} {Wright} \& {Jakes}},
   year = {2012},
   journal = {UKSC},
   pages = {16}}
@@ -3691,7 +3691,7 @@ similar to Harvard (Bath)'s pre-2024 format:
 %</driver>
 %<*tex1|bib1>
 @report{seldon-v-c.w.j2012,
-  title = {Seldon v.~{Clarkson} {Wright} \& {Jakes}},
+  title = {Seldon v~{Clarkson} {Wright} \& {Jakes}},
   titleaddon = {[2012] UKSC 16}}
 %</tex1|bib1>
 %<*driver|tex1>
@@ -3758,9 +3758,9 @@ you may prefer to format the reference more-or-less by hand:
   , fontupper = \footnotesize
   ]
 \begin{Verbatim}
-  title = {Seldon v.~{Clarkson} {Wright} \& {Jakes}},
-  sortyear = {2012},
-  note = {[2012]. UKSC 16}
+  title = {Seldon v~{Clarkson} {Wright} \& {Jakes}},
+  sortyear = {2009},
+  note = {[2009] EWCA Civ 889}
 \end{Verbatim}
 \end{tcolorbox}
 \end{hacks}
@@ -3779,7 +3779,7 @@ you may prefer to format the reference more-or-less by hand:
 %<readme>## Licence
 %<readme>
 %<*driver|readme>
-Copyright 2016-2022 University of Bath.
+Copyright 2016-2025 University of Bath.
 
 This work consists of the documented LaTeX file bath-bst.dtx and a Makefile.
 

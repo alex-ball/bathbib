@@ -1,6 +1,6 @@
 % \iffalse meta-comment
 %<*internal|bbx|cbx|dbx|lbx|lbx-gb>
-\def\Version{2022/05/25 v6.0}
+\def\Version{2025/04/01 v7.0}
 %</internal|bbx|cbx|dbx|lbx|lbx-gb>
 %<*internal>
 \iffalse
@@ -63,7 +63,7 @@ See:     http://www.latex-project.org/lppl.txt
 \endpreamble
 \postamble
 
-Copyright (C) 2016-2022 by University of Bath
+Copyright (C) 2016-2025 by University of Bath
 \endpostamble
 
 \usedir{tex/latex/\jobname}
@@ -417,6 +417,7 @@ documentation.
 [Biber]: http://ctan.org/pkg/biber
 [luatexja]: http://ctan.org/pkg/luatexja
 [adobemapping]: http://ctan.org/pkg/adobemapping
+[ipaex]: http://ctan.org/pkg/ipaex
 [haranoaji]: http://ctan.org/pkg/haranoaji
 %</driver|readme>
 %<*driver>
@@ -2426,13 +2427,13 @@ It is also possible to achieve a more traditional or
 similar to Harvard (Bath)'s pre-2024 format:
 
 \begin{bibexbox}<RX>{seldon-v-c.w.j2012}
-  \emph{Seldon v.~Clarkson Wright \& Jakes} [2012] UKSC 16.
+  \emph{Seldon v~Clarkson Wright \& Jakes} [2012] UKSC 16.
   \tcblower
 \begin{Verbatim}
 %</driver>
 %<*driver|bib>
 @jurisdiction{seldon-v-c.w.j2012,
-  title = {Seldon v.~{Clarkson} {Wright} \& {Jakes}},
+  title = {Seldon v~{Clarkson} {Wright} \& {Jakes}},
   year = {2012},
   journal = {UKSC},
   pages = {16}}
@@ -2489,9 +2490,9 @@ you may prefer to format the reference more-or-less by hand:
   , fontupper = \footnotesize
   ]
 \begin{Verbatim}
-  title = {Seldon v.~{Clarkson} {Wright} \& {Jakes}},
+  title = {Seldon v~{Clarkson} {Wright} \& {Jakes}},
   sortyear = {2009},
-  note = {[2009]. EWCA Civ 889}
+  note = {[2009] EWCA Civ 889}
 \end{Verbatim}
 \end{tcolorbox}
 \end{hacks}
@@ -2509,7 +2510,7 @@ you may prefer to format the reference more-or-less by hand:
 %<readme>## Licence
 %<readme>
 %<*driver|readme>
-Copyright 2016-2022 University of Bath.
+Copyright 2016-2025 University of Bath.
 
 This work consists of the documented LaTeX file biblatex-bath.dtx and a Makefile.
 

@@ -92,11 +92,12 @@ documentation.
 [Biber]: http://ctan.org/pkg/biber
 [luatexja]: http://ctan.org/pkg/luatexja
 [adobemapping]: http://ctan.org/pkg/adobemapping
+[ipaex]: http://ctan.org/pkg/ipaex
 [haranoaji]: http://ctan.org/pkg/haranoaji
 
 ## Licence
 
-Copyright 2016-2022 University of Bath.
+Copyright 2016-2025 University of Bath.
 
 This work consists of the documented LaTeX file biblatex-bath.dtx and a Makefile.
 
