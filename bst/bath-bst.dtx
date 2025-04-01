@@ -6057,10 +6057,33 @@ FUNCTION {format.journal.eid}
 }
 %    \end{macrocode}
 %
+% |format.vol.num| returns volume and number in the form `volume(number)'. It
+% writes a warning to the log if |number| is given instead of |volume|: if a
+% journal does not organize itself into volumes, treat every issue as its own
+% volume!
+%
+%    \begin{macrocode}
+FUNCTION {format.vol.num}
+{ volume field.or.null duplicate$ empty$
+    'skip$
+    { "volume" bibinfo.check
+    }
+  if$
+  number "number" bibinfo.check duplicate$ empty$
+    'skip$
+    { swap$ duplicate$ empty$
+        { "there's a number but no volume in " cite$ * warning$ }
+        'skip$
+      if$
+      swap$
+      "(" swap$ * ")" *
+    }
+  if$
+}
+%    \end{macrocode}
+%
 % |format.vol.num.pages| returns the journal pinpointing in the form
-% `volume(number), eid\slash pages'. It writes a warning to the log if |number|
-% is given instead of |volume|: if a journal does not organize itself into
-% volumes, treat every issue as its own volume! Since the Harvard (Bath) style
+% `volume(number), eid\slash pages'. Since the Harvard (Bath) style
 % places publication state information in the volume position, the |pubstate|
 % field from \textsf{biblatex} is emulated here. The |eventyear| if present
 % is used instead of month, in order to support parliamentary debates.
@@ -6082,20 +6105,7 @@ FUNCTION {format.vol.num.pages}
   if$
   duplicate$ empty$
     { pop$
-      volume field.or.null
-      duplicate$ empty$ 'skip$
-        { "volume" bibinfo.check
-        }
-      if$
-      number "number" bibinfo.check duplicate$ empty$ 'skip$
-        { swap$ duplicate$ empty$
-            { "there's a number but no volume in " cite$ * warning$ }
-            'skip$
-          if$
-          swap$
-          "(" swap$ * ")" *
-        }
-      if$ *
+      format.vol.num *
       eventyear field.or.null duplicate$ empty$
         { pop$
           month "month" bibinfo.check duplicate$ empty$
@@ -6495,10 +6505,14 @@ FUNCTION {book}
       print.title.addenda
     }
   if$
-  format.bvolume output
-  format.number.series output
   new.block
   format.edition output
+  edition empty$
+    { mid.sentence 'output.state := }
+    'new.block
+  if$
+  format.bvolume output
+  format.number.series output
   new.block
   format.note output
   crossref missing$
@@ -6584,36 +6598,40 @@ FUNCTION {booklet}
 FUNCTION {inbook}
 { output.bibitem
   author empty$
-    { format.editors "author and editor" output.check
-      editor format.key output
-    }
-    { format.authors output.nonnull
-      crossref missing$
-        { "author and editor" editor either.or.check }
-        'skip$
-      if$
-    }
+  { format.title "title" output.check
+    print.labeltitle.addenda
+    format.date "year" output.check
+    year empty$ 'skip$ { date.block } if$
+    print.title.addenda
+  }
+  { format.authors output.nonnull
+    format.date "year" output.check
+    date.block
+    format.title "title" output.check
+    print.title.addenda
+  }
   if$
-  format.date "year" output.check
-  date.block
-  format.btitle "title" output.check
-  print.title.addenda
-  new.block
-  format.edition output
-  new.block
-  format.note output
   new.block
   crossref missing$
-    { format.publisher.address output
+    { format.in.ed.booktitle "booktitle" output.check
+      new.block
+      format.edition output
+      edition empty$
+        { mid.sentence 'output.state := }
+        'new.block
+      if$
       format.bvolume output
-      format.chapter.pages "chapter and pages" output.check
-      new.block
       format.number.series output
-      new.sentence
-    }
-    { format.chapter.pages "chapter and pages" output.check
       new.block
-      format.book.crossref output.nonnull
+      format.note output
+      new.block
+      format.publisher.address output
+      format.chapter.pages output
+    }
+    { format.note output
+      new.block
+      format.incoll.inproc.crossref output.nonnull
+      format.chapter.pages output
     }
   if$
   new.block
@@ -6659,21 +6677,26 @@ FUNCTION {incollection}
       if$
       new.block
       format.edition output
-      new.block
       type$ "inreference" =
       author empty$
       and
-        { format.btitle "title" output.check
+        { new.block
+          format.btitle "title" output.check
           print.title.addenda
           new.block
         }
-        'skip$
+        { edition empty$
+          { mid.sentence 'output.state := }
+            'new.block
+          if$  
+        }
       if$
+      format.bvolume output
+      format.number.series output
+      new.block
       format.note output
       new.block
       format.publisher.address output
-      format.bvolume output
-      format.number.series output
       format.chapter.pages output
     }
     { format.note output
@@ -6703,6 +6726,8 @@ FUNCTION {inproceedings}
   new.block
   crossref missing$
     { format.in.ed.booktitle "booktitle" output.check
+      format.bvolume output
+      format.number.series output
       eventyear output
       venue output
       format.note output
@@ -6713,8 +6738,6 @@ FUNCTION {inproceedings}
           format.publisher.address output
         }
       if$
-      format.bvolume output
-      format.number.series output
       format.pages output
     }
     { format.note output
@@ -7075,6 +7098,8 @@ FUNCTION {proceedings}
   if$
   format.bvolume output
   format.number.series output
+  eventyear output
+  venue output
   format.note output
   new.sentence
   publisher empty$

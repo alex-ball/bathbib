@@ -3156,8 +3156,6 @@ This work is `maintained' (as per LPPL maintenance status) by [Alex Ball][me].
   \setunit{\printdelim{nametitledelim}}\newblock
   \usebibmacro{maintitle+title}%
   \newunit\newblock
-  \usebibmacro{event+venue+date}%
-  \newunit\newblock
   \usebibmacro{byeditor+others}%
   \newunit\newblock
   \iffieldundef{maintitle}
@@ -3168,6 +3166,8 @@ This work is `maintained' (as per LPPL maintenance status) by [Alex Ball][me].
   \printfield{volumes}%
   \setunit{\addcomma\space}%
   \usebibmacro{series+number}%
+  \newunit\newblock
+  \usebibmacro{event+venue+date}%
   \newunit\newblock
   \printfield{note}%
   \newunit\newblock
@@ -3318,8 +3318,6 @@ This work is `maintained' (as per LPPL maintenance status) by [Alex Ball][me].
   \newunit\newblock
   \usebibmacro{maintitle+booktitle}%
   \usebibmacro{byeditor+others}%
-  \newunit
-  \usebibmacro{event+venue+date}%
   \newunit\newblock
   \iffieldundef{maintitle}
     {\printfield{volume}%
@@ -3329,6 +3327,8 @@ This work is `maintained' (as per LPPL maintenance status) by [Alex Ball][me].
   \printfield{volumes}%
   \setunit{\addcomma\space}%
   \usebibmacro{series+number}%
+  \newunit\newblock
+  \usebibmacro{event+venue+date}%
   \newunit\newblock
   \printfield{note}%
   \newunit\newblock

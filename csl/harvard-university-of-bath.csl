@@ -21,7 +21,7 @@
     <category citation-format="author-date"/>
     <category field="generic-base"/>
     <summary>Adaptation of Harvard referencing style used at the University of Bath.</summary>
-    <updated>2024-02-01T09:39:05+00:00</updated>
+    <updated>2025-04-01T09:39:05+01:00</updated>
     <rights license="http://creativecommons.org/licenses/by-sa/3.0/">This work is licensed under a Creative Commons Attribution-ShareAlike 3.0 License</rights>
   </info>
   <locale xml:lang="en">
@@ -257,20 +257,15 @@
               </else>
             </choose>
           </group>
-          <choose>
-            <if type="paper-conference">
-              <text variable="event"/>
-              <date variable="event-date" form="text"/>
-              <text variable="event-place"/>
-            </if>
-          </choose>
           <group>
             <text variable="volume"/>
             <text variable="issue" prefix="(" suffix=")"/>
           </group>
           <choose>
-            <if type="hearing" match="any">
+            <if type="paper-conference hearing" match="any">
+              <text variable="event"/>
               <date variable="event-date" form="text"/>
+              <text variable="event-place"/>
             </if>
           </choose>
         </group>

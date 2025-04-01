@@ -55,7 +55,7 @@ as [CSL-JSON].
     ‘Radio’ or ‘TV’, and `annote` for the time. If it is an untitled episode of
     a series, put the series and episode number as the `title`, otherwise put
     the series in `container-title` and the episode number as ‘Episode
-    *series:episode*’ in `number`.
+    *series*:*episode*’ in `number`.
 
   - Use `dataset` for database entries and datasets. Give the name of a
     containing database in `container-title`.
@@ -96,6 +96,10 @@ as [CSL-JSON].
     Commons/Lords Papers and Command Papers. Use `collection-title` for the
     series and session (e.g. ‘Bills | 1987/88’) or `genre` for the type (e.g.
     ‘Cm.’) and `number` for the printing.
+  
+  - Use `hearing` or `paper-conference` for Parliamentary debates, with the year
+    in `issued`, the full date of the debate in `event-date`, and the Hansard
+    volume in `volume`.
 
   - For legal cases, only approximate support is possible, especially now that
     Harvard (Bath) has introduced its own unique style. The following variations
@@ -120,15 +124,15 @@ as [CSL-JSON].
         `container-title` and follow the instructions above for pinpointing EU
         Directives.
 
-      - To get Harvard (Bath)'s pre-2024 legal case format, don't give a
+      - To get the traditional or neutral legal case format, don't give a
         `number` or a `container-title`. Use `collection-title` (reporting
         journal or court abbreviation) and `page` (first page, or case number
         with or without division suffix). The year will be shown in square
         brackets unless `volume` is given, in which case it will be in
         parentheses.
 
-    This is a quirky use of `collection-title`, but the simplifying principle
-    behind it is that `container-title` is printed in italics and
+    The use of `collection-title` in the above is quirky, but the simplifying
+    principle behind it is that `container-title` is printed in italics and
     `collection-title` is not. One motivation for it is that CSL cannot detect
     ‘OJ’ as a special value, but Harvard (Bath) treats it specially.
 
@@ -175,21 +179,21 @@ the comparison.
 
 ### Citeproc-js testing
 
-Dependencies
+Dependencies are the same as for Pandoc-based testing, plus:
 
-- GNU Make
-- `bash`, `curl`
+- `curl`
 - `citeproc-js-server` running at `http://127.0.0.1:8085`
-- Python v3.8+ and the Python packages `click` and `pyyaml`
+- Python packages `click` and `pyyaml`
 - LibYAML
 
-An HTML fragment containing the output from `citeproc-js` can be generated like
+An HTML document containing the output from `citeproc-js` can be generated like
 so:
 
 ```bash make bath-csl-test-js.html ```
 
 This invokes the `yaml2json.py` script to generate the correct input to
-`citeproc-js-server`.
+`citeproc-js-server`; the `check-output.py` script is then used to inject
+the results into the raw output from `pandoc`.
 
 
 ## Validating the style
