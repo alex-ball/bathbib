@@ -75,6 +75,7 @@ Copyright (C) 2016-2025 by University of Bath
 %</driver>
 %<*driver|tex1>
     [2025/04/01 v7.0 Harvard referencing style as recommended by the University of Bath Library]
+\NeedsTeXFormat{LaTeX2e}[2020/10/01]
 
 \documentclass[10pt,a4paper]{article}
 \usepackage[british]{babel}
@@ -99,7 +100,7 @@ Copyright (C) 2016-2025 by University of Bath
 
 % For typesetting the examples
 
-\usepackage{xpatch,csquotes,xcolor,xparse,multicol,fancyvrb}
+\usepackage{xpatch,csquotes,xcolor,multicol,fancyvrb}
 \xdefinecolor{Green}{rgb}{0,.5,0}
 \xdefinecolor{Slate}{RGB}{80,86,94}
 \xdefinecolor{BathStone}{RGB}{213,211,185}
@@ -145,7 +146,7 @@ Copyright (C) 2016-2025 by University of Bath
 }{\end{list}}
 
 \usepackage{tcolorbox}
-\tcbuselibrary{listings,breakable,skins,xparse}
+\tcbuselibrary{listings,breakable,skins}
 \colorlet{Option}{violet}
 \newcommand*{\key}[1]{\textcolor{Option}{\ttfamily #1}}
 \lstdefinelanguage{bafll}%
