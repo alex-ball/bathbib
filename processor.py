@@ -36,7 +36,7 @@ class Group(Base):
     prefix: str | None = None
     delim: str | None = None
     suffix: str | None = None
-    do: list[str, "Choice", "Group", Value] = field(default_factory=list)
+    do: "list[str | Choice | Group | Value]" = field(default_factory=list)
     """String values should be Macro IDs."""
 
 
@@ -44,7 +44,7 @@ class Group(Base):
 class Filter(Base):
     only: list[str] = field(default_factory=list)
     """String values should be Template names."""
-    do: list[str, "Choice", Group, Value] = field(default_factory=list)
+    do: "list[str | Choice | Group | Value]" = field(default_factory=list)
     """String values should be Macro IDs."""
 
 
@@ -59,14 +59,14 @@ class Macro(Base):
     id_csl: str = ""
     id_blx: str = ""
     id_bst: str = ""
-    do: list[str, Choice, Group, Value] = field(default_factory=list)
+    do: list[str | Choice | Group | Value] = field(default_factory=list)
     """String values should be Macro IDs."""
 
 
 @dataclass(kw_only=True)
 class Model(Base):
     templates: list[Template] = field(default_factory=list)
-    root: list[str, Choice, Group, Value] = field(default_factory=list)
+    root: list[str | Choice | Group | Value] = field(default_factory=list)
     """String values should be Macro IDs."""
     macros: list[Macro] = field(default_factory=list)
 
