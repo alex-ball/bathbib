@@ -5,8 +5,6 @@ import html
 import os
 import re
 import subprocess
-import typing as t
-from warnings import catch_warnings
 
 import click
 from lxml import html as lhtml
@@ -14,7 +12,7 @@ from lxml import html as lhtml
 CONTEXT_SETTINGS = dict(help_option_names=["-h", "--help"])
 
 
-def extract_dtx_targets(filepath: str) -> t.Dict[str, str]:
+def extract_dtx_targets(filepath: str) -> dict[str, str]:
     """Parses a DTX file and returns a mapping of IDs to target output
     extracted from `bibexbox` environments.
     """
@@ -43,7 +41,7 @@ def extract_dtx_targets(filepath: str) -> t.Dict[str, str]:
     return targets
 
 
-def extract_csl_targets(filepath: str) -> t.Dict[str, str]:
+def extract_csl_targets(filepath: str) -> dict[str, str]:
     """Parses a TEX file and returns a mapping of IDs to target output
     extracted from the specially spaced LaTeX format.
     """
@@ -78,7 +76,7 @@ def extract_csl_targets(filepath: str) -> t.Dict[str, str]:
     return targets
 
 
-def get_bibitems(filepath: str) -> t.List[str]:
+def get_bibitems(filepath: str) -> list[str]:
     """From a text file, extracts and returns a list of lines in a
     recurring pattern such that there is a `\\bibitem` line, followed
     by a line containing a formatted reference, followed by a blank
@@ -149,7 +147,7 @@ def get_bibitems(filepath: str) -> t.List[str]:
     return lines
 
 
-def parse_bibitems(lines: t.List[str]) -> t.Dict[str, str]:
+def parse_bibitems(lines: list[str]) -> dict[str, str]:
     """Parses the output from BibTeX and returns a mapping of IDs to
     actual bibitem output.
     """
@@ -256,7 +254,7 @@ def parse_bibitems(lines: t.List[str]) -> t.Dict[str, str]:
     return outputs
 
 
-def parse_simple_bibitems(lines: t.List[str]) -> t.Dict[str, str]:
+def parse_simple_bibitems(lines: list[str]) -> dict[str, str]:
     """Parses the output from biblatex2bibitem and returns a mapping of
     IDs to actual bibitem output.
     """
@@ -279,7 +277,7 @@ def parse_simple_bibitems(lines: t.List[str]) -> t.Dict[str, str]:
 
 def parse_csl_refs(
     filepath: str, only_fails: bool = False
-) -> t.Tuple[t.Dict[str, str]]:
+) -> tuple[dict[str, str], dict[str, str]]:
     """Extracts tests from CSL comparison document in a form that can
     be used by the `contrast_refs()` function.
 
@@ -295,9 +293,9 @@ def parse_csl_refs(
         raise click.FileError(filename, "Recipe failed to create file.")
     print()
 
-    parsed = list()
-    targets = dict()
-    outputs = dict()
+    parsed: list[tuple[list[lhtml.HtmlElement], list[lhtml.HtmlElement]]] = list()
+    targets: dict[str, str] = dict()
+    outputs: dict[str, str] = dict()
 
     tree = lhtml.parse(filepath)
     root = tree.getroot()
@@ -337,7 +335,7 @@ def parse_csl_refs(
             )
 
             output_div_div = output_divs[i][0]
-            current_id = output_div_div.get("id")[4:]
+            current_id = output_div_div.get("id", "")[4:]
             output_p = output_div_div[0]
             output = html.unescape(
                 lhtml.tostring(output_p).decode("utf-8").strip()[3:-4]
@@ -349,9 +347,7 @@ def parse_csl_refs(
     return (targets, outputs)
 
 
-def ignore_unfixable(
-    outputs: t.Dict[str, str], compat: bool = False
-) -> t.Dict[str, str]:
+def ignore_unfixable(outputs: dict[str, str], compat: bool = False) -> dict[str, str]:
     """Provide specific overrides for BibTeX entries that cannot be
     fixed.
     """
@@ -401,8 +397,8 @@ def format_diff(label: str, primary: str, secondary: str) -> str:
 
 
 def contrast_refs(
-    **kwargs: t.Dict[str, t.Dict[str, str]],
-) -> t.DefaultDict[str, t.Set[str]]:
+    **kwargs: dict[str, str],
+) -> defaultdict[str, set[str]]:
     """Performs a comparison between different sets of mappings from
     bib database IDs to formatted references.
 
@@ -449,7 +445,7 @@ def contrast_refs(
     return missing
 
 
-def print_missing(missing: t.DefaultDict[str, t.Set[str]]) -> None:
+def print_missing(missing: defaultdict[str, set[str]]) -> None:
     """Prints out information on missing keys."""
     for key, labels in missing.items():
         click.echo(
