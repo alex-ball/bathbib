@@ -128,6 +128,9 @@ Copyright (C) 2016-2025 by University of Bath
   {Verbatim}{Verbatim}
   {commentchar=\%}
 
+\usepackage{enumitem}
+\setlist[description]{style=nextline,leftmargin=1.4em}
+
 \usepackage[tightLists=false,texComments=true]{markdown}
 \markdownSetup{rendererPrototypes={%
     link = {\href{#3}{#1}}%
@@ -455,23 +458,114 @@ scheme:
 If you forget these extra steps, the \texttt{nyt} sorting scheme will be used
 throughout.
 
-To make a citation in the text, use the key that corresponds to the entry in your \texttt{.bib} file:
+It is strongly recommended to use Biber in place of BibTeX to process your
+references, as the style relies on Biber functionality to deal with some of the
+more exotic types of entry.
 
-\begin{tcblisting}{}
-While collections can be supplemented by other means \autocite{devlin.etal2021ipp},
-the absence of an invisible collection amongst historians is noted by
-\textcite[556]{stieg1981inh}. It may be, as \textcite{burchard1965hhl} points
-out, that they have no assistants or are reluctant to delegate, or it may be
-down to economic factors \autocite{adams2009tc1, adams2014tc2, adams2017tc3,
-gb.pa2014}\dots
-\end{tcblisting}
+
+\subsection{Writing a citation}
+
+To make a citation in the text, use the key that corresponds to the entry in your
+\texttt{.bib} file. The following examples illustrate the principles laid out in
+the Harvard (Bath) guide.
 
 Please refer to the documentation for \href{http://www.ctan.org/pkg/biblatex}{\textsf{biblatex}}
 for the full range of commands available for in-text citations.
 
-It is strongly recommended to use Biber in place of BibTeX to process your
-references, as the style relies on Biber functionality to deal with some of the
-more exotic types of entry.
+
+\subsubsection{The essentials}
+
+\begin{description}\tcbset{halign lower=flush left}
+\item[Name occurring naturally\strut]
+\begin{tcblisting}{sidebyside}
+\textcite{burchard1965hhl} says
+\end{tcblisting}
+
+\item[Name not occurring naturally\strut]
+\begin{tcblisting}{sidebyside}
+this \autocite{burchard1965hhl}
+\end{tcblisting}
+
+\item[Page information\strut]
+\begin{tcblisting}{sidebyside,lefthand ratio=0.55}
+\textcite[556]{stieg1981inh}\\
+\autocite[4]{manco2013va}\\
+\autocite[\nopp 00:28:41]{moran2016sol}
+\end{tcblisting}
+\begin{tips}\item
+Use the entry's \texttt{pagination} field to set the pinpointing prefix
+to something other than \enquote{p.}
+\end{tips}
+
+\item[Multiple sources in a single citation\strut]
+\begin{tcblisting}{sidebyside}
+\autocite{burrell1973ist, haurant2004bbh, soper1972rbc}\\
+\autocite{adams2009tc1, adams2014tc2, adams2017tc3}
+\end{tcblisting}
+
+\item[Citing a document cited in another document\strut]
+\begin{tcblisting}{sidebyside}
+\autocite[\mancite{Walters, 1883}; cited by][87]{burrell1973ist}\\
+\end{tcblisting}
+\end{description}
+
+\subsubsection{General rules for authors}
+
+\begin{description}
+\item[Corporate author\strut]
+\begin{tcblisting}{sidebyside}
+\autocite{brbr1965gph}\\
+\autocite{gb.hc2003/04-30}\\
+\autocite{gb.pa2014}
+\end{tcblisting}
+
+\item[Corporate author acronyms\strut]
+\begin{tcblisting}{sidebyside}
+Building Research Establishment \autocite{bre2007dqb}
+\end{tcblisting}
+
+\item[Multiple sources by same author(s) in same year\strut]
+\begin{tcblisting}{sidebyside}
+\autocite{palladio2001a} and \autocite{palladio2001b}
+\end{tcblisting}
+\begin{tcblisting}{sidebyside}
+\autocite{jonesNDa} and \autocite{jonesNDb}
+\end{tcblisting}
+
+\item[Different lead authors with the same surname\strut]
+\begin{tcblisting}{sidebyside}
+\autocite{wang2018tc} and \autocite{wang2020tc}
+\end{tcblisting}
+
+\end{description}
+
+\subsubsection{Multiple authors}
+\begin{description}
+\item[Two authors\strut]
+\begin{tcblisting}{sidebyside}
+\autocite{shah.corrick2016hsc}
+\end{tcblisting}
+
+\item[Three authors\strut]
+\begin{tcblisting}{sidebyside}
+\autocite{devlin.etal2021ipp}
+\end{tcblisting}
+
+\item[Four or more authors\strut]
+\begin{tcblisting}{sidebyside}
+\autocite{solomon.etal2019cbe}
+\end{tcblisting}
+
+\item[Groups of authors where different lead authors have the same surname\strut]
+\begin{tcblisting}{sidebyside}
+\autocite{wang.etal2002tc6} and \autocite{wang.etal2002tc7}
+\end{tcblisting}
+
+\item[Different groups of authors with the same lead author\strut]
+\begin{tcblisting}{sidebyside}
+\autocite{smith.etal2020tc8} and \autocite{smith.etal2020tc9}
+\end{tcblisting}
+\end{description}
 
 
 \section{Breaking changes between versions}
@@ -1219,6 +1313,24 @@ The style inserts a comma between the \texttt{series} and \texttt{number}
 fields, but does not insert one between \texttt{type} and \texttt{number}.
 \end{info}
 
+\begin{bibexbox}<WC>{who1986nde}
+  WHO (World Health Organization), 1986. \emph{Nutrition and Development in East Africa}. Geneva: WHO.
+  \tcblower
+\begin{Verbatim}
+%</driver>
+%<*driver|bib>
+@report{who1986nde,
+  author = {{World Health Organization}},
+  shortauthor = {WHO},
+  title = {Nutrition and Development in {East Africa}},
+  date = {1986},
+  location = {Geneva},
+  institution = {WHO}}
+%</driver|bib>
+%<*driver>
+\end{Verbatim}
+\end{bibexbox}
+
 
 \subsubsection*{Standard}
 
@@ -1719,7 +1831,8 @@ You can also use \texttt{music} as an alias for \texttt{audio}.
   year = {2013},
   title = {Vernacular Architecture},
   url = {https://www.buildinghistory.org/style/vernacular.shtml},
-  urldate = {2020-02-20}}
+  urldate = {2020-02-20},
+  pagination = {paragraph}}
 %</driver|bib>
 %<*driver>
 \end{Verbatim}
@@ -2561,6 +2674,74 @@ This work is `maintained' (as per LPPL maintenance status) by [Alex Ball][me].
   title = {Test Citation Three},
   address = {Cambridge},
   publisher = {Cambridge University Press}}
+@book{palladio2001a,
+  author = {Palladio, Gio},
+  year = {2001},
+  title = {Alpha},
+  address = {Edinburgh},
+  publisher = {EUP}
+}
+@book{palladio2001b,
+  author = {Palladio, Gio},
+  year = {2001},
+  title = {Beta},
+  address = {Edinburgh},
+  publisher = {EUP}
+}
+@book{jonesNDa,
+  author = {Jones, Bryn},
+  title = {Cymru},
+  address = {Bangor},
+  publisher = {CGC}
+}
+@book{jonesNDb,
+  author = {Jones, Bryn},
+  title = {Wales},
+  address = {Cardiff},
+  publisher = {WLS}
+}
+@book{wang2018tc,
+  author = {Wang, John},
+  title = {Test Four},
+  year = {2018},
+  address = {New York},
+  publisher = {Random House}
+}
+@book{wang2020tc,
+  author = {Wang, Kathy},
+  title = {Test Five},
+  year = {2020},
+  address = {New York},
+  publisher = {Random House}
+}
+@book{wang.etal2002tc6,
+  author = {Wang, John and Jones, Bryn and Stacey, D. and Rogers, T.},
+  title = {Test Six},
+  year = {2002},
+  address = {New York},
+  publisher = {Random House}
+}
+@book{wang.etal2002tc7,
+  author = {Wang, Kathy and Bloggs, C. and Reilly, T. and Luscott, M.},
+  title = {Test Seven},
+  year = {2002},
+  address = {New York},
+  publisher = {Random House}
+}
+@book{smith.etal2020tc8,
+  author = {Smith, R. and Taylor, C. and Rogers, T. and Wang, D.},
+  title = {Test Eight},
+  year = {2020},
+  address = {New York},
+  publisher = {Random House}
+}
+@book{smith.etal2020tc9,
+  author = {Smith, R. and Jones, Bryn and Stacey, D. and Lee, J.},
+  title = {Test Nine},
+  year = {2020},
+  address = {New York},
+  publisher = {Random House}
+}
 %</bib>
 %<*bbx>
 % \fi
