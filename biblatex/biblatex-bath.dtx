@@ -129,6 +129,7 @@ Copyright (C) 2016-2025 by University of Bath
   {commentchar=\%}
 
 \usepackage{enumitem}
+\SetLabelAlign{left}{\strut #1\hfil}
 \setlist[description]{style=nextline,leftmargin=1.4em}
 
 \usepackage[tightLists=false,texComments=true]{markdown}
@@ -476,34 +477,38 @@ for the full range of commands available for in-text citations.
 \subsubsection{The essentials}
 
 \begin{description}\tcbset{halign lower=flush left}
-\item[Name occurring naturally\strut]
+\item[Name occurring naturally]
 \begin{tcblisting}{sidebyside}
 \textcite{burchard1965hhl} says
 \end{tcblisting}
 
-\item[Name not occurring naturally\strut]
+\item[Name not occurring naturally]
 \begin{tcblisting}{sidebyside}
 this \autocite{burchard1965hhl}
 \end{tcblisting}
 
-\item[Page information\strut]
-\begin{tcblisting}{sidebyside,lefthand ratio=0.55}
+\item[Page information]
+\begin{tcblisting}{sidebyside}
 \textcite[556]{stieg1981inh}\\
 \autocite[4]{manco2013va}\\
-\autocite[\nopp 00:28:41]{moran2016sol}
+\autocite[00:28:41]{moran2016sol}
 \end{tcblisting}
-\begin{tips}\item
+\begin{tips}
+\item
 Use the entry's \texttt{pagination} field to set the pinpointing prefix
 to something other than \enquote{p.}
+\item
+Use \cs{nopp} at the start of the optional argument if you need to suppress
+the prefix.
 \end{tips}
 
-\item[Multiple sources in a single citation\strut]
+\item[Multiple sources in a single citation]
 \begin{tcblisting}{sidebyside}
 \autocite{burrell1973ist, haurant2004bbh, soper1972rbc}\\
 \autocite{adams2009tc1, adams2014tc2, adams2017tc3}
 \end{tcblisting}
 
-\item[Citing a document cited in another document\strut]
+\item[Citing a document cited in another document]
 \begin{tcblisting}{sidebyside}
 \autocite[\mancite{Walters, 1883}; cited by][87]{burrell1973ist}\\
 \end{tcblisting}
@@ -511,20 +516,20 @@ to something other than \enquote{p.}
 
 \subsubsection{General rules for authors}
 
-\begin{description}
-\item[Corporate author\strut]
+\begin{description}\tcbset{halign lower=flush left}
+\item[Corporate author]
 \begin{tcblisting}{sidebyside}
 \autocite{brbr1965gph}\\
 \autocite{gb.hc2003/04-30}\\
 \autocite{gb.pa2014}
 \end{tcblisting}
 
-\item[Corporate author acronyms\strut]
+\item[Corporate author acronyms]
 \begin{tcblisting}{sidebyside}
-Building Research Establishment \autocite{bre2007dqb}
+World Health Organization \autocite{who1986nde}
 \end{tcblisting}
 
-\item[Multiple sources by same author(s) in same year\strut]
+\item[Multiple sources by same author(s) in same year]
 \begin{tcblisting}{sidebyside}
 \autocite{palladio2001a} and \autocite{palladio2001b}
 \end{tcblisting}
@@ -532,7 +537,7 @@ Building Research Establishment \autocite{bre2007dqb}
 \autocite{jonesNDa} and \autocite{jonesNDb}
 \end{tcblisting}
 
-\item[Different lead authors with the same surname\strut]
+\item[Different lead authors with the same surname]
 \begin{tcblisting}{sidebyside}
 \autocite{wang2018tc} and \autocite{wang2020tc}
 \end{tcblisting}
@@ -540,28 +545,28 @@ Building Research Establishment \autocite{bre2007dqb}
 \end{description}
 
 \subsubsection{Multiple authors}
-\begin{description}
-\item[Two authors\strut]
+\begin{description}\tcbset{halign lower=flush left}
+\item[Two authors]
 \begin{tcblisting}{sidebyside}
 \autocite{shah.corrick2016hsc}
 \end{tcblisting}
 
-\item[Three authors\strut]
+\item[Three authors]
 \begin{tcblisting}{sidebyside}
 \autocite{devlin.etal2021ipp}
 \end{tcblisting}
 
-\item[Four or more authors\strut]
+\item[Four or more authors]
 \begin{tcblisting}{sidebyside}
 \autocite{solomon.etal2019cbe}
 \end{tcblisting}
 
-\item[Groups of authors where different lead authors have the same surname\strut]
+\item[Groups of authors where different lead authors have the same surname]
 \begin{tcblisting}{sidebyside}
 \autocite{wang.etal2002tc6} and \autocite{wang.etal2002tc7}
 \end{tcblisting}
 
-\item[Different groups of authors with the same lead author\strut]
+\item[Different groups of authors with the same lead author]
 \begin{tcblisting}{sidebyside}
 \autocite{smith.etal2020tc8} and \autocite{smith.etal2020tc9}
 \end{tcblisting}
@@ -669,7 +674,11 @@ The first, marked with \faBook, shows an extract from the
 \href{https://library.bath.ac.uk/images/referencing}{\emph{Referencing images}}.
 The second, marked with \faCog, shows the reference as formatted by \textsf{biblatex}.
 The last shows how the reference was entered in the \texttt{.bib} file.
-The bottom right corner shows the source of the example: `RX' indicates the `Reference examples (A-Z)' section of the Guide; `RL' indicates the `Organise a reference list' section of the Guide; `RI' indicates \emph{Referencing images}.
+The bottom right corner shows the source of the example:
+`RX' indicates the `Reference examples (A-Z)' section of the Guide;
+`WC' indicates the `Write a citation' section of the Guide;
+`RL' indicates the `Organise a reference list' section of the Guide;
+`RI' indicates \emph{Referencing images}.
 
 You may notice that the examples tend to use BibTeX aliases and conventions for
 fields (e.g.~\texttt{address}, \texttt{journal}, \texttt{year}) rather than the
@@ -1314,7 +1323,7 @@ fields, but does not insert one between \texttt{type} and \texttt{number}.
 \end{info}
 
 \begin{bibexbox}<WC>{who1986nde}
-  WHO (World Health Organization), 1986. \emph{Nutrition and Development in East Africa}. Geneva: WHO.
+  WHO (World Health Organization), 1986. \emph{Nutrition and development in East Africa}. Geneva: WHO.
   \tcblower
 \begin{Verbatim}
 %</driver>
@@ -1323,8 +1332,8 @@ fields, but does not insert one between \texttt{type} and \texttt{number}.
   author = {{World Health Organization}},
   shortauthor = {WHO},
   title = {Nutrition and Development in {East Africa}},
-  date = {1986},
-  location = {Geneva},
+  year = {1986},
+  address = {Geneva},
   institution = {WHO}}
 %</driver|bib>
 %<*driver>
@@ -2904,6 +2913,19 @@ This work is `maintained' (as per LPPL maintenance status) by [Alex Ball][me].
 
 %    \end{macrocode}
 %
+% We allow the date macro to print the time as well.
+%
+%    \begin{macrocode}
+\newbibmacro*{bbx:ifmergeddate}{\@secondoftwo}
+\renewbibmacro*{date}{%
+  \usebibmacro{bbx:ifmergeddate}{}{%
+    \printdate
+    \setunit*{\bibdatetimesep}%
+  }%
+  \printtime}%
+
+%    \end{macrocode}
+%
 % The |mergedate| option controls the format of the date at the head of the
 % reference in the |date+extradate| macro, and whether and how the same date is
 % displayed later in the |issue+date| macro.
@@ -2916,19 +2938,6 @@ This work is `maintained' (as per LPPL maintenance status) by [Alex Ball][me].
     \setunit*{\addspace}%
     \usebibmacro{date}}%
   \newunit}
-
-%    \end{macrocode}
-%
-% We allow the date macro to print the time as well.
-%
-%    \begin{macrocode}
-\newbibmacro*{bbx:ifmergeddate}{\@secondoftwo}
-\renewbibmacro*{date}{%
-  \usebibmacro{bbx:ifmergeddate}{}{%
-    \printdate
-    \setunit*{\bibdatetimesep}%
-  }%
-  \printtime}%
 
 %    \end{macrocode}
 %
@@ -4451,7 +4460,7 @@ This work is `maintained' (as per LPPL maintenance status) by [Alex Ball][me].
         {\namepartgiven}
         {\namepartcjk}%
     }%
-  }
+  }%
   \usebibmacro{name:andothers}%
 }
 
@@ -4520,9 +4529,118 @@ This work is `maintained' (as per LPPL maintenance status) by [Alex Ball][me].
 
 %    \end{macrocode}
 %
+% We need a bibmacro that reimplements the loopcode logic of \cs{printnames},
+% but operates on two name lists simultaneously. This allow us to use
+% abbreviated corporate author names (|shortauthor|, |shorteditor|) as primary,
+% annotated by the full version.
+%
+% We need to do this in a way that doesn't break the patterns used for
+% configuring and adapting the punctuation that delimits the list items, so the
+% |namepair:delim| macro does the same as |name:delim| but instead of reading
+% the current counters, takes two extra arguments (in addition to the current name):
+% the number of the current name pair and the total number of name pairs.
+% The regular |finallistdelim| delimiter format looks up the value of the
+% |liststop| counter, so we need to give it the right value.
+%
+%    \begin{macrocode}
+\newbibmacro*{namepair:delim}[3]{%
+  \ifnumgreater{#2}{\@ne}{%
+    \ifnumless{#2}{#3}{%
+      \printdelim{multinamedelim}%
+    }{%
+      \ifnumgreater{#3}{\c@maxnames}{%
+        \c@liststop\c@minnames
+      }{%
+        \c@liststop#3}%
+      \lbx@finalnamedelim{#1}}%
+  }{}}
+%    \end{macrocode}
+%
+% The |namepairs| bibmacro takes two arguments: the data fields holding the main
+% name and alternative name respectively. When rendering the names, we use
+% saveboxes to extract the hashes, and only print the alternative name if it has
+% a different hash.
+%
+%    \begin{macrocode}
+\DeclareFieldFormat{expanded}{\mkbibparens{#1}}
+\newcounter{namepairs}
+\newsavebox{\blx@bath@namebox}
+\newsavebox{\blx@bath@altnamebox}
+\newbibmacro*{namepairs}[2]{%
+  \setcounter{namepairs}{0}%
+  \savebibmacro{name:andothers}%
+  \renewbibmacro*{name:andothers}{}%
+  \whileboolexpr{%
+    test {\ifnumless{\value{namepairs}}{\value{#1}}}
+    and (
+      test {\ifdefvoid{\c@maxnames}}
+      or
+      test {\ifnumequal{\c@maxnames}{0}}
+      or
+      test {\ifnumless{\value{#1}}{\c@maxnames}}
+      or
+      test {\ifnumequal{\value{#1}}{\c@maxnames}}
+      or
+      test {\ifdefvoid{\c@minnames}}
+      or
+      test {\ifnumequal{\c@minnames}{0}}
+      or
+      test {\ifnumless{\value{namepairs}}{\c@minnames}}
+    )
+  }{%
+    \stepcounter{namepairs}%
+    \savebox{\blx@bath@namebox}{%
+      \printnames[#1][\value{namepairs}-\value{namepairs}]{#1}%
+    }%
+    \let\blx@bath@firsthash=\blx@bath@lasthash
+    \savebox{\blx@bath@altnamebox}{%
+      \printnames[#1][\value{namepairs}-\value{namepairs}]{#2}%
+    }%
+    \let\blx@bath@secondhash=\blx@bath@lasthash
+%    \end{macrocode}
+%
+% With |shortauthor| and |shorteditor|, the alternative name is printed first,
+% and the main name afterwards in parentheses.
+%
+%    \begin{macrocode}
+    \ifdefstrequal{\blx@bath@firsthash}{\blx@bath@secondhash}{%
+      \usebibmacro{namepair:delim}%
+        {\unhbox\blx@bath@namebox}{\value{namepairs}}{\value{#1}}%
+      \hbox{}\unhbox\blx@bath@namebox
+    }{%
+      \usebibmacro{namepair:delim}%
+        {\unhbox\blx@bath@altnamebox}{\value{namepairs}}{\value{#1}}%
+      \printnames[#1][\value{namepairs}-\value{namepairs}]{#2}%
+      \setunit{\addspace}%
+      \printtext[expanded]{%
+        \printnames[#1][\value{namepairs}-\value{namepairs}]{#1}%
+      }%
+    }%
+  }%
+%    \end{macrocode}
+%
+% Lastly, we handle linking punctuation.
+%
+%    \begin{macrocode}
+  \ifboolexpr{
+    test {\ifnumequal{\value{namepairs}}{\c@minnames}}
+    and
+    test {\ifnumgreater{\value{#1}}{\c@maxnames}}
+  }{%
+    \ifnumgreater{\c@minnames}{1}{%
+      \finalandcomma
+    }{}%
+    \printdelim{andothersdelim}\bibstring{andothers}%
+  }{}%
+  \restorebibmacro{name:andothers}%
+}
+
+%    \end{macrocode}
+%
 % The |author|, |editor| and |translator| macros are mostly the same as the
 % standard author--year definitions, with the exception that we add support for
-% the |nameaddon| field for authors.
+% the |nameaddon| field for authors and use the above handler for |shortauthor|
+% and |shorteditor|.
 %
 %    \begin{macrocode}
 \DeclareFieldFormat{nameaddon}{\mkbibbrackets{#1}}
@@ -4535,8 +4653,13 @@ This work is `maintained' (as per LPPL maintenance status) by [Alex Ball][me].
     {\usebibmacro{bbx:dashcheck}
        {\bibnamedash}
        {\usebibmacro{bbx:savehash}%
-        \printnames{author}%
-        \iffieldundef{nameaddon}
+       \ifboolexpr{%
+           ( not test {\ifnameundef{shortauthor}} )
+           and
+           test {\ifnumequal{\value{shortauthor}}{\value{author}}}}%
+         {\usebibmacro{namepairs}{author}{shortauthor}}%
+         {\printnames{author}}%
+       \iffieldundef{nameaddon}
           {}
           {\setunit{\addspace}%
            \printfield{nameaddon}}%
@@ -4564,7 +4687,12 @@ This work is `maintained' (as per LPPL maintenance status) by [Alex Ball][me].
   }
     {\usebibmacro{bbx:dashcheck}
        {\bibnamedash}
-       {\printnames{editor}%
+       {\ifboolexpr{%
+           ( not test {\ifnameundef{shorteditor}} )
+           and
+           test {\ifnumequal{\value{shorteditor}}{\value{editor}}}}%
+         {\usebibmacro{namepairs}{editor}{shorteditor}}%
+         {\printnames{editor}}%
         \setunit{\printdelim{editortypedelim}}%
         \usebibmacro{bbx:savehash}}%
      \usebibmacro{#1}%
@@ -4952,54 +5080,17 @@ This work is `maintained' (as per LPPL maintenance status) by [Alex Ball][me].
 \fi
 %    \end{macrocode}
 %
-% By default, title--year combinations are not disambiguated, so we fix that
-% too.
+% The |extradate| string should be printed bare, and separated by a space if
+% the label date is a string such as \enquote{n.d.}.
 %
 %    \begin{macrocode}
-\DeclareFieldFormat{extraalpha}{%
-  \iffieldnums{labelyear}
-    {\mknumalph{#1}}
-    {\mkbibparens{\mknumalph{#1}}}}
-\DeclareLabelalphaTemplate{
-  \labelelement{
-    \field{label}
-    \field{labelname}
-    \field{labeltitle}
-  }
-  \labelelement{
-    \field{labelyear}
-  }
-}
-\xpatchcmd{\mkdaterangefullextra}{%
-  \printfield{extradate}%
-}{%
-  \printfield{extraalpha}%
-}{}{\wlog{WARNING: biblatex-bath failed to patch mkdaterangefullextra once}}%
-\xpatchcmd{\mkdaterangefullextra}{%
-  \printfield{extradate}%
-}{%
-  \printfield{extraalpha}%
-}{}{\wlog{WARNING: biblatex-bath failed to patch mkdaterangefullextra twice}}%
-\xpatchcmd{\mkdaterangefullextra}{%
-  \printfield{extradate}%
-}{%
-  \printfield{extraalpha}%
-}{}{\wlog{WARNING: biblatex-bath failed to patch mkdaterangefullextra thrice}}%
-\xpatchcmd{\mkdaterangetruncextra@i}{%
-  \printfield{extradate}%
-}{%
-  \printfield{extraalpha}%
-}{}{\wlog{WARNING: biblatex-bath failed to patch mkdaterangetruncextra@i once}}%
-\xpatchcmd{\mkdaterangetruncextra@i}{%
-  \printfield{extradate}%
-}{%
-  \printfield{extraalpha}%
-}{}{\wlog{WARNING: biblatex-bath failed to patch mkdaterangetruncextra@i twice}}%
-\xpatchcmd{\mkdaterangetruncextra@i}{%
-  \printfield{extradate}%
-}{%
-  \printfield{extraalpha}%
-}{}{\wlog{WARNING: biblatex-bath failed to patch mkdaterangetruncextra@i thrice}}%
+\DeclareFieldFormat{extradate}{%
+  \iffieldundef{\thefield{labeldatesource}}{%
+    \iffieldnums{\thefield{labeldatesource}year}{}{~}%
+  }{%
+    \iffieldnums{\thefield{labeldatesource}}{}{~}%
+  }%
+  \mknumalph{#1}}%
 
 %    \end{macrocode}
 %
@@ -6224,6 +6315,8 @@ This work is `maintained' (as per LPPL maintenance status) by [Alex Ball][me].
 ,version          = {{version~}{v\adddot}}
 ,inpreparation    = {{preprint}{preprint}}
 ,submitted        = {{preprint}{preprint}}
+,paragraph        = {{paragraph}{para\adddot}}
+,paragraphs       = {{paragraphs}{paras\adddot}}
 ,urlseen          = {{Accessed}{Accessed}}
 ,january          = {{January}{January}}
 ,february         = {{February}{February}}
@@ -6333,6 +6426,38 @@ This work is `maintained' (as per LPPL maintenance status) by [Alex Ball][me].
 %
 %    \begin{macrocode}
 \renewcommand*{\compcitedelim}{\addsemicolon\space}
+%    \end{macrocode}
+%
+% Name order is inverted in citations as well, if it comes up.
+%
+%    \begin{macrocode}
+\DeclareNameFormat{labelname}{%
+  \ifcase\value{uniquename}%
+    \usebibmacro{name:family}
+      {\namepartfamily}
+      {\namepartgiven}
+      {\namepartprefix}
+      {\namepartsuffix}%
+  \or
+    \ifuseprefix
+      {\usebibmacro{name:family-given}
+        {\namepartfamily}
+        {\namepartgiveni}
+        {\namepartprefix}
+        {\namepartsuffixi}}
+      {\usebibmacro{name:family-given}
+        {\namepartfamily}
+        {\namepartgiveni}
+        {\namepartprefixi}
+        {\namepartsuffixi}}%
+  \or
+    \usebibmacro{name:family-given}
+      {\namepartfamily}
+      {\namepartgiven}
+      {\namepartprefix}
+      {\namepartsuffix}%
+  \fi
+  \usebibmacro{name:andothers}}
 %    \end{macrocode}
 %
 % We need to suppress the display of `n.d.' in citations if the \key{nonodate}
