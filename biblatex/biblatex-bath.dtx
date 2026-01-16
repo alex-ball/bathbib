@@ -429,7 +429,7 @@ documentation.
 
 \section{Using the style}
 
-This style has been tested with \textsf{biblatex} versions 3.12 and 3.14.
+This document was compiled with \textsf{biblatex} version \UseVersionOf{biblatex.sty}.
 
 To use the style, specify it when you load \textsf{biblatex}. To get the sorting
 order of your \emph{citations} right, specify the \texttt{ynt} sorting scheme.
@@ -479,17 +479,17 @@ for the full range of commands available for in-text citations.
 \begin{description}\tcbset{halign lower=flush left}
 \item[Name occurring naturally]
 \begin{tcblisting}{sidebyside}
-\textcite{burchard1965hhl} says
+\textcite{blockley2021evs} says\dots
 \end{tcblisting}
 
 \item[Name not occurring naturally]
 \begin{tcblisting}{sidebyside}
-this \autocite{burchard1965hhl}
+\dots this \autocite{blockley2021evs}
 \end{tcblisting}
 
 \item[Page information]
 \begin{tcblisting}{sidebyside}
-\textcite[556]{stieg1981inh}\\
+\textcite[75]{burchard1965hhl}\\
 \autocite[4]{manco2013va}\\
 \autocite[00:28:41]{moran2016sol}
 \end{tcblisting}
@@ -531,7 +531,7 @@ World Health Organization \autocite{who1986nde}
 
 \item[Multiple sources by same author(s) in same year]
 \begin{tcblisting}{sidebyside}
-\autocite{palladio2001a} and \autocite{palladio2001b}
+\autocite{stieg1981cer} and \autocite{stieg1981inh}
 \end{tcblisting}
 \begin{tcblisting}{sidebyside}
 \autocite{jonesNDa} and \autocite{jonesNDb}
@@ -2356,7 +2356,7 @@ You could instead combine the series and chapter in the \texttt{number} field:
 \subsubsection*{Statutory instrument}
 
 \begin{bibexbox}<RX>{gb.hmr2012}
-  \emph{The Human Medicines Regulations} \emph{2012} [Online], No.1916, United Kingdom: HMSO. Available from: \url{http://www.legislation.gov.uk/uksi/2012/1916/pdfs/uksi_20121916_en.pdf} [Accessed 17 April 2016].
+  \emph{The Human Medicines Regulations} \emph{2012} [Online], No.1916, United Kingdom: HMSO. Available from: \url{http://www.legislation.gov.uk/uksi/2012/1916/contents} [Accessed 22 April 2021].
   \tcblower
 \begin{Verbatim}
 %</driver>
@@ -2368,8 +2368,8 @@ You could instead combine the series and chapter in the \texttt{number} field:
   number = {No.1916},
   address = {United Kingdom},
   publisher = {HMSO},
-  url = {http://www.legislation.gov.uk/uksi/2012/1916/pdfs/uksi_20121916_en.pdf},
-  urldate = {2016-04-17}}
+  url = {http://www.legislation.gov.uk/uksi/2012/1916/contents},
+  urldate = {2022-04-22}}
 %</driver|bib>
 %<*driver>
 \end{Verbatim}
@@ -2670,7 +2670,7 @@ This work is `maintained' (as per LPPL maintenance status) by [Alex Ball][me].
   year = {2009},
   title = {Test Citation One},
   address = {London},
-  publisher = {Imperial College Bookstall}}
+  publisher = {Imperial College Press}}
 @book{adams2014tc2,
   author = {Adams, Gomez},
   year = {2014},
@@ -2683,74 +2683,52 @@ This work is `maintained' (as per LPPL maintenance status) by [Alex Ball][me].
   title = {Test Citation Three},
   address = {Cambridge},
   publisher = {Cambridge University Press}}
-@book{palladio2001a,
-  author = {Palladio, Gio},
-  year = {2001},
-  title = {Alpha},
-  address = {Edinburgh},
-  publisher = {EUP}
-}
-@book{palladio2001b,
-  author = {Palladio, Gio},
-  year = {2001},
-  title = {Beta},
-  address = {Edinburgh},
-  publisher = {EUP}
-}
 @book{jonesNDa,
-  author = {Jones, Bryn},
-  title = {Cymru},
-  address = {Bangor},
-  publisher = {CGC}
-}
+  author = {Jones, John Walter},
+  title = {Dyfyniad prawf},
+  address = {Caernarfon},
+  publisher = {Bwrdd yr Iaith Gymraeg}}
 @book{jonesNDb,
-  author = {Jones, Bryn},
-  title = {Wales},
+  author = {Jones, John Walter},
+  title = {Test citation},
   address = {Cardiff},
-  publisher = {WLS}
-}
+  publisher = {Welsh Language Board}}
 @book{wang2018tc,
   author = {Wang, John},
-  title = {Test Four},
+  title = {Test Citation Four},
   year = {2018},
   address = {New York},
-  publisher = {Random House}
-}
+  publisher = {Random House}}
 @book{wang2020tc,
   author = {Wang, Kathy},
-  title = {Test Five},
+  title = {Test Citation Five},
   year = {2020},
   address = {New York},
-  publisher = {Random House}
-}
+  publisher = {Random House}}
 @book{wang.etal2002tc6,
-  author = {Wang, John and Jones, Bryn and Stacey, D. and Rogers, T.},
+  author = {Wang, John and Jones, John Walter and Stacey, D. and Rogers, T.},
   title = {Test Six},
   year = {2002},
-  address = {New York},
-  publisher = {Random House}
-}
+  address = {Bath},
+  publisher = {Really Decent Books}}
 @book{wang.etal2002tc7,
   author = {Wang, Kathy and Bloggs, C. and Reilly, T. and Luscott, M.},
   title = {Test Seven},
   year = {2002},
-  address = {New York},
-  publisher = {Random House}
-}
+  address = {Bath},
+  publisher = {Really Decent Books}}
 @book{smith.etal2020tc8,
   author = {Smith, R. and Taylor, C. and Rogers, T. and Wang, D.},
   title = {Test Eight},
   year = {2020},
-  address = {New York},
-  publisher = {Random House}
-}
+  address = {Bath},
+  publisher = {Bath Publishing}}
 @book{smith.etal2020tc9,
-  author = {Smith, R. and Jones, Bryn and Stacey, D. and Lee, J.},
+  author = {Smith, R. and Jones, John Walter and Stacey, D. and Lee, J.},
   title = {Test Nine},
   year = {2020},
-  address = {New York},
-  publisher = {Random House}
-}
+  address = {Bath},
+  publisher = {Bath Publishing}}
 %</bib>
 %<*bbx>
 % \fi
