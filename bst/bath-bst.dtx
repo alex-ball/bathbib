@@ -113,6 +113,10 @@ Copyright (C) 2016-2025 by University of Bath
   {Verbatim}{Verbatim}
   {commentchar=\%}
 
+\usepackage{enumitem}
+\SetLabelAlign{left}{\strut #1\hfil}
+\setlist[description]{style=nextline,leftmargin=1.4em}
+
 \usepackage[tightLists=false]{markdown}
 \markdownSetup{rendererPrototypes={%
     link = {\href{#3}{#1}}%
@@ -595,16 +599,116 @@ Remember also to specify your \texttt{.bib} file at the end of the document:
 \bibliography{file}
 \end{tcblisting}
 
-To make a citation in the text, use the key that corresponds to the entry in your \texttt{.bib} file:
 
-\begin{tcblisting}{}
-While collections can be supplemented by other means \citep{devlin.etal2021ipp},
-the absence of an invisible collection amongst historians is noted by
-\citet[p.556]{stieg1981inh}. It may be, as \citet{burchard1965hhl} points out,
-that they have no assistants or are reluctant to delegate, or it may be
-down to economic factors \citep{adams2009tc1, adams2014tc2, gb.pa2014,
-adams2017tc3}\dots
+\subsection{Writing a citation}
+
+To make a citation in the text, use the key that corresponds to the entry in your
+\texttt{.bib} file. The following examples illustrate the principles laid out in
+the Harvard (Bath) guide.
+
+Please refer to the documentation for \href{http://www.ctan.org/pkg/natbib}{\textsf{natbib}}
+for the full range of commands available for in-text citations. Be aware that the
+\textsf{natbib} option \texttt{sort} will sort citations in bibliography order,
+rather than the chronological order demanded by Harvard (Bath) -- so don't use it!
+
+% \begin{tcblisting}{}
+% While collections can be supplemented by other means \citep{devlin.etal2021ipp},
+% the absence of an invisible collection amongst historians is noted by
+% \citet[p.556]{stieg1981inh}. It may be, as \citet{burchard1965hhl} points out,
+% that they have no assistants or are reluctant to delegate, or it may be
+% down to economic factors \citep{adams2009tc1, adams2014tc2, gb.pa2014,
+% adams2017tc3}\dots
+% \end{tcblisting}
+
+\subsubsection{The essentials}
+
+\begin{description}\tcbset{halign lower=flush left}
+\item[Name occurring naturally]
+\begin{tcblisting}{sidebyside}
+\citet{blockley2021evs} says\dots
 \end{tcblisting}
+
+\item[Name not occurring naturally]
+\begin{tcblisting}{sidebyside}
+\dots this \citep{blockley2021evs}
+\end{tcblisting}
+
+\item[Page information]
+\begin{tcblisting}{sidebyside}
+\citet[p.75]{burchard1965hhl}\\
+\citep[para.4]{manco2013va}\\
+\citep[00:28:41]{moran2016sol}
+\end{tcblisting}
+
+\item[Multiple sources in a single citation]
+\begin{tcblisting}{sidebyside}
+\citep{soper1972rbc, burrell1973ist, haurant2004bbh}\\
+\citep{adams2009tc1, adams2014tc2, adams2017tc3}
+\end{tcblisting}
+
+\item[Citing a document cited in another document]
+\begin{tcblisting}{sidebyside}
+\citep[Walters, 1883; cited by][p.87]{burrell1973ist}\\
+\end{tcblisting}
+\end{description}
+
+\subsubsection{General rules for authors}
+
+\begin{description}\tcbset{halign lower=flush left}
+\item[Corporate author]
+\begin{tcblisting}{sidebyside}
+\citep{brbr1965gph}\\
+\citep{gb.hc2003/04-30}\\
+\citep{gb.pa2014}
+\end{tcblisting}
+
+\item[Corporate author acronyms]
+\begin{tcblisting}{sidebyside}
+World Health Organization \citep{who1986nde}
+\end{tcblisting}
+
+\item[Multiple sources by same author(s) in same year]
+\begin{tcblisting}{sidebyside}
+\citep{stieg1981cer} and \citep{stieg1981inh}
+\end{tcblisting}
+\begin{tcblisting}{sidebyside}
+\citep{jonesNDa} and \citep{jonesNDb}
+\end{tcblisting}
+
+\item[Different lead authors with the same surname]
+\begin{tcblisting}{sidebyside}
+\citep{wang2018tc} and \citep{wang2020tc}
+\end{tcblisting}
+
+\end{description}
+
+\subsubsection{Multiple authors}
+\begin{description}\tcbset{halign lower=flush left}
+\item[Two authors]
+\begin{tcblisting}{sidebyside}
+\citep{shah.corrick2016hsc}
+\end{tcblisting}
+
+\item[Three authors]
+\begin{tcblisting}{sidebyside}
+\citep{devlin.etal2021ipp}
+\end{tcblisting}
+
+\item[Four or more authors]
+\begin{tcblisting}{sidebyside}
+\citep{solomon.etal2019cbe}
+\end{tcblisting}
+
+\item[Groups of authors where different lead authors have the same surname]
+\begin{tcblisting}{sidebyside}
+\citep{wang.etal2002tc6} and \citep{wang.etal2002tc7}
+\end{tcblisting}
+
+\item[Different groups of authors with the same lead author]
+\begin{tcblisting}{sidebyside}
+\citep{smith.etal2020tc8} and \citep{smith.etal2020tc9}
+\end{tcblisting}
+\end{description}
 
 Please refer to the documentation for \href{http://www.ctan.org/pkg/natbib}{\textsf{natbib}}
 for the full range of commands available for in-text citations. Be aware that the
@@ -707,7 +811,11 @@ The first, marked with \faBook, shows an extract from the
 \href{https://library.bath.ac.uk/images/referencing}{\emph{Referencing images}}.
 The second, marked with \faCog, shows the reference as formatted by Bib\TeX.
 The last shows how the reference was entered in the \texttt{.bib} file.
-The bottom right corner shows the source of the example: `RX' indicates the `Reference examples (A-Z)' section of the Guide; `RL' indicates the `Organise a reference list' section of the Guide; `RI' indicates \emph{Referencing images}.
+The bottom right corner shows the source of the example:
+`RX' indicates the `Reference examples (A-Z)' section of the Guide;
+`WC' indicates the `Write a citation' section of the Guide;
+`RL' indicates the `Organise a reference list' section of the Guide;
+`RI' indicates \emph{Referencing images}.
 
 Some examples are highlighted in
 \tcbox[colframe=hacked,colback=hacked!5!white,nobeforeafter,size=fbox,tcbox raise base]{orange}.
@@ -1682,6 +1790,24 @@ The style inserts a comma between the \texttt{series} and \texttt{number}
 fields, but does not insert one between \texttt{type} and \texttt{number}.
 %</driver>
 \end{info}
+
+\begin{bibexbox}<WC>{who1986nde}
+  WHO (World Health Organization), 1986. \emph{Nutrition and development in East Africa}. Geneva: WHO.
+  \tcblower
+\begin{Verbatim}
+%</driver|tex1>
+%<*driver|bib>
+@report{who1986nde,
+  author = {{World Health Organization}},
+  shortauthor = {WHO},
+  title = {Nutrition and Development in {East Africa}},
+  year = {1986},
+  address = {Geneva},
+  institution = {WHO}}
+%</driver|bib>
+%<*driver|tex1>
+\end{Verbatim}
+\end{bibexbox}
 
 
 \subsubsection*{Standard}
@@ -3828,7 +3954,7 @@ This work is ‘maintained’ (as per LPPL maintenance status) by [Alex Ball][me
   year = {2009},
   title = {Test Citation One},
   address = {London},
-  publisher = {Imperial College Bookstall}}
+  publisher = {Imperial College Press}}
 @book{adams2014tc2,
   author = {Adams, Gomez},
   year = {2014},
@@ -3841,6 +3967,52 @@ This work is ‘maintained’ (as per LPPL maintenance status) by [Alex Ball][me
   title = {Test Citation Three},
   address = {Cambridge},
   publisher = {Cambridge University Press}}
+@book{jonesNDa,
+  author = {Jones, John Walter},
+  title = {Dyfyniad prawf},
+  address = {Caernarfon},
+  publisher = {Bwrdd yr Iaith Gymraeg}}
+@book{jonesNDb,
+  author = {Jones, John Walter},
+  title = {Test citation},
+  address = {Cardiff},
+  publisher = {Welsh Language Board}}
+@book{wang2018tc,
+  author = {Wang, John},
+  title = {Test Citation Four},
+  year = {2018},
+  address = {New York},
+  publisher = {Random House}}
+@book{wang2020tc,
+  author = {Wang, Kathy},
+  title = {Test Citation Five},
+  year = {2020},
+  address = {New York},
+  publisher = {Random House}}
+@book{wang.etal2002tc6,
+  author = {Wang, John and Jones, John Walter and Stacey, D. and Rogers, T.},
+  title = {Test Six},
+  year = {2002},
+  address = {Bath},
+  publisher = {Really Decent Books}}
+@book{wang.etal2002tc7,
+  author = {Wang, Kathy and Bloggs, C. and Reilly, T. and Luscott, M.},
+  title = {Test Seven},
+  year = {2002},
+  address = {Bath},
+  publisher = {Really Decent Books}}
+@book{smith.etal2020tc8,
+  author = {Smith, R. and Taylor, C. and Rogers, T. and Wang, D.},
+  title = {Test Eight},
+  year = {2020},
+  address = {Bath},
+  publisher = {Bath Publishing}}
+@book{smith.etal2020tc9,
+  author = {Smith, R. and Jones, John Walter and Stacey, D. and Lee, J.},
+  title = {Test Nine},
+  year = {2020},
+  address = {Bath},
+  publisher = {Bath Publishing}}
 %</bib|bib1>
 %<*bst1|bst2>
 % \fi
