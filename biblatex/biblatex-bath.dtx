@@ -5064,9 +5064,9 @@ This work is `maintained' (as per LPPL maintenance status) by [Alex Ball][me].
 %    \begin{macrocode}
 \DeclareFieldFormat{extradate}{%
   \iffieldundef{\thefield{labeldatesource}}{%
-    \iffieldnums{\thefield{labeldatesource}year}{}{~}%
+    \iffieldnums{\thefield{labeldatesource}year}{}{\addnbspace}%
   }{%
-    \iffieldnums{\thefield{labeldatesource}}{}{~}%
+    \iffieldnums{\thefield{labeldatesource}}{}{\addnbspace}%
   }%
   \mknumalph{#1}}%
 
