@@ -7847,11 +7847,23 @@ SORT
 %    \end{macrocode}
 %
 % If there are any duplicate author--year combinations, these functions detect
-% them and disambiguate them by adding a letter to the year.
+% them and disambiguate them by adding a letter to the year. The forward pass
+% creates the extra labels (blank or a letter, starting with `b'). In the
+% reverse pass, if the last extra label was a `b', the current one is changed
+% from blank to `a'. We add some logic to prepend a non-breaking space to the
+% letter if the ambiguous label didn't end in a numeral (between `/' and `:' in
+% ASCII codes).
 %
 %    \begin{macrocode}
 STRINGS { last.label next.extra }
 INTEGERS { last.extra.num last.extra.num.extended last.extra.num.blank number.label }
+FUNCTION{ last.char }
+{ #1 'len :=
+  { duplicate$ duplicate$ #1 len substring$ = not }
+    { len #1 + 'len := }
+  while$
+  len #1 substring$
+}
 FUNCTION {initialize.extra.label.stuff}
 { #0 int.to.chr$ 'last.label :=
   "" 'next.extra :=
@@ -7871,10 +7883,17 @@ FUNCTION {forward.pass}
       if$
       last.extra.num.extended last.extra.num.blank >
         { last.extra.num.extended int.to.chr$
-          last.extra.num int.to.chr$
-          * 'extra.label := }
-        { last.extra.num int.to.chr$ 'extra.label := }
+          last.extra.num int.to.chr$ *
+        }
+        { last.extra.num int.to.chr$ }
       if$
+      label last.char chr.to.int$
+      duplicate$ "/" chr.to.int$ >
+      swap$ ":" chr.to.int$ < and
+        'skip$
+        { "~" swap$ * }
+      if$
+      'extra.label :=
     }
     { "a" chr.to.int$ 'last.extra.num :=
       "" 'extra.label :=
@@ -7886,7 +7905,11 @@ FUNCTION {forward.pass}
 FUNCTION {reverse.pass}
 { next.extra "b" =
     { "a" 'extra.label := }
-    'skip$
+    { next.extra "~b" =
+        { "~a" 'extra.label := }
+        'skip$
+      if$
+    }
   if$
   extra.label 'next.extra :=
   extra.label
