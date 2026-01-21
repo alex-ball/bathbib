@@ -4023,6 +4023,25 @@ This work is ‘maintained’ (as per LPPL maintenance status) by [Alex Ball][me
 % \setcounter{lstnumber}{16}
 % \newcounter{mismatch}
 %
+% Everything in this implementation is building towards section
+% \ref{sec:writing3}. That is where the .bib file is read, the entries are
+% sorted, and the citation labels are generated. Once that is done, the
+% code writes the .bbl bibliography file.
+%
+% It starts by opening the |thebibliography| environment and providing
+% various \LaTeX\ commands. It then uses the entry drivers in section
+% \ref{sec:drivers} to write a |\bibitem| block for each entry. This block
+% starts with natbib-flavoured citation data, followed by the formatted text to
+% appear in the reference list. Lastly the environment is closed.
+%
+% All the entry drivers start by calling the |output.bibitem| function, which
+% is defined in section \ref{sec:writing2}. This writes the |\bibitem| command,
+% incorporating the generated labels and adding some extra information. They
+% then process the data using the name formats defined in section
+% \ref{sec:nameformats}, the field formats defined in section
+% \ref{sec:fieldformats} and the punctuation tracking and output functions
+% defined in section \ref{sec:writing1}.
+%
 % \subsection{Data model}
 %
 % We begin by listing the entry fields that we will recognize. These are the
@@ -4079,23 +4098,21 @@ ENTRY
     volume
     year
   }
-  {}
-  { label extra.label sort.label short.list }
 %    \end{macrocode}
 %
-% \subsection{Writing out references to a file}
+% The second and third arguments to |ENTRY| are integer and string fields
+% (respectively) for which the style will generate its own values.
+%
+%    \begin{macrocode}
+  { cite.initials }
+  { label label.source extra.label sort.label short.list }
+%    \end{macrocode}
+%
+% \subsection{Utilities for writing reference entries to the file}
 % \label{sec:writing1}
 %
-% This is the first of three sections that deal with writing out to the .bbl
-% bibliography file. That file contains the |thebibliography| environment,
-% which in turn contains |\bibitem| commands each providing citation data and
-% followed by a formatted reference. The business of writing the environment,
-% sorting the items and calculating the first half of the citation data for
-% each item is covered in section \ref{sec:writing3}. Calculating the second
-% half of the citation data and writing the |\bibitem| command is covered in
-% section \ref{sec:writing2}; some of the functions defined there are used in
-% section \ref{sec:writing3}, hence the backward structure. This section
-% contains generic functions for writing out the formatted reference.
+% This section contains generic functions for writing out the formatted
+% reference.
 %
 % We define a set of integers for saving an output state. We will use them to
 % to implement the mechanism for stringing the elements of the reference
@@ -4117,10 +4134,10 @@ FUNCTION {init.state.consts}
 }
 %    \end{macrocode}
 %
-% We also define two variables to store strings in.
+% We also define some variables to store strings in.
 %
 %    \begin{macrocode}
-STRINGS { s t }
+STRINGS { s t field }
 %    \end{macrocode}
 %
 % The |output.nonnull| function takes the top two tokens (strings) from the
@@ -4601,163 +4618,25 @@ FUNCTION {eng.ord}
 
 %    \end{macrocode}
 %
-% \subsection{Writing out citation data to a file}
-% \label{sec:writing2}
+% \subsection{Name formats}
+% \label{sec:nameformats}
 %
-% |format.names| consumes two tokens (field, string field name) and returns a
-% list of names in the form `Surname, Suffix, Initials Prefix'. To help with this,
-% we define some additional integers and strings.
+% These variables will help with iterating through the names.
 %
 %    \begin{macrocode}
 INTEGERS { nameptr namesleft numnames }
-STRINGS  { bibinfo }
-FUNCTION {format.names}
-{ 'bibinfo :=
-  duplicate$ empty$
-    'skip$
-    { 's :=
-      "" 't :=
-      #1 'nameptr :=
-      s num.names$ 'numnames :=
-      numnames 'namesleft :=
-        { namesleft #0 > }
-        { s nameptr
-          "{ll}{, jj}{, f{.}.}{~vv}"
-          format.name$
-          bibinfo bibinfo.check
-          't :=
-          nameptr #1 >
-            { namesleft #1 >
-                { ", " * t * }
-                { s nameptr "{ll}" format.name$ duplicate$ "others" =
-                    { 't := }
-                    { pop$ }
-                  if$
-                  t "others" =
-                    { " " * bbl.etal *
-                    }
-                    { bbl.and
-                      space.word * t *
-                    }
-                  if$
-                }
-              if$
-            }
-            't
-          if$
-          nameptr #1 + 'nameptr :=
-          namesleft #1 - 'namesleft :=
-        }
-      while$
-    }
-  if$
-}
 %    \end{macrocode}
 %
-% |format.names.ed| consumes two tokens (field, string field name) and writes
-% out a list of names in the form `Initials Prefix Surname Suffix'.
+% \subsubsection{Names in verbose citations}
 %
-%    \begin{macrocode}
-FUNCTION {format.names.ed}
-{ 'bibinfo :=
-  duplicate$ empty$
-    'skip$
-    { 's :=
-      "" 't :=
-      #1 'nameptr :=
-      s num.names$ 'numnames :=
-      numnames 'namesleft :=
-        { namesleft #0 > }
-        { s nameptr
-          "{f{.}.~}{vv~}{ll}{ jj}"
-          format.name$
-          bibinfo bibinfo.check
-          't :=
-          nameptr #1 >
-            { namesleft #1 >
-                { ", " * t * }
-                { s nameptr "{ll}" format.name$ duplicate$ "others" =
-                    { 't := }
-                    { pop$ }
-                  if$
-                  t "others" =
-                    { " " * bbl.etal *
-                    }
-                    { bbl.and
-                      space.word * t *
-                    }
-                  if$
-                }
-              if$
-            }
-            't
-          if$
-          nameptr #1 + 'nameptr :=
-          namesleft #1 - 'namesleft :=
-        }
-      while$
-    }
-  if$
-}
-%    \end{macrocode}
+% These name formats support natbib's |\citet*| and |\citep*| commands, which
+% suppress the normal `et al.\@' truncation so all author surnames are shown.
 %
-% |format.authors| returns author names.
-%
-%    \begin{macrocode}
-FUNCTION {format.authors}
-{ author "author" format.names
-}
-%    \end{macrocode}
-%
-% |format.byeditors| returns editor names, and prepended by `Ed. by'.
-%
-%    \begin{macrocode}
-FUNCTION {format.byeditors}
-{ editor "editor" format.names.ed duplicate$ empty$ 'skip$
-    { bbl.byeditor
-      " " *
-      swap$ *
-    }
-  if$
-}
-%    \end{macrocode}
-%
-% |format.editors| returns editor names, and appends `ed.' or `eds' as
-% appropriate.
-%
-%    \begin{macrocode}
-FUNCTION {get.bbl.editor}
-{ editor num.names$ #1 > 'bbl.editors 'bbl.editor if$ }
-FUNCTION {format.editors}
-{ editor "editor" format.names duplicate$ empty$ 'skip$
-    { "," *
-      " " *
-      get.bbl.editor
-      *
-    }
-  if$
-}
-%    \end{macrocode}
-%
-% |format.translators| does likewise for translators, in the form
-% `(name, Trans.)'.
-%
-%    \begin{macrocode}
-FUNCTION {format.translators}
-{ translator "translator" format.names.ed duplicate$ empty$ 'skip$
-    { "," *
-      " " *
-      bbl.translator *
-      "(" swap$ *
-      ")" *
-    }
-  if$
-}
-%    \end{macrocode}
-%
-% |format.full.names| consumes one token (a name field) and, contrary to what
-% the name might suggest, returns a list of names in the form `Prefix Surname'.
-% It is called `full' because the list is not truncated.
+% |format.full.names| consumes one token (a name field) and returns a list of
+% surnames. The `full' bit refers to the list, rather than the individual
+% names included in it. The first author name may appear as it does in the
+% reference list (that is, with the initial) if necessary to distinguish it
+% from a different lead author.
 %
 %    \begin{macrocode}
 FUNCTION {format.full.names}
@@ -4768,7 +4647,13 @@ FUNCTION {format.full.names}
   numnames 'namesleft :=
     { namesleft #0 > }
     { s nameptr
-      "{vv~}{ll}" format.name$
+      duplicate$ #1 =
+      cite.initials
+      and
+        { "{ll}{, jj}{, f{.}.}{~vv}" }
+        { "{ll}" }
+      if$
+      format.name$
       't :=
       nameptr #1 >
         { namesleft #1 >
@@ -4867,33 +4752,366 @@ FUNCTION {make.full.names}
 }
 %    \end{macrocode}
 %
-% |output.bibitem| writes out the start of an entry in the bibliography,
-% which looks like |\bibitem[{|author--year elements|}]{|entry key|}|. The
-% author--year part uses special \textsf{natbib} syntax: either `Author(Year)'
-% or `Truncated author list(Year)Full author list'. The |calc.label| function
-% below supplies the truncated author list, opening parenthesis and year; you
-% see here the closing parenthesis and conditional inclusion of the full list.
-% The function then starts a new line, puts the entry driver into the
-% |before.all| output state, and puts an empty string at the top of the stack.
+% \subsubsection{Names in normal citations}
+%
+% |format.lab.names| is similar to |format.full.names|, the main difference
+% being that if there are more than 3 names in the list, the second and
+% subsequent names are replaced with `et al.'
 %
 %    \begin{macrocode}
-FUNCTION {output.bibitem}
-{ newline$
-  "\bibitem[{" write$
-  label write$
-  ")" make.full.names duplicate$ short.list =
-     { pop$ }
-     { * }
-   if$
-  "}]{" * write$
-  cite$ write$
-  "}" write$
-  newline$
-  ""
-  #0 'online.shown :=
-  before.all 'output.state :=
+FUNCTION {format.lab.names}
+{'s :=
+ "" 't :=
+  #1 'nameptr :=
+  s num.names$ 'numnames :=
+  numnames 'namesleft :=
+    { namesleft #0 > }
+    { s nameptr
+      duplicate$ #1 =
+      cite.initials
+      and
+        { "{ll}{, jj}{, f{.}.}{~vv}" }
+        { "{ll}" }
+      if$
+      format.name$
+      't :=
+      nameptr #1 >
+        { nameptr #2 =
+          numnames #3 > and
+            { "others" 't :=
+              #1 'namesleft := }
+            'skip$
+          if$
+          namesleft #1 >
+            { ", " * t * }
+            { s nameptr "{ll}" format.name$ duplicate$ "others" =
+                { 't := }
+                { pop$ }
+              if$
+              t "others" =
+                { " " * bbl.etal *
+                }
+                { bbl.and
+                  space.word * t *
+                }
+              if$
+            }
+          if$
+        }
+        't
+      if$
+      nameptr #1 + 'nameptr :=
+      namesleft #1 - 'namesleft :=
+    }
+  while$
 }
 %    \end{macrocode}
+%
+% The following three functions enable the label to be chosen from several
+% fields. In each case the raw data used is saved in the entry's |label.source|
+% field, so the we can tell by comparison whether it is a name list or not
+% later on.
+%
+% |author.editor.key.label| is the analogue of |author.editor.key.full| but with
+% a truncated list of author\slash editor names.
+%
+%    \begin{macrocode}
+FUNCTION {author.editor.key.label}
+{ author empty$
+    { editor empty$
+        { key empty$
+            { title empty$
+                { cite$
+                  duplicate$ 'label.source :=
+                  #1 #3 substring$
+                }
+                { title
+                  duplicate$ 'label.source :=
+                  type$ "book" =
+                    { emphasize }
+                    'skip$
+                  if$
+                }
+              if$
+            }
+            { key
+              duplicate$ 'label.source :=
+            }
+          if$
+        }
+        { editor
+          duplicate$ 'label.source :=
+          format.lab.names
+        }
+      if$
+    }
+    { author
+      duplicate$ 'label.source :=
+      format.lab.names
+    }
+  if$
+}
+%    \end{macrocode}
+%
+% |editor.key.label| is the analogue of |editor.key.full| but with
+% a truncated list of editor names.
+%
+%    \begin{macrocode}
+FUNCTION {editor.key.label}
+{ editor empty$
+    { key empty$
+        { title empty$
+            { cite$
+              duplicate$ 'label.source :=
+              #1 #3 substring$
+            }
+            { title
+              duplicate$ 'label.source :=
+              emphasize
+            }
+          if$
+        }
+        { key
+          duplicate$ 'label.source :=
+        }
+      if$
+    }
+    { editor
+      duplicate$ 'label.source :=
+      format.lab.names
+    }
+  if$
+}
+%    \end{macrocode}
+%
+% |author.key.label| is the analogue of |author.key.full| but with
+% a truncated list of author names.
+%
+%    \begin{macrocode}
+FUNCTION {author.key.label}
+{ author empty$
+    { key empty$
+        { type$ "inreference" =
+          booktitle empty$ not
+          and
+            { booktitle
+              duplicate$ 'label.source :=
+            }
+            { title empty$
+                { cite$
+                  duplicate$ 'label.source :=
+                  #1 #3 substring$
+                }
+                { title
+                  duplicate$ 'label.source :=
+                  type$ "article" =
+                  type$ "incollection" =
+                  or
+                  type$ "inproceedings" =
+                  or
+                    type$ "reference" =
+                    author empty$
+                    and
+                  or
+                  type$ "misc" =
+                  or
+                    'skip$
+                    { emphasize }
+                  if$
+                }
+              if$
+            }
+          if$
+        }
+        { key
+          duplicate$ 'label.source :=
+        }
+      if$
+    }
+    { author
+      duplicate$ 'label.source :=
+      format.lab.names
+    }
+  if$
+}
+%    \end{macrocode}
+%
+% |calc.short.authors| chooses between the above.
+%
+%    \begin{macrocode}
+FUNCTION {calc.short.authors}
+{ type$ "book" =
+  type$ "inbook" =
+  or
+    'author.editor.key.label
+    { type$ "proceedings" =
+        'editor.key.label
+        'author.key.label
+      if$
+    }
+  if$
+  'short.list :=
+}
+%    \end{macrocode}
+%
+% \subsubsection{Names at the head of the reference}
+%
+% |format.names| consumes two tokens (field, string field name) and returns a
+% list of names in the form `Surname, Suffix, Initials Prefix'. To help with this,
+% we define some additional integers and strings.
+%
+%    \begin{macrocode}
+FUNCTION {format.names}
+{ 'field :=
+  duplicate$ empty$
+    'skip$
+    { 's :=
+      "" 't :=
+      #1 'nameptr :=
+      s num.names$ 'numnames :=
+      numnames 'namesleft :=
+        { namesleft #0 > }
+        { s nameptr
+          "{ll}{, jj}{, f{.}.}{~vv}"
+          format.name$
+          field bibinfo.check
+          't :=
+          nameptr #1 >
+            { namesleft #1 >
+                { ", " * t * }
+                { s nameptr "{ll}" format.name$ duplicate$ "others" =
+                    { 't := }
+                    { pop$ }
+                  if$
+                  t "others" =
+                    { " " * bbl.etal *
+                    }
+                    { bbl.and
+                      space.word * t *
+                    }
+                  if$
+                }
+              if$
+            }
+            't
+          if$
+          nameptr #1 + 'nameptr :=
+          namesleft #1 - 'namesleft :=
+        }
+      while$
+    }
+  if$
+}
+%    \end{macrocode}
+%
+% |format.names.ed| consumes two tokens (field, string field name) and writes
+% out a list of names in the form `Initials Prefix Surname Suffix'.
+%
+%    \begin{macrocode}
+FUNCTION {format.names.ed}
+{ 'field :=
+  duplicate$ empty$
+    'skip$
+    { 's :=
+      "" 't :=
+      #1 'nameptr :=
+      s num.names$ 'numnames :=
+      numnames 'namesleft :=
+        { namesleft #0 > }
+        { s nameptr
+          "{f{.}.~}{vv~}{ll}{ jj}"
+          format.name$
+          field bibinfo.check
+          't :=
+          nameptr #1 >
+            { namesleft #1 >
+                { ", " * t * }
+                { s nameptr "{ll}" format.name$ duplicate$ "others" =
+                    { 't := }
+                    { pop$ }
+                  if$
+                  t "others" =
+                    { " " * bbl.etal *
+                    }
+                    { bbl.and
+                      space.word * t *
+                    }
+                  if$
+                }
+              if$
+            }
+            't
+          if$
+          nameptr #1 + 'nameptr :=
+          namesleft #1 - 'namesleft :=
+        }
+      while$
+    }
+  if$
+}
+%    \end{macrocode}
+%
+% |format.authors| returns author names.
+%
+%    \begin{macrocode}
+FUNCTION {format.authors}
+{ author "author" format.names
+}
+%    \end{macrocode}
+%
+% |format.byeditors| returns editor names, and prepended by `Ed. by'.
+%
+%    \begin{macrocode}
+FUNCTION {format.byeditors}
+{ editor "editor" format.names.ed duplicate$ empty$ 'skip$
+    { bbl.byeditor
+      " " *
+      swap$ *
+    }
+  if$
+}
+%    \end{macrocode}
+%
+% |format.editors| returns editor names, and appends `ed.' or `eds' as
+% appropriate.
+%
+%    \begin{macrocode}
+FUNCTION {get.bbl.editor}
+{ editor num.names$ #1 > 'bbl.editors 'bbl.editor if$ }
+FUNCTION {format.editors}
+{ editor "editor" format.names duplicate$ empty$ 'skip$
+    { "," *
+      " " *
+      get.bbl.editor
+      *
+    }
+  if$
+}
+%    \end{macrocode}
+%
+% |format.translators| does likewise for translators, in the form
+% `(name, Trans.)'.
+%
+%    \begin{macrocode}
+FUNCTION {format.translators}
+{ translator "translator" format.names.ed duplicate$ empty$ 'skip$
+    { "," *
+      " " *
+      bbl.translator *
+      "(" swap$ *
+      ")" *
+    }
+  if$
+}
+%    \end{macrocode}
+%
+% \subsection{Field formats}
+% \label{sec:fieldformats}
+%
+% Each of the |format.*| functions below (and above) add a single string
+% (possibly empty) to the stack, based on the value of one or more fields.
+%
+% \subsubsection{Head block}
 %
 % |format.key| takes a field (author or editor). If the field is empty, it
 % replaces it with the key field (if not non-null). Otherwise, replaces it with
@@ -4918,11 +5136,6 @@ FUNCTION {format.key}
   if$
 }
 %    \end{macrocode}
-%
-% \subsection{Field formats}
-%
-% Each of the |format.*| functions below (and above) add a single string
-% (possibly empty) to the stack, based on the value of one or more fields.
 %
 % \subsubsection{Title block}
 %
@@ -6584,7 +6797,60 @@ FUNCTION {format.book.crossref}
 
 %    \end{macrocode}
 %
+% \subsection{Utilities for writing citation data to the file}
+% \label{sec:writing2}
+%
+% The start of each entry in the bibliography looks like
+% |\bibitem[{|author--year elements|}]{|entry key|}|. The author--year part uses
+% special \textsf{natbib} syntax: either `Author(Year)' or `Truncated author
+% list(Year)Full author list'.
+%
+% |calc.label| creates the author--year part up to the year, and saves it to the
+% entry's |label| variable. Note that the closing parenthesis is not included;
+% this is to allow for the |extra.label| to be added if necessary.
+%
+%    \begin{macrocode}
+FUNCTION {calc.label}
+{ calc.short.authors
+  short.list
+  "("
+  *
+  year nodate.check duplicate$ empty$
+     { pop$ "" }
+     'skip$
+  if$
+  *
+  'label :=
+}
+%    \end{macrocode}
+%
+% |output.bibitem| writes out the whole |\bibitem| line, incorporating the label
+% generated by |calc.label|; it supplies the closing parenthesis and conditional
+% inclusion of the full list. The function then starts a new line, puts the entry
+% driver into the |before.all| output state, and puts an empty string at the top
+% of the stack.
+%
+%    \begin{macrocode}
+FUNCTION {output.bibitem}
+{ newline$
+  "\bibitem[{" write$
+  label write$
+  ")" make.full.names duplicate$ short.list =
+     { pop$ }
+     { * }
+   if$
+  "}]{" * write$
+  cite$ write$
+  "}" write$
+  newline$
+  ""
+  #0 'online.shown :=
+  before.all 'output.state :=
+}
+%    \end{macrocode}
+%
 % \subsection{Drivers for formatting specific entry types}
+% \label{sec:drivers}
 %
 % These functions are called when an entry of the given type is being
 % formatted.
@@ -7463,7 +7729,7 @@ FUNCTION {default.type} { misc }
 
 %    \end{macrocode}
 %
-% \subsection{Writing out the bibliography to a file}
+% \subsection{Processing the database}
 % \label{sec:writing3}
 %
 % We are now ready for Bib\TeX\ to read in the \texttt{.bib} file.
@@ -7471,6 +7737,8 @@ FUNCTION {default.type} { misc }
 %    \begin{macrocode}
 READ
 %    \end{macrocode}
+%
+% \subsubsection{Utilities for sorting}
 %
 % These functions are used to generate a sort key for each entry in the \texttt{.bib}
 % file.
@@ -7485,9 +7753,9 @@ FUNCTION {sortify}
 }
 %    \end{macrocode}
 %
-% |chop.word| takes a string \emph{s}, an integer \emph{len}, and a prefix
-% (stop) string. If the first \emph{len} characters of \emph{s} match the
-% prefix, those characters are stripped off \emph{s}.
+% |chop.word| takes a prefix (stop) string, an integer \emph{len}, and a string
+% \emph{s}. If the first \emph{len} characters of \emph{s} match the prefix,
+% those characters are stripped off \emph{s}.
 %
 %    \begin{macrocode}
 INTEGERS { len }
@@ -7498,181 +7766,6 @@ FUNCTION {chop.word}
     { s len #1 + global.max$ substring$ }
     's
   if$
-}
-%    \end{macrocode}
-%
-% |format.lab.names| is similar to |format.full.names|, the main difference
-% being that if there are more than 3 names in the list, the second and
-% subsequent names are replaced with `et al.'
-%
-%    \begin{macrocode}
-FUNCTION {format.lab.names}
-{'s :=
- "" 't :=
-  #1 'nameptr :=
-  s num.names$ 'numnames :=
-  numnames 'namesleft :=
-    { namesleft #0 > }
-    { s nameptr
-      "{vv~}{ll}" format.name$
-      't :=
-      nameptr #1 >
-        { nameptr #2 =
-          numnames #3 > and
-            { "others" 't :=
-              #1 'namesleft := }
-            'skip$
-          if$
-          namesleft #1 >
-            { ", " * t * }
-            { s nameptr "{ll}" format.name$ duplicate$ "others" =
-                { 't := }
-                { pop$ }
-              if$
-              t "others" =
-                { " " * bbl.etal *
-                }
-                { bbl.and
-                  space.word * t *
-                }
-              if$
-            }
-          if$
-        }
-        't
-      if$
-      nameptr #1 + 'nameptr :=
-      namesleft #1 - 'namesleft :=
-    }
-  while$
-}
-%    \end{macrocode}
-%
-% |author.editor.key.label| is the analogue of |author.editor.key.full| but with
-% a truncated list of author\slash editor names.
-%
-%    \begin{macrocode}
-FUNCTION {author.editor.key.label}
-{ author empty$
-    { editor empty$
-        { key empty$
-            { title empty$
-                { cite$ #1 #3 substring$ }
-                { title
-                  type$ "book" =
-                    { emphasize }
-                    'skip$
-                  if$
-                }
-              if$
-            }
-            'key
-          if$
-        }
-        { editor format.lab.names }
-      if$
-    }
-    { author format.lab.names }
-  if$
-}
-%    \end{macrocode}
-%
-% |editor.key.label| is the analogue of |editor.key.full| but with
-% a truncated list of editor names.
-%
-%    \begin{macrocode}
-FUNCTION {editor.key.label}
-{ editor empty$
-    { key empty$
-        { title empty$
-            { cite$ #1 #3 substring$ }
-            { title emphasize }
-          if$
-        }
-        'key
-      if$
-    }
-    { editor format.lab.names }
-  if$
-}
-%    \end{macrocode}
-%
-% |author.key.label| is the analogue of |author.key.full| but with
-% a truncated list of author names.
-%
-%    \begin{macrocode}
-FUNCTION {author.key.label}
-{ author empty$
-    { key empty$
-        { type$ "inreference" =
-          booktitle empty$ not
-          and
-            { booktitle }
-            { title empty$
-                { cite$ #1 #3 substring$ }
-                { title
-                  type$ "article" =
-                  type$ "incollection" =
-                  or
-                  type$ "inproceedings" =
-                  or
-                    type$ "reference" =
-                    author empty$
-                    and
-                  or
-                  type$ "misc" =
-                  or
-                    'skip$
-                    { emphasize }
-                  if$
-                }
-              if$
-            }
-          if$
-        }
-        'key
-      if$
-    }
-    { author format.lab.names }
-  if$
-}
-%    \end{macrocode}
-%
-% |calc.short.authors| chooses between the above.
-%
-%    \begin{macrocode}
-FUNCTION {calc.short.authors}
-{ type$ "book" =
-  type$ "inbook" =
-  or
-    'author.editor.key.label
-    { type$ "proceedings" =
-        'editor.key.label
-        'author.key.label
-      if$
-    }
-  if$
-  'short.list :=
-}
-%    \end{macrocode}
-%
-% |calc.label| creates a string in the form `Truncated Author List(Year' and
-% saves it to the |label| variable. The closing parenthesis is supplied by
-% |output.bibitem| (see section \ref{sec:writing2}), into which this string is
-% incorporated.
-%
-%    \begin{macrocode}
-FUNCTION {calc.label}
-{ calc.short.authors
-  short.list
-  "("
-  *
-  year nodate.check duplicate$ empty$
-     { pop$ "" }
-     'skip$
-  if$
-  *
-  'label :=
 }
 %    \end{macrocode}
 %
@@ -7802,9 +7895,9 @@ FUNCTION {author.sort}
 
 %    \end{macrocode}
 %
-% |presort| constructs the |sort.label| from the |calc.label| and one of the
-% above three functions. It also constructs the |sort.key$| (used by SORT) from
-% the |sort.label| and the title.
+% |presort| uses |calc.label| to set the entry's |label| field, then constructs
+% the |sort.label| from it and one of the above three functions. It also
+% constructs the |sort.key$| (used by SORT) from the |sort.label| and the title.
 %
 %    \begin{macrocode}
 FUNCTION {presort}
@@ -7837,12 +7930,91 @@ FUNCTION {presort}
 
 %    \end{macrocode}
 %
+% \subsubsection{Sorting and disambiguating entries}
+%
 % We now tell Bib\TeX\ to go through each entry in turn and apply the
 % \texttt{presort} function, then use the resultant sort keys to put the entries
 % in order.
 %
 %    \begin{macrocode}
 ITERATE {presort}
+SORT
+%    \end{macrocode}
+%
+% These functions detect if there are several different lead authors (or
+% editors) that share a surname, and if so disambiguate them with an initial.
+% The approach taken is, having sorted the entries, to compare each lead
+% name with the previous one (and then the subsequent one, in a reverse run).
+% If the surname is different, nothing is done. If the surname is the same but
+% the initial is different, |cite.initials| is set to 1 and the label is
+% regenerated. If both the surname and the initial is the same, |cite.initials|
+% is set to the same as for the previous (subsequent) lead entry and the label
+% is regenerated.
+%
+%    \begin{macrocode}
+INTEGERS { cite.initials.old }
+STRINGS { name1f name1f.old name1g name1g.old }
+FUNCTION {is.label.source}
+{ duplicate$ empty$
+    { pop$ #0 }
+    { label.source =
+        { #1 }
+        { #0 }
+      if$
+    }
+  if$
+}
+FUNCTION {initialize.init.stuff}
+{ "yyyy" 'name1f.old :=
+  "yyyy" 'name1g.old :=
+  #0 'cite.initials.old :=
+}
+FUNCTION {end.loop.init}
+{ name1f 'name1f.old :=
+  name1g 'name1g.old :=
+  cite.initials 'cite.initials.old :=
+}
+FUNCTION {has.no.init}
+{ duplicate$
+  'name1f.old :=
+  'name1g.old :=
+  #0 'cite.initials.old :=
+}
+FUNCTION {check.cite.init}
+{ duplicate$
+  #1 "{ll}" format.name$ 'name1f :=
+  #1 "{f.{.}}{ jj}{ vv}" format.name$ 'name1g :=
+  name1f name1f.old =
+    { name1g name1g.old =
+        { cite.initials.old 'cite.initials :=
+          presort
+        }
+        { #1 'cite.initials := 
+          presort
+          end.loop.init
+        }
+      if$
+    }
+    { end.loop.init }
+  if$
+}
+FUNCTION {check.cite.head}
+{ author duplicate$ is.label.source
+    { check.cite.init }
+    { pop$
+      editor duplicate$ is.label.source
+        { check.cite.init }
+        { pop$
+          label.source has.no.init
+        }
+      if$
+    }
+  if$
+}
+EXECUTE {initialize.init.stuff}
+ITERATE {check.cite.head}
+EXECUTE {initialize.init.stuff}
+REVERSE {check.cite.head}
 SORT
 %    \end{macrocode}
 %
@@ -7855,9 +8027,9 @@ SORT
 % ASCII codes).
 %
 %    \begin{macrocode}
-STRINGS { last.label next.extra }
 INTEGERS { last.extra.num last.extra.num.extended last.extra.num.blank number.label }
-FUNCTION{ last.char }
+STRINGS { last.label next.extra }
+FUNCTION {last.char}
 { #1 'len :=
   { duplicate$ duplicate$ #1 len substring$ = not }
     { len #1 + 'len := }
@@ -7920,16 +8092,16 @@ FUNCTION {reverse.pass}
   'extra.label :=
   label extra.label * 'label :=
 }
-%    \end{macrocode}
-%
-% Applying these functions is a bit more tricky, but once we have done that,
-% we re-sort the entries to make absolutely sure they in the right order,
-% this time with the year between with |sort.label| and the title.
-%
-%    \begin{macrocode}
 EXECUTE {initialize.extra.label.stuff}
 ITERATE {forward.pass}
 REVERSE {reverse.pass}
+%    \end{macrocode}
+%
+% Once we have done that, we re-sort the entries to make absolutely sure they
+% in the right order, this time with the year inserted into the |sort.key$|
+% between the |sort.label| and the title.
+%
+%    \begin{macrocode}
 FUNCTION {bib.sort.order}
 { sort.label
   "    "
@@ -7947,6 +8119,9 @@ FUNCTION {bib.sort.order}
 ITERATE {bib.sort.order}
 SORT
 %    \end{macrocode}
+%
+% \subsubsection{Writing out the bibliography to a file}
+% \label{sec:writing3}
 %
 % We now write out the beginning of the bibliography to a .bbl file. This
 % includes opening a \LaTeX\ environment, \texttt{thebibliography}, and some
