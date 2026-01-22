@@ -4104,7 +4104,7 @@ ENTRY
 % (respectively) for which the style will generate its own values.
 %
 %    \begin{macrocode}
-  { cite.initials }
+  { cite.initials disamb.names }
   { label label.source extra.label sort.label short.list }
 %    \end{macrocode}
 %
@@ -4640,12 +4640,12 @@ INTEGERS { nameptr namesleft numnames }
 %
 %    \begin{macrocode}
 FUNCTION {format.full.names}
-{'s :=
- "" 't :=
+{ 's :=
+  "" 't :=
   #1 'nameptr :=
   s num.names$ 'numnames :=
   numnames 'namesleft :=
-    { namesleft #0 > }
+  { namesleft #0 > }
     { s nameptr
       duplicate$ #1 =
       cite.initials
@@ -4760,12 +4760,12 @@ FUNCTION {make.full.names}
 %
 %    \begin{macrocode}
 FUNCTION {format.lab.names}
-{'s :=
- "" 't :=
+{ 's :=
+  "" 't :=
   #1 'nameptr :=
   s num.names$ 'numnames :=
   numnames 'namesleft :=
-    { namesleft #0 > }
+  { namesleft #0 > }
     { s nameptr
       duplicate$ #1 =
       cite.initials
@@ -4776,7 +4776,7 @@ FUNCTION {format.lab.names}
       format.name$
       't :=
       nameptr #1 >
-        { nameptr #2 =
+        { nameptr #2 disamb.names + =
           numnames #3 > and
             { "others" 't :=
               #1 'namesleft := }
@@ -4970,7 +4970,7 @@ FUNCTION {format.names}
       #1 'nameptr :=
       s num.names$ 'numnames :=
       numnames 'namesleft :=
-        { namesleft #0 > }
+      { namesleft #0 > }
         { s nameptr
           "{ll}{, jj}{, f{.}.}{~vv}"
           format.name$
@@ -5017,7 +5017,7 @@ FUNCTION {format.names.ed}
       #1 'nameptr :=
       s num.names$ 'numnames :=
       numnames 'namesleft :=
-        { namesleft #0 > }
+      { namesleft #0 > }
         { s nameptr
           "{f{.}.~}{vv~}{ll}{ jj}"
           format.name$
@@ -5754,13 +5754,13 @@ FUNCTION {extract.num}
 { duplicate$ 't :=
   "" 's :=
   { t empty$ not }
-  { t #1 #1 substring$
-    t #2 global.max$ substring$ 't :=
-    duplicate$ is.num
-      { s swap$ * 's := }
-      { pop$ "" 't := }
-    if$
-  }
+    { t #1 #1 substring$
+      t #2 global.max$ substring$ 't :=
+      duplicate$ is.num
+        { s swap$ * 's := }
+        { pop$ "" 't := }
+      if$
+    }
   while$
   s empty$
     'skip$
@@ -6331,10 +6331,10 @@ INTEGERS { multiresult }
 FUNCTION {multi.page.check}
 { 't :=
   #0 'multiresult :=
-    { multiresult not
-      t empty$ not
-      and
-    }
+  { multiresult not
+    t empty$ not
+    and
+  }
     { t #1 #1 substring$
       duplicate$ "-" =
       swap$ duplicate$ "," =
@@ -6355,13 +6355,13 @@ FUNCTION {multi.page.check}
 FUNCTION {n.dashify}
 { 't :=
   ""
-    { t empty$ not }
+  { t empty$ not }
     { t #1 #1 substring$ "-" =
         { t #1 #2 substring$ "--" = not
             { "--" *
               t #2 global.max$ substring$ 't :=
             }
-            {   { t #1 #1 substring$ "-" = }
+            { { t #1 #1 substring$ "-" = }
                 { "-" *
                   t #2 global.max$ substring$ 't :=
                 }
@@ -7730,7 +7730,7 @@ FUNCTION {default.type} { misc }
 %    \end{macrocode}
 %
 % \subsection{Processing the database}
-% \label{sec:writing3}
+% \label{sec:processing}
 %
 % We are now ready for Bib\TeX\ to read in the \texttt{.bib} file.
 %
@@ -7780,7 +7780,7 @@ FUNCTION {sort.format.names}
   ""
   s num.names$ 'numnames :=
   numnames 'namesleft :=
-    { namesleft #0 > }
+  { namesleft #0 > }
     { s nameptr
       "{ll{ }}{  f{ }}{  jj{ }}{ vv{}}"
       format.name$ 't :=
@@ -7953,7 +7953,7 @@ SORT
 %
 %    \begin{macrocode}
 INTEGERS { cite.initials.old }
-STRINGS { name1f name1f.old name1g name1g.old }
+STRINGS { name1f name1f.old name1g name1g.old name.old }
 FUNCTION {is.label.source}
 { duplicate$ empty$
     { pop$ #0 }
@@ -7967,6 +7967,7 @@ FUNCTION {is.label.source}
 FUNCTION {initialize.init.stuff}
 { "yyyy" 'name1f.old :=
   "yyyy" 'name1g.old :=
+  "yyyy" 'name.old :=
   #0 'cite.initials.old :=
 }
 FUNCTION {end.loop.init}
@@ -7975,18 +7976,51 @@ FUNCTION {end.loop.init}
   cite.initials 'cite.initials.old :=
 }
 FUNCTION {has.no.init}
-{ duplicate$
+{ duplicate$ duplicate$
   'name1f.old :=
   'name1g.old :=
+  'name.old :=
   #0 'cite.initials.old :=
 }
+FUNCTION {cmp.names}
+{ 's :=
+  #1 'nameptr :=
+  disamb.names
+  s num.names$ 'numnames :=
+  name.old num.names$ duplicate$ numnames <
+    { 'numnames := }
+    'pop$
+  if$
+  numnames 'namesleft :=
+  { namesleft #0 > }
+    { s nameptr "{ll}" format.name$
+      name.old nameptr "{ll}" format.name$
+      =
+        'skip$
+        { nameptr #1 -
+          duplicate$ disamb.names >
+            { swap$ pop$ }
+            'pop$
+          if$
+          #1 'namesleft :=
+        }
+      if$
+      nameptr #1 + 'nameptr :=
+      namesleft #1 - 'namesleft :=
+    }
+  while$
+}
 FUNCTION {check.cite.init}
-{ duplicate$
-  #1 "{ll}" format.name$ 'name1f :=
-  #1 "{f.{.}}{ jj}{ vv}" format.name$ 'name1g :=
+{ 's :=
+  s #1 "{ll}" format.name$ 'name1f :=
+  s #1 "{f.{.}}{ jj}{ vv}" format.name$ 'name1g :=
   name1f name1f.old =
     { name1g name1g.old =
         { cite.initials.old 'cite.initials :=
+          s num.names$ #3 >
+            { s cmp.names 'disamb.names := }
+            'skip$
+          if$
           presort
         }
         { #1 'cite.initials := 
@@ -7997,6 +8031,7 @@ FUNCTION {check.cite.init}
     }
     { end.loop.init }
   if$
+  s 'name.old :=
 }
 FUNCTION {check.cite.head}
 { author duplicate$ is.label.source
