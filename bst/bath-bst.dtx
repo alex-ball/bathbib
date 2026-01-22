@@ -1796,7 +1796,10 @@ fields, but does not insert one between \texttt{type} and \texttt{number}.
 %</driver>
 \end{info}
 
+%<*driver>
 \begin{bibexbox}<WC>{who1986nde}
+%</driver>
+%<tex1>\begin{bibexbox}(hacked)<WC>{who1986nde}
   WHO (World Health Organization), 1986. \emph{Nutrition and development in East Africa}. Geneva: WHO.
   \tcblower
 \begin{Verbatim}
@@ -1816,7 +1819,7 @@ fields, but does not insert one between \texttt{type} and \texttt{number}.
 %</driver>
 %<*tex1|bib1>
 @report{who1986nde,
-  author = {\noop{h}{(World Health Organization)} WHO},
+  author = {\noop{w}{(World Health Organization)} WHO},
   title = {Nutrition and Development in {East Africa}},
   year = {1986},
   address = {Geneva},
@@ -1829,6 +1832,18 @@ fields, but does not insert one between \texttt{type} and \texttt{number}.
 %</driver>
 \end{bibexbox}
 
+%</driver|tex1>
+%<*driver>
+\begin{tips}\item
+To abbreviate any of the names in the \texttt{author} field
+(or \texttt{editor}, if that appears at the head of the reference),
+provide a \texttt{shortauthor} (\texttt{shorteditor}) field.
+This should contain the same set of names as the \texttt{author}
+(\texttt{editor}) field: replace long names with their
+abbreviations and leave the others as they are.
+\end{tips}
+\iffalse
+%</driver>
 %<*tex1>
 \begin{tips}\item
 The above example tricks Bib\TeX\ into treating the expansion of
@@ -1843,6 +1858,10 @@ For the trick to work, the argument you give to \lstinline[style=dtxlatex]|\noop
 must be lowercase, but otherwise it can be anything you like.
 \end{tips}
 %</tex1>
+%<*driver>
+\fi
+%</driver>
+%<*driver|tex1>
 
 \subsubsection*{Standard}
 
@@ -4119,6 +4138,8 @@ ENTRY
     pubstate
     school
     series
+    shortauthor
+    shorteditor
     sortyear
     title
     titleaddon
@@ -4172,7 +4193,7 @@ FUNCTION {init.state.consts}
 % We also define some variables to store strings in.
 %
 %    \begin{macrocode}
-STRINGS { s t field }
+STRINGS { s t field abbrev }
 %    \end{macrocode}
 %
 % The |output.nonnull| function takes the top two tokens (strings) from the
@@ -4723,17 +4744,25 @@ FUNCTION {format.full.names}
 %
 %    \begin{macrocode}
 FUNCTION {author.editor.key.full}
-{ author empty$
-    { editor empty$
-        { key empty$
-            { cite$ #1 #3 substring$ }
-            'key
+{ shortauthor empty$
+    { author empty$
+        { shorteditor empty$
+            { editor empty$
+                { key empty$
+                    { cite$ #1 #3 substring$ }
+                    'key
+                  if$
+                }
+                { editor format.full.names }
+              if$
+            }
+            { shorteditor format.full.names }
           if$
         }
-        { editor format.full.names }
+        { author format.full.names }
       if$
     }
-    { author format.full.names }
+    { shortauthor format.full.names }
   if$
 }
 %    \end{macrocode}
@@ -4743,13 +4772,17 @@ FUNCTION {author.editor.key.full}
 %
 %    \begin{macrocode}
 FUNCTION {editor.key.full}
-{ editor empty$
-    { key empty$
-         { cite$ #1 #3 substring$ }
-          'key
+{ shorteditor empty$
+    { editor empty$
+        { key empty$
+            { cite$ #1 #3 substring$ }
+              'key
+          if$
+        }
+        { editor format.full.names }
       if$
     }
-    { editor format.full.names }
+    { shorteditor format.full.names }
   if$
 }
 %    \end{macrocode}
@@ -4759,13 +4792,17 @@ FUNCTION {editor.key.full}
 %
 %    \begin{macrocode}
 FUNCTION {author.key.full}
-{ author empty$
-    { key empty$
-         { cite$ #1 #3 substring$ }
-          'key
+{ shortauthor empty$
+    { author empty$
+        { key empty$
+            { cite$ #1 #3 substring$ }
+              'key
+          if$
+        }
+        { author format.full.names }
       if$
     }
-    { author format.full.names }
+    { shortauthor format.full.names }
   if$
 }
 %    \end{macrocode}
@@ -4937,7 +4974,48 @@ FUNCTION {title.label}
 %
 %    \begin{macrocode}
 FUNCTION {author.editor.key.label}
-{ author empty$
+{ shortauthor empty$
+    { author empty$
+        { editor empty$
+            { key empty$
+                { title empty$
+                    { cite$
+                      duplicate$ 'label.source :=
+                      #1 #3 substring$
+                    }
+                    'title.label
+                  if$
+                }
+                { key
+                  duplicate$ 'label.source :=
+                }
+              if$
+            }
+            { editor
+              duplicate$ 'label.source :=
+              format.lab.names
+            }
+          if$
+        }
+        { author
+          duplicate$ 'label.source :=
+          format.lab.names
+        }
+      if$
+    }
+    { author 'label.source :=
+      shortauthor format.lab.names
+    }
+  if$
+}
+%    \end{macrocode}
+%
+% |editor.key.label| is the analogue of |editor.key.full| but with
+% a truncated list of editor names.
+%
+%    \begin{macrocode}
+FUNCTION {editor.key.label}
+{ shorteditor empty$
     { editor empty$
         { key empty$
             { title empty$
@@ -4959,37 +5037,8 @@ FUNCTION {author.editor.key.label}
         }
       if$
     }
-    { author
-      duplicate$ 'label.source :=
-      format.lab.names
-    }
-  if$
-}
-%    \end{macrocode}
-%
-% |editor.key.label| is the analogue of |editor.key.full| but with
-% a truncated list of editor names.
-%
-%    \begin{macrocode}
-FUNCTION {editor.key.label}
-{ editor empty$
-    { key empty$
-        { title empty$
-            { cite$
-              duplicate$ 'label.source :=
-              #1 #3 substring$
-            }
-            'title.label
-          if$
-        }
-        { key
-          duplicate$ 'label.source :=
-        }
-      if$
-    }
-    { editor
-      duplicate$ 'label.source :=
-      format.lab.names
+    { editor 'label.source :=
+      shorteditor format.lab.names
     }
   if$
 }
@@ -5000,32 +5049,38 @@ FUNCTION {editor.key.label}
 %
 %    \begin{macrocode}
 FUNCTION {author.key.label}
-{ author empty$
-    { key empty$
-        { type$ "inreference" =
-          booktitle empty$ not
-          and
-            { booktitle
-              duplicate$ 'label.source :=
-            }
-            { title empty$
-                { cite$
+{ shortauthor empty$
+    { author empty$
+        { key empty$
+            { type$ "inreference" =
+              booktitle empty$ not
+              and
+                { booktitle
                   duplicate$ 'label.source :=
-                  #1 #3 substring$
                 }
-                'title.label
+                { title empty$
+                    { cite$
+                      duplicate$ 'label.source :=
+                      #1 #3 substring$
+                    }
+                    'title.label
+                  if$
+                }
               if$
+            }
+            { key
+              duplicate$ 'label.source :=
             }
           if$
         }
-        { key
+        { author
           duplicate$ 'label.source :=
+          format.lab.names
         }
       if$
     }
-    { author
-      duplicate$ 'label.source :=
-      format.lab.names
+    { author 'label.source :=
+      shortauthor format.lab.names
     }
   if$
 }
@@ -5099,6 +5154,72 @@ FUNCTION {format.names}
 }
 %    \end{macrocode}
 %
+% |format.names.short| consumes three tokens (field, short field, string field
+% name) and operates in much the same way as |format.names|, except that the
+% field (e.g.\@ author) and its short counterpart (e.g.\@ shortauthor) are
+% iterated in parallel. If the values differ, the short version is printed plain
+% and the regular version is printed after in parentheses. If the short field
+% is empty or does not have the same number of names as the regular field, the
+% regular field is processed with |format.names| instead.
+%
+%    \begin{macrocode}
+FUNCTION {format.names.short}
+{ 'field :=
+  duplicate$ empty$
+    { pop$ field format.names }
+    { 'abbrev :=
+      duplicate$ empty$
+        'skip$
+        { 's :=
+          "" 't :=
+          #1 'nameptr :=
+          s num.names$ duplicate$ 'numnames :=
+          abbrev num.names$ =
+            { numnames 'namesleft :=
+              { namesleft #0 > }
+                { abbrev nameptr "{ll}{, jj}{, f{.}.}{~vv}" format.name$
+                  't :=
+                  s nameptr "{ll}{, jj}{, f{.}.}{~vv}" format.name$
+                  duplicate$ t =
+                    { field bibinfo.check 't := }
+                    { " (" swap$ * ")" *
+                      t field bibinfo.check swap$ *
+                      't :=
+                    }
+                  if$
+                  nameptr #1 >
+                    { namesleft #1 >
+                        { ", " * t * }
+                        { s nameptr "{ll}" format.name$ duplicate$ "others" =
+                            { 't := }
+                            { pop$ }
+                          if$
+                          t "others" =
+                            { " " * bbl.etal *
+                            }
+                            { bbl.and
+                              space.word * t *
+                            }
+                          if$
+                        }
+                      if$
+                    }
+                    't
+                  if$
+                  nameptr #1 + 'nameptr :=
+                  namesleft #1 - 'namesleft :=
+                }
+              while$
+            }
+            { s field format.names }
+          if$
+        }
+      if$
+    }
+  if$
+}
+%    \end{macrocode}
+%
 % |format.names.ed| consumes two tokens (field, string field name) and writes
 % out a list of names in the form `Initials Prefix Surname Suffix'.
 %
@@ -5150,7 +5271,7 @@ FUNCTION {format.names.ed}
 %
 %    \begin{macrocode}
 FUNCTION {format.authors}
-{ author "author" format.names
+{ author shortauthor "author" format.names.short
 }
 %    \end{macrocode}
 %
@@ -5174,7 +5295,7 @@ FUNCTION {format.byeditors}
 FUNCTION {get.bbl.editor}
 { editor num.names$ #1 > 'bbl.editors 'bbl.editor if$ }
 FUNCTION {format.editors}
-{ editor "editor" format.names duplicate$ empty$ 'skip$
+{ editor shorteditor "editor" format.names.short duplicate$ empty$ 'skip$
     { "," *
       " " *
       get.bbl.editor
@@ -7920,11 +8041,45 @@ FUNCTION {sort.format.title}
 %
 %    \begin{macrocode}
 FUNCTION {author.editor.sort}
-{ author empty$
+{ shortauthor empty$
+    { author empty$
+        { shorteditor empty$
+            { editor empty$
+                { title empty$
+                    { key empty$
+                        { "to sort, need author, editor, title, or key in "
+                          cite$ * warning$
+                          ""
+                        }
+                        { key sortify }
+                      if$
+                    }
+                    { title sort.format.title }
+                  if$
+                }
+                { editor sort.format.names }
+              if$
+            }
+            { shorteditor sort.format.names }
+          if$
+        }
+        { author sort.format.names }
+      if$
+    }
+    { shortauthor sort.format.names }
+  if$
+}
+%    \end{macrocode}
+%
+% |editor.sort| does similar but skips the author names.
+%
+%    \begin{macrocode}
+FUNCTION {editor.sort}
+{ shorteditor empty$
     { editor empty$
         { title empty$
             { key empty$
-                { "to sort, need author, editor, title, or key in " cite$ * warning$
+                { "to sort, need editor, title, or key in " cite$ * warning$
                   ""
                 }
                 { key sortify }
@@ -7936,28 +8091,7 @@ FUNCTION {author.editor.sort}
         { editor sort.format.names }
       if$
     }
-    { author sort.format.names }
-  if$
-}
-%    \end{macrocode}
-%
-% |editor.sort| does similar but skips the author names.
-%
-%    \begin{macrocode}
-FUNCTION {editor.sort}
-{ editor empty$
-    { title empty$
-        { key empty$
-            { "to sort, need editor, title, or key in " cite$ * warning$
-              ""
-            }
-            { key sortify }
-          if$
-        }
-        { title sort.format.title }
-      if$
-    }
-    { editor sort.format.names }
+    { shorteditor sort.format.names }
   if$
 }
 %    \end{macrocode}
@@ -7966,28 +8100,31 @@ FUNCTION {editor.sort}
 %
 %    \begin{macrocode}
 FUNCTION {author.sort}
-{ author empty$
-    { type$ "inreference" =
-      booktitle empty$ not
-      and
-        { booktitle sort.format.title }
-        { title empty$
-            { key empty$
-                { "to sort, need author, title, or key in " cite$ * warning$
-                  ""
+{ shortauthor empty$
+    { author empty$
+        { type$ "inreference" =
+          booktitle empty$ not
+          and
+            { booktitle sort.format.title }
+            { title empty$
+                { key empty$
+                    { "to sort, need author, title, or key in " cite$ * warning$
+                      ""
+                    }
+                    { key sortify }
+                  if$
                 }
-                { key sortify }
+                { title sort.format.title }
               if$
             }
-            { title sort.format.title }
           if$
         }
+        { author sort.format.names }
       if$
     }
-    { author sort.format.names }
+    { shortauthor sort.format.names }
   if$
 }
-
 %    \end{macrocode}
 %
 % |presort| uses |calc.label| to set the entry's |label| field, then constructs
