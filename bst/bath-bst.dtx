@@ -4078,7 +4078,7 @@ This work is ‘maintained’ (as per LPPL maintenance status) by [Alex Ball][me
 % \newcounter{mismatch}
 %
 % Everything in this implementation is building towards section
-% \ref{sec:writing3}. That is where the .bib file is read, the entries are
+% \ref{sec:processing}. That is where the .bib file is read, the entries are
 % sorted, and the citation labels are generated. Once that is done, the
 % code writes the .bbl bibliography file.
 %
@@ -4090,7 +4090,7 @@ This work is ‘maintained’ (as per LPPL maintenance status) by [Alex Ball][me
 %
 % All the entry drivers start by calling the |output.bibitem| function, which
 % is defined in section \ref{sec:writing2}. This writes the |\bibitem| command,
-% incorporating the generated labels and adding some extra information. They
+% incorporating the generated label and adding some extra information. They
 % then process the data using the name formats defined in section
 % \ref{sec:nameformats}, the field formats defined in section
 % \ref{sec:fieldformats} and the punctuation tracking and output functions
@@ -4101,9 +4101,10 @@ This work is ‘maintained’ (as per LPPL maintenance status) by [Alex Ball][me
 % We begin by listing the entry fields that we will recognize. These are the
 % standard Bib\TeX\ ones plus |archive|, |doi|, |eid|, |eprint|, |entrysubtype|,
 % |eventyear|, |keywords|, |language|, |library|, |options|, |pubstate|,
-% |sortyear|, |titleaddon|, |translator|, |url|, |urldate|, |urlyear|, |userb|,
-% |venue|, and |version|, all of which have been backported from \textsf{natbib}
-% and \textsf{biblatex}. |casenumber| is specific to this style.
+% |shortauthor|, |shorteditor|, |sortyear|, |titleaddon|, |translator|, |url|,
+% |urldate|, |urlyear|, |userb|, |venue|, and |version|,
+% all of which have been backported from \textsf{natbib} and \textsf{biblatex}.
+% |casenumber| is specific to this style.
 %
 %    \begin{macrocode}
 ENTRY
@@ -4690,9 +4691,9 @@ INTEGERS { nameptr namesleft numnames }
 %
 % |format.full.names| consumes one token (a name field) and returns a list of
 % surnames. The `full' bit refers to the list, rather than the individual
-% names included in it. The first author name may appear as it does in the
-% reference list (that is, with the initial) if necessary to distinguish it
-% from a different lead author.
+% names included in it. The first name may appear as it does in the
+% reference list (that is, followed by the initial) to distinguish it from a
+% different lead author with the same surname.
 %
 %    \begin{macrocode}
 FUNCTION {format.full.names}
@@ -4827,8 +4828,10 @@ FUNCTION {make.full.names}
 % \subsubsection{Names in normal citations}
 %
 % |format.lab.names| is similar to |format.full.names|, the main difference
-% being that if there are more than 3 names in the list, the second and
-% subsequent names are replaced with `et al.'
+% being that if there are more than 3 names in the list, the later names are
+% replaced with `et al.' The number of names remaining equals the entry's
+% |disamb.names| value (default 0) plus 1; this gets set by the functions in
+% section \ref{sec:disamb}.
 %
 %    \begin{macrocode}
 FUNCTION {format.lab.names}
@@ -4879,9 +4882,9 @@ FUNCTION {format.lab.names}
 }
 %    \end{macrocode}
 %
-% |title.label| gives the fallback title with the correct font shape. This
-% needs to be kept in sync with the logic used in the various drivers and
-% title formatting functions.
+% |title.label| gives the title with the correct font shape, for use as a
+% fallback label. This needs to be kept in sync with the logic used in the
+% various drivers and title formatting functions.
 %
 %    \begin{macrocode}
 FUNCTION {title.label}
@@ -4894,73 +4897,81 @@ FUNCTION {title.label}
   or
     'emphasize
     {
-  type$ duplicate$
-  "techreport" = swap$
-  "report" =
-  or
-    'emphasize
-    {
-  type$ duplicate$ duplicate$ duplicate$
-  duplicate$ duplicate$ duplicate$ duplicate$
-  "manual" = swap$
-  "dataset" =
-  or swap$
-  "electronic" =
-  or swap$
-  "online" =
-  or swap$
-  "patent" =
-  or swap$
-  "software" =
-  or swap$
-  "standard" =
-  or swap$
-  "www" =
-  or
-    'emphasize
-    {
-  type$ duplicate$ duplicate$ duplicate$ duplicate$
-  "booklet" = swap$
-  "audio" =
-  or swap$
-  "movie" =
-  or swap$
-  "music" =
-  or swap$
-  "video" =
-  or
-    { type duplicate$ empty$
-        { pop$ emphasize }
-        { duplicate$ "TV" = swap$ "Radio" = or
-            'skip$
-            'emphasize
-          if$
-        }
-      if$
-    }
-    {
-  type$ "image" =
-    'emphasize
-    {
-  type$ "jurisdiction" =
-    'emphasize
-    {
-  type$ "legislation" =
-    { journal empty$
+      type$ duplicate$
+      "techreport" = swap$
+      "report" =
+      or
         'emphasize
-        'skip$
-      if$
-    }
-    {
-  type$ "proceedings" =
-    'emphasize
-    {
-  type$ "unpublished" =
-  booktitle empty$
-  and
-    'emphasize
-    {}
-  if$ } if$ } if$ } if$ } if$ } if$ } if$ } if$ } if$
+        {
+          type$ duplicate$ duplicate$ duplicate$
+          duplicate$ duplicate$ duplicate$ duplicate$
+          "manual" = swap$
+          "dataset" =
+          or swap$
+          "electronic" =
+          or swap$
+          "online" =
+          or swap$
+          "patent" =
+          or swap$
+          "software" =
+          or swap$
+          "standard" =
+          or swap$
+          "www" =
+          or
+            'emphasize
+            {
+              type$ duplicate$ duplicate$ duplicate$ duplicate$
+              "booklet" = swap$
+              "audio" =
+              or swap$
+              "movie" =
+              or swap$
+              "music" =
+              or swap$
+              "video" =
+              or
+                { type duplicate$ empty$
+                    { pop$ emphasize }
+                    { duplicate$ "TV" = swap$ "Radio" = or
+                        'skip$
+                        'emphasize
+                      if$
+                    }
+                  if$
+                }
+                {
+                  type$ "image" =
+                    'emphasize
+                    {
+                      type$ "jurisdiction" =
+                        'emphasize
+                        {
+                          type$ "legislation" =
+                            { journal empty$
+                                'emphasize
+                                'skip$
+                              if$
+                            }
+                            {
+                              type$ "proceedings" =
+                                'emphasize
+                                {
+                                  type$ "unpublished" =
+                                  booktitle empty$
+                                  and
+                                    'emphasize
+                                    {}
+                                  if$
+                                } if$
+                            } if$
+                        } if$
+                    } if$
+                } if$
+            } if$
+        } if$
+    } if$
 }
 %    \end{macrocode}
 %
@@ -4976,22 +4987,29 @@ FUNCTION {title.label}
 FUNCTION {author.editor.key.label}
 { shortauthor empty$
     { author empty$
-        { editor empty$
-            { key empty$
-                { title empty$
-                    { cite$
-                      duplicate$ 'label.source :=
-                      #1 #3 substring$
+        { shorteditor empty$
+            { editor empty$
+                { key empty$
+                    { title empty$
+                        { cite$
+                          duplicate$ 'label.source :=
+                          #1 #3 substring$
+                        }
+                        'title.label
+                      if$
                     }
-                    'title.label
+                    { key
+                      duplicate$ 'label.source :=
+                    }
                   if$
                 }
-                { key
+                { editor
                   duplicate$ 'label.source :=
+                  format.lab.names
                 }
               if$
             }
-            { editor
+            { shorteditor
               duplicate$ 'label.source :=
               format.lab.names
             }
@@ -5003,8 +5021,9 @@ FUNCTION {author.editor.key.label}
         }
       if$
     }
-    { author 'label.source :=
-      shortauthor format.lab.names
+    { shortauthor
+      duplicate$ 'label.source :=
+      format.lab.names
     }
   if$
 }
@@ -5037,8 +5056,9 @@ FUNCTION {editor.key.label}
         }
       if$
     }
-    { editor 'label.source :=
-      shorteditor format.lab.names
+    { shorteditor
+      duplicate$ 'label.source :=
+      format.lab.names
     }
   if$
 }
@@ -5079,8 +5099,9 @@ FUNCTION {author.key.label}
         }
       if$
     }
-    { author 'label.source :=
-      shortauthor format.lab.names
+    { shortauthor
+      duplicate$ 'label.source :=
+      format.lab.names
     }
   if$
 }
@@ -5154,9 +5175,9 @@ FUNCTION {format.names}
 }
 %    \end{macrocode}
 %
-% |format.names.short| consumes three tokens (field, short field, string field
-% name) and operates in much the same way as |format.names|, except that the
-% field (e.g.\@ author) and its short counterpart (e.g.\@ shortauthor) are
+% |format.names.short| consumes three tokens (field, short field, string
+% field name) and operates much like |format.names|, except that the field
+% (e.g.\@ |author|) and its short counterpart (e.g.\@ |shortauthor|) are
 % iterated in parallel. If the values differ, the short version is printed plain
 % and the regular version is printed after in parentheses. If the short field
 % is empty or does not have the same number of names as the regular field, the
@@ -7069,7 +7090,7 @@ FUNCTION {output.bibitem}
 % \label{sec:drivers}
 %
 % These functions are called when an entry of the given type is being
-% formatted.
+% processed.
 %
 % \subsubsection{Article}
 %
@@ -7971,7 +7992,8 @@ FUNCTION {sortify}
 %
 % |chop.word| takes a prefix (stop) string, an integer \emph{len}, and a string
 % \emph{s}. If the first \emph{len} characters of \emph{s} match the prefix,
-% those characters are stripped off \emph{s}.
+% those characters are stripped off \emph{s}. We'll use this to strip stop words
+% from the start of titles, for sorting purposes.
 %
 %    \begin{macrocode}
 INTEGERS { len }
@@ -8129,7 +8151,7 @@ FUNCTION {author.sort}
 %
 % |presort| uses |calc.label| to set the entry's |label| field, then constructs
 % the |sort.label| from it and one of the above three functions. It also
-% constructs the |sort.key$| (used by SORT) from the |sort.label| and the title.
+% constructs the |sort.key$| (used by |SORT|) from the |sort.label| and the title.
 %
 %    \begin{macrocode}
 FUNCTION {presort}
@@ -8163,6 +8185,7 @@ FUNCTION {presort}
 %    \end{macrocode}
 %
 % \subsubsection{Sorting and disambiguating entries}
+% \label{sec:disamb}
 %
 % We now tell Bib\TeX\ to go through each entry in turn and apply the
 % \texttt{presort} function, then use the resultant sort keys to put the entries
@@ -8173,19 +8196,26 @@ ITERATE {presort}
 SORT
 %    \end{macrocode}
 %
-% These functions detect if there are several different lead authors (or
+% We now check to see if the labels we've generated so far are sufficiently
+% distinct.
+%
+% First of all, we detect if there are several different lead authors (or
 % editors) that share a surname, and if so disambiguate them with an initial.
-% The approach taken is, having sorted the entries, to compare each lead
-% name with the previous one (and then the subsequent one, in a reverse run).
-% If the surname is different, nothing is done. If the surname is the same but
-% the initial is different, |cite.initials| is set to 1 and the label is
-% regenerated. If both the surname and the initial is the same, |cite.initials|
-% is set to the same as for the previous (subsequent) lead entry and the label
-% is regenerated.
+% Then we check to see if several different author\slash editor groups have
+% been truncated to the same lead author\slash editor (with `et al.\@') and if
+% so, try to make the truncated lists more distinct by including more names.
+%
+% We need a few helper variables for this.
 %
 %    \begin{macrocode}
 INTEGERS { cite.initials.old }
 STRINGS { name1f name1f.old name1g name1g.old name.old }
+%    \end{macrocode}
+%
+% The |is.label.source| function takes a field, and returns true if it matches
+% the entry's |label.source| field.
+%
+%    \begin{macrocode}
 FUNCTION {is.label.source}
 { duplicate$ empty$
     { pop$ #0 }
@@ -8196,6 +8226,11 @@ FUNCTION {is.label.source}
     }
   if$
 }
+%    \end{macrocode}
+%
+% The following three functions are conveniences for managing the loop.
+%
+%    \begin{macrocode}
 FUNCTION {initialize.init.stuff}
 { "yyyy" 'name1f.old :=
   "yyyy" 'name1g.old :=
@@ -8214,6 +8249,17 @@ FUNCTION {has.no.init}
   'name.old :=
   #0 'cite.initials.old :=
 }
+%    \end{macrocode}
+%
+% The |cmp.names| function takes the name field used to generate the label, and
+% contrasts it against the value used to generate the previous (or subsequent)
+% entry's label, which should also come from a name field.
+% It determines the 0-based index of the first name that differs between
+% the two lists, and returns whichever is the greater of that number and the
+% entry's current |disamb.names| value. If either list runs out of names before
+% a difference is found, this counts as a 0 index (no need to disambiguate).
+%
+%    \begin{macrocode}
 FUNCTION {cmp.names}
 { 's :=
   #1 'nameptr :=
@@ -8242,6 +8288,18 @@ FUNCTION {cmp.names}
     }
   while$
 }
+%    \end{macrocode}
+%
+% With |check.cite.init|, we compare the lead author\slash editor name with the
+% previous (or subsequent) one. If the surname is different, nothing is done.
+% If the surname is the same but the initial is different, |cite.initials| is
+% set to 1 and the label is regenerated. If both the surname and the initial is
+% the same, |cite.initials| is set to the same as for the previous (subsequent)
+% entry; if the name list has more than 3 names in it, we additionally run
+% |cmp.names| (above) to set an appropriate value of |disamb.names|; and lastly
+% the label is regenerated.
+%
+%    \begin{macrocode}
 FUNCTION {check.cite.init}
 { 's :=
   s #1 "{ll}" format.name$ 'name1f :=
@@ -8265,6 +8323,13 @@ FUNCTION {check.cite.init}
   if$
   s 'name.old :=
 }
+%    \end{macrocode}
+%
+% The above functions only need to be run on the name field used to
+% generate the label, so this wrapper function detects whether and which
+% one was.
+%
+%    \begin{macrocode}
 FUNCTION {check.cite.head}
 { author duplicate$ is.label.source
     { check.cite.init }
@@ -8272,12 +8337,28 @@ FUNCTION {check.cite.head}
       editor duplicate$ is.label.source
         { check.cite.init }
         { pop$
-          label.source has.no.init
+          shortauthor duplicate$ is.label.source
+            { check.cite.init }
+            { pop$
+              shorteditor duplicate$ is.label.source
+                { check.cite.init }
+                { pop$
+                  label.source has.no.init
+                }
+              if$
+            }
+          if$
         }
       if$
     }
   if$
 }
+%    \end{macrocode}
+%
+% We run this both forwards and backwards over the list of entries, so each one
+% is compared with both the previous and subsequent entry.
+%
+%    \begin{macrocode}
 EXECUTE {initialize.init.stuff}
 ITERATE {check.cite.head}
 EXECUTE {initialize.init.stuff}
@@ -8285,17 +8366,21 @@ REVERSE {check.cite.head}
 SORT
 %    \end{macrocode}
 %
-% If there are any duplicate author--year combinations, these functions detect
-% them and disambiguate them by adding a letter to the year. The forward pass
-% creates the extra labels (blank or a letter, starting with `b'). In the
-% reverse pass, if the last extra label was a `b', the current one is changed
-% from blank to `a'. We add some logic to prepend a non-breaking space to the
-% letter if the ambiguous label didn't end in a numeral (between `/' and `:' in
-% ASCII codes).
+% Having disambiguated author\slash editor lists as much as we can, we now look
+% to see if more than entry has the same head name\slash title and year. If so,
+% we'll need to add a letter to the year.
+%
+% We'll need a few helper variables for this.
 %
 %    \begin{macrocode}
 INTEGERS { last.extra.num last.extra.num.extended last.extra.num.blank number.label }
 STRINGS { last.label next.extra }
+%    \end{macrocode}
+%
+% The |last.char| function will help us tell if the information in the year slot
+% ends in a number or not.
+%
+%    \begin{macrocode}
 FUNCTION {last.char}
 { #1 'len :=
   { duplicate$ duplicate$ #1 len substring$ = not }
@@ -8303,6 +8388,11 @@ FUNCTION {last.char}
   while$
   len #1 substring$
 }
+%    \end{macrocode}
+%
+% The following function is a convenience for managing the loop.
+%
+%    \begin{macrocode}
 FUNCTION {initialize.extra.label.stuff}
 { #0 int.to.chr$ 'last.label :=
   "" 'next.extra :=
@@ -8311,6 +8401,17 @@ FUNCTION {initialize.extra.label.stuff}
   last.extra.num.blank 'last.extra.num.extended :=
   #0 'number.label :=
 }
+%    \end{macrocode}
+%
+% When we go forwards through the entries, we'll set the entry's |extra.label|
+% either to the empty string or a letter. The letter `b' means the entry shares
+% a label with the previous entry, `c' means it shares one with the two previous
+% entries, and so on. The first entry with the shared label of course remains
+% unmarked. We add some logic to prepend a non-breaking space to the letter if
+% the ambiguous label didn't end in a numeral (between `/' and `:' in ASCII
+% codes).
+%
+%    \begin{macrocode}
 FUNCTION {forward.pass}
 { last.label label =
     { last.extra.num #1 + 'last.extra.num :=
@@ -8341,6 +8442,13 @@ FUNCTION {forward.pass}
   if$
   number.label #1 + 'number.label :=
 }
+%    \end{macrocode}
+%
+% When we go backwards through the entries, most of the work has already been
+% done. We just need to watch out for entries with an |extra.label| of `b',
+% as that means the next one we see will be missing its |extra.label| of `a'.
+%
+%    \begin{macrocode}
 FUNCTION {reverse.pass}
 { next.extra "b" =
     { "a" 'extra.label := }
@@ -8359,6 +8467,11 @@ FUNCTION {reverse.pass}
   'extra.label :=
   label extra.label * 'label :=
 }
+%    \end{macrocode}
+%
+% Now we complete the forward and backwards passes over the entries.
+%
+%    \begin{macrocode}
 EXECUTE {initialize.extra.label.stuff}
 ITERATE {forward.pass}
 REVERSE {reverse.pass}
