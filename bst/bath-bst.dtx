@@ -354,6 +354,7 @@ Copyright (C) 2016-2025 by University of Bath
 \setlength{\bibhang}{0pt}
 \newcommand*{\urlprefix}{Available from: }
 \newcommand*{\urldateprefix}{Accessed }
+\newcommand*{\noop}[1]{}
 
 \usepackage{bibentry}
 %<*driver>
@@ -575,8 +576,6 @@ To use the style, add these lines to your preamble:
 \begin{tcblisting}{listing only}
 \usepackage{natbib}
 \setlength{\bibhang}{0pt}
-\newcommand*{\urlprefix}{Available from: }
-\newcommand*{\urldateprefix}{Accessed }
 \bibliographystyle{bathx}
 \end{tcblisting}
 \iffalse
@@ -584,14 +583,20 @@ To use the style, add these lines to your preamble:
 %<*tex1>
 \begin{tcblisting}{listing only}
 \usepackage{natbib}
-\newcommand*{\urlprefix}{Available from: }
-\newcommand*{\urldateprefix}{Accessed }
 \bibliographystyle{bath}
 \end{tcblisting}
 %</tex1>
 %<*driver>
 \fi
 %</driver>
+
+In the unlikely event that you end up printing full references outside the
+reference list, you may need some extra command definitions:
+
+\begin{tcblisting}{listing only}
+\newcommand*{\urlprefix}{Available from: }
+\newcommand*{\urldateprefix}{Accessed }
+\end{tcblisting}
 
 Remember also to specify your \texttt{.bib} file at the end of the document:
 
@@ -1805,10 +1810,39 @@ fields, but does not insert one between \texttt{type} and \texttt{number}.
   address = {Geneva},
   institution = {WHO}}
 %</driver|bib>
+%<*driver>
+\end{Verbatim}
+\iffalse
+%</driver>
+%<*tex1|bib1>
+@report{who1986nde,
+  author = {\noop{h}{(World Health Organization)} WHO},
+  title = {Nutrition and Development in {East Africa}},
+  year = {1986},
+  address = {Geneva},
+  institution = {WHO}}
+%</tex1|bib1>
 %<*driver|tex1>
 \end{Verbatim}
+%<*driver>
+\fi
+%</driver>
 \end{bibexbox}
 
+%<*tex1>
+\begin{tips}\item
+The above example tricks Bib\TeX\ into treating the expansion of
+the abbreviation as its `von' part. This requires the use of a command that
+simply gobbles its argument, which you have to define yourself:
+
+\begin{tcblisting}{listing only}
+\newcommand*{\noop}[1]{}
+\end{tcblisting}
+
+For the trick to work, the argument you give to \lstinline[style=dtxlatex]|\noop|
+must be lowercase, but otherwise it can be anything you like.
+\end{tips}
+%</tex1>
 
 \subsubsection*{Standard}
 
@@ -3094,7 +3128,6 @@ Use the \texttt{titleaddon} field to supply the English translation of the title
 
 \subsubsection*{Work in a non-Roman alphabet}
 
-\newcommand*{\noop}[1]{}
 \begin{bibexbox}(hacked)<RX>{hua1999qys1}
   Hua, L. 華林甫, 1999. Qingdai yilai Sanxia diqu shuihan zaihai de chubu yanjiu 清代以來三峽地區水旱災害的初步硏 [A preliminary study of floods and droughts in the Three Gorges region since the Qing dynasty]. \emph{Zhongguo shehui kexue \emph{中國社會科學}}, 1, pp.168--79.
   \tcblower
@@ -3969,11 +4002,13 @@ This work is ‘maintained’ (as per LPPL maintenance status) by [Alex Ball][me
   publisher = {Cambridge University Press}}
 @book{jonesNDa,
   author = {Jones, John Walter},
+%<bib1>  year = {n.d.},
   title = {Dyfyniad prawf},
   address = {Caernarfon},
   publisher = {Bwrdd yr Iaith Gymraeg}}
 @book{jonesNDb,
   author = {Jones, John Walter},
+%<bib1>  year = {n.d.},
   title = {Test citation},
   address = {Cardiff},
   publisher = {Welsh Language Board}}
@@ -4807,6 +4842,91 @@ FUNCTION {format.lab.names}
 }
 %    \end{macrocode}
 %
+% |title.label| gives the fallback title with the correct font shape. This
+% needs to be kept in sync with the logic used in the various drivers and
+% title formatting functions.
+%
+%    \begin{macrocode}
+FUNCTION {title.label}
+{ title
+  duplicate$ 'label.source :=
+  "t" change.case$
+  type$ duplicate$
+  "book" = swap$
+  "collection" =
+  or
+    'emphasize
+    {
+  type$ duplicate$
+  "techreport" = swap$
+  "report" =
+  or
+    'emphasize
+    {
+  type$ duplicate$ duplicate$ duplicate$
+  duplicate$ duplicate$ duplicate$ duplicate$
+  "manual" = swap$
+  "dataset" =
+  or swap$
+  "electronic" =
+  or swap$
+  "online" =
+  or swap$
+  "patent" =
+  or swap$
+  "software" =
+  or swap$
+  "standard" =
+  or swap$
+  "www" =
+  or
+    'emphasize
+    {
+  type$ duplicate$ duplicate$ duplicate$ duplicate$
+  "booklet" = swap$
+  "audio" =
+  or swap$
+  "movie" =
+  or swap$
+  "music" =
+  or swap$
+  "video" =
+  or
+    { type duplicate$ empty$
+        { pop$ emphasize }
+        { duplicate$ "TV" = swap$ "Radio" = or
+            'skip$
+            'emphasize
+          if$
+        }
+      if$
+    }
+    {
+  type$ "image" =
+    'emphasize
+    {
+  type$ "jurisdiction" =
+    'emphasize
+    {
+  type$ "legislation" =
+    { journal empty$
+        'emphasize
+        'skip$
+      if$
+    }
+    {
+  type$ "proceedings" =
+    'emphasize
+    {
+  type$ "unpublished" =
+  booktitle empty$
+  and
+    'emphasize
+    {}
+  if$ } if$ } if$ } if$ } if$ } if$ } if$ } if$ } if$
+}
+%    \end{macrocode}
+%
 % The following three functions enable the label to be chosen from several
 % fields. In each case the raw data used is saved in the entry's |label.source|
 % field, so the we can tell by comparison whether it is a name list or not
@@ -4825,13 +4945,7 @@ FUNCTION {author.editor.key.label}
                   duplicate$ 'label.source :=
                   #1 #3 substring$
                 }
-                { title
-                  duplicate$ 'label.source :=
-                  type$ "book" =
-                    { emphasize }
-                    'skip$
-                  if$
-                }
+                'title.label
               if$
             }
             { key
@@ -4865,10 +4979,7 @@ FUNCTION {editor.key.label}
               duplicate$ 'label.source :=
               #1 #3 substring$
             }
-            { title
-              duplicate$ 'label.source :=
-              emphasize
-            }
+            'title.label
           if$
         }
         { key
@@ -4902,23 +5013,7 @@ FUNCTION {author.key.label}
                   duplicate$ 'label.source :=
                   #1 #3 substring$
                 }
-                { title
-                  duplicate$ 'label.source :=
-                  type$ "article" =
-                  type$ "incollection" =
-                  or
-                  type$ "inproceedings" =
-                  or
-                    type$ "reference" =
-                    author empty$
-                    and
-                  or
-                  type$ "misc" =
-                  or
-                    'skip$
-                    { emphasize }
-                  if$
-                }
+                'title.label
               if$
             }
           if$
