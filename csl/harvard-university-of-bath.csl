@@ -110,7 +110,7 @@
   </macro>
   <macro name="author">
     <names variable="author">
-      <name and="text" delimiter-precedes-last="never" initialize-with="." name-as-sort-order="all"/>
+      <name and="text" delimiter-precedes-last="never" delimiter-precedes-et-al="never" initialize-with="." name-as-sort-order="all"/>
       <substitute>
         <choose>
           <if type="entry" variable="title container-title">
@@ -118,7 +118,7 @@
           </if>
           <else-if variable="editor">
             <names variable="editor">
-              <name and="text" delimiter-precedes-last="never" initialize-with="." name-as-sort-order="all"/>
+              <name and="text" delimiter-precedes-last="never" delimiter-precedes-et-al="never" initialize-with="." name-as-sort-order="all"/>
               <label form="short" prefix=", " text-case="lowercase"/>
             </names>
           </else-if>
@@ -131,7 +131,7 @@
   </macro>
   <macro name="author-short">
     <names variable="author">
-      <name form="short" and="text" delimiter-precedes-last="never" initialize-with="."/>
+      <name form="short" and="text" delimiter-precedes-last="never" delimiter-precedes-et-al="never" initialize-with="." name-as-sort-order="all"/>
       <substitute>
         <choose>
           <if type="entry"/>
@@ -790,9 +790,11 @@
         <date variable="issued">
           <date-part name="year"/>
         </date>
+        <text variable="year-suffix"/>
       </if>
       <else>
         <text term="no date" form="short"/>
+        <text variable="year-suffix" prefix=" "/>
       </else>
     </choose>
   </macro>
@@ -808,11 +810,13 @@
                   <date-part name="month" suffix=" "/>
                   <date-part name="year"/>
                 </date>
+                <text variable="year-suffix"/>
               </if>
               <else>
                 <date variable="issued">
                   <date-part name="year"/>
                 </date>
+                <text variable="year-suffix"/>
               </else>
             </choose>
           </if>
@@ -820,15 +824,17 @@
             <date variable="issued">
               <date-part name="year"/>
             </date>
+            <text variable="year-suffix"/>
           </else>
         </choose>
       </if>
       <else>
         <text term="no date" form="short"/>
+        <text variable="year-suffix" prefix=" "/>
       </else>
     </choose>
   </macro>
-  <citation et-al-min="4" et-al-use-first="1" disambiguate-add-names="true" disambiguate-add-givenname="true" disambiguate-add-year-suffix="true" collapse="year">
+  <citation et-al-min="4" et-al-use-first="1" disambiguate-add-givenname="true" givenname-disambiguation-rule="primary-name-with-initials" disambiguate-add-names="true" disambiguate-add-year-suffix="true" collapse="year" cite-group-delimiter="; ">
     <sort>
       <key variable="issued"/>
       <key variable="author"/>

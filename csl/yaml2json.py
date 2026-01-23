@@ -110,6 +110,15 @@ def main(output, style, input):
             }
         )
 
+    # Sorry about hard-coding this
+    i += 1
+    j_refs["citationClusters"].append(
+        {
+            "citationItems": [{"id": "adams2009tc1"},{"id": "adams2014tc2"},{"id": "adams2017tc3"}],
+            "properties": {"noteIndex": i},
+        }
+    )
+
     if style is not None:
         xml_str = style.read()
         j_refs["styleXML"] = re.sub(r"\n\s*", "", xml_str)

@@ -1210,7 +1210,7 @@ references:
     given: D.
   - family: Rogers
     given: T.
-  title: {Test Six}
+  title: Test Six
   issued: 
     date-parts: [[2002]]
   publisher: Really Decent Books
