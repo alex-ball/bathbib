@@ -30,6 +30,7 @@
         <single>c.</single>
         <multiple>cc.</multiple>
       </term>
+      <term name="edition" form="short">ed.</term>
       <term name="editor" form="short">
         <single>ed.</single>
         <multiple>eds</multiple>
