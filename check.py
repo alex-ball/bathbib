@@ -54,6 +54,9 @@ def extract_csl_targets(filepath: str) -> dict[str, str]:
         for line in f:
             line = line.strip()
 
+            if r"\section*{Test citations}" in line:
+                break
+
             if not line:
                 if current_line:
                     current_id = current_ids.popleft()
@@ -64,7 +67,8 @@ def extract_csl_targets(filepath: str) -> dict[str, str]:
             if not current_ids:
                 matches = re.finditer(r"\\cite\{(?P<id>[^}]*)\}", line)
                 for m in matches:
-                    current_ids.append(m.group("id"))
+                    entryid = m.group("id")
+                    current_ids.append(entryid)
                 continue
 
             if line == "...":
