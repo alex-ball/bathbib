@@ -192,8 +192,8 @@ def parse_bibitems(lines: list[str]) -> dict[str, str]:
             .replace("\\#", "#")
             .replace("\\pounds ", "£")
             .replace("~", " ")
-            .replace("\\noop{h}", "")
         )
+        line = re.sub(r"\\noop\{[^}]*\}", r"", line)
         line = re.sub(r"\{\\natexlab\{([^}]*)\}\}", r"\1", line)
 
         if outputs[current_id]:
@@ -282,7 +282,7 @@ def parse_simple_bibitems(lines: list[str]) -> dict[str, str]:
 def parse_csl_refs(
     filepath: str, only_fails: bool = False
 ) -> tuple[dict[str, str], dict[str, str]]:
-    """Extracts tests from CSL comparison document in a form that can
+    """Extracts reference tests from CSL comparison document in a form that can
     be used by the `contrast_refs()` function.
 
     If `only_fails` is true, only the failed output is returned.
@@ -345,6 +345,69 @@ def parse_csl_refs(
                 lhtml.tostring(output_p).decode("utf-8").strip()[3:-4]
             )
 
+            targets[current_id] = target
+            outputs[current_id] = output
+
+    return (targets, outputs)
+
+
+def parse_csl_cites(
+    filepath: str, only_fails: bool = False
+) -> tuple[dict[str, str], dict[str, str]]:
+    """Extracts citation tests from CSL comparison document in a form that can
+    be used by the `contrast_refs()` function.
+
+    If `only_fails` is true, only the failed output is returned.
+    """
+    # Ensure file exists and is up to date:
+    workdir = os.path.dirname(filepath)
+    filename = os.path.basename(filepath)
+    r = subprocess.run(["make", "-C", workdir, filename])
+    if r.returncode and os.path.isfile(filepath):
+        os.remove(filepath)
+    if not os.path.isfile(filepath):
+        raise click.FileError(filename, "Recipe failed to create file.")
+    print()
+
+    targets: dict[str, str] = dict()
+    outputs: dict[str, str] = dict()
+
+    tree = lhtml.parse(filepath)
+    root = tree.getroot()
+
+    citation_divs = (
+        root.findall(".//div[@class='citation failure']")
+        if only_fails
+        else [e for e in root.find_class("citation") if e.tag == "div"]
+    )
+
+    for citation_div in citation_divs:
+        citation_p = citation_div[0]
+        citation_text = html.unescape(
+            lhtml.tostring(citation_p).decode("utf-8").strip()[3:-4]
+        )
+        m = re.search(
+            r'\w\w: (?P<exp>.*) = (?P<cite><span class="citation".*</span>)$',
+            citation_text,
+        )
+        if m:
+            target = m.group("exp")
+            output = re.sub(
+                r'<span class="citation"[^>]*>(.*?)</span>', r"\1", m.group("cite")
+            )
+            citation_spans = citation_div.find_class("citation")
+            current_ids = list()
+            for span in citation_spans:
+                current_ids.extend(span.get("data-cites", "").split())
+            current_id = " ".join(current_ids)
+            i = 1
+            test_id = current_id
+            while test_id in targets:
+                if targets[test_id] == target:
+                    break
+                i += 1
+                test_id = f"{current_id} ({i})"
+            current_id = test_id
             targets[current_id] = target
             outputs[current_id] = output
 
@@ -522,6 +585,9 @@ def csl():
     the makefile and script in the `csl/` directory.
     """
     targets, outputs = parse_csl_refs("csl/bath-csl-test.html", only_fails=True)
+    print_missing(contrast_refs(Target=targets, Output=outputs))
+
+    targets, outputs = parse_csl_cites("csl/bath-csl-test.html", only_fails=True)
     print_missing(contrast_refs(Target=targets, Output=outputs))
 
 
