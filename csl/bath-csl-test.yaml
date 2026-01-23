@@ -1040,12 +1040,12 @@ references:
   issued:
     date-parts: [[2012]]
   accessed:
-    date-parts: [[2016, 4, 17]]
+    date-parts: [[2021, 4, 22]]
   title: The Human Medicines Regulations
   publisher: HMSO
   publisher-place: United Kingdom
   number: '1916'
-  URL: http://www.legislation.gov.uk/uksi/2012/1916/pdfs/uksi_20121916_en.pdf
+  URL: http://www.legislation.gov.uk/uksi/2012/1916/contents
 
 - id: gb.hc2024rpc
   type: hearing
@@ -1134,7 +1134,7 @@ references:
   issued:
     date-parts: [[2009]]
   title: Test citation one
-  publisher: Imperial College Bookstall
+  publisher: Imperial College Press
   publisher-place: London
 
 - id: adams2014tc2
@@ -1158,4 +1158,112 @@ references:
   title: Test citation three
   publisher: Cambridge University Press
   publisher-place: Cambridge
+
+- id: jonesNDa
+  type: book
+  author:
+  - family: Jones
+    given: John Walter
+  title: Dyfyniad prawf
+  publisher: Bwrdd yr Iaith Gymraeg
+  publisher-place: Caernarfon
+
+- id: jonesNDb
+  type: book
+  author:
+  - family: Jones
+    given: John Walter
+  title: Test citation
+  publisher: Welsh Language Board
+  publisher-place: Cardiff
+
+- id: wang2018tc
+  type: book
+  author:
+  - family: Wang
+    given: John
+  title: Test Citation Four
+  issued:
+    date-parts: [[2018]]
+  publisher: Random House
+  publisher-place: New York
+
+- id: wang2020tc
+  type: book
+  author:
+  - family: Wang
+    given: Kathy
+  title: Test Citation Five
+  issued:
+    date-parts: [[2020]]
+  publisher: Random House
+  publisher-place: New York
+
+- id: wang.etal2002tc6
+  type: book
+  author:
+  - family: Wang
+    given: John
+  - family: Jones
+    given: John Walter
+  - family: Stacey
+    given: D.
+  - family: Rogers
+    given: T.
+  title: {Test Six}
+  issued: 
+    date-parts: [[2002]]
+  publisher: Really Decent Books
+  publisher-place: Bath
+
+- id: wang.etal2002tc7
+  type: book
+  author:
+  - family: Wang
+    given: Kathy
+  - family: Bloggs
+    given: C.
+  - family: Reilly
+    given: T.
+  - family: Luscott
+    given: M.
+  title: Test Seven
+  issued: 
+    date-parts: [[2002]]
+  publisher: Really Decent Books
+  publisher-place: Bath
+
+- id: smith.etal2020tc8
+  type: book
+  author: 
+  - family: Smith
+    given: R.
+  - family: Taylor
+    given: C.
+  - family: Rogers
+    given: T.
+  - family: Wang
+    given: D.
+  title: Test Eight
+  issued: 
+    date-parts: [[2020]]
+  publisher: Bath Publishing
+  publisher-place: Bath
+
+- id: smith.etal2020tc9
+  type: book
+  author: 
+  - family: Smith
+    given: R.
+  - family: Jones
+    given: John Walter
+  - family: Stacey
+    given: D.
+  - family: Lee
+    given: J.
+  title: Test Nine
+  issued: 
+    date-parts: [[2020]]
+  publisher: Bath Publishing
+  publisher-place: Bath
 ...
