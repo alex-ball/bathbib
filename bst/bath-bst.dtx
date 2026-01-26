@@ -74,7 +74,7 @@ Copyright (C) 2016-2025 by University of Bath
 \ProvidesFile{bath-bst.dtx}
 %</driver>
 %<*driver|tex1>
-    [2025/04/01 v7.0 Harvard referencing style as recommended by the University of Bath Library]
+    [2026/01/26 v7.1 Harvard referencing style as recommended by the University of Bath Library]
 \NeedsTeXFormat{LaTeX2e}[2020/10/01]
 
 \documentclass[10pt,a4paper]{article}
@@ -223,12 +223,15 @@ Copyright (C) 2016-2025 by University of Bath
   , texcsstyle=*\color{red!75!black}
   , commentstyle=\color{gray}\itshape
   , moretexcs=
-    { citet
+    { bibhang
+    , citet
     , citep
     , defcitealias
     , citepalias
     , citetalias
     , noop
+    , setcitestyle
+    , setlength
     , urlprefix
     , urldateprefix
     }
@@ -351,6 +354,7 @@ Copyright (C) 2016-2025 by University of Bath
 % Documentation
 
 \usepackage{natbib}
+\setcitestyle{yysep={;}} 
 \setlength{\bibhang}{0pt}
 \newcommand*{\urlprefix}{Available from: }
 \newcommand*{\urldateprefix}{Accessed }
@@ -575,6 +579,7 @@ To use the style, add these lines to your preamble:
 %<*driver>
 \begin{tcblisting}{listing only}
 \usepackage{natbib}
+\setcitestyle{yysep={;}} 
 \setlength{\bibhang}{0pt}
 \bibliographystyle{bathx}
 \end{tcblisting}
@@ -583,6 +588,8 @@ To use the style, add these lines to your preamble:
 %<*tex1>
 \begin{tcblisting}{listing only}
 \usepackage{natbib}
+\setcitestyle{yysep={;}} 
+\setlength{\bibhang}{0pt}
 \bibliographystyle{bath}
 \end{tcblisting}
 %</tex1>
@@ -714,12 +721,6 @@ World Health Organization \citep{who1986nde}
 \citep{smith.etal2020tc8} and \citep{smith.etal2020tc9}
 \end{tcblisting}
 \end{description}
-
-Please refer to the documentation for \href{http://www.ctan.org/pkg/natbib}{\textsf{natbib}}
-for the full range of commands available for in-text citations. Be aware that the
-\textsf{natbib} option \texttt{sort} will sort citations in bibliography order,
-rather than the chronological order demanded by Harvard (Bath) -- so don't use it!
-
 
 \section{Breaking changes between versions}
 
@@ -3547,7 +3548,7 @@ supply the dot yourself.
 \subsubsection*{Statutory instrument}
 
 \begin{bibexbox}<RX>{gb.hmr2012}
-  \emph{The Human Medicines Regulations} \emph{2012} [Online], No.1916, United Kingdom: HMSO. Available from: \url{http://www.legislation.gov.uk/uksi/2012/1916/pdfs/uksi_20121916_en.pdf} [Accessed 17 April 2016].
+  \emph{The Human Medicines Regulations} \emph{2012} [Online], No.1916, United Kingdom: HMSO. Available from: \url{http://www.legislation.gov.uk/uksi/2012/1916/contents} [Accessed 22 April 2021].
   \tcblower
 \begin{Verbatim}
 %</driver|tex1>
@@ -3559,8 +3560,8 @@ supply the dot yourself.
   number = {No.1916},
   address = {United Kingdom},
   publisher = {HMSO},
-  url = {http://www.legislation.gov.uk/uksi/2012/1916/pdfs/uksi_20121916_en.pdf},
-  urlyear = {17 April 2016}}
+  url = {http://www.legislation.gov.uk/uksi/2012/1916/contents},
+  urlyear = {22 April 2021}}
 %</driver|bib>
 %<*driver>
 \end{Verbatim}
@@ -3573,8 +3574,8 @@ supply the dot yourself.
   number = {No.1916},
   address = {United Kingdom},
   publisher = {HMSO},
-  url = {http://www.legislation.gov.uk/uksi/2012/1916/pdfs/uksi_20121916_en.pdf},
-  urldate = {17 April 2016},
+  url = {http://www.legislation.gov.uk/uksi/2012/1916/contents},
+  urldate = {22 April 2021},
   keywords = {uksi}}
 %</tex1|bib1>
 %<*driver|tex1>
