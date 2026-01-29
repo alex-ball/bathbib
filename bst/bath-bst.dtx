@@ -8083,13 +8083,21 @@ FUNCTION {author.editor.sort}
                 { editor sort.format.names }
               if$
             }
-            { shorteditor sort.format.names }
+            { shorteditor num.names$ editor num.names$ =
+                { shorteditor sort.format.names }
+                { editor sort.format.names }
+              if$
+            }
           if$
         }
         { author sort.format.names }
       if$
     }
-    { shortauthor sort.format.names }
+    { shortauthor num.names$ author num.names$ =
+        { shortauthor sort.format.names }
+        { author sort.format.names }
+      if$
+    }
   if$
 }
 %    \end{macrocode}
@@ -8114,7 +8122,11 @@ FUNCTION {editor.sort}
         { editor sort.format.names }
       if$
     }
-    { shorteditor sort.format.names }
+    { shorteditor num.names$ editor num.names$ =
+        { shorteditor sort.format.names }
+        { editor sort.format.names }
+      if$
+    }
   if$
 }
 %    \end{macrocode}
@@ -8145,22 +8157,22 @@ FUNCTION {author.sort}
         { author sort.format.names }
       if$
     }
-    { shortauthor sort.format.names }
+    { shortauthor num.names$ author num.names$ =
+        { shortauthor sort.format.names }
+        { author sort.format.names }
+      if$
+    }
   if$
 }
 %    \end{macrocode}
 %
-% |presort| uses |calc.label| to set the entry's |label| field, then constructs
-% the |sort.label| from it and one of the above three functions. It also
-% constructs the |sort.key$| (used by |SORT|) from the |sort.label| and the title.
+% |presort| constructs a |sort.key$| (used by |SORT|) based on the sort
+% label (full list of authors\slash editors, or a fallback), the citation
+% label (a simpler version of the sort label, plus the year), and the title.
 %
 %    \begin{macrocode}
 FUNCTION {presort}
-{ calc.label
-  label sortify
-  "    "
-  *
-  type$ "book" =
+{ type$ "book" =
   type$ "inbook" =
   or
     'author.editor.sort
@@ -8171,8 +8183,11 @@ FUNCTION {presort}
     }
   if$
   #1 entry.max$ substring$
-  'sort.label :=
-  sort.label
+  duplicate$ 'sort.label :=
+  "    "
+  *
+  calc.label
+  label sortify
   *
   "    "
   *
@@ -8209,8 +8224,8 @@ SORT
 % We need a few helper variables for this.
 %
 %    \begin{macrocode}
-INTEGERS { cite.initials.old }
-STRINGS { name1f name1f.old name1g name1g.old name.old }
+INTEGERS { cite.initials.old disamb.names.old }
+STRINGS { name1f name1f.old name1g name1g.old name name.old }
 %    \end{macrocode}
 %
 % The |is.label.source| function takes a field, and returns true if it matches
@@ -8237,11 +8252,13 @@ FUNCTION {initialize.init.stuff}
   "yyyy" 'name1g.old :=
   "yyyy" 'name.old :=
   #0 'cite.initials.old :=
+  #0 'disamb.names.old :=
 }
 FUNCTION {end.loop.init}
 { name1f 'name1f.old :=
   name1g 'name1g.old :=
   cite.initials 'cite.initials.old :=
+  disamb.names 'disamb.names.old :=
 }
 FUNCTION {has.no.init}
 { duplicate$ duplicate$
@@ -8249,6 +8266,7 @@ FUNCTION {has.no.init}
   'name1g.old :=
   'name.old :=
   #0 'cite.initials.old :=
+  #0 'disamb.names.old :=
 }
 %    \end{macrocode}
 %
@@ -8264,7 +8282,7 @@ FUNCTION {has.no.init}
 FUNCTION {cmp.names}
 { 's :=
   #1 'nameptr :=
-  disamb.names
+  disamb.names.old
   s num.names$ 'numnames :=
   name.old num.names$ duplicate$ numnames <
     { 'numnames := }
@@ -8302,16 +8320,19 @@ FUNCTION {cmp.names}
 %
 %    \begin{macrocode}
 FUNCTION {check.cite.init}
-{ 's :=
-  s #1 "{ll}" format.name$ 'name1f :=
-  s #1 "{f.{.}}{ jj}{ vv}" format.name$ 'name1g :=
+{ 'name :=
+  name #1 "{ll}" format.name$ 'name1f :=
+  name #1 "{f.{.}}{ jj}{ vv}" format.name$ 'name1g :=
   name1f name1f.old =
     { name1g name1g.old =
         { cite.initials.old 'cite.initials :=
-          s num.names$ #3 >
-            { s cmp.names 'disamb.names := }
-            'skip$
+          name num.names$ #3 >
+            { name cmp.names }
+            { #0 }
           if$
+          duplicate$
+          'disamb.names :=
+          'disamb.names.old :=
           presort
         }
         { #1 'cite.initials := 
@@ -8322,13 +8343,15 @@ FUNCTION {check.cite.init}
     }
     { end.loop.init }
   if$
-  s 'name.old :=
+  name 'name.old :=
 }
 %    \end{macrocode}
 %
 % The above functions only need to be run on the name field used to
 % generate the label, so this wrapper function detects whether and which
-% one was.
+% one was. If |shortauthor| or |shorteditor| was used, we use |author|
+% or |editor| instead if it is the list rather than the name that is
+% shorter, otherwise we get inconsistent results.
 %
 %    \begin{macrocode}
 FUNCTION {check.cite.head}
@@ -8339,10 +8362,22 @@ FUNCTION {check.cite.head}
         { check.cite.init }
         { pop$
           shortauthor duplicate$ is.label.source
-            { check.cite.init }
+            { duplicate$ num.names$ author num.names$ =
+                { check.cite.init }
+                { pop$
+                  author check.cite.init
+                }
+              if$
+            }
             { pop$
               shorteditor duplicate$ is.label.source
-                { check.cite.init }
+                { duplicate$ num.names$ editor num.names$ =
+                    { check.cite.init }
+                    { pop$
+                      editor check.cite.init
+                    }
+                  if$
+                }
                 { pop$
                   label.source has.no.init
                 }
@@ -8479,8 +8514,9 @@ REVERSE {reverse.pass}
 %    \end{macrocode}
 %
 % Once we have done that, we re-sort the entries to make absolutely sure they
-% in the right order, this time with the year inserted into the |sort.key$|
-% between the |sort.label| and the title.
+% in the right order, this time using the year (instead of the citation label)
+% between |sort.label| and the title. In this particular style it shouldn't
+% make a difference.
 %
 %    \begin{macrocode}
 FUNCTION {bib.sort.order}
