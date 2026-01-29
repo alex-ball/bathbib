@@ -8276,7 +8276,8 @@ FUNCTION {has.no.init}
 % It determines the 0-based index of the first name that differs between
 % the two lists, and returns whichever is the greater of that number and the
 % entry's current |disamb.names| value. If either list runs out of names before
-% a difference is found, this counts as a 0 index (no need to disambiguate).
+% a difference is found, the previous (or subsequent) entry's |disamb.names|
+% value is returned.
 %
 %    \begin{macrocode}
 FUNCTION {cmp.names}
