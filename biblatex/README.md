@@ -106,7 +106,7 @@ under the conditions of the [LaTeX Project Public License (LPPL)][lppl],
 either version 1.3c of this license or (at your option) any later
 version.
 
-This work is `maintained' (as per LPPL maintenance status) by [Alex Ball][me].
+This work is ‘maintained’ (as per LPPL maintenance status) by [Alex Ball][me].
 
 [lppl]: http://www.latex-project.org/lppl.txt "LaTeX Project Public License (LPPL)"
 [me]: https://github.com/alex-ball/bathbib "Alex Ball"

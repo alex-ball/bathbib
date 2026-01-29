@@ -186,7 +186,7 @@ templates:
   entries:
   - who2018ttc
   - manco2013va
-  - chatgpt2023wcr
+  - copilot2026wcr
   csl_type: webpage
   blx_driver: online
   bst_driver: manual

@@ -766,18 +766,18 @@ references:
   title: Vernacular architecture
   URL: https://www.buildinghistory.org/style/vernacular.shtml
 
-- id: chatgpt2023wcr
+- id: copilot2026wcr
   type: webpage
   author:
-  - literal: ChatGPT
+  - literal: Copilot
   issued:
-    date-parts: [[2023]]
+    date-parts: [[2026]]
   accessed:
-    date-parts: [[2023, 9, 4]]
+    date-parts: [[2026, 1, 19]]
   title: Why is citing and referencing your sources important?
-  publisher: OpenAI
-  publisher-place: San Francisco, Calif.
-  URL: https://chat.openai.com/share/782cb099-a0dc-45b1-8da4-0e99713f2d45
+  publisher: Microsoft
+  publisher-place: Redmond, Washington
+  URL: https://copilot.microsoft.com/chats/wxaHkx69Qt4SDuNDAkbCT
 
 - id: gaiman2021fbp
   type: post
